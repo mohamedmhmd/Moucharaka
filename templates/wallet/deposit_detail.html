@@ -1,0 +1,8 @@
+{% extends "accounts/auth_base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Dépôt" %} {{ deposit.reference }}{% endblock %}
+{% block auth %}<h1>{% blocktrans with a=deposit.amount|money %}Dépôt de {{ a }} MRU{% endblocktrans %}</h1>
+<p>{% badge deposit.status deposit.get_status_display %} <span class="ltr small muted">{{ deposit.reference }}</span></p>
+<ol class="stack" style="padding-inline-start:20px">{% for s in steps %}<li>{{ s|linebreaksbr }}</li>{% endfor %}</ol>
+{% if deposit.status == "pending" %}<form method="post" enctype="multipart/form-data" class="form" style="margin-top:16px" novalidate>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}<button class="btn block">{% trans "J'ai payé, envoyer la preuve" %}</button></form>
+{% elif deposit.status == "proof" %}<div class="note">{% trans "Preuve reçue. Nous vérifions et créditons votre portefeuille." %}</div>{% endif %}
+{% endblock %}

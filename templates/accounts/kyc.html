@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Vérification d'identité" %}{% endblock %}
+{% block content %}<div class="wrap section" style="max-width:900px">
+  <div class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+  <h1>{% trans "Vérification d'identité" %}</h1>
+  <p class="muted">{% trans "La loi et la sécurité de tous exigent de savoir qui investit et qui emprunte. Vos documents restent privés : seule l'équipe de conformité y a accès." %}</p>
+  {% if kyc and kyc.status == "resubmit" %}<div class="note warn"><b>{% trans "Corrections demandées :" %}</b> {{ kyc.rejection_reason }}</div>{% endif %}
+  <form method="post" enctype="multipart/form-data" class="form" novalidate>{% csrf_token %}
+    {% if form.non_field_errors %}<div class="note bad">{{ form.non_field_errors }}</div>{% endif %}
+    {% for title, fields in form.iter_fieldsets %}<fieldset class="panel"><legend>{{ title }}</legend>
+      {% if forloop.counter == 4 %}<p class="small muted">{% trans "Photos nettes, les quatre coins de la pièce visibles. Sur téléphone, l'appareil photo s'ouvre directement." %}</p>{% endif %}
+      <div class="form-grid">{% for field in fields %}{% include "includes/field.html" %}{% endfor %}</div></fieldset>{% endfor %}
+    <button class="btn">{% trans "Envoyer mon dossier" %}</button>
+  </form>
+</div>{% endblock %}

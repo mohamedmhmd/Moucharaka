@@ -1,0 +1,28 @@
+{% extends "core/page.html" %}{% load i18n mk %}
+{% block title %}{% trans "Frais" %}{% endblock %}
+{% block page %}
+<h1>{% trans "Frais" %}</h1>
+<p class="muted">{% trans "La plateforme gagne de l'argent surtout quand les projets réussissent et que les investisseurs sont payés. Aucun frais n'est caché : tout est affiché avant chaque opération." %}</p>
+<div class="panel"><h2>{% trans "Pour les porteurs de projet" %}</h2>
+<div class="table-wrap"><table class="table">
+  <thead><tr><th>{% trans "Type de projet" %}</th><th class="n">{% trans "Étude du dossier" %}</th><th class="n">{% trans "Commission de succès" %}</th><th class="n">{% trans "Commission de gestion" %}</th><th class="n">{% trans "Montants" %}</th></tr></thead>
+  <tbody>{% for p in policies %}<tr>
+    <td>{{ p.get_kind_display }}<div><span class="model {{ p.financing_model }}">{% if p.financing_model == "moucharaka" %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span></div></td>
+    <td class="n">{{ p.review_fee|money }} MRU</td><td class="n">{{ p.success_fee_pct|floatformat:"-1" }} %</td>
+    <td class="n">{{ p.management_fee_pct|floatformat:"-1" }} %</td><td class="n small">{{ p.min_target|money }} – {{ p.max_target|money }}</td>
+  </tr>{% endfor %}</tbody></table></div>
+<ul class="small muted stack">
+  <li>{% trans "Étude du dossier : payée à l'envoi, non remboursable. Elle couvre la vérification et, si besoin, la visite du commerce." %}</li>
+  <li>{% trans "Commission de succès : prélevée uniquement si la collecte réussit, sur le montant levé." %}</li>
+  <li>{% trans "Commission de gestion : prélevée sur les bénéfices distribués (Moucharaka) ou sur la marge (Mourabaha), jamais sur le capital remboursé." %}</li>
+  <li>{% blocktrans with f=settings.featured_fee|money %}Mise en avant d'une collecte : {{ f }} MRU pour 7 jours (facultatif).{% endblocktrans %}</li>
+</ul></div>
+<div class="panel"><h2>{% trans "Pour les investisseurs" %}</h2>
+<ul class="terms-list">
+  <li><span>{% trans "Inscription, dépôt, souscription" %}</span><b>{% trans "Gratuit" %}</b></li>
+  <li><span>{% trans "Achat de parts sur le marché" %}</span><b>{{ settings.trade_fee_buyer_pct|floatformat:"-1" }} %</b></li>
+  <li><span>{% trans "Vente de parts sur le marché" %}</span><b>{{ settings.trade_fee_seller_pct|floatformat:"-1" }} %</b></li>
+  <li><span>{% trans "Retrait" %}</span><b>{{ settings.withdrawal_fee_flat|money }} MRU + {{ settings.withdrawal_fee_pct|floatformat:"-1" }} %</b></li>
+</ul></div>
+<div class="note">{% trans "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 % de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs." %}</div>
+{% endblock %}

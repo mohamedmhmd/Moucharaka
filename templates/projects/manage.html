@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Gérer" %} · {{ project.title }}{% endblock %}
+{% block content %}<div class="wrap section">
+  <div class="section-head"><div><h1 style="margin:0">{{ project.title }}</h1>
+    <div class="row" style="margin-top:8px">{% badge project.status project.get_status_display %}<span class="model {{ project.financing_model }}">{% if project.is_moucharaka %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span><a class="small" href="{{ project.get_absolute_url }}">{% trans "Page publique" %}</a></div></div>
+    <div class="row"><span class="muted small">{% trans "Mon portefeuille" %}</span><b class="num">{{ wallet.balance|money }} MRU</b><a class="btn small secondary" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a></div></div>
+
+  <div class="stats">
+    <div class="stat"><b class="num">{{ project.raised_amount|money }}</b><span>{% trans "MRU collectés" %}</span></div>
+    <div class="stat"><b class="num">{{ project.investors_count }}</b><span>{% trans "investisseurs" %}</span></div>
+    <div class="stat"><b class="num">{{ outstanding }}</b><span>{% trans "parts en circulation" %}</span></div>
+    <div class="stat"><b class="num">{{ score.score }}</b><span>{% trans "mon score de confiance" %} ({% grade_label score.grade %})</span></div>
+  </div>
+
+  {% if project.status == "funding" %}<div class="panel" style="margin-top:20px"><h2>{% trans "Collecte en cours" %}</h2>
+    <p>{% blocktrans with d=project.campaign_end|date:"d/m/Y" %}Clôture le {{ d }}. Partagez la page du projet dans vos groupes WhatsApp : la confiance de votre entourage attire les autres investisseurs.{% endblocktrans %}</p>
+    <form method="post" action="{% url 'projects:feature' project.slug %}">{% csrf_token %}<button class="btn secondary" data-confirm="{% blocktrans with f=settings.featured_fee|money %}Payer {{ f }} MRU pour 7 jours de mise en avant ?{% endblocktrans %}">{% blocktrans with f=settings.featured_fee|money %}Mettre en avant 7 jours ({{ f }} MRU){% endblocktrans %}</button></form></div>
+  {% elif project.status == "funded" %}<div class="note good" style="margin-top:20px">{% trans "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; les fonds seront ensuite versés dans votre portefeuille." %}</div>{% endif %}
+
+  {% if pending_periods %}<div class="panel anchor" id="reports" style="margin-top:20px"><h2>{% trans "Rapports à publier" %}</h2>
+    <p class="small muted">{% trans "Chaque rapport à l'heure fait monter votre score. Joignez une photo de votre cahier ou un relevé." %}</p>
+    {% for start, end, due in pending_periods %}<details class="card" style="margin-bottom:12px" {% if forloop.first %}open{% endif %}><summary><b>{{ start|date:"m/Y" }}</b> — {% blocktrans with d=due|date:"d/m/Y" %}à remettre avant le {{ d }}{% endblocktrans %}</summary>
+      <form method="post" enctype="multipart/form-data" action="{% url 'projects:submit_report' project.slug %}" class="form" style="margin-top:12px">{% csrf_token %}<input type="hidden" name="period_start" value="{{ start|date:'Y-m-d' }}">
+        {% include "includes/form.html" with form=report_form %}<button class="btn">{% trans "Publier le rapport" %}</button></form></details>{% endfor %}
+  </div>{% endif %}
+
+  {% if reports %}<div class="panel" style="margin-top:20px"><h2>{% trans "Rapports et distributions" %}</h2>
+    <table class="table"><thead><tr><th>{% trans "Période" %}</th><th class="n">{% trans "Bénéfice net" %}</th><th class="n">{% trans "Part investisseurs" %}</th><th></th></tr></thead><tbody>
+    {% for r in reports %}<tr><td>{{ r.period_start|date:"m/Y" }} {% badge r.status r.get_status_display %}</td><td class="n">{{ r.net_profit|money }}</td><td class="n">{{ r.investors_share|money }}</td>
+      <td class="n">{% if r.distribution %}<span class="badge tone-good">{% trans "Distribué" %}</span>{% elif r.investors_share > 0 and project.is_moucharaka %}
+        <form method="post" action="{% url 'projects:pay_distribution' project.slug r.pk %}">{% csrf_token %}<button class="btn small" data-confirm="{% blocktrans with a=r.investors_share|money %}Verser {{ a }} MRU aux investisseurs ?{% endblocktrans %}">{% trans "Verser aux investisseurs" %}</button></form>{% endif %}</td></tr>
+      {% if r.staff_comment %}<tr><td colspan="4"><div class="note warn small">{{ r.staff_comment }}</div></td></tr>{% endif %}{% endfor %}</tbody></table></div>{% endif %}
+
+  {% if installments %}<div class="panel anchor" id="installments" style="margin-top:20px"><h2>{% trans "Échéancier" %}</h2>
+    <table class="table"><thead><tr><th>#</th><th>{% trans "Échéance" %}</th><th class="n">{% trans "Montant" %}</th><th>{% trans "Statut" %}</th><th></th></tr></thead><tbody>
+    {% for i in installments %}<tr><td>{{ i.number }}</td><td>{{ i.due_date|date:"d/m/Y" }}</td><td class="n">{{ i.amount|money }}</td><td>{% badge i.status i.get_status_display %}</td>
+      <td class="n">{% if i.status != "paid" %}<form method="post" action="{% url 'projects:pay_installment' project.slug i.pk %}">{% csrf_token %}<button class="btn small" data-confirm="{% blocktrans with a=i.amount|money %}Payer {{ a }} MRU maintenant ?{% endblocktrans %}">{% trans "Payer" %}</button></form>{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+
+  {% if project.status == "active" and project.is_moucharaka %}<div class="panel anchor" id="buyback" style="margin-top:20px"><h2>{% trans "Racheter des parts" %}</h2>
+    <p class="small muted">{% trans "Les parts sont rachetées à tous les investisseurs au prorata. Quand vous avez tout racheté, le projet est terminé et vous redevenez seul propriétaire." %}</p>
+    <form method="post" action="{% url 'projects:buyback' project.slug %}" class="form">{% csrf_token %}{% include "includes/form.html" with form=buyback_form %}<button class="btn secondary" data-confirm="{% trans 'Confirmer le rachat ? Le montant sera prélevé sur votre portefeuille.' %}">{% trans "Racheter" %}</button></form></div>{% endif %}
+
+  <div class="grid g2" style="margin-top:20px">
+    <div class="panel anchor" id="questions"><h2>{% trans "Questions des investisseurs" %}</h2>
+      {% for q in open_questions %}<form method="post" action="{% url 'projects:answer' project.slug q.pk %}" class="qa-item">{% csrf_token %}<p><b>{{ q.asker.display_name }}</b> : {{ q.question }}</p><textarea name="answer" rows="2" required></textarea><button class="btn small" style="margin-top:6px">{% trans "Répondre publiquement" %}</button></form>
+      {% empty %}<p class="muted">{% trans "Aucune question en attente." %}</p>{% endfor %}</div>
+    <div class="panel anchor" id="updates"><h2>{% trans "Donner des nouvelles" %}</h2>
+      <form method="post" enctype="multipart/form-data" action="{% url 'projects:post_update' project.slug %}" class="form">{% csrf_token %}{% include "includes/form.html" with form=update_form grid="stack" %}<button class="btn secondary">{% trans "Publier" %}</button></form></div>
+  </div>
+
+  <div class="panel" style="margin-top:20px"><h2>{% trans "Associés" %}</h2>
+    {% if holdings %}<table class="table"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Part du capital" %}</th></tr></thead><tbody>
+      {% for h in holdings %}<tr><td>{{ h.user.display_name }}</td><td class="n">{{ h.shares }}</td><td class="n">{{ h.shares|pct_of:outstanding }} %</td></tr>{% endfor %}</tbody></table>
+    {% else %}<table class="table"><tbody>{% for i in investments %}<tr><td>{{ i.investor.display_name }}</td><td class="n">{{ i.shares }}</td><td>{% badge i.status i.get_status_display %}</td></tr>{% empty %}<tr><td class="muted">{% trans "Pas encore d'investisseur." %}</td></tr>{% endfor %}</tbody></table>{% endif %}
+  </div>
+</div>{% endblock %}

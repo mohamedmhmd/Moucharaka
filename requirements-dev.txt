@@ -1,0 +1,3 @@
+-r requirements.txt
+babel>=2.15      # scripts/i18n.py (extract / compile translations without GNU gettext)
+pyflakes

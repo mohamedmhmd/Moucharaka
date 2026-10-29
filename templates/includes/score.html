@@ -1,0 +1,8 @@
+{% load i18n mk %}<div class="score">
+  <div class="ring" style="--p:{% widthratio score.score 1000 100 %}"><div><span><b class="num">{{ score.score }}</b><br><small>/ 1000</small></span></div></div>
+  <div>
+    <div class="row"><span class="grade badge tone-{{ score.grade|grade_tone }}">{% grade_label score.grade %}</span>
+      {% if not score.has_track_record %}<span class="small muted">{% trans "Pas encore d'historique" %}</span>{% endif %}</div>
+    <a class="small" href="{% url 'trust:method' %}">{% trans "Comment ce score est calculé" %}</a>
+  </div>
+</div>

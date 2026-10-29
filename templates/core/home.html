@@ -1,0 +1,65 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block content %}
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <h1>{% trans "Investissez dans les boutiques de votre quartier." %}</h1>
+    <p class="lead">{% trans "Achetez des parts d'un commerce vérifié à partir de 1 000 MRU et recevez votre part de ses bénéfices. Sans intérêt, avec ses chiffres publiés chaque mois." %}</p>
+    <div class="row">
+      <a class="btn" href="{% url 'projects:explore' %}">{% trans "Voir les projets ouverts" %}</a>
+      <a class="btn secondary" href="{% url 'projects:new' %}">{% trans "Financer mon commerce" %}</a>
+    </div>
+  </div>
+  <div>
+    {% if showcase %}
+      {% blocktrans asvar flow_title with shop=showcase.boutique.shop_name %}{{ shop }} : un mois de ventes{% endblocktrans %}
+      {% include "includes/flow.html" with flow=flow flow_title=flow_title animate=True %}
+      <p class="small muted" style="margin-top:10px">{% blocktrans with place=showcase.moughataa.name pct=showcase.investor_profit_share_pct|floatformat:"-1" %}Projection après financement, {{ place }}. Les investisseurs reçoivent {{ pct }} % du bénéfice net, au prorata de leurs parts.{% endblocktrans %}
+        <a href="{{ showcase.get_absolute_url }}">{% trans "Voir cette boutique" %}</a></p>
+    {% else %}
+      <div class="flow"><h3>{% trans "Chaque ouguiya est tracée" %}</h3><p class="muted">{% trans "Ventes, achats de marchandises, charges, bénéfice : le porteur publie ses chiffres, la plateforme calcule et verse votre part." %}</p></div>
+    {% endif %}
+  </div>
+</div></section>
+
+<section class="wrap"><div class="stats">
+  <div class="stat"><b class="num">{{ stats.raised|money }}</b><span>{% trans "MRU financés" %}</span></div>
+  <div class="stat"><b class="num">{{ stats.distributed|money }}</b><span>{% trans "MRU reversés aux investisseurs" %}</span></div>
+  <div class="stat"><b class="num">{{ stats.projects }}</b><span>{% trans "projets financés" %}</span></div>
+  <div class="stat"><b class="num">{{ stats.investors }}</b><span>{% trans "investisseurs" %}</span></div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="section-head"><h2>{% trans "Collectes en cours" %}</h2><a href="{% url 'projects:explore' %}">{% trans "Tous les projets" %}</a></div>
+  {% if featured %}<div class="grid g3">{% for p in featured %}{% include "includes/project_card.html" %}{% endfor %}</div>
+  {% else %}<div class="empty panel">{% trans "Aucune collecte ouverte pour le moment." %} <a class="btn" href="{% url 'projects:new' %}">{% trans "Proposer le premier projet" %}</a></div>{% endif %}
+</div></section>
+
+<section class="section" style="padding-top:0"><div class="wrap">
+  <h2>{% trans "Deux contrats, clairement séparés" %}</h2>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="panel"><span class="model moucharaka">{% trans "Moucharaka" %}</span>
+      <h3 style="margin-top:12px">{% trans "Vous devenez associé" %}</h3>
+      <p>{% trans "Vous recevez un pourcentage convenu des bénéfices réels du commerce. Si le mois est mauvais, vous recevez moins ; s'il y a une perte, elle est partagée. Le rendement affiché est une estimation." %}</p>
+      <p class="small muted">{% trans "Pour : boutiques en activité, futures entreprises." %}</p></div>
+    <div class="panel"><span class="model mourabaha">{% trans "Mourabaha" %}</span>
+      <h3 style="margin-top:12px">{% trans "Vous financez un achat de marchandises" %}</h3>
+      <p>{% trans "Les investisseurs achètent la marchandise et la revendent au porteur avec une marge fixée à l'avance, payée par échéances. Pas d'intérêt sur l'argent : une marge sur un bien réel." %}</p>
+      <p class="small muted">{% trans "Pour : stock de saison, moutons de Tabaski, importations, bons de commande." %}</p></div>
+  </div>
+</div></section>
+
+<section class="section" style="padding-top:0"><div class="wrap">
+  <h2>{% trans "Comment ça marche" %}</h2>
+  <ol class="grid g4" style="list-style:none;padding:0;margin-top:16px">
+    <li class="card"><h4>1. {% trans "Vérifiez votre identité" %}</h4><p class="small muted">{% trans "Numéro de téléphone, code SMS, NNI et pièce d'identité. Notre équipe valide sous 48 h." %}</p></li>
+    <li class="card"><h4>2. {% trans "Alimentez votre portefeuille" %}</h4><p class="small muted">{% trans "Par Bankily, Masrvi, Sedad ou virement. L'argent reste à vous tant qu'il n'est pas investi." %}</p></li>
+    <li class="card"><h4>3. {% trans "Achetez des parts" %}</h4><p class="small muted">{% trans "Vos fonds sont bloqués jusqu'à la fin de la collecte. Si l'objectif n'est pas atteint, vous êtes remboursé." %}</p></li>
+    <li class="card"><h4>4. {% trans "Recevez vos versements" %}</h4><p class="small muted">{% trans "Bénéfices ou échéances arrivent dans votre portefeuille. Vous pouvez revendre vos parts sur le marché." %}</p></li>
+  </ol>
+</div></section>
+
+<section class="wrap"><div class="panel row between">
+  <div><h2 style="margin:0">{% trans "Vous tenez un commerce ?" %}</h2><p class="muted" style="margin:6px 0 0">{% trans "Décrivez votre boutique, vos ventes et votre projet. Les habitants de votre ville peuvent devenir vos associés." %}</p></div>
+  <a class="btn" href="{% url 'projects:new' %}">{% trans "Proposer un projet" %}</a>
+</div></section>
+{% endblock %}

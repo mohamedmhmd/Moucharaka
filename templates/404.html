@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% load i18n %}{% block title %}{% trans "Page introuvable" %}{% endblock %}
+{% block content %}<div class="wrap section empty"><h1>{% trans "Page introuvable" %}</h1><p>{% trans "Ce lien est peut-être ancien, ou la page est réservée à son propriétaire." %}</p><a class="btn" href="{% url 'core:home' %}">{% trans "Retour à l'accueil" %}</a></div>{% endblock %}

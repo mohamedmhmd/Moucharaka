@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Mes annonces" %}{% endblock %}
+{% block content %}<div class="wrap section">
+  <h1>{% trans "Mes annonces et échanges" %}</h1>
+  <div class="panel"><h2>{% trans "Annonces" %}</h2>
+  {% if listings %}<table class="table"><tbody>{% for l in listings %}<tr><td><a href="{{ l.project.get_absolute_url }}">{{ l.project.title }}</a><div class="small muted">{{ l.created_at|date:"d/m/Y" }}</div></td><td class="n">{{ l.remaining }}/{{ l.shares }}</td><td class="n">{{ l.price_per_share|money }} MRU</td><td>{% badge l.status l.get_status_display %}</td>
+    <td class="n">{% if l.status == "active" %}<form method="post" action="{% url 'market:cancel' l.pk %}">{% csrf_token %}<button class="btn small ghost">{% trans "Retirer" %}</button></form>{% endif %}</td></tr>{% endfor %}</tbody></table>
+  {% else %}<p class="muted">{% trans "Aucune annonce. Mettez des parts en vente depuis votre portefeuille de parts." %}</p>{% endif %}</div>
+  <div class="grid g2" style="margin-top:20px">
+    <div class="panel"><h2>{% trans "Achats" %}</h2>{% for t in buys %}<div class="qa-item small">{{ t.created_at|date:"d/m/Y" }} · {{ t.project.title }} · {{ t.shares }} × {{ t.price_per_share|money }}</div>{% empty %}<p class="muted">—</p>{% endfor %}</div>
+    <div class="panel"><h2>{% trans "Ventes" %}</h2>{% for t in sells %}<div class="qa-item small">{{ t.created_at|date:"d/m/Y" }} · {{ t.project.title }} · {{ t.shares }} × {{ t.price_per_share|money }}</div>{% empty %}<p class="muted">—</p>{% endfor %}</div>
+  </div>
+</div>{% endblock %}

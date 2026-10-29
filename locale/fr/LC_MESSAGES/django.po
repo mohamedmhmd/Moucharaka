@@ -1,0 +1,4577 @@
+# French translations for Moucharaka.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the Moucharaka project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Moucharaka VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-10-29 13:09+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "Profil"
+msgstr "Profil"
+
+msgid "Permissions"
+msgstr "Permissions"
+
+msgid "Dates"
+msgstr "Dates"
+
+msgid "Documents"
+msgstr "Documents"
+
+msgid "Revue"
+msgstr "Revue"
+
+msgid "Ouvrir"
+msgstr "Ouvrir"
+
+msgid "Approuver les dossiers sélectionnés (risque faible)"
+msgstr "Approuver les dossiers sélectionnés (risque faible)"
+
+#, python-format
+msgid "%(n)s dossier(s) approuvé(s)."
+msgstr "%(n)s dossier(s) approuvé(s)."
+
+msgid "Demander des corrections (motif générique)"
+msgstr "Demander des corrections (motif générique)"
+
+msgid "Documents illisibles ou incomplets. Merci de les renvoyer."
+msgstr "Documents illisibles ou incomplets. Merci de les renvoyer."
+
+msgid "Complétez la vérification de votre identité pour continuer."
+msgstr "Complétez la vérification de votre identité pour continuer."
+
+msgid "Votre compte doit être validé par notre équipe avant cette action."
+msgstr "Votre compte doit être validé par notre équipe avant cette action."
+
+msgid "Numéro de téléphone"
+msgstr "Numéro de téléphone"
+
+msgid "J'accepte les conditions d'utilisation et la politique de confidentialité"
+msgstr "J'accepte les conditions d'utilisation et la politique de confidentialité"
+
+msgid "Ce numéro a déjà un compte. Connectez-vous."
+msgstr "Ce numéro a déjà un compte. Connectez-vous."
+
+msgid "Code reçu par SMS"
+msgstr "Code reçu par SMS"
+
+msgid "Mot de passe"
+msgstr "Mot de passe"
+
+msgid "Confirmez le mot de passe"
+msgstr "Confirmez le mot de passe"
+
+msgid "Les deux mots de passe ne correspondent pas."
+msgstr "Les deux mots de passe ne correspondent pas."
+
+msgid "Nom complet"
+msgstr "Nom complet"
+
+msgid "Tel qu'il apparaît sur votre pièce d'identité."
+msgstr "Tel qu'il apparaît sur votre pièce d'identité."
+
+msgid "E-mail (facultatif)"
+msgstr "E-mail (facultatif)"
+
+msgid "Langue des SMS et notifications"
+msgstr "Langue des SMS et notifications"
+
+msgid "Je certifie que ces informations sont exactes et j'autorise leur vérification."
+msgstr "Je certifie que ces informations sont exactes et j'autorise leur vérification."
+
+msgid "Identité"
+msgstr "Identité"
+
+msgid "Adresse"
+msgstr "Adresse"
+
+msgid "Profil financier"
+msgstr "Profil financier"
+
+msgid "Engagement"
+msgstr "Engagement"
+
+msgid "Ce NNI est déjà associé à un autre compte. Contactez le support."
+msgstr "Ce NNI est déjà associé à un autre compte. Contactez le support."
+
+msgid "Numéro mauritanien à 8 chiffres commençant par 2, 3 ou 4."
+msgstr "Numéro mauritanien à 8 chiffres commençant par 2, 3 ou 4."
+
+msgid "Le NNI comporte 10 chiffres."
+msgstr "Le NNI comporte 10 chiffres."
+
+msgid "Format accepté : JPG, PNG, WEBP, HEIC ou PDF."
+msgstr "Format accepté : JPG, PNG, WEBP, HEIC ou PDF."
+
+#, python-format
+msgid "Fichier trop volumineux (max. %(mb)s Mo)."
+msgstr "Fichier trop volumineux (max. %(mb)s Mo)."
+
+msgid "Identité à compléter"
+msgstr "Identité à compléter"
+
+msgid "En cours de vérification"
+msgstr "En cours de vérification"
+
+msgid "Vérifié"
+msgstr "Vérifié"
+
+msgid "Refusé"
+msgstr "Refusé"
+
+msgid "Suspendu"
+msgstr "Suspendu"
+
+msgid "téléphone"
+msgstr "téléphone"
+
+msgid "nom complet"
+msgstr "nom complet"
+
+msgid "e-mail"
+msgstr "e-mail"
+
+msgid "langue"
+msgstr "langue"
+
+msgid "statut"
+msgstr "statut"
+
+msgid "équipe"
+msgstr "équipe"
+
+msgid "actif"
+msgstr "actif"
+
+msgid "inscrit le"
+msgstr "inscrit le"
+
+msgid "utilisateur"
+msgstr "utilisateur"
+
+msgid "utilisateurs"
+msgstr "utilisateurs"
+
+msgid "Brouillon"
+msgstr "Brouillon"
+
+msgid "Soumis"
+msgstr "Soumis"
+
+msgid "Approuvé"
+msgstr "Approuvé"
+
+msgid "Corrections demandées"
+msgstr "Corrections demandées"
+
+msgid "Carte nationale d'identité"
+msgstr "Carte nationale d'identité"
+
+msgid "Passeport"
+msgstr "Passeport"
+
+msgid "Carte de séjour"
+msgstr "Carte de séjour"
+
+msgid "Homme"
+msgstr "Homme"
+
+msgid "Femme"
+msgstr "Femme"
+
+msgid "Moins de 20 000 MRU / mois"
+msgstr "Moins de 20 000 MRU / mois"
+
+msgid "20 000 – 50 000 MRU"
+msgstr "20 000 – 50 000 MRU"
+
+msgid "50 000 – 150 000 MRU"
+msgstr "50 000 – 150 000 MRU"
+
+msgid "Plus de 150 000 MRU"
+msgstr "Plus de 150 000 MRU"
+
+msgid "Salaire"
+msgstr "Salaire"
+
+msgid "Activité commerciale"
+msgstr "Activité commerciale"
+
+msgid "Épargne"
+msgstr "Épargne"
+
+msgid "Famille / transferts"
+msgstr "Famille / transferts"
+
+msgid "Élevage / agriculture"
+msgstr "Élevage / agriculture"
+
+msgid "Pension"
+msgstr "Pension"
+
+msgid "Autre"
+msgstr "Autre"
+
+msgid "Aucune"
+msgstr "Aucune"
+
+msgid "Associations / tontines informelles"
+msgstr "Associations / tontines informelles"
+
+msgid "J'ai déjà investi dans des commerces"
+msgstr "J'ai déjà investi dans des commerces"
+
+msgid "Investisseur expérimenté"
+msgstr "Investisseur expérimenté"
+
+msgid "Investir"
+msgstr "Investir"
+
+msgid "Financer mon projet"
+msgstr "Financer mon projet"
+
+msgid "Les deux"
+msgstr "Les deux"
+
+msgid "Faible"
+msgstr "Faible"
+
+msgid "Moyen"
+msgstr "Moyen"
+
+msgid "Élevé"
+msgstr "Élevé"
+
+msgid "nom complet (lettres latines)"
+msgstr "nom complet (lettres latines)"
+
+msgid "nom complet (en arabe)"
+msgstr "nom complet (en arabe)"
+
+msgid "NNI"
+msgstr "NNI"
+
+msgid "Numéro national d'identification, 10 chiffres."
+msgstr "Numéro national d'identification, 10 chiffres."
+
+msgid "pièce d'identité"
+msgstr "pièce d'identité"
+
+msgid "numéro de la pièce"
+msgstr "numéro de la pièce"
+
+msgid "date de délivrance"
+msgstr "date de délivrance"
+
+msgid "date d'expiration"
+msgstr "date d'expiration"
+
+msgid "date de naissance"
+msgstr "date de naissance"
+
+msgid "lieu de naissance"
+msgstr "lieu de naissance"
+
+msgid "sexe"
+msgstr "sexe"
+
+msgid "nationalité"
+msgstr "nationalité"
+
+msgid "wilaya"
+msgstr "wilaya"
+
+msgid "moughataa"
+msgstr "moughataa"
+
+msgid "quartier / adresse"
+msgstr "quartier / adresse"
+
+msgid "profession"
+msgstr "profession"
+
+msgid "employeur / activité"
+msgstr "employeur / activité"
+
+msgid "revenu mensuel"
+msgstr "revenu mensuel"
+
+msgid "origine des fonds"
+msgstr "origine des fonds"
+
+msgid "expérience d'investissement"
+msgstr "expérience d'investissement"
+
+msgid "vous venez pour"
+msgstr "vous venez pour"
+
+msgid "je suis (ou un proche est) une personnalité politiquement exposée"
+msgstr "je suis (ou un proche est) une personnalité politiquement exposée"
+
+msgid "pièce d'identité — recto"
+msgstr "pièce d'identité — recto"
+
+msgid "pièce d'identité — verso"
+msgstr "pièce d'identité — verso"
+
+msgid "selfie en tenant la pièce"
+msgstr "selfie en tenant la pièce"
+
+msgid "justificatif de domicile (facture SOMELEC / SNDE)"
+msgstr "justificatif de domicile (facture SOMELEC / SNDE)"
+
+msgid "niveau de risque"
+msgstr "niveau de risque"
+
+msgid "motif du refus / corrections"
+msgstr "motif du refus / corrections"
+
+msgid "notes internes"
+msgstr "notes internes"
+
+msgid "dossier KYC"
+msgstr "dossier KYC"
+
+msgid "dossiers KYC"
+msgstr "dossiers KYC"
+
+msgid "Vous devez avoir au moins 18 ans."
+msgstr "Vous devez avoir au moins 18 ans."
+
+msgid "La pièce d'identité est expirée."
+msgstr "La pièce d'identité est expirée."
+
+msgid "La date d'expiration doit suivre la date de délivrance."
+msgstr "La date d'expiration doit suivre la date de délivrance."
+
+msgid "Cette moughataa n'appartient pas à la wilaya choisie."
+msgstr "Cette moughataa n'appartient pas à la wilaya choisie."
+
+msgid "Personne politiquement exposée : vigilance renforcée."
+msgstr "Personne politiquement exposée : vigilance renforcée."
+
+msgid "Le numéro de la CNI ne contient pas le NNI : vérifier."
+msgstr "Le numéro de la CNI ne contient pas le NNI : vérifier."
+
+msgid "La pièce expire dans moins de 3 mois."
+msgstr "La pièce expire dans moins de 3 mois."
+
+msgid "Un autre dossier porte le même nom et la même date de naissance."
+msgstr "Un autre dossier porte le même nom et la même date de naissance."
+
+msgid "Le nom du compte diffère du nom sur la pièce."
+msgstr "Le nom du compte diffère du nom sur la pièce."
+
+msgid "Inscription"
+msgstr "Inscription"
+
+msgid "Connexion"
+msgstr "Connexion"
+
+msgid "Mot de passe oublié"
+msgstr "Mot de passe oublié"
+
+msgid "Retrait"
+msgstr "Retrait"
+
+msgid "code OTP"
+msgstr "code OTP"
+
+msgid "Trop de codes demandés pour ce numéro. Réessayez dans une heure."
+msgstr "Trop de codes demandés pour ce numéro. Réessayez dans une heure."
+
+msgid "Trop de demandes depuis cette connexion. Réessayez plus tard."
+msgstr "Trop de demandes depuis cette connexion. Réessayez plus tard."
+
+#, python-format
+msgid "Moucharaka : votre code est %(code)s. Valable %(min)s min. Ne le partagez avec personne."
+msgstr "Moucharaka : votre code est %(code)s. Valable %(min)s min. Ne le partagez avec personne."
+
+msgid "L'envoi du SMS a échoué. Réessayez dans quelques instants."
+msgstr "L'envoi du SMS a échoué. Réessayez dans quelques instants."
+
+msgid "Code expiré. Demandez un nouveau code."
+msgstr "Code expiré. Demandez un nouveau code."
+
+msgid "Trop d'essais. Demandez un nouveau code."
+msgstr "Trop d'essais. Demandez un nouveau code."
+
+#, python-format
+msgid "Code incorrect. Il vous reste %(n)s essai(s)."
+msgstr "Code incorrect. Il vous reste %(n)s essai(s)."
+
+msgid "Votre compte est validé"
+msgstr "Votre compte est validé"
+
+msgid "Vous pouvez maintenant investir et proposer des projets sur Moucharaka."
+msgstr "Vous pouvez maintenant investir et proposer des projets sur Moucharaka."
+
+msgid "Votre dossier d'identité doit être corrigé"
+msgstr "Votre dossier d'identité doit être corrigé"
+
+msgid "Votre dossier d'identité a été refusé"
+msgstr "Votre dossier d'identité a été refusé"
+
+#, python-format
+msgid "Mode développement : votre code est %(code)s"
+msgstr "Mode développement : votre code est %(code)s"
+
+msgid "Un nouveau code a été envoyé."
+msgstr "Un nouveau code a été envoyé."
+
+msgid "Vérifiez d'abord votre numéro."
+msgstr "Vérifiez d'abord votre numéro."
+
+msgid "Compte créé. Dernière étape : vérifier votre identité."
+msgstr "Compte créé. Dernière étape : vérifier votre identité."
+
+msgid "Nouveau dossier KYC à vérifier"
+msgstr "Nouveau dossier KYC à vérifier"
+
+msgid "Dossier envoyé. Notre équipe le vérifie, vous recevrez un SMS."
+msgstr "Dossier envoyé. Notre équipe le vérifie, vous recevrez un SMS."
+
+msgid "Numéro ou mot de passe incorrect."
+msgstr "Numéro ou mot de passe incorrect."
+
+msgid "Ce compte est suspendu. Contactez le support."
+msgstr "Ce compte est suspendu. Contactez le support."
+
+msgid "Mot de passe modifié. Connectez-vous."
+msgstr "Mot de passe modifié. Connectez-vous."
+
+msgid "Mot de passe modifié."
+msgstr "Mot de passe modifié."
+
+msgid "Préférences enregistrées."
+msgstr "Préférences enregistrées."
+
+msgid "Numéro invalide."
+msgstr "Numéro invalide."
+
+msgid "Vérification expirée, recommencez."
+msgstr "Vérification expirée, recommencez."
+
+msgid "Nom complet requis."
+msgstr "Nom complet requis."
+
+msgid "Dossier déjà soumis."
+msgstr "Dossier déjà soumis."
+
+msgid "Marché secondaire"
+msgstr "Marché secondaire"
+
+msgid "Portefeuille"
+msgstr "Portefeuille"
+
+msgid "Protection des investisseurs"
+msgstr "Protection des investisseurs"
+
+msgid "Discipline des porteurs"
+msgstr "Discipline des porteurs"
+
+msgid "Revenus annexes"
+msgstr "Revenus annexes"
+
+msgid "Instructions de paiement"
+msgstr "Instructions de paiement"
+
+msgid "créé le"
+msgstr "créé le"
+
+msgid "modifié le"
+msgstr "modifié le"
+
+msgid "nom (français)"
+msgstr "nom (français)"
+
+msgid "nom (arabe)"
+msgstr "nom (arabe)"
+
+msgid "wilayas"
+msgstr "wilayas"
+
+msgid "moughataas"
+msgstr "moughataas"
+
+msgid "frais acheteur marché (%)"
+msgstr "frais acheteur marché (%)"
+
+msgid "frais vendeur marché (%)"
+msgstr "frais vendeur marché (%)"
+
+msgid "prix max. d'une annonce (% au-dessus de la valeur nominale)"
+msgstr "prix max. d'une annonce (% au-dessus de la valeur nominale)"
+
+msgid "Garde-fou contre la spéculation excessive."
+msgstr "Garde-fou contre la spéculation excessive."
+
+msgid "frais fixes de retrait (MRU)"
+msgstr "frais fixes de retrait (MRU)"
+
+msgid "frais de retrait (%)"
+msgstr "frais de retrait (%)"
+
+msgid "retrait minimum (MRU)"
+msgstr "retrait minimum (MRU)"
+
+msgid "dépôt minimum (MRU)"
+msgstr "dépôt minimum (MRU)"
+
+msgid "part max. d'un investisseur dans une campagne (%)"
+msgstr "part max. d'un investisseur dans une campagne (%)"
+
+msgid "délai de remise des rapports (jours après la période)"
+msgstr "délai de remise des rapports (jours après la période)"
+
+msgid "délai de grâce des échéances (jours)"
+msgstr "délai de grâce des échéances (jours)"
+
+msgid "durée max. d'une campagne (jours)"
+msgstr "durée max. d'une campagne (jours)"
+
+msgid "mise en avant d'un projet (MRU / 7 jours)"
+msgstr "mise en avant d'un projet (MRU / 7 jours)"
+
+msgid "numéro marchand Bankily"
+msgstr "numéro marchand Bankily"
+
+msgid "numéro marchand Masrvi"
+msgstr "numéro marchand Masrvi"
+
+msgid "numéro marchand Sedad"
+msgstr "numéro marchand Sedad"
+
+msgid "coordonnées bancaires pour virements"
+msgstr "coordonnées bancaires pour virements"
+
+msgid "téléphone support"
+msgstr "téléphone support"
+
+msgid "paramètres de la plateforme"
+msgstr "paramètres de la plateforme"
+
+msgid "Paramètres de la plateforme"
+msgstr "Paramètres de la plateforme"
+
+msgid "notification"
+msgstr "notification"
+
+msgid "journal d'audit"
+msgstr "journal d'audit"
+
+msgid "Nouveau"
+msgstr "Nouveau"
+
+msgid "Fonds bloqués (collecte en cours)"
+msgstr "Fonds bloqués (collecte en cours)"
+
+msgid "Confirmé"
+msgstr "Confirmé"
+
+msgid "Remboursé"
+msgstr "Remboursé"
+
+msgid "Annulé par l'investisseur"
+msgstr "Annulé par l'investisseur"
+
+msgid "parts"
+msgstr "parts"
+
+msgid "montant"
+msgstr "montant"
+
+msgid "souscription"
+msgstr "souscription"
+
+msgid "souscriptions"
+msgstr "souscriptions"
+
+msgid "Parts mises en vente sur le marché."
+msgstr "Parts mises en vente sur le marché."
+
+msgid "prix de revient total"
+msgstr "prix de revient total"
+
+msgid "distributions reçues"
+msgstr "distributions reçues"
+
+msgid "détention de parts"
+msgstr "détention de parts"
+
+msgid "détentions de parts"
+msgstr "détentions de parts"
+
+msgid "Partage des bénéfices (Moucharaka)"
+msgstr "Partage des bénéfices (Moucharaka)"
+
+msgid "Échéance (Mourabaha)"
+msgstr "Échéance (Mourabaha)"
+
+msgid "Rachat de parts"
+msgstr "Rachat de parts"
+
+msgid "Produit de liquidation"
+msgstr "Produit de liquidation"
+
+msgid "montant versé par le porteur"
+msgstr "montant versé par le porteur"
+
+msgid "assiette de la commission"
+msgstr "assiette de la commission"
+
+msgid "commission plateforme"
+msgstr "commission plateforme"
+
+msgid "net distribué"
+msgstr "net distribué"
+
+msgid "Parts rachetées et annulées (rachat)."
+msgstr "Parts rachetées et annulées (rachat)."
+
+msgid "distribution"
+msgstr "distribution"
+
+msgid "distributions"
+msgstr "distributions"
+
+msgid "Votre compte doit être vérifié pour investir."
+msgstr "Votre compte doit être vérifié pour investir."
+
+msgid "La collecte de ce projet n'est pas ouverte."
+msgstr "La collecte de ce projet n'est pas ouverte."
+
+msgid "Vous ne pouvez pas investir dans votre propre projet."
+msgstr "Vous ne pouvez pas investir dans votre propre projet."
+
+msgid "Vous devez confirmer avoir compris les risques."
+msgstr "Vous devez confirmer avoir compris les risques."
+
+#, python-format
+msgid "Minimum %(n)s part(s)."
+msgstr "Minimum %(n)s part(s)."
+
+#, python-format
+msgid "Vous pouvez souscrire au maximum %(n)s part(s) dans ce projet."
+msgstr "Vous pouvez souscrire au maximum %(n)s part(s) dans ce projet."
+
+msgid "Nouvel investissement"
+msgstr "Nouvel investissement"
+
+#, python-format
+msgid "%(n)s part(s) souscrite(s) dans « %(p)s »."
+msgstr "%(n)s part(s) souscrite(s) dans « %(p)s »."
+
+msgid "Le délai de rétractation de 48 h est dépassé."
+msgstr "Le délai de rétractation de 48 h est dépassé."
+
+msgid "Rétractation"
+msgstr "Rétractation"
+
+msgid "Objectif atteint !"
+msgstr "Objectif atteint !"
+
+#, python-format
+msgid "« %(p)s » est financé. Notre équipe prépare le contrat et le versement des fonds."
+msgstr "« %(p)s » est financé. Notre équipe prépare le contrat et le versement des fonds."
+
+msgid "Projet financé : fonds à libérer"
+msgstr "Projet financé : fonds à libérer"
+
+msgid "Projet financé"
+msgstr "Projet financé"
+
+#, python-format
+msgid "« %(p)s » a atteint son objectif."
+msgstr "« %(p)s » a atteint son objectif."
+
+msgid "Collecte non aboutie : vous êtes remboursé"
+msgstr "Collecte non aboutie : vous êtes remboursé"
+
+#, python-format
+msgid "%(a)s MRU sont de nouveau disponibles."
+msgstr "%(a)s MRU sont de nouveau disponibles."
+
+msgid "Seul un projet financé peut recevoir les fonds."
+msgstr "Seul un projet financé peut recevoir les fonds."
+
+msgid "Fonds versés"
+msgstr "Fonds versés"
+
+#, python-format
+msgid "%(a)s MRU (après commission de %(f)s MRU) sont disponibles dans votre portefeuille."
+msgstr "%(a)s MRU (après commission de %(f)s MRU) sont disponibles dans votre portefeuille."
+
+msgid "Aucune part en circulation."
+msgstr "Aucune part en circulation."
+
+msgid "Vous avez reçu un versement"
+msgstr "Vous avez reçu un versement"
+
+#, python-format
+msgid "%(a)s MRU de « %(p)s »."
+msgstr "%(a)s MRU de « %(p)s »."
+
+msgid "Ce projet ne distribue pas de bénéfices."
+msgstr "Ce projet ne distribue pas de bénéfices."
+
+msgid "Ce rapport a déjà donné lieu à une distribution."
+msgstr "Ce rapport a déjà donné lieu à une distribution."
+
+msgid "Pas de bénéfice à distribuer pour cette période."
+msgstr "Pas de bénéfice à distribuer pour cette période."
+
+msgid "Échéance déjà payée."
+msgstr "Échéance déjà payée."
+
+msgid "Ce projet n'accepte pas de paiement."
+msgstr "Ce projet n'accepte pas de paiement."
+
+#, python-format
+msgid "Échéance %(n)s"
+msgstr "Échéance %(n)s"
+
+msgid "Rachat impossible pour ce projet."
+msgstr "Rachat impossible pour ce projet."
+
+#, python-format
+msgid "Le prix de rachat ne peut pas être inférieur à 50 % de la valeur nominale sans accord de l'équipe."
+msgstr "Le prix de rachat ne peut pas être inférieur à 50 % de la valeur nominale sans accord de l'équipe."
+
+msgid "Rachat de parts par le porteur"
+msgstr "Rachat de parts par le porteur"
+
+#, python-format
+msgid "Nombre de parts invalide (max. %(n)s)."
+msgstr "Nombre de parts invalide (max. %(n)s)."
+
+#, python-format
+msgid "Rachat à %(p)s MRU / part"
+msgstr "Rachat à %(p)s MRU / part"
+
+#, python-format
+msgid "%(n)s part(s) de « %(p)s » rachetée(s) : %(a)s MRU reçus."
+msgstr "%(n)s part(s) de « %(p)s » rachetée(s) : %(a)s MRU reçus."
+
+msgid "Projet terminé"
+msgstr "Projet terminé"
+
+msgid "Projet en défaut"
+msgstr "Projet en défaut"
+
+msgid "Projet en défaut de paiement"
+msgstr "Projet en défaut de paiement"
+
+#, python-format
+msgid "Notre équipe engage le recouvrement et les garanties de « %(p)s »."
+msgstr "Notre équipe engage le recouvrement et les garanties de « %(p)s »."
+
+msgid "En vente"
+msgstr "En vente"
+
+msgid "Vendu"
+msgstr "Vendu"
+
+msgid "Retiré"
+msgstr "Retiré"
+
+msgid "Expiré"
+msgstr "Expiré"
+
+msgid "parts mises en vente"
+msgstr "parts mises en vente"
+
+msgid "prix par part (MRU)"
+msgstr "prix par part (MRU)"
+
+msgid "vente partielle acceptée"
+msgstr "vente partielle acceptée"
+
+msgid "message aux acheteurs"
+msgstr "message aux acheteurs"
+
+msgid "annonce de vente"
+msgstr "annonce de vente"
+
+msgid "annonces de vente"
+msgstr "annonces de vente"
+
+msgid "transaction de marché"
+msgstr "transaction de marché"
+
+msgid "transactions de marché"
+msgstr "transactions de marché"
+
+msgid "Votre compte doit être vérifié."
+msgstr "Votre compte doit être vérifié."
+
+msgid "Les parts de ce projet ne sont pas négociables actuellement."
+msgstr "Les parts de ce projet ne sont pas négociables actuellement."
+
+#, python-format
+msgid "Le prix doit être compris entre %(l)s et %(h)s MRU par part."
+msgstr "Le prix doit être compris entre %(l)s et %(h)s MRU par part."
+
+#, python-format
+msgid "Vous disposez de %(n)s part(s) disponibles à la vente."
+msgstr "Vous disposez de %(n)s part(s) disponibles à la vente."
+
+msgid "Cette annonce ne vous appartient pas."
+msgstr "Cette annonce ne vous appartient pas."
+
+msgid "Annonce retirée"
+msgstr "Annonce retirée"
+
+msgid "Cette annonce n'est plus disponible."
+msgstr "Cette annonce n'est plus disponible."
+
+msgid "La négociation est suspendue sur ce projet."
+msgstr "La négociation est suspendue sur ce projet."
+
+msgid "Vous ne pouvez pas acheter votre propre annonce."
+msgstr "Vous ne pouvez pas acheter votre propre annonce."
+
+msgid "Le porteur rachète ses parts via la procédure de rachat, pas sur le marché."
+msgstr "Le porteur rachète ses parts via la procédure de rachat, pas sur le marché."
+
+#, python-format
+msgid "Quantité indisponible (max. %(n)s)."
+msgstr "Quantité indisponible (max. %(n)s)."
+
+msgid "Le vendeur vend ce lot en entier uniquement."
+msgstr "Le vendeur vend ce lot en entier uniquement."
+
+msgid "Parts vendues"
+msgstr "Parts vendues"
+
+#, python-format
+msgid "%(n)s part(s) de « %(p)s » vendue(s), %(a)s MRU crédités."
+msgstr "%(n)s part(s) de « %(p)s » vendue(s), %(a)s MRU crédités."
+
+msgid "Parts à vendre"
+msgstr "Parts à vendre"
+
+msgid "Prix par part (MRU)"
+msgstr "Prix par part (MRU)"
+
+msgid "Accepter la vente d'une partie du lot"
+msgstr "Accepter la vente d'une partie du lot"
+
+msgid "Message (facultatif)"
+msgstr "Message (facultatif)"
+
+msgid "Vous n'avez pas de parts disponibles dans ce projet."
+msgstr "Vous n'avez pas de parts disponibles dans ce projet."
+
+msgid "Annonce publiée sur le marché."
+msgstr "Annonce publiée sur le marché."
+
+#, python-format
+msgid "Achat réalisé : %(n)s part(s) de « %(p)s »."
+msgstr "Achat réalisé : %(n)s part(s) de « %(p)s »."
+
+msgid "Annonce retirée."
+msgstr "Annonce retirée."
+
+msgid "Libérer les fonds (projets financés)"
+msgstr "Libérer les fonds (projets financés)"
+
+#, python-format
+msgid "Fonds libérés : %(p)s"
+msgstr "Fonds libérés : %(p)s"
+
+msgid "Que voulez-vous financer ?"
+msgstr "Que voulez-vous financer ?"
+
+msgid "Comment rémunérer les investisseurs ?"
+msgstr "Comment rémunérer les investisseurs ?"
+
+msgid "Une entreprise qui n'a pas encore de revenus ne peut pas s'engager sur une marge fixe : choisissez la Moucharaka."
+msgstr "Une entreprise qui n'a pas encore de revenus ne peut pas s'engager sur une marge fixe : choisissez la Moucharaka."
+
+msgid "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent. 300 caractères minimum."
+msgstr "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent. 300 caractères minimum."
+
+msgid "Prix d'une part. 1 000 MRU permet à chacun de participer."
+msgstr "Prix d'une part. 1 000 MRU permet à chacun de participer."
+
+msgid "Le montant doit être un multiple de la valeur d'une part."
+msgstr "Le montant doit être un multiple de la valeur d'une part."
+
+msgid "Il faut au moins 10 parts : baissez la valeur de la part."
+msgstr "Il faut au moins 10 parts : baissez la valeur de la part."
+
+msgid "Marge annualisée supérieure à 40 % : elle serait refusée à l'étude."
+msgstr "Marge annualisée supérieure à 40 % : elle serait refusée à l'étude."
+
+#, python-format
+msgid "Entre 5 % et 90 %."
+msgstr "Entre 5 % et 90 %."
+
+msgid "60 jours maximum."
+msgstr "60 jours maximum."
+
+msgid "La boutique"
+msgstr "La boutique"
+
+msgid "Fonctionnement"
+msgstr "Fonctionnement"
+
+msgid "Marges et charges mensuelles"
+msgstr "Marges et charges mensuelles"
+
+msgid "Ce que possède et doit la boutique aujourd'hui"
+msgstr "Ce que possède et doit la boutique aujourd'hui"
+
+msgid "Ventes et approvisionnement"
+msgstr "Ventes et approvisionnement"
+
+msgid "Formalisation et équipement"
+msgstr "Formalisation et équipement"
+
+msgid "Le projet"
+msgstr "Le projet"
+
+msgid "Espèces + mobile money + crédit doit faire 100 %."
+msgstr "Espèces + mobile money + crédit doit faire 100 %."
+
+msgid "Indiquez le loyer."
+msgstr "Indiquez le loyer."
+
+msgid "Une hausse de plus de 100 % n'est pas crédible sans justification."
+msgstr "Une hausse de plus de 100 % n'est pas crédible sans justification."
+
+msgid "La revente doit dépasser le coût d'achat."
+msgstr "La revente doit dépasser le coût d'achat."
+
+msgid "mois"
+msgstr "mois"
+
+msgid "Oui"
+msgstr "Oui"
+
+msgid "Non"
+msgstr "Non"
+
+msgid "Photos (boutique, stock, devanture…)"
+msgstr "Photos (boutique, stock, devanture…)"
+
+msgid "Nombre de parts"
+msgstr "Nombre de parts"
+
+msgid "J'ai compris que mon capital n'est pas garanti, que les rendements sont estimés et que je peux perdre tout ou partie de ma mise."
+msgstr "J'ai compris que mon capital n'est pas garanti, que les rendements sont estimés et que je peux perdre tout ou partie de ma mise."
+
+msgid "Parts à racheter"
+msgstr "Parts à racheter"
+
+msgid "Rechercher"
+msgstr "Rechercher"
+
+msgid "Tous les types"
+msgstr "Tous les types"
+
+msgid "Tous les modes"
+msgstr "Tous les modes"
+
+msgid "Ouverts et en activité"
+msgstr "Ouverts et en activité"
+
+msgid "Collecte en cours"
+msgstr "Collecte en cours"
+
+msgid "En activité"
+msgstr "En activité"
+
+msgid "Terminés"
+msgstr "Terminés"
+
+msgid "Tous"
+msgstr "Tous"
+
+msgid "Toutes les wilayas"
+msgstr "Toutes les wilayas"
+
+msgid "Tous les secteurs"
+msgstr "Tous les secteurs"
+
+msgid "Plus récents"
+msgstr "Plus récents"
+
+msgid "Se terminent bientôt"
+msgstr "Se terminent bientôt"
+
+msgid "Presque financés"
+msgstr "Presque financés"
+
+msgid "Rendement estimé"
+msgstr "Rendement estimé"
+
+msgid "Échéance en retard"
+msgstr "Échéance en retard"
+
+#, python-format
+msgid "L'échéance n°%(n)s de « %(p)s » est impayée."
+msgstr "L'échéance n°%(n)s de « %(p)s » est impayée."
+
+msgid "Rappel d'échéance"
+msgstr "Rappel d'échéance"
+
+#, python-format
+msgid "%(a)s MRU à payer le %(d)s pour « %(p)s »."
+msgstr "%(a)s MRU à payer le %(d)s pour « %(p)s »."
+
+msgid "Rapport financier en retard"
+msgstr "Rapport financier en retard"
+
+#, python-format
+msgid "Le rapport %(m)s de « %(p)s » n'a pas été envoyé."
+msgstr "Le rapport %(m)s de « %(p)s » n'a pas été envoyé."
+
+msgid "Rapport à envoyer"
+msgstr "Rapport à envoyer"
+
+#, python-format
+msgid "Envoyez les chiffres de %(m)s avant le %(d)s."
+msgstr "Envoyez les chiffres de %(m)s avant le %(d)s."
+
+msgid "secteur"
+msgstr "secteur"
+
+msgid "secteurs"
+msgstr "secteurs"
+
+msgid "Boutique / commerce en activité"
+msgstr "Boutique / commerce en activité"
+
+msgid "Opération ponctuelle"
+msgstr "Opération ponctuelle"
+
+msgid "Future entreprise"
+msgstr "Future entreprise"
+
+msgid "Moucharaka — partage des bénéfices"
+msgstr "Moucharaka — partage des bénéfices"
+
+msgid "Mourabaha — marge fixe convenue"
+msgstr "Mourabaha — marge fixe convenue"
+
+msgid "type de projet"
+msgstr "type de projet"
+
+msgid "mode de financement"
+msgstr "mode de financement"
+
+msgid "frais d'étude du dossier (MRU)"
+msgstr "frais d'étude du dossier (MRU)"
+
+#, python-format
+msgid "commission de succès (% des fonds levés)"
+msgstr "commission de succès (% des fonds levés)"
+
+#, python-format
+msgid "commission de gestion (% des bénéfices / marges distribués)"
+msgstr "commission de gestion (% des bénéfices / marges distribués)"
+
+msgid "montant minimum"
+msgstr "montant minimum"
+
+msgid "montant maximum"
+msgstr "montant maximum"
+
+msgid "ouvert aux nouvelles demandes"
+msgstr "ouvert aux nouvelles demandes"
+
+msgid "grille tarifaire"
+msgstr "grille tarifaire"
+
+msgid "grilles tarifaires"
+msgstr "grilles tarifaires"
+
+msgid "En cours d'étude"
+msgstr "En cours d'étude"
+
+msgid "Objectif atteint"
+msgstr "Objectif atteint"
+
+msgid "Terminé"
+msgstr "Terminé"
+
+msgid "Collecte échouée"
+msgstr "Collecte échouée"
+
+msgid "En défaut"
+msgstr "En défaut"
+
+msgid "Annulé"
+msgstr "Annulé"
+
+msgid "Mensuelle"
+msgstr "Mensuelle"
+
+msgid "Trimestrielle"
+msgstr "Trimestrielle"
+
+msgid "Semestrielle"
+msgstr "Semestrielle"
+
+msgid "Annuelle"
+msgstr "Annuelle"
+
+msgid "À la sortie"
+msgstr "À la sortie"
+
+msgid "Rachat progressif des parts par le porteur (Moucharaka moutanaqisa)"
+msgstr "Rachat progressif des parts par le porteur (Moucharaka moutanaqisa)"
+
+msgid "Rachat de toutes les parts à l'échéance"
+msgstr "Rachat de toutes les parts à l'échéance"
+
+msgid "Vente de l'activité et partage du produit"
+msgstr "Vente de l'activité et partage du produit"
+
+msgid "Sans échéance : parts revendables sur le marché"
+msgstr "Sans échéance : parts revendables sur le marché"
+
+msgid "En une fois à l'échéance"
+msgstr "En une fois à l'échéance"
+
+msgid "Échéances mensuelles"
+msgstr "Échéances mensuelles"
+
+msgid "Échéances trimestrielles"
+msgstr "Échéances trimestrielles"
+
+msgid "porteur"
+msgstr "porteur"
+
+msgid "nom du projet"
+msgstr "nom du projet"
+
+msgid "résumé en une phrase"
+msgstr "résumé en une phrase"
+
+msgid "présentation détaillée"
+msgstr "présentation détaillée"
+
+msgid "quartier"
+msgstr "quartier"
+
+msgid "photo principale"
+msgstr "photo principale"
+
+msgid "lien vidéo (facultatif)"
+msgstr "lien vidéo (facultatif)"
+
+msgid "montant recherché (MRU)"
+msgstr "montant recherché (MRU)"
+
+msgid "valeur d'une part (MRU)"
+msgstr "valeur d'une part (MRU)"
+
+msgid "parts minimum par investisseur"
+msgstr "parts minimum par investisseur"
+
+#, python-format
+msgid "seuil de réussite (% de l'objectif)"
+msgstr "seuil de réussite (% de l'objectif)"
+
+msgid "Si la collecte atteint ce seuil à la date limite, le projet est financé avec le montant collecté."
+msgstr "Si la collecte atteint ce seuil à la date limite, le projet est financé avec le montant collecté."
+
+msgid "apport personnel du porteur (MRU)"
+msgstr "apport personnel du porteur (MRU)"
+
+msgid "durée de la collecte (jours)"
+msgstr "durée de la collecte (jours)"
+
+msgid "durée du financement (mois)"
+msgstr "durée du financement (mois)"
+
+msgid "part des bénéfices revenant aux investisseurs (%)"
+msgstr "part des bénéfices revenant aux investisseurs (%)"
+
+msgid "rendement annuel estimé (%), non garanti"
+msgstr "rendement annuel estimé (%), non garanti"
+
+msgid "fréquence des distributions"
+msgstr "fréquence des distributions"
+
+msgid "sortie des investisseurs"
+msgstr "sortie des investisseurs"
+
+msgid "marge convenue sur la durée (%)"
+msgstr "marge convenue sur la durée (%)"
+
+msgid "remboursement"
+msgstr "remboursement"
+
+msgid "garanties proposées"
+msgstr "garanties proposées"
+
+msgid "Caution personnelle, nantissement du stock, garant, chèque de garantie…"
+msgstr "Caution personnelle, nantissement du stock, garant, chèque de garantie…"
+
+msgid "fréquence des rapports financiers"
+msgstr "fréquence des rapports financiers"
+
+msgid "note de risque"
+msgstr "note de risque"
+
+msgid "avis de l'équipe (public)"
+msgstr "avis de l'équipe (public)"
+
+msgid "corrections demandées"
+msgstr "corrections demandées"
+
+msgid "revente des parts autorisée"
+msgstr "revente des parts autorisée"
+
+msgid "projet"
+msgstr "projet"
+
+msgid "projets"
+msgstr "projets"
+
+msgid "photo"
+msgstr "photo"
+
+msgid "légende"
+msgstr "légende"
+
+msgid "Registre du commerce / patente"
+msgstr "Registre du commerce / patente"
+
+msgid "Numéro d'identification fiscale"
+msgstr "Numéro d'identification fiscale"
+
+msgid "Contrat de bail"
+msgstr "Contrat de bail"
+
+msgid "Titre de propriété / attestation"
+msgstr "Titre de propriété / attestation"
+
+msgid "Facture pro forma / devis"
+msgstr "Facture pro forma / devis"
+
+msgid "Bon de commande client"
+msgstr "Bon de commande client"
+
+msgid "Relevé bancaire / mobile money"
+msgstr "Relevé bancaire / mobile money"
+
+msgid "Cahier de comptes / états financiers"
+msgstr "Cahier de comptes / états financiers"
+
+msgid "Acte de garantie / caution"
+msgstr "Acte de garantie / caution"
+
+msgid "Autorisation / licence"
+msgstr "Autorisation / licence"
+
+msgid "type"
+msgstr "type"
+
+msgid "intitulé"
+msgstr "intitulé"
+
+msgid "fichier"
+msgstr "fichier"
+
+msgid "visible par les investisseurs vérifiés"
+msgstr "visible par les investisseurs vérifiés"
+
+msgid "vérifié par l'équipe"
+msgstr "vérifié par l'équipe"
+
+msgid "Achat de marchandises"
+msgstr "Achat de marchandises"
+
+msgid "Équipement (frigo, étagères, balance…)"
+msgstr "Équipement (frigo, étagères, balance…)"
+
+msgid "Aménagement / travaux"
+msgstr "Aménagement / travaux"
+
+msgid "Énergie (solaire, groupe)"
+msgstr "Énergie (solaire, groupe)"
+
+msgid "Transport / véhicule"
+msgstr "Transport / véhicule"
+
+msgid "Fonds de roulement"
+msgstr "Fonds de roulement"
+
+msgid "Loyer / caution"
+msgstr "Loyer / caution"
+
+msgid "Formalités, licences"
+msgstr "Formalités, licences"
+
+msgid "Marketing"
+msgstr "Marketing"
+
+msgid "catégorie"
+msgstr "catégorie"
+
+msgid "détail"
+msgstr "détail"
+
+msgid "montant (MRU)"
+msgstr "montant (MRU)"
+
+msgid "Alimentation générale (boutique de quartier)"
+msgstr "Alimentation générale (boutique de quartier)"
+
+msgid "Demi-gros / grossiste"
+msgstr "Demi-gros / grossiste"
+
+msgid "Quincaillerie"
+msgstr "Quincaillerie"
+
+msgid "Matériaux de construction"
+msgstr "Matériaux de construction"
+
+msgid "Téléphones, accessoires, transfert d'argent"
+msgstr "Téléphones, accessoires, transfert d'argent"
+
+msgid "Tissus, melhfa, voiles, habillement"
+msgstr "Tissus, melhfa, voiles, habillement"
+
+msgid "Cosmétiques, parfums, encens"
+msgstr "Cosmétiques, parfums, encens"
+
+msgid "Boucherie"
+msgstr "Boucherie"
+
+msgid "Boulangerie / pâtisserie"
+msgstr "Boulangerie / pâtisserie"
+
+msgid "Restaurant / fast-food"
+msgstr "Restaurant / fast-food"
+
+msgid "Électroménager / électronique"
+msgstr "Électroménager / électronique"
+
+msgid "Pièces auto"
+msgstr "Pièces auto"
+
+msgid "Librairie / fournitures scolaires"
+msgstr "Librairie / fournitures scolaires"
+
+msgid "Gaz, charbon, eau"
+msgstr "Gaz, charbon, eau"
+
+msgid "Autre commerce"
+msgstr "Autre commerce"
+
+msgid "Loué"
+msgstr "Loué"
+
+msgid "Propriété"
+msgstr "Propriété"
+
+msgid "Local familial (sans loyer)"
+msgstr "Local familial (sans loyer)"
+
+msgid "Sur une grande route"
+msgstr "Sur une grande route"
+
+msgid "Dans un marché"
+msgstr "Dans un marché"
+
+msgid "Rue de quartier résidentiel"
+msgstr "Rue de quartier résidentiel"
+
+msgid "Centre commercial"
+msgstr "Centre commercial"
+
+msgid "Réseau SOMELEC"
+msgstr "Réseau SOMELEC"
+
+msgid "Solaire"
+msgstr "Solaire"
+
+msgid "Groupe électrogène"
+msgstr "Groupe électrogène"
+
+msgid "Mixte"
+msgstr "Mixte"
+
+msgid "Pas d'électricité"
+msgstr "Pas d'électricité"
+
+msgid "enseigne / nom de la boutique"
+msgstr "enseigne / nom de la boutique"
+
+msgid "activité"
+msgstr "activité"
+
+msgid "date d'ouverture"
+msgstr "date d'ouverture"
+
+msgid "local"
+msgstr "local"
+
+msgid "loyer mensuel (MRU)"
+msgstr "loyer mensuel (MRU)"
+
+msgid "fin du bail"
+msgstr "fin du bail"
+
+msgid "surface de vente (m²)"
+msgstr "surface de vente (m²)"
+
+msgid "surface de stockage (m²)"
+msgstr "surface de stockage (m²)"
+
+msgid "emplacement"
+msgstr "emplacement"
+
+msgid "repère"
+msgstr "repère"
+
+msgid "Ex : en face de la mosquée, carrefour Madrid…"
+msgstr "Ex : en face de la mosquée, carrefour Madrid…"
+
+msgid "boutiques similaires à moins de 500 m"
+msgstr "boutiques similaires à moins de 500 m"
+
+msgid "ouverture"
+msgstr "ouverture"
+
+msgid "fermeture"
+msgstr "fermeture"
+
+msgid "jours d'ouverture par semaine"
+msgstr "jours d'ouverture par semaine"
+
+msgid "employés (hors gérant)"
+msgstr "employés (hors gérant)"
+
+msgid "le porteur tient lui-même la boutique"
+msgstr "le porteur tient lui-même la boutique"
+
+msgid "clients par jour (moyenne)"
+msgstr "clients par jour (moyenne)"
+
+msgid "panier moyen (MRU)"
+msgstr "panier moyen (MRU)"
+
+msgid "marge brute moyenne (%)"
+msgstr "marge brute moyenne (%)"
+
+msgid "(Prix de vente − prix d'achat) ÷ prix de vente."
+msgstr "(Prix de vente − prix d'achat) ÷ prix de vente."
+
+msgid "salaires mensuels (MRU)"
+msgstr "salaires mensuels (MRU)"
+
+msgid "rémunération du gérant (MRU / mois)"
+msgstr "rémunération du gérant (MRU / mois)"
+
+msgid "électricité, eau, téléphone (MRU / mois)"
+msgstr "électricité, eau, téléphone (MRU / mois)"
+
+msgid "transport, approvisionnement (MRU / mois)"
+msgstr "transport, approvisionnement (MRU / mois)"
+
+msgid "patente, taxes communales (MRU / mois)"
+msgstr "patente, taxes communales (MRU / mois)"
+
+msgid "autres charges (MRU / mois)"
+msgstr "autres charges (MRU / mois)"
+
+msgid "valeur du stock actuel (MRU)"
+msgstr "valeur du stock actuel (MRU)"
+
+msgid "valeur des équipements (MRU)"
+msgstr "valeur des équipements (MRU)"
+
+msgid "trésorerie disponible (MRU)"
+msgstr "trésorerie disponible (MRU)"
+
+msgid "crédits accordés aux clients (MRU)"
+msgstr "crédits accordés aux clients (MRU)"
+
+msgid "Ventes à crédit non encore payées (le « carnet »)."
+msgstr "Ventes à crédit non encore payées (le « carnet »)."
+
+msgid "dettes fournisseurs (MRU)"
+msgstr "dettes fournisseurs (MRU)"
+
+msgid "autres dettes / prêts (MRU)"
+msgstr "autres dettes / prêts (MRU)"
+
+msgid "ventes en espèces (%)"
+msgstr "ventes en espèces (%)"
+
+msgid "ventes par Bankily / Masrvi / Sedad (%)"
+msgstr "ventes par Bankily / Masrvi / Sedad (%)"
+
+msgid "ventes à crédit (%)"
+msgstr "ventes à crédit (%)"
+
+msgid "principaux fournisseurs"
+msgstr "principaux fournisseurs"
+
+msgid "origine des marchandises"
+msgstr "origine des marchandises"
+
+msgid "Ex : grossistes de Nouakchott, Dakar, Las Palmas, Dubaï, Chine…"
+msgstr "Ex : grossistes de Nouakchott, Dakar, Las Palmas, Dubaï, Chine…"
+
+msgid "réapprovisionnement tous les (jours)"
+msgstr "réapprovisionnement tous les (jours)"
+
+msgid "inscrite au registre du commerce / patente"
+msgstr "inscrite au registre du commerce / patente"
+
+msgid "tient un cahier ou un logiciel de caisse"
+msgstr "tient un cahier ou un logiciel de caisse"
+
+msgid "compte bancaire professionnel"
+msgstr "compte bancaire professionnel"
+
+msgid "électricité"
+msgstr "électricité"
+
+msgid "réfrigérateur / congélateur"
+msgstr "réfrigérateur / congélateur"
+
+msgid "assurance (incendie, vol)"
+msgstr "assurance (incendie, vol)"
+
+msgid "saisonnalité"
+msgstr "saisonnalité"
+
+msgid "Ramadan, Tabaski, rentrée scolaire, saison des pluies, hivernage…"
+msgstr "Ramadan, Tabaski, rentrée scolaire, saison des pluies, hivernage…"
+
+msgid "que changera le financement ?"
+msgstr "que changera le financement ?"
+
+msgid "hausse attendue du chiffre d'affaires (%)"
+msgstr "hausse attendue du chiffre d'affaires (%)"
+
+msgid "Chiffre d'affaires d'équilibre"
+msgstr "Chiffre d'affaires d'équilibre"
+
+msgid "Ventes mensuelles nécessaires pour couvrir toutes les charges."
+msgstr "Ventes mensuelles nécessaires pour couvrir toutes les charges."
+
+msgid "Marge de sécurité"
+msgstr "Marge de sécurité"
+
+msgid "De combien les ventes peuvent baisser avant de perdre de l'argent."
+msgstr "De combien les ventes peuvent baisser avant de perdre de l'argent."
+
+msgid "Poids du loyer"
+msgstr "Poids du loyer"
+
+msgid "Loyer ÷ ventes. Au-delà de 10 %, le loyer pèse lourd."
+msgstr "Loyer ÷ ventes. Au-delà de 10 %, le loyer pèse lourd."
+
+msgid "Couverture du stock"
+msgstr "Couverture du stock"
+
+msgid "jours"
+msgstr "jours"
+
+msgid "Nombre de jours de ventes couverts par le stock actuel."
+msgstr "Nombre de jours de ventes couverts par le stock actuel."
+
+msgid "Crédit clients"
+msgstr "Crédit clients"
+
+msgid "Ventes à crédit non payées ÷ ventes du mois."
+msgstr "Ventes à crédit non payées ÷ ventes du mois."
+
+msgid "Cohérence fréquentation / ventes"
+msgstr "Cohérence fréquentation / ventes"
+
+msgid "Écart entre ventes déclarées et clients × panier moyen."
+msgstr "Écart entre ventes déclarées et clients × panier moyen."
+
+msgid "ventes (MRU)"
+msgstr "ventes (MRU)"
+
+msgid "achats de marchandises (MRU)"
+msgstr "achats de marchandises (MRU)"
+
+msgid "produit"
+msgstr "produit"
+
+msgid "unité"
+msgstr "unité"
+
+msgid "sac de 50 kg, carton, litre…"
+msgstr "sac de 50 kg, carton, litre…"
+
+msgid "prix d'achat"
+msgstr "prix d'achat"
+
+msgid "prix de vente"
+msgstr "prix de vente"
+
+msgid "quantité vendue / mois"
+msgstr "quantité vendue / mois"
+
+msgid "Entreprise individuelle"
+msgstr "Entreprise individuelle"
+
+msgid "Coopérative"
+msgstr "Coopérative"
+
+msgid "À définir"
+msgstr "À définir"
+
+msgid "Idée"
+msgstr "Idée"
+
+msgid "Prototype / test"
+msgstr "Prototype / test"
+
+msgid "Premières ventes"
+msgstr "Premières ventes"
+
+msgid "Prêt à lancer"
+msgstr "Prêt à lancer"
+
+msgid "forme juridique"
+msgstr "forme juridique"
+
+msgid "stade d'avancement"
+msgstr "stade d'avancement"
+
+msgid "société déjà immatriculée"
+msgstr "société déjà immatriculée"
+
+msgid "numéro RCCM"
+msgstr "numéro RCCM"
+
+msgid "NIF"
+msgstr "NIF"
+
+msgid "date de lancement prévue"
+msgstr "date de lancement prévue"
+
+msgid "problème résolu"
+msgstr "problème résolu"
+
+msgid "solution / produit"
+msgstr "solution / produit"
+
+msgid "clients visés"
+msgstr "clients visés"
+
+msgid "taille du marché"
+msgstr "taille du marché"
+
+msgid "concurrents"
+msgstr "concurrents"
+
+msgid "avantage concurrentiel"
+msgstr "avantage concurrentiel"
+
+msgid "comment l'entreprise gagne de l'argent"
+msgstr "comment l'entreprise gagne de l'argent"
+
+msgid "plan commercial"
+msgstr "plan commercial"
+
+msgid "autorisations nécessaires"
+msgstr "autorisations nécessaires"
+
+msgid "principaux risques et parades"
+msgstr "principaux risques et parades"
+
+msgid "mois d'atteinte de l'équilibre"
+msgstr "mois d'atteinte de l'équilibre"
+
+msgid "emplois créés"
+msgstr "emplois créés"
+
+msgid "part du capital offerte aux investisseurs (%)"
+msgstr "part du capital offerte aux investisseurs (%)"
+
+msgid "nom"
+msgstr "nom"
+
+msgid "rôle"
+msgstr "rôle"
+
+msgid "années d'expérience"
+msgstr "années d'expérience"
+
+msgid "parcours"
+msgstr "parcours"
+
+msgid "à plein temps"
+msgstr "à plein temps"
+
+msgid "année"
+msgstr "année"
+
+msgid "chiffre d'affaires"
+msgstr "chiffre d'affaires"
+
+msgid "charges"
+msgstr "charges"
+
+msgid "investissements"
+msgstr "investissements"
+
+msgid "Prévu"
+msgstr "Prévu"
+
+msgid "Réalisé"
+msgstr "Réalisé"
+
+msgid "En retard"
+msgstr "En retard"
+
+msgid "étape"
+msgstr "étape"
+
+msgid "échéance"
+msgstr "échéance"
+
+msgid "budget"
+msgstr "budget"
+
+msgid "Achat de stock pour revente"
+msgstr "Achat de stock pour revente"
+
+msgid "Importation de marchandises"
+msgstr "Importation de marchandises"
+
+msgid "Bétail (moutons de Tabaski, embouche)"
+msgstr "Bétail (moutons de Tabaski, embouche)"
+
+msgid "Récolte de dattes (guetna)"
+msgstr "Récolte de dattes (guetna)"
+
+msgid "Campagne de pêche"
+msgstr "Campagne de pêche"
+
+msgid "Campagne agricole"
+msgstr "Campagne agricole"
+
+msgid "Exécution d'un marché / bon de commande"
+msgstr "Exécution d'un marché / bon de commande"
+
+msgid "Achat d'équipement productif"
+msgstr "Achat d'équipement productif"
+
+msgid "Autre opération"
+msgstr "Autre opération"
+
+msgid "nature de l'opération"
+msgstr "nature de l'opération"
+
+msgid "biens achetés (quantité, qualité)"
+msgstr "biens achetés (quantité, qualité)"
+
+msgid "fournisseur"
+msgstr "fournisseur"
+
+msgid "coût d'achat total (MRU)"
+msgstr "coût d'achat total (MRU)"
+
+msgid "frais annexes : transport, douane, stockage (MRU)"
+msgstr "frais annexes : transport, douane, stockage (MRU)"
+
+msgid "valeur de revente attendue (MRU)"
+msgstr "valeur de revente attendue (MRU)"
+
+msgid "durée du cycle (jours)"
+msgstr "durée du cycle (jours)"
+
+msgid "acheteur déjà identifié"
+msgstr "acheteur déjà identifié"
+
+msgid "acheteur / débouchés"
+msgstr "acheteur / débouchés"
+
+msgid "bon de commande ou contrat signé"
+msgstr "bon de commande ou contrat signé"
+
+msgid "sûretés"
+msgstr "sûretés"
+
+msgid "valeur des sûretés (MRU)"
+msgstr "valeur des sûretés (MRU)"
+
+msgid "opérations similaires déjà réalisées"
+msgstr "opérations similaires déjà réalisées"
+
+msgid "section du questionnaire"
+msgstr "section du questionnaire"
+
+msgid "Texte court"
+msgstr "Texte court"
+
+msgid "Texte long"
+msgstr "Texte long"
+
+msgid "Nombre"
+msgstr "Nombre"
+
+msgid "Montant"
+msgstr "Montant"
+
+msgid "Choix unique"
+msgstr "Choix unique"
+
+msgid "Choix multiple"
+msgstr "Choix multiple"
+
+msgid "Oui / non"
+msgstr "Oui / non"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Types de projet concernés, séparés par des virgules."
+msgstr "Types de projet concernés, séparés par des virgules."
+
+msgid "réponse visible des investisseurs"
+msgstr "réponse visible des investisseurs"
+
+msgid "question"
+msgstr "question"
+
+msgid "titre"
+msgstr "titre"
+
+msgid "message"
+msgstr "message"
+
+msgid "votre question"
+msgstr "votre question"
+
+msgid "réponse"
+msgstr "réponse"
+
+msgid "À clarifier"
+msgstr "À clarifier"
+
+msgid "début de la période"
+msgstr "début de la période"
+
+msgid "fin de la période"
+msgstr "fin de la période"
+
+msgid "à remettre avant le"
+msgstr "à remettre avant le"
+
+msgid "ventes / chiffre d'affaires"
+msgstr "ventes / chiffre d'affaires"
+
+msgid "coût des marchandises vendues"
+msgstr "coût des marchandises vendues"
+
+msgid "charges d'exploitation"
+msgstr "charges d'exploitation"
+
+msgid "bénéfice net"
+msgstr "bénéfice net"
+
+msgid "valeur du stock en fin de période"
+msgstr "valeur du stock en fin de période"
+
+msgid "trésorerie en fin de période"
+msgstr "trésorerie en fin de période"
+
+msgid "crédit clients en fin de période"
+msgstr "crédit clients en fin de période"
+
+msgid "commentaires"
+msgstr "commentaires"
+
+msgid "justificatif (photo du cahier, relevé…)"
+msgstr "justificatif (photo du cahier, relevé…)"
+
+msgid "commentaire de l'équipe"
+msgstr "commentaire de l'équipe"
+
+msgid "rapport financier"
+msgstr "rapport financier"
+
+msgid "rapports financiers"
+msgstr "rapports financiers"
+
+msgid "À venir"
+msgstr "À venir"
+
+msgid "Payée"
+msgstr "Payée"
+
+msgid "Impayée"
+msgstr "Impayée"
+
+msgid "Présentation d'au moins 300 caractères"
+msgstr "Présentation d'au moins 300 caractères"
+
+msgid "Photo principale"
+msgstr "Photo principale"
+
+msgid "Utilisation des fonds détaillée (total = montant recherché)"
+msgstr "Utilisation des fonds détaillée (total = montant recherché)"
+
+msgid "Au moins un justificatif"
+msgstr "Au moins un justificatif"
+
+msgid "Part des bénéfices, rendement estimé et sortie définis"
+msgstr "Part des bénéfices, rendement estimé et sortie définis"
+
+msgid "Marge, échéancier et garanties définis"
+msgstr "Marge, échéancier et garanties définis"
+
+msgid "Fiche boutique complète"
+msgstr "Fiche boutique complète"
+
+msgid "Ventes des 6 derniers mois au moins"
+msgstr "Ventes des 6 derniers mois au moins"
+
+msgid "Au moins 3 produits phares"
+msgstr "Au moins 3 produits phares"
+
+msgid "Au moins 3 photos de la boutique"
+msgstr "Au moins 3 photos de la boutique"
+
+msgid "Plan d'entreprise complet"
+msgstr "Plan d'entreprise complet"
+
+msgid "Équipe présentée"
+msgstr "Équipe présentée"
+
+msgid "Prévisions sur 3 ans"
+msgstr "Prévisions sur 3 ans"
+
+msgid "Au moins 2 étapes clés"
+msgstr "Au moins 2 étapes clés"
+
+msgid "Description de l'opération"
+msgstr "Description de l'opération"
+
+#, python-format
+msgid "Questions obligatoires du questionnaire (%(a)s / %(t)s)"
+msgstr "Questions obligatoires du questionnaire (%(a)s / %(t)s)"
+
+msgid "Ce projet ne peut pas être soumis."
+msgstr "Ce projet ne peut pas être soumis."
+
+#, python-format
+msgid "Il manque : %(m)s"
+msgstr "Il manque : %(m)s"
+
+msgid "Ce type de financement n'est pas ouvert pour le moment."
+msgstr "Ce type de financement n'est pas ouvert pour le moment."
+
+#, python-format
+msgid "Le montant doit être compris entre %(a)s et %(b)s MRU."
+msgstr "Le montant doit être compris entre %(a)s et %(b)s MRU."
+
+#, python-format
+msgid "Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille. %(e)s"
+msgstr "Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille. %(e)s"
+
+msgid "Projet à étudier"
+msgstr "Projet à étudier"
+
+msgid "Ce projet n'est pas en cours d'étude."
+msgstr "Ce projet n'est pas en cours d'étude."
+
+msgid "Votre projet est en ligne"
+msgstr "Votre projet est en ligne"
+
+#, python-format
+msgid "La collecte de « %(p)s » est ouverte jusqu'au %(d)s."
+msgstr "La collecte de « %(p)s » est ouverte jusqu'au %(d)s."
+
+msgid "Corrections demandées sur votre projet"
+msgstr "Corrections demandées sur votre projet"
+
+msgid "Projet refusé"
+msgstr "Projet refusé"
+
+msgid "Rapport impossible pour ce projet."
+msgstr "Rapport impossible pour ce projet."
+
+msgid "Période invalide."
+msgstr "Période invalide."
+
+msgid "Ce rapport a déjà été envoyé."
+msgstr "Ce rapport a déjà été envoyé."
+
+msgid "Nouveau rapport financier"
+msgstr "Nouveau rapport financier"
+
+#, python-format
+msgid "« %(p)s » a publié ses chiffres de %(m)s."
+msgstr "« %(p)s » a publié ses chiffres de %(m)s."
+
+msgid "Rapport à clarifier"
+msgstr "Rapport à clarifier"
+
+msgid "Indiquez le nombre de parts et confirmez avoir compris les risques."
+msgstr "Indiquez le nombre de parts et confirmez avoir compris les risques."
+
+#, python-format
+msgid "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez investir."
+msgstr "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez investir."
+
+#, python-format
+msgid "Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h."
+msgstr "Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h."
+
+msgid "Souscription annulée, fonds débloqués."
+msgstr "Souscription annulée, fonds débloqués."
+
+msgid "Nouvelle question d'un investisseur"
+msgstr "Nouvelle question d'un investisseur"
+
+msgid "Question envoyée au porteur. La réponse sera publique."
+msgstr "Question envoyée au porteur. La réponse sera publique."
+
+msgid "Merci pour votre avis : il compte dans le score du porteur."
+msgstr "Merci pour votre avis : il compte dans le score du porteur."
+
+msgid "Notez les trois critères de 1 à 5."
+msgstr "Notez les trois critères de 1 à 5."
+
+msgid "Présentation"
+msgstr "Présentation"
+
+msgid "Conditions"
+msgstr "Conditions"
+
+msgid "Fiche détaillée"
+msgstr "Fiche détaillée"
+
+msgid "Chiffres"
+msgstr "Chiffres"
+
+msgid "Utilisation des fonds"
+msgstr "Utilisation des fonds"
+
+msgid "Questionnaire"
+msgstr "Questionnaire"
+
+msgid "Photos et justificatifs"
+msgstr "Photos et justificatifs"
+
+msgid "Vérifier et envoyer"
+msgstr "Vérifier et envoyer"
+
+msgid "Ventes et produits"
+msgstr "Ventes et produits"
+
+msgid "Équipe et prévisions"
+msgstr "Équipe et prévisions"
+
+msgid "Étapes de l'opération"
+msgstr "Étapes de l'opération"
+
+msgid "Brouillon créé. Vous pouvez le compléter à votre rythme."
+msgstr "Brouillon créé. Vous pouvez le compléter à votre rythme."
+
+msgid "Ce projet n'est plus modifiable."
+msgstr "Ce projet n'est plus modifiable."
+
+msgid "Enregistré."
+msgstr "Enregistré."
+
+msgid "Justificatif ajouté."
+msgstr "Justificatif ajouté."
+
+#, python-format
+msgid "%(n)s photo(s) ajoutée(s)."
+msgstr "%(n)s photo(s) ajoutée(s)."
+
+msgid "Projet envoyé ! Notre équipe l'étudie, en général sous 5 jours ouvrés."
+msgstr "Projet envoyé ! Notre équipe l'étudie, en général sous 5 jours ouvrés."
+
+msgid "Brouillon supprimé."
+msgstr "Brouillon supprimé."
+
+msgid "Rapport publié."
+msgstr "Rapport publié."
+
+msgid "Rapport incomplet : vérifiez les montants."
+msgstr "Rapport incomplet : vérifiez les montants."
+
+#, python-format
+msgid "%(a)s MRU distribués aux investisseurs."
+msgstr "%(a)s MRU distribués aux investisseurs."
+
+msgid "Échéance payée. Merci !"
+msgstr "Échéance payée. Merci !"
+
+msgid "Rachat effectué."
+msgstr "Rachat effectué."
+
+#, python-format
+msgid "Nouvelles de « %(p)s »"
+msgstr "Nouvelles de « %(p)s »"
+
+msgid "Message publié."
+msgstr "Message publié."
+
+msgid "Le porteur a répondu à votre question"
+msgstr "Le porteur a répondu à votre question"
+
+msgid "Seule une collecte en cours peut être mise en avant."
+msgstr "Seule une collecte en cours peut être mise en avant."
+
+msgid "Projet mis en avant pendant 7 jours."
+msgstr "Projet mis en avant pendant 7 jours."
+
+msgid "Envoyer un SMS de test à mon numéro"
+msgstr "Envoyer un SMS de test à mon numéro"
+
+msgid "SMS de test envoyé."
+msgstr "SMS de test envoyé."
+
+msgid "Aucun fournisseur n'a accepté le message. Consultez le journal SMS."
+msgstr "Aucun fournisseur n'a accepté le message. Consultez le journal SMS."
+
+msgid "Console (développement, n'envoie rien)"
+msgstr "Console (développement, n'envoie rien)"
+
+msgid "Passerelle HTTP générique (opérateur local / agrégateur)"
+msgstr "Passerelle HTTP générique (opérateur local / agrégateur)"
+
+msgid "priorité"
+msgstr "priorité"
+
+msgid "Le plus petit numéro est essayé en premier."
+msgstr "Le plus petit numéro est essayé en premier."
+
+msgid "expéditeur (Sender ID)"
+msgstr "expéditeur (Sender ID)"
+
+msgid "préfixes desservis"
+msgstr "préfixes desservis"
+
+msgid "Optionnel. Ex : 2,3,4 pour ne router que les numéros commençant par ces chiffres (Chinguitel, Mattel, Mauritel). Vide = tous."
+msgstr "Optionnel. Ex : 2,3,4 pour ne router que les numéros commençant par ces chiffres (Chinguitel, Mattel, Mauritel). Vide = tous."
+
+msgid "configuration"
+msgstr "configuration"
+
+msgid "Paramètres propres au fournisseur (voir docs/SMS.md). Ex. HTTP : url, method, params, headers, body_format, success_contains."
+msgstr "Paramètres propres au fournisseur (voir docs/SMS.md). Ex. HTTP : url, method, params, headers, body_format, success_contains."
+
+msgid "fournisseur SMS"
+msgstr "fournisseur SMS"
+
+msgid "fournisseurs SMS"
+msgstr "fournisseurs SMS"
+
+msgid "envoyé"
+msgstr "envoyé"
+
+msgid "échec"
+msgstr "échec"
+
+msgid "SMS envoyé"
+msgstr "SMS envoyé"
+
+msgid "journal SMS"
+msgstr "journal SMS"
+
+msgid "Approuver"
+msgstr "Approuver"
+
+msgid "Demander des corrections"
+msgstr "Demander des corrections"
+
+msgid "Refuser définitivement"
+msgstr "Refuser définitivement"
+
+msgid "Niveau de risque"
+msgstr "Niveau de risque"
+
+msgid "Message à l'utilisateur / notes"
+msgstr "Message à l'utilisateur / notes"
+
+msgid "Expliquez ce qui doit être corrigé."
+msgstr "Expliquez ce qui doit être corrigé."
+
+msgid "Publier la collecte"
+msgstr "Publier la collecte"
+
+msgid "Refuser"
+msgstr "Refuser"
+
+msgid "Note de risque"
+msgstr "Note de risque"
+
+msgid "Avis public de l'équipe (affiché aux investisseurs)"
+msgstr "Avis public de l'équipe (affiché aux investisseurs)"
+
+msgid "Message au porteur"
+msgstr "Message au porteur"
+
+msgid "Dossier approuvé, l'utilisateur est prévenu par SMS."
+msgstr "Dossier approuvé, l'utilisateur est prévenu par SMS."
+
+msgid "Décision enregistrée et envoyée à l'utilisateur."
+msgstr "Décision enregistrée et envoyée à l'utilisateur."
+
+msgid "Attribuez une note de risque."
+msgstr "Attribuez une note de risque."
+
+msgid "Collecte publiée."
+msgstr "Collecte publiée."
+
+msgid "Merci de compléter votre dossier."
+msgstr "Merci de compléter votre dossier."
+
+msgid "Corrections demandées."
+msgstr "Corrections demandées."
+
+msgid "Projet non retenu."
+msgstr "Projet non retenu."
+
+msgid "Projet refusé."
+msgstr "Projet refusé."
+
+msgid "Fonds libérés vers le porteur."
+msgstr "Fonds libérés vers le porteur."
+
+msgid "Collecte annulée, investisseurs remboursés."
+msgstr "Collecte annulée, investisseurs remboursés."
+
+msgid "Projet passé en défaut."
+msgstr "Projet passé en défaut."
+
+#, python-format
+msgid "Dépôt %(r)s confirmé."
+msgstr "Dépôt %(r)s confirmé."
+
+msgid "Paiement introuvable."
+msgstr "Paiement introuvable."
+
+#, python-format
+msgid "Retrait %(r)s marqué payé."
+msgstr "Retrait %(r)s marqué payé."
+
+msgid "Recalculer"
+msgstr "Recalculer"
+
+msgid "Identité vérifiée"
+msgstr "Identité vérifiée"
+
+msgid "Collecte réussie"
+msgstr "Collecte réussie"
+
+msgid "Rapport remis à temps"
+msgstr "Rapport remis à temps"
+
+msgid "Rapport remis en retard"
+msgstr "Rapport remis en retard"
+
+msgid "Rapport non remis"
+msgstr "Rapport non remis"
+
+msgid "Rapport contesté par l'équipe"
+msgstr "Rapport contesté par l'équipe"
+
+msgid "Paiement à l'échéance"
+msgstr "Paiement à l'échéance"
+
+msgid "Paiement en retard"
+msgstr "Paiement en retard"
+
+msgid "Échéance impayée"
+msgstr "Échéance impayée"
+
+msgid "Défaut de paiement"
+msgstr "Défaut de paiement"
+
+msgid "Projet mené à terme"
+msgstr "Projet mené à terme"
+
+msgid "Rachat de parts effectué"
+msgstr "Rachat de parts effectué"
+
+msgid "Nouvelles données aux investisseurs"
+msgstr "Nouvelles données aux investisseurs"
+
+msgid "Ajustement de l'équipe"
+msgstr "Ajustement de l'équipe"
+
+msgid "événement de confiance"
+msgstr "événement de confiance"
+
+msgid "événements de confiance"
+msgstr "événements de confiance"
+
+msgid "score de confiance"
+msgstr "score de confiance"
+
+msgid "scores de confiance"
+msgstr "scores de confiance"
+
+msgid "communication"
+msgstr "communication"
+
+msgid "transparence des comptes"
+msgstr "transparence des comptes"
+
+msgid "respect des engagements"
+msgstr "respect des engagements"
+
+msgid "commentaire"
+msgstr "commentaire"
+
+msgid "Masqué par la modération."
+msgstr "Masqué par la modération."
+
+msgid "avis d'investisseur"
+msgstr "avis d'investisseur"
+
+msgid "avis d'investisseurs"
+msgstr "avis d'investisseurs"
+
+msgid "Confirmer les dépôts sélectionnés"
+msgstr "Confirmer les dépôts sélectionnés"
+
+msgid "Marquer comme payés"
+msgstr "Marquer comme payés"
+
+msgid "Montant à déposer (MRU)"
+msgstr "Montant à déposer (MRU)"
+
+msgid "Moyen de paiement"
+msgstr "Moyen de paiement"
+
+msgid "Cet identifiant de transaction a déjà été utilisé."
+msgstr "Cet identifiant de transaction a déjà été utilisé."
+
+msgid "Montant à retirer (MRU)"
+msgstr "Montant à retirer (MRU)"
+
+msgid "Recevoir sur"
+msgstr "Recevoir sur"
+
+msgid "Numéro du compte mobile ou RIB"
+msgstr "Numéro du compte mobile ou RIB"
+
+#, python-format
+msgid "Ouvrez l'application %(app)s."
+msgstr "Ouvrez l'application %(app)s."
+
+#, python-format
+msgid "Payez %(amount)s MRU au marchand %(number)s."
+msgstr "Payez %(amount)s MRU au marchand %(number)s."
+
+#, python-format
+msgid "Indiquez la référence %(ref)s dans le motif si l'application le permet."
+msgstr "Indiquez la référence %(ref)s dans le motif si l'application le permet."
+
+msgid "Recopiez ci-dessous l'identifiant de transaction reçu par SMS et ajoutez une capture du reçu."
+msgstr "Recopiez ci-dessous l'identifiant de transaction reçu par SMS et ajoutez une capture du reçu."
+
+#, python-format
+msgid "Faites un virement de %(amount)s MRU vers :"
+msgstr "Faites un virement de %(amount)s MRU vers :"
+
+#, python-format
+msgid "Motif obligatoire : %(ref)s"
+msgstr "Motif obligatoire : %(ref)s"
+
+msgid "Ajoutez ensuite l'avis de virement ci-dessous."
+msgstr "Ajoutez ensuite l'avis de virement ci-dessous."
+
+msgid "Présentez-vous dans une agence partenaire avec votre pièce d'identité."
+msgstr "Présentez-vous dans une agence partenaire avec votre pièce d'identité."
+
+#, python-format
+msgid "Donnez la référence %(ref)s et le montant %(amount)s MRU."
+msgstr "Donnez la référence %(ref)s et le montant %(amount)s MRU."
+
+msgid "L'agent confirme le dépôt ; votre solde est crédité immédiatement."
+msgstr "L'agent confirme le dépôt ; votre solde est crédité immédiatement."
+
+msgid "Utilisateur"
+msgstr "Utilisateur"
+
+msgid "Plateforme (revenus)"
+msgstr "Plateforme (revenus)"
+
+msgid "disponible"
+msgstr "disponible"
+
+msgid "bloqué"
+msgstr "bloqué"
+
+msgid "portefeuille"
+msgstr "portefeuille"
+
+msgid "portefeuilles"
+msgstr "portefeuilles"
+
+msgid "Dépôt"
+msgstr "Dépôt"
+
+msgid "Retrait en attente"
+msgstr "Retrait en attente"
+
+msgid "Retrait annulé"
+msgstr "Retrait annulé"
+
+msgid "Investissement (fonds bloqués)"
+msgstr "Investissement (fonds bloqués)"
+
+msgid "Remboursement de collecte"
+msgstr "Remboursement de collecte"
+
+msgid "Investissement transféré au projet"
+msgstr "Investissement transféré au projet"
+
+msgid "Fonds reçus pour le projet"
+msgstr "Fonds reçus pour le projet"
+
+msgid "Frais d'étude"
+msgstr "Frais d'étude"
+
+msgid "Commission de succès"
+msgstr "Commission de succès"
+
+msgid "Distribution versée aux investisseurs"
+msgstr "Distribution versée aux investisseurs"
+
+msgid "Distribution reçue"
+msgstr "Distribution reçue"
+
+msgid "Commission de gestion"
+msgstr "Commission de gestion"
+
+msgid "Échéance Mourabaha payée"
+msgstr "Échéance Mourabaha payée"
+
+msgid "Échéance Mourabaha reçue"
+msgstr "Échéance Mourabaha reçue"
+
+msgid "Rachat de parts payé"
+msgstr "Rachat de parts payé"
+
+msgid "Rachat de parts reçu"
+msgstr "Rachat de parts reçu"
+
+msgid "Achat de parts"
+msgstr "Achat de parts"
+
+msgid "Vente de parts"
+msgstr "Vente de parts"
+
+msgid "Frais de marché"
+msgstr "Frais de marché"
+
+msgid "Frais de retrait"
+msgstr "Frais de retrait"
+
+msgid "Mise en avant"
+msgstr "Mise en avant"
+
+msgid "Régularisation"
+msgstr "Régularisation"
+
+msgid "Variation du solde disponible."
+msgstr "Variation du solde disponible."
+
+msgid "opération"
+msgstr "opération"
+
+msgid "opérations"
+msgstr "opérations"
+
+msgid "Virement bancaire"
+msgstr "Virement bancaire"
+
+msgid "Espèces (agence partenaire)"
+msgstr "Espèces (agence partenaire)"
+
+msgid "En attente du paiement"
+msgstr "En attente du paiement"
+
+msgid "Preuve envoyée, à vérifier"
+msgstr "Preuve envoyée, à vérifier"
+
+msgid "moyen de paiement"
+msgstr "moyen de paiement"
+
+msgid "numéro payeur"
+msgstr "numéro payeur"
+
+msgid "identifiant de la transaction"
+msgstr "identifiant de la transaction"
+
+msgid "Numéro de transaction reçu par SMS de votre banque."
+msgstr "Numéro de transaction reçu par SMS de votre banque."
+
+msgid "capture du reçu"
+msgstr "capture du reçu"
+
+msgid "dépôt"
+msgstr "dépôt"
+
+msgid "dépôts"
+msgstr "dépôts"
+
+msgid "En attente"
+msgstr "En attente"
+
+msgid "Payé"
+msgstr "Payé"
+
+msgid "frais"
+msgstr "frais"
+
+msgid "moyen de réception"
+msgstr "moyen de réception"
+
+msgid "numéro / RIB de réception"
+msgstr "numéro / RIB de réception"
+
+msgid "référence du paiement"
+msgstr "référence du paiement"
+
+msgid "retrait"
+msgstr "retrait"
+
+msgid "retraits"
+msgstr "retraits"
+
+#, python-format
+msgid "Solde insuffisant : il manque %(m)s MRU."
+msgstr "Solde insuffisant : il manque %(m)s MRU."
+
+msgid "Montant bloqué insuffisant."
+msgstr "Montant bloqué insuffisant."
+
+msgid "Ce dépôt n'est plus confirmable."
+msgstr "Ce dépôt n'est plus confirmable."
+
+msgid "Dépôt confirmé"
+msgstr "Dépôt confirmé"
+
+#, python-format
+msgid "%(a)s MRU ont été ajoutés à votre portefeuille."
+msgstr "%(a)s MRU ont été ajoutés à votre portefeuille."
+
+msgid "Dépôt refusé"
+msgstr "Dépôt refusé"
+
+#, python-format
+msgid "Le retrait minimum est de %(m)s MRU."
+msgstr "Le retrait minimum est de %(m)s MRU."
+
+msgid "Ce retrait a déjà été traité."
+msgstr "Ce retrait a déjà été traité."
+
+msgid "Retrait envoyé"
+msgstr "Retrait envoyé"
+
+#, python-format
+msgid "%(a)s MRU envoyés vers %(d)s."
+msgstr "%(a)s MRU envoyés vers %(d)s."
+
+msgid "Retrait refusé"
+msgstr "Retrait refusé"
+
+#, python-format
+msgid "Minimum %(m)s MRU."
+msgstr "Minimum %(m)s MRU."
+
+msgid "Dépôt à confirmer"
+msgstr "Dépôt à confirmer"
+
+msgid "Merci. Votre dépôt sera confirmé après vérification (généralement en moins d'une heure en journée)."
+msgstr "Merci. Votre dépôt sera confirmé après vérification (généralement en moins d'une heure en journée)."
+
+#, python-format
+msgid "Demande %(r)s enregistrée. Paiement sous 24 h ouvrées."
+msgstr "Demande %(r)s enregistrée. Paiement sous 24 h ouvrées."
+
+#, python-format
+msgid "Solde disponible insuffisant (frais de %(f)s MRU inclus)."
+msgstr "Solde disponible insuffisant (frais de %(f)s MRU inclus)."
+
+msgid "Retrait annulé, fonds débloqués."
+msgstr "Retrait annulé, fonds débloqués."
+
+msgid "Moucharaka — administration"
+msgstr "Moucharaka — administration"
+
+msgid "Pilotage de la plateforme"
+msgstr "Pilotage de la plateforme"
+
+msgid "Page introuvable"
+msgstr "Page introuvable"
+
+msgid "Ce lien est peut-être ancien, ou la page est réservée à son propriétaire."
+msgstr "Ce lien est peut-être ancien, ou la page est réservée à son propriétaire."
+
+msgid "Retour à l'accueil"
+msgstr "Retour à l'accueil"
+
+msgid "Vérification d'identité"
+msgstr "Vérification d'identité"
+
+msgid "La loi et la sécurité de tous exigent de savoir qui investit et qui emprunte. Vos documents restent privés : seule l'équipe de conformité y a accès."
+msgstr "La loi et la sécurité de tous exigent de savoir qui investit et qui emprunte. Vos documents restent privés : seule l'équipe de conformité y a accès."
+
+msgid "Corrections demandées :"
+msgstr "Corrections demandées :"
+
+msgid "Photos nettes, les quatre coins de la pièce visibles. Sur téléphone, l'appareil photo s'ouvre directement."
+msgstr "Photos nettes, les quatre coins de la pièce visibles. Sur téléphone, l'appareil photo s'ouvre directement."
+
+msgid "Envoyer mon dossier"
+msgstr "Envoyer mon dossier"
+
+msgid "Mon dossier"
+msgstr "Mon dossier"
+
+msgid "Mon dossier d'identité"
+msgstr "Mon dossier d'identité"
+
+msgid "Vous n'avez pas encore envoyé votre dossier."
+msgstr "Vous n'avez pas encore envoyé votre dossier."
+
+msgid "Compléter mon dossier"
+msgstr "Compléter mon dossier"
+
+#, python-format
+msgid "Envoyé le %(d)s. Nous vérifions en général sous 48 h ouvrées et vous prévenons par SMS."
+msgstr "Envoyé le %(d)s. Nous vérifions en général sous 48 h ouvrées et vous prévenons par SMS."
+
+msgid "Votre identité est vérifiée."
+msgstr "Votre identité est vérifiée."
+
+msgid "Aller à mon espace"
+msgstr "Aller à mon espace"
+
+msgid "Corriger mon dossier"
+msgstr "Corriger mon dossier"
+
+msgid "Nom"
+msgstr "Nom"
+
+msgid "Se connecter"
+msgstr "Se connecter"
+
+msgid "Connexion par code SMS"
+msgstr "Connexion par code SMS"
+
+msgid "Mot de passe oublié ?"
+msgstr "Mot de passe oublié ?"
+
+msgid "Pas encore de compte ?"
+msgstr "Pas encore de compte ?"
+
+msgid "Créer un compte"
+msgstr "Créer un compte"
+
+msgid "Connexion par SMS"
+msgstr "Connexion par SMS"
+
+msgid "Recevoir le code"
+msgstr "Recevoir le code"
+
+msgid "Nous envoyons un code par SMS pour vérifier votre numéro."
+msgstr "Nous envoyons un code par SMS pour vérifier votre numéro."
+
+msgid "Déjà inscrit ?"
+msgstr "Déjà inscrit ?"
+
+msgid "Votre compte"
+msgstr "Votre compte"
+
+#, python-format
+msgid "Numéro vérifié : <span class=\"ltr\">+222 %(p)s</span>"
+msgstr "Numéro vérifié : <span class=\"ltr\">+222 %(p)s</span>"
+
+msgid "Créer mon compte"
+msgstr "Créer mon compte"
+
+msgid "Nouveau mot de passe"
+msgstr "Nouveau mot de passe"
+
+msgid "Enregistrer"
+msgstr "Enregistrer"
+
+msgid "Si ce numéro a un compte, vous recevrez un code par SMS."
+msgstr "Si ce numéro a un compte, vous recevrez un code par SMS."
+
+msgid "Paramètres"
+msgstr "Paramètres"
+
+msgid "Préférences"
+msgstr "Préférences"
+
+msgid "Téléphone"
+msgstr "Téléphone"
+
+msgid "Statut"
+msgstr "Statut"
+
+msgid "Changer de mot de passe"
+msgstr "Changer de mot de passe"
+
+msgid "Changer le mot de passe"
+msgstr "Changer le mot de passe"
+
+msgid "Code de vérification"
+msgstr "Code de vérification"
+
+msgid "Entrez le code reçu"
+msgstr "Entrez le code reçu"
+
+#, python-format
+msgid "Envoyé par SMS au <span class=\"ltr\">+222 %(p)s</span>. Il expire dans %(ttl)s minutes."
+msgstr "Envoyé par SMS au <span class=\"ltr\">+222 %(p)s</span>. Il expire dans %(ttl)s minutes."
+
+msgid "Vérifier"
+msgstr "Vérifier"
+
+msgid "Renvoyer un code"
+msgstr "Renvoyer un code"
+
+msgid "Investir ensemble dans les commerces de Mauritanie"
+msgstr "Investir ensemble dans les commerces de Mauritanie"
+
+msgid "Financement participatif conforme à la charia : investissez dans des boutiques, des opérations commerciales et des entreprises mauritaniennes vérifiées."
+msgstr "Financement participatif conforme à la charia : investissez dans des boutiques, des opérations commerciales et des entreprises mauritaniennes vérifiées."
+
+msgid "Aller au contenu"
+msgstr "Aller au contenu"
+
+msgid "Navigation principale"
+msgstr "Navigation principale"
+
+msgid "Projets"
+msgstr "Projets"
+
+msgid "Marché des parts"
+msgstr "Marché des parts"
+
+msgid "Comment ça marche"
+msgstr "Comment ça marche"
+
+msgid "Frais"
+msgstr "Frais"
+
+msgid "Mon espace"
+msgstr "Mon espace"
+
+msgid "Back-office"
+msgstr "Back-office"
+
+msgid "Notifications"
+msgstr "Notifications"
+
+msgid "Déconnexion"
+msgstr "Déconnexion"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Votre identité n'est pas encore vérifiée."
+msgstr "Votre identité n'est pas encore vérifiée."
+
+msgid "Votre dossier est en cours de vérification. Vous recevrez un SMS dès qu'il sera validé."
+msgstr "Votre dossier est en cours de vérification. Vous recevrez un SMS dès qu'il sera validé."
+
+msgid "voir le détail"
+msgstr "voir le détail"
+
+msgid "Les Mauritaniens financent les commerces et les entreprises de leur pays, sans intérêt, avec des chiffres publiés chaque mois."
+msgstr "Les Mauritaniens financent les commerces et les entreprises de leur pays, sans intérêt, avec des chiffres publiés chaque mois."
+
+msgid "Projets ouverts"
+msgstr "Projets ouverts"
+
+msgid "Score de confiance"
+msgstr "Score de confiance"
+
+msgid "Se financer"
+msgstr "Se financer"
+
+msgid "Proposer un projet"
+msgstr "Proposer un projet"
+
+msgid "Conformité à la charia"
+msgstr "Conformité à la charia"
+
+msgid "Aide"
+msgstr "Aide"
+
+msgid "Questions fréquentes"
+msgstr "Questions fréquentes"
+
+msgid "Conditions d'utilisation"
+msgstr "Conditions d'utilisation"
+
+msgid "Confidentialité"
+msgstr "Confidentialité"
+
+msgid "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, sauf la marge contractuelle des opérations Mourabaha, elle-même soumise au risque de défaut du porteur."
+msgstr "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, sauf la marge contractuelle des opérations Mourabaha, elle-même soumise au risque de défaut du porteur."
+
+#, python-format
+msgid "Bonjour %(n)s"
+msgstr "Bonjour %(n)s"
+
+msgid "Mon profil public"
+msgstr "Mon profil public"
+
+msgid "MRU disponibles"
+msgstr "MRU disponibles"
+
+msgid "MRU bloqués (collectes, retraits)"
+msgstr "MRU bloqués (collectes, retraits)"
+
+msgid "MRU investis (valeur nominale)"
+msgstr "MRU investis (valeur nominale)"
+
+msgid "MRU déjà reçus"
+msgstr "MRU déjà reçus"
+
+msgid "Déposer"
+msgstr "Déposer"
+
+msgid "Retirer"
+msgstr "Retirer"
+
+msgid "Mon portefeuille de parts"
+msgstr "Mon portefeuille de parts"
+
+msgid "Mes projets"
+msgstr "Mes projets"
+
+msgid "Nouveau projet"
+msgstr "Nouveau projet"
+
+msgid "Projet"
+msgstr "Projet"
+
+msgid "Collecté"
+msgstr "Collecté"
+
+msgid "Compléter"
+msgstr "Compléter"
+
+msgid "Gérer"
+msgstr "Gérer"
+
+msgid "Vous n'avez pas encore proposé de projet."
+msgstr "Vous n'avez pas encore proposé de projet."
+
+msgid "Collectes auxquelles vous participez"
+msgstr "Collectes auxquelles vous participez"
+
+msgid "Collectes qui se terminent bientôt"
+msgstr "Collectes qui se terminent bientôt"
+
+msgid "Mon score de confiance"
+msgstr "Mon score de confiance"
+
+msgid "Tout voir"
+msgstr "Tout voir"
+
+msgid "Rien de nouveau."
+msgstr "Rien de nouveau."
+
+msgid "Combien faut-il pour investir ?"
+msgstr "Combien faut-il pour investir ?"
+
+msgid "Le prix d'une part, généralement 1 000 MRU."
+msgstr "Le prix d'une part, généralement 1 000 MRU."
+
+msgid "Mon argent est-il garanti ?"
+msgstr "Mon argent est-il garanti ?"
+
+msgid "Non. En Moucharaka vous partagez les résultats réels, y compris les pertes. En Mourabaha la marge est fixée mais le porteur peut faire défaut ; les garanties proposées sont affichées sur chaque projet."
+msgstr "Non. En Moucharaka vous partagez les résultats réels, y compris les pertes. En Mourabaha la marge est fixée mais le porteur peut faire défaut ; les garanties proposées sont affichées sur chaque projet."
+
+msgid "Que se passe-t-il si la collecte échoue ?"
+msgstr "Que se passe-t-il si la collecte échoue ?"
+
+msgid "Votre argent bloqué est rendu automatiquement à votre portefeuille, sans frais."
+msgstr "Votre argent bloqué est rendu automatiquement à votre portefeuille, sans frais."
+
+msgid "Puis-je récupérer mon argent avant la fin ?"
+msgstr "Puis-je récupérer mon argent avant la fin ?"
+
+msgid "Oui, en revendant vos parts sur le marché à un autre investisseur. Le prix dépend de l'offre et de la demande."
+msgstr "Oui, en revendant vos parts sur le marché à un autre investisseur. Le prix dépend de l'offre et de la demande."
+
+msgid "Comment est calculé le score de confiance ?"
+msgstr "Comment est calculé le score de confiance ?"
+
+msgid "À partir de faits : identité vérifiée, paiements à l'heure, rapports mensuels remis, avis des investisseurs et projets menés à terme."
+msgstr "À partir de faits : identité vérifiée, paiements à l'heure, rapports mensuels remis, avis des investisseurs et projets menés à terme."
+
+msgid "Détail du calcul"
+msgstr "Détail du calcul"
+
+msgid "Pourquoi la plateforme demande-t-elle mon NNI ?"
+msgstr "Pourquoi la plateforme demande-t-elle mon NNI ?"
+
+msgid "Pour s'assurer qu'une personne réelle est derrière chaque compte, lutter contre la fraude et le blanchiment. Vos documents ne sont jamais publiés."
+msgstr "Pour s'assurer qu'une personne réelle est derrière chaque compte, lutter contre la fraude et le blanchiment. Vos documents ne sont jamais publiés."
+
+msgid "Les femmes peuvent-elles investir et porter des projets ?"
+msgstr "Les femmes peuvent-elles investir et porter des projets ?"
+
+msgid "Bien sûr, dans les mêmes conditions."
+msgstr "Bien sûr, dans les mêmes conditions."
+
+msgid "La plateforme gagne de l'argent surtout quand les projets réussissent et que les investisseurs sont payés. Aucun frais n'est caché : tout est affiché avant chaque opération."
+msgstr "La plateforme gagne de l'argent surtout quand les projets réussissent et que les investisseurs sont payés. Aucun frais n'est caché : tout est affiché avant chaque opération."
+
+msgid "Pour les porteurs de projet"
+msgstr "Pour les porteurs de projet"
+
+msgid "Type de projet"
+msgstr "Type de projet"
+
+msgid "Étude du dossier"
+msgstr "Étude du dossier"
+
+msgid "Montants"
+msgstr "Montants"
+
+msgid "Moucharaka"
+msgstr "Moucharaka"
+
+msgid "Mourabaha"
+msgstr "Mourabaha"
+
+msgid "Étude du dossier : payée à l'envoi, non remboursable. Elle couvre la vérification et, si besoin, la visite du commerce."
+msgstr "Étude du dossier : payée à l'envoi, non remboursable. Elle couvre la vérification et, si besoin, la visite du commerce."
+
+msgid "Commission de succès : prélevée uniquement si la collecte réussit, sur le montant levé."
+msgstr "Commission de succès : prélevée uniquement si la collecte réussit, sur le montant levé."
+
+msgid "Commission de gestion : prélevée sur les bénéfices distribués (Moucharaka) ou sur la marge (Mourabaha), jamais sur le capital remboursé."
+msgstr "Commission de gestion : prélevée sur les bénéfices distribués (Moucharaka) ou sur la marge (Mourabaha), jamais sur le capital remboursé."
+
+#, python-format
+msgid "Mise en avant d'une collecte : %(f)s MRU pour 7 jours (facultatif)."
+msgstr "Mise en avant d'une collecte : %(f)s MRU pour 7 jours (facultatif)."
+
+msgid "Pour les investisseurs"
+msgstr "Pour les investisseurs"
+
+msgid "Inscription, dépôt, souscription"
+msgstr "Inscription, dépôt, souscription"
+
+msgid "Gratuit"
+msgstr "Gratuit"
+
+msgid "Achat de parts sur le marché"
+msgstr "Achat de parts sur le marché"
+
+msgid "Vente de parts sur le marché"
+msgstr "Vente de parts sur le marché"
+
+#, python-format
+msgid "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
+msgstr "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
+
+msgid "Investissez dans les boutiques de votre quartier."
+msgstr "Investissez dans les boutiques de votre quartier."
+
+msgid "Achetez des parts d'un commerce vérifié à partir de 1 000 MRU et recevez votre part de ses bénéfices. Sans intérêt, avec ses chiffres publiés chaque mois."
+msgstr "Achetez des parts d'un commerce vérifié à partir de 1 000 MRU et recevez votre part de ses bénéfices. Sans intérêt, avec ses chiffres publiés chaque mois."
+
+msgid "Voir les projets ouverts"
+msgstr "Voir les projets ouverts"
+
+msgid "Financer mon commerce"
+msgstr "Financer mon commerce"
+
+#, python-format
+msgid "%(shop)s : un mois de ventes"
+msgstr "%(shop)s : un mois de ventes"
+
+#, python-format
+msgid "Projection après financement, %(place)s. Les investisseurs reçoivent %(pct)s %% du bénéfice net, au prorata de leurs parts."
+msgstr "Projection après financement, %(place)s. Les investisseurs reçoivent %(pct)s %% du bénéfice net, au prorata de leurs parts."
+
+msgid "Voir cette boutique"
+msgstr "Voir cette boutique"
+
+msgid "Chaque ouguiya est tracée"
+msgstr "Chaque ouguiya est tracée"
+
+msgid "Ventes, achats de marchandises, charges, bénéfice : le porteur publie ses chiffres, la plateforme calcule et verse votre part."
+msgstr "Ventes, achats de marchandises, charges, bénéfice : le porteur publie ses chiffres, la plateforme calcule et verse votre part."
+
+msgid "MRU financés"
+msgstr "MRU financés"
+
+msgid "MRU reversés aux investisseurs"
+msgstr "MRU reversés aux investisseurs"
+
+msgid "projets financés"
+msgstr "projets financés"
+
+msgid "investisseurs"
+msgstr "investisseurs"
+
+msgid "Collectes en cours"
+msgstr "Collectes en cours"
+
+msgid "Tous les projets"
+msgstr "Tous les projets"
+
+msgid "Aucune collecte ouverte pour le moment."
+msgstr "Aucune collecte ouverte pour le moment."
+
+msgid "Proposer le premier projet"
+msgstr "Proposer le premier projet"
+
+msgid "Deux contrats, clairement séparés"
+msgstr "Deux contrats, clairement séparés"
+
+msgid "Vous devenez associé"
+msgstr "Vous devenez associé"
+
+msgid "Vous recevez un pourcentage convenu des bénéfices réels du commerce. Si le mois est mauvais, vous recevez moins ; s'il y a une perte, elle est partagée. Le rendement affiché est une estimation."
+msgstr "Vous recevez un pourcentage convenu des bénéfices réels du commerce. Si le mois est mauvais, vous recevez moins ; s'il y a une perte, elle est partagée. Le rendement affiché est une estimation."
+
+msgid "Pour : boutiques en activité, futures entreprises."
+msgstr "Pour : boutiques en activité, futures entreprises."
+
+msgid "Vous financez un achat de marchandises"
+msgstr "Vous financez un achat de marchandises"
+
+msgid "Les investisseurs achètent la marchandise et la revendent au porteur avec une marge fixée à l'avance, payée par échéances. Pas d'intérêt sur l'argent : une marge sur un bien réel."
+msgstr "Les investisseurs achètent la marchandise et la revendent au porteur avec une marge fixée à l'avance, payée par échéances. Pas d'intérêt sur l'argent : une marge sur un bien réel."
+
+msgid "Pour : stock de saison, moutons de Tabaski, importations, bons de commande."
+msgstr "Pour : stock de saison, moutons de Tabaski, importations, bons de commande."
+
+msgid "Vérifiez votre identité"
+msgstr "Vérifiez votre identité"
+
+msgid "Numéro de téléphone, code SMS, NNI et pièce d'identité. Notre équipe valide sous 48 h."
+msgstr "Numéro de téléphone, code SMS, NNI et pièce d'identité. Notre équipe valide sous 48 h."
+
+msgid "Alimentez votre portefeuille"
+msgstr "Alimentez votre portefeuille"
+
+msgid "Par Bankily, Masrvi, Sedad ou virement. L'argent reste à vous tant qu'il n'est pas investi."
+msgstr "Par Bankily, Masrvi, Sedad ou virement. L'argent reste à vous tant qu'il n'est pas investi."
+
+msgid "Achetez des parts"
+msgstr "Achetez des parts"
+
+msgid "Vos fonds sont bloqués jusqu'à la fin de la collecte. Si l'objectif n'est pas atteint, vous êtes remboursé."
+msgstr "Vos fonds sont bloqués jusqu'à la fin de la collecte. Si l'objectif n'est pas atteint, vous êtes remboursé."
+
+msgid "Recevez vos versements"
+msgstr "Recevez vos versements"
+
+msgid "Bénéfices ou échéances arrivent dans votre portefeuille. Vous pouvez revendre vos parts sur le marché."
+msgstr "Bénéfices ou échéances arrivent dans votre portefeuille. Vous pouvez revendre vos parts sur le marché."
+
+msgid "Vous tenez un commerce ?"
+msgstr "Vous tenez un commerce ?"
+
+msgid "Décrivez votre boutique, vos ventes et votre projet. Les habitants de votre ville peuvent devenir vos associés."
+msgstr "Décrivez votre boutique, vos ventes et votre projet. Les habitants de votre ville peuvent devenir vos associés."
+
+msgid "Moucharaka met en relation des Mauritaniens qui ont un projet et des Mauritaniens qui veulent faire travailler leur épargne. La plateforme vérifie, encaisse, verse et publie."
+msgstr "Moucharaka met en relation des Mauritaniens qui ont un projet et des Mauritaniens qui veulent faire travailler leur épargne. La plateforme vérifie, encaisse, verse et publie."
+
+msgid "Inscription vérifiée."
+msgstr "Inscription vérifiée."
+
+msgid "Votre numéro est confirmé par SMS, puis vous envoyez votre NNI, votre pièce d'identité et un selfie. Un membre de l'équipe valide le dossier."
+msgstr "Votre numéro est confirmé par SMS, puis vous envoyez votre NNI, votre pièce d'identité et un selfie. Un membre de l'équipe valide le dossier."
+
+msgid "Portefeuille."
+msgstr "Portefeuille."
+
+msgid "Vous déposez par Bankily, Masrvi, Sedad ou virement. Le solde non investi reste disponible au retrait."
+msgstr "Vous déposez par Bankily, Masrvi, Sedad ou virement. Le solde non investi reste disponible au retrait."
+
+msgid "Souscription."
+msgstr "Souscription."
+
+msgid "Vous choisissez un nombre de parts. L'argent est bloqué (séquestre) jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h. Si l'objectif n'est pas atteint, tout est remboursé."
+msgstr "Vous choisissez un nombre de parts. L'argent est bloqué (séquestre) jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h. Si l'objectif n'est pas atteint, tout est remboursé."
+
+msgid "Suivi."
+msgstr "Suivi."
+
+msgid "Le porteur publie ses ventes et ses charges chaque mois. Les écarts avec le prévisionnel sont visibles par tous."
+msgstr "Le porteur publie ses ventes et ses charges chaque mois. Les écarts avec le prévisionnel sont visibles par tous."
+
+msgid "Versements."
+msgstr "Versements."
+
+msgid "Moucharaka : votre part du bénéfice réel. Mourabaha : les échéances convenues. Tout arrive dans votre portefeuille."
+msgstr "Moucharaka : votre part du bénéfice réel. Mourabaha : les échéances convenues. Tout arrive dans votre portefeuille."
+
+msgid "Revente."
+msgstr "Revente."
+
+msgid "Besoin de récupérer votre argent ? Mettez vos parts en vente au prix de votre choix sur le marché des parts."
+msgstr "Besoin de récupérer votre argent ? Mettez vos parts en vente au prix de votre choix sur le marché des parts."
+
+msgid "Choisissez le type de projet."
+msgstr "Choisissez le type de projet."
+
+msgid "Boutique en activité, opération ponctuelle (stock, bétail, importation) ou future entreprise."
+msgstr "Boutique en activité, opération ponctuelle (stock, bétail, importation) ou future entreprise."
+
+msgid "Décrivez tout."
+msgstr "Décrivez tout."
+
+msgid "Ventes des 12 derniers mois, produits, charges, dettes, emplacement sur la carte, photos, justificatifs et un questionnaire détaillé. Plus votre dossier est complet, plus vite il est étudié."
+msgstr "Ventes des 12 derniers mois, produits, charges, dettes, emplacement sur la carte, photos, justificatifs et un questionnaire détaillé. Plus votre dossier est complet, plus vite il est étudié."
+
+msgid "Étude."
+msgstr "Étude."
+
+msgid "L'équipe vérifie le dossier, peut visiter le commerce et attribue une note de risque de A à E."
+msgstr "L'équipe vérifie le dossier, peut visiter le commerce et attribue une note de risque de A à E."
+
+msgid "Collecte."
+msgstr "Collecte."
+
+msgid "Jusqu'à 60 jours. Les fonds sont versés quand l'objectif est atteint et le contrat signé."
+msgstr "Jusqu'à 60 jours. Les fonds sont versés quand l'objectif est atteint et le contrat signé."
+
+msgid "Engagements."
+msgstr "Engagements."
+
+msgid "Rapports mensuels, versements à l'heure, réponses aux questions. Ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
+msgstr "Rapports mensuels, versements à l'heure, réponses aux questions. Ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
+
+msgid "Aucune notification pour l'instant."
+msgstr "Aucune notification pour l'instant."
+
+msgid "Mes parts"
+msgstr "Mes parts"
+
+msgid "MRU investis (prix de revient)"
+msgstr "MRU investis (prix de revient)"
+
+msgid "MRU valeur au dernier prix du marché"
+msgstr "MRU valeur au dernier prix du marché"
+
+msgid "MRU reçus (bénéfices, échéances, rachats)"
+msgstr "MRU reçus (bénéfices, échéances, rachats)"
+
+msgid "déjà récupéré"
+msgstr "déjà récupéré"
+
+msgid "Parts détenues"
+msgstr "Parts détenues"
+
+msgid "Contrat"
+msgstr "Contrat"
+
+msgid "Parts"
+msgstr "Parts"
+
+msgid "Prix de revient"
+msgstr "Prix de revient"
+
+msgid "Reçu"
+msgstr "Reçu"
+
+msgid "en vente"
+msgstr "en vente"
+
+msgid "Vendre"
+msgstr "Vendre"
+
+msgid "Vous ne détenez encore aucune part."
+msgstr "Vous ne détenez encore aucune part."
+
+msgid "Découvrir les projets"
+msgstr "Découvrir les projets"
+
+msgid "Souscriptions"
+msgstr "Souscriptions"
+
+msgid "Annuler cette souscription ?"
+msgstr "Annuler cette souscription ?"
+
+msgid "Annuler"
+msgstr "Annuler"
+
+msgid "Aucune souscription."
+msgstr "Aucune souscription."
+
+msgid "Versements reçus"
+msgstr "Versements reçus"
+
+msgid "Les bénéfices et échéances apparaîtront ici."
+msgstr "Les bénéfices et échéances apparaîtront ici."
+
+msgid "Vos pièces d'identité, votre selfie et votre NNI sont stockés hors de l'espace public du site et ne sont consultables que par vous et l'équipe de conformité. Chaque consultation par l'équipe est journalisée."
+msgstr "Vos pièces d'identité, votre selfie et votre NNI sont stockés hors de l'espace public du site et ne sont consultables que par vous et l'équipe de conformité. Chaque consultation par l'équipe est journalisée."
+
+msgid "Votre profil public affiche votre prénom, l'initiale de votre nom, votre wilaya, vos projets, vos versements et votre score de confiance. Votre numéro de téléphone n'est jamais affiché."
+msgstr "Votre profil public affiche votre prénom, l'initiale de votre nom, votre wilaya, vos projets, vos versements et votre score de confiance. Votre numéro de téléphone n'est jamais affiché."
+
+msgid "Les codes SMS ne sont jamais conservés en clair."
+msgstr "Les codes SMS ne sont jamais conservés en clair."
+
+msgid "Moucharaka (association)"
+msgstr "Moucharaka (association)"
+
+msgid "Les investisseurs et le porteur sont associés. Le bénéfice est partagé selon un pourcentage fixé dans le contrat ; la perte est supportée en proportion du capital apporté, sauf faute ou négligence du gérant. Aucun montant n'est garanti : le rendement affiché est une estimation fondée sur les chiffres du commerce."
+msgstr "Les investisseurs et le porteur sont associés. Le bénéfice est partagé selon un pourcentage fixé dans le contrat ; la perte est supportée en proportion du capital apporté, sauf faute ou négligence du gérant. Aucun montant n'est garanti : le rendement affiché est une estimation fondée sur les chiffres du commerce."
+
+msgid "Moucharaka moutanaqisa (dégressive) : le porteur rachète progressivement les parts des investisseurs, à un prix convenu au moment du rachat, jusqu'à redevenir seul propriétaire."
+msgstr "Moucharaka moutanaqisa (dégressive) : le porteur rachète progressivement les parts des investisseurs, à un prix convenu au moment du rachat, jusqu'à redevenir seul propriétaire."
+
+msgid "Mourabaha (vente avec marge)"
+msgstr "Mourabaha (vente avec marge)"
+
+msgid "Les investisseurs financent l'achat d'une marchandise identifiée (stock, bétail, équipement). Elle est revendue au porteur au prix de revient plus une marge connue d'avance, payée en une ou plusieurs échéances. La marge ne change pas en cas de retard : il n'y a pas d'intérêt de retard."
+msgstr "Les investisseurs financent l'achat d'une marchandise identifiée (stock, bétail, équipement). Elle est revendue au porteur au prix de revient plus une marge connue d'avance, payée en une ou plusieurs échéances. La marge ne change pas en cas de retard : il n'y a pas d'intérêt de retard."
+
+msgid "Ce que la plateforme refuse"
+msgstr "Ce que la plateforme refuse"
+
+msgid "Les prêts d'argent contre intérêt et les pénalités de retard qui profitent au prêteur."
+msgstr "Les prêts d'argent contre intérêt et les pénalités de retard qui profitent au prêteur."
+
+msgid "Les activités illicites (alcool, tabac, jeux, spéculation sur des biens non possédés)."
+msgstr "Les activités illicites (alcool, tabac, jeux, spéculation sur des biens non possédés)."
+
+msgid "La vente de parts d'une collecte non clôturée, ou de biens que le vendeur ne possède pas encore."
+msgstr "La vente de parts d'une collecte non clôturée, ou de biens que le vendeur ne possède pas encore."
+
+msgid "Les contrats types et la liste des activités admises sont validés par un comité de conformité. La plateforme recommande de consulter un savant de confiance pour toute question personnelle."
+msgstr "Les contrats types et la liste des activités admises sont validés par un comité de conformité. La plateforme recommande de consulter un savant de confiance pour toute question personnelle."
+
+msgid "Texte modèle à faire valider par un juriste et à adapter à l'agrément obtenu auprès de la Banque Centrale de Mauritanie."
+msgstr "Texte modèle à faire valider par un juriste et à adapter à l'agrément obtenu auprès de la Banque Centrale de Mauritanie."
+
+msgid "1. La plateforme met en relation porteurs de projets et investisseurs et tient les portefeuilles en monnaie électronique pour leur compte."
+msgstr "1. La plateforme met en relation porteurs de projets et investisseurs et tient les portefeuilles en monnaie électronique pour leur compte."
+
+msgid "2. Chaque utilisateur certifie l'exactitude des informations fournies. Toute fausse déclaration entraîne la suspension du compte et peut être signalée aux autorités."
+msgstr "2. Chaque utilisateur certifie l'exactitude des informations fournies. Toute fausse déclaration entraîne la suspension du compte et peut être signalée aux autorités."
+
+msgid "3. Investir comporte un risque de perte totale ou partielle du capital. Les performances passées ne préjugent pas des performances futures."
+msgstr "3. Investir comporte un risque de perte totale ou partielle du capital. Les performances passées ne préjugent pas des performances futures."
+
+msgid "4. Les porteurs s'engagent à publier leurs rapports financiers aux échéances prévues et à informer les investisseurs de tout événement important."
+msgstr "4. Les porteurs s'engagent à publier leurs rapports financiers aux échéances prévues et à informer les investisseurs de tout événement important."
+
+msgid "5. Les frais applicables sont ceux publiés sur la page Frais au moment de l'opération."
+msgstr "5. Les frais applicables sont ceux publiés sur la page Frais au moment de l'opération."
+
+msgid "Répartition des ventes mensuelles"
+msgstr "Répartition des ventes mensuelles"
+
+msgid "Marchandises achetées"
+msgstr "Marchandises achetées"
+
+msgid "Loyer, salaires, charges"
+msgstr "Loyer, salaires, charges"
+
+msgid "Reste au porteur"
+msgstr "Reste au porteur"
+
+msgid "Part des investisseurs"
+msgstr "Part des investisseurs"
+
+msgid "Suppr."
+msgstr "Suppr."
+
+msgid "Ajouter une ligne"
+msgstr "Ajouter une ligne"
+
+msgid "Pages"
+msgstr "Pages"
+
+msgid "Précédent"
+msgstr "Précédent"
+
+msgid "Suivant"
+msgstr "Suivant"
+
+msgid "Risque"
+msgstr "Risque"
+
+#, python-format
+msgid "%(d)s jour restant"
+msgid_plural "%(d)s jours restants"
+msgstr[0] "%(d)s jour restant"
+msgstr[1] "%(d)s jours restants"
+
+#, python-format
+msgid "marge fixe sur %(m)s mois"
+msgstr "marge fixe sur %(m)s mois"
+
+msgid "par an, estimé"
+msgstr "par an, estimé"
+
+msgid "Mis en avant"
+msgstr "Mis en avant"
+
+msgid "Pas encore d'historique"
+msgstr "Pas encore d'historique"
+
+msgid "Comment ce score est calculé"
+msgstr "Comment ce score est calculé"
+
+msgid "Acheter des parts"
+msgstr "Acheter des parts"
+
+msgid "Frais acheteur"
+msgstr "Frais acheteur"
+
+msgid "Total débité"
+msgstr "Total débité"
+
+msgid "Votre solde"
+msgstr "Votre solde"
+
+msgid "Confirmer l'achat"
+msgstr "Confirmer l'achat"
+
+#, python-format
+msgid "Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : %(b)s %% acheteur, %(s)s %% vendeur."
+msgstr "Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : %(b)s %% acheteur, %(s)s %% vendeur."
+
+msgid "Mes annonces"
+msgstr "Mes annonces"
+
+msgid "Projets négociables"
+msgstr "Projets négociables"
+
+msgid "Valeur nominale"
+msgstr "Valeur nominale"
+
+msgid "Meilleure offre"
+msgstr "Meilleure offre"
+
+msgid "Parts dispo."
+msgstr "Parts dispo."
+
+msgid "Échangées"
+msgstr "Échangées"
+
+msgid "Versé / part"
+msgstr "Versé / part"
+
+msgid "Voir les offres"
+msgstr "Voir les offres"
+
+msgid "Aucun projet en activité pour l'instant."
+msgstr "Aucun projet en activité pour l'instant."
+
+#, python-format
+msgid "Offres sur « %(t)s »"
+msgstr "Offres sur « %(t)s »"
+
+msgid "Toutes les offres"
+msgstr "Toutes les offres"
+
+msgid "Vendeur"
+msgstr "Vendeur"
+
+msgid "Prix / part"
+msgstr "Prix / part"
+
+msgid "vs nominal"
+msgstr "vs nominal"
+
+msgid "lot entier"
+msgstr "lot entier"
+
+msgid "Acheter"
+msgstr "Acheter"
+
+msgid "Aucune part en vente pour le moment."
+msgstr "Aucune part en vente pour le moment."
+
+msgid "Derniers échanges"
+msgstr "Derniers échanges"
+
+msgid "Mes annonces et échanges"
+msgstr "Mes annonces et échanges"
+
+msgid "Annonces"
+msgstr "Annonces"
+
+msgid "Aucune annonce. Mettez des parts en vente depuis votre portefeuille de parts."
+msgstr "Aucune annonce. Mettez des parts en vente depuis votre portefeuille de parts."
+
+msgid "Achats"
+msgstr "Achats"
+
+msgid "Ventes"
+msgstr "Ventes"
+
+msgid "Vendre des parts"
+msgstr "Vendre des parts"
+
+msgid "Parts disponibles"
+msgstr "Parts disponibles"
+
+msgid "Votre prix de revient moyen"
+msgstr "Votre prix de revient moyen"
+
+msgid "Dernier prix échangé"
+msgstr "Dernier prix échangé"
+
+msgid "Prix autorisé"
+msgstr "Prix autorisé"
+
+#, python-format
+msgid "Frais vendeur : %(s)s %% du montant vendu. Annonce valable 30 jours, annulable à tout moment."
+msgstr "Frais vendeur : %(s)s %% du montant vendu. Annonce valable 30 jours, annulable à tout moment."
+
+msgid "Publier l'annonce"
+msgstr "Publier l'annonce"
+
+#, python-format
+msgid "Aperçu : ce projet n'est pas public (%(s)s)."
+msgstr "Aperçu : ce projet n'est pas public (%(s)s)."
+
+msgid "Mourabaha — marge fixe"
+msgstr "Mourabaha — marge fixe"
+
+msgid "Réf."
+msgstr "Réf."
+
+#, python-format
+msgid "sur %(t)s MRU"
+msgstr "sur %(t)s MRU"
+
+#, python-format
+msgid "%(n)s investisseur"
+msgid_plural "%(n)s investisseurs"
+msgstr[0] "%(n)s investisseur"
+msgstr[1] "%(n)s investisseurs"
+
+#, python-format
+msgid "Clôture le %(d)s (%(n)s j)."
+msgstr "Clôture le %(d)s (%(n)s j)."
+
+msgid "Prix d'une part"
+msgstr "Prix d'une part"
+
+msgid "Part du bénéfice net aux investisseurs"
+msgstr "Part du bénéfice net aux investisseurs"
+
+msgid "Rendement annuel estimé"
+msgstr "Rendement annuel estimé"
+
+msgid "non garanti"
+msgstr "non garanti"
+
+msgid "Distributions"
+msgstr "Distributions"
+
+msgid "Sortie"
+msgstr "Sortie"
+
+msgid "Marge convenue"
+msgstr "Marge convenue"
+
+#, python-format
+msgid "soit %(a)s %% par an"
+msgstr "soit %(a)s %% par an"
+
+msgid "Remboursement"
+msgstr "Remboursement"
+
+msgid "Garanties"
+msgstr "Garanties"
+
+msgid "Durée"
+msgstr "Durée"
+
+#, python-format
+msgid "%(m)s mois"
+msgstr "%(m)s mois"
+
+msgid "Apport du porteur"
+msgstr "Apport du porteur"
+
+#, python-format
+msgid "Maximum %(m)s parts pour vous dans ce projet."
+msgstr "Maximum %(m)s parts pour vous dans ce projet."
+
+msgid "Total"
+msgstr "Total"
+
+#, python-format
+msgid "Votre solde est de %(b)s MRU : vous serez invité à déposer la différence."
+msgstr "Votre solde est de %(b)s MRU : vous serez invité à déposer la différence."
+
+msgid "J'ai compris que mon capital n'est pas garanti et que je peux perdre tout ou partie de ma mise."
+msgstr "J'ai compris que mon capital n'est pas garanti et que je peux perdre tout ou partie de ma mise."
+
+msgid "Fonds bloqués jusqu'à la clôture, annulation possible pendant 48 h."
+msgstr "Fonds bloqués jusqu'à la clôture, annulation possible pendant 48 h."
+
+msgid "Créer un compte pour investir"
+msgstr "Créer un compte pour investir"
+
+msgid "Votre identité doit être vérifiée avant d'investir."
+msgstr "Votre identité doit être vérifiée avant d'investir."
+
+msgid "Gérer mon projet"
+msgstr "Gérer mon projet"
+
+#, python-format
+msgid "Vous détenez %(n)s parts · %(r)s MRU reçus."
+msgstr "Vous détenez %(n)s parts · %(r)s MRU reçus."
+
+msgid "Suivi"
+msgstr "Suivi"
+
+msgid "Suivre ce projet"
+msgstr "Suivre ce projet"
+
+msgid "Le porteur"
+msgstr "Le porteur"
+
+msgid "Sections du projet"
+msgstr "Sections du projet"
+
+msgid "La boutique en chiffres"
+msgstr "La boutique en chiffres"
+
+msgid "L'entreprise"
+msgstr "L'entreprise"
+
+msgid "L'opération"
+msgstr "L'opération"
+
+msgid "Justificatifs"
+msgstr "Justificatifs"
+
+msgid "Suivi et versements"
+msgstr "Suivi et versements"
+
+msgid "Revente"
+msgstr "Revente"
+
+msgid "Questions"
+msgstr "Questions"
+
+msgid "Avis"
+msgstr "Avis"
+
+msgid "Voir la vidéo de présentation"
+msgstr "Voir la vidéo de présentation"
+
+msgid "Avis de l'équipe Moucharaka"
+msgstr "Avis de l'équipe Moucharaka"
+
+msgid "À quoi servira l'argent"
+msgstr "À quoi servira l'argent"
+
+msgid "Un mois type après financement"
+msgstr "Un mois type après financement"
+
+msgid "Trois scénarios, par mois"
+msgstr "Trois scénarios, par mois"
+
+msgid "Aujourd'hui"
+msgstr "Aujourd'hui"
+
+msgid "Bénéfice net"
+msgstr "Bénéfice net"
+
+#, python-format
+msgid "Prudent (−20 %%)"
+msgstr "Prudent (−20 %%)"
+
+msgid "Aux investisseurs"
+msgstr "Aux investisseurs"
+
+msgid "an"
+msgstr "an"
+
+#, python-format
+msgid "Favorable (+15 %%)"
+msgstr "Favorable (+15 %%)"
+
+#, python-format
+msgid "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement, marge brute de %(m)s %%, moins toutes les charges fixes (y compris le salaire du gérant)."
+msgstr "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement, marge brute de %(m)s %%, moins toutes les charges fixes (y compris le salaire du gérant)."
+
+msgid "Simulez votre investissement"
+msgstr "Simulez votre investissement"
+
+msgid "Montant investi"
+msgstr "Montant investi"
+
+msgid "Scénario"
+msgstr "Scénario"
+
+msgid "Prudent"
+msgstr "Prudent"
+
+msgid "Favorable"
+msgstr "Favorable"
+
+msgid "MRU par mois (estimation)"
+msgstr "MRU par mois (estimation)"
+
+msgid "rendement annuel"
+msgstr "rendement annuel"
+
+msgid "MRU récupérés sur la durée, capital compris"
+msgstr "MRU récupérés sur la durée, capital compris"
+
+msgid "Santé de la boutique"
+msgstr "Santé de la boutique"
+
+msgid "Correct"
+msgstr "Correct"
+
+msgid "À surveiller"
+msgstr "À surveiller"
+
+msgid "Ventes mois par mois"
+msgstr "Ventes mois par mois"
+
+msgid "Ventes déclarées (avant financement)"
+msgstr "Ventes déclarées (avant financement)"
+
+msgid "Ventes réelles publiées"
+msgstr "Ventes réelles publiées"
+
+msgid "Produits phares"
+msgstr "Produits phares"
+
+msgid "Produit"
+msgstr "Produit"
+
+msgid "Achat"
+msgstr "Achat"
+
+msgid "Vente"
+msgstr "Vente"
+
+msgid "Marge"
+msgstr "Marge"
+
+msgid "Vendus / mois"
+msgstr "Vendus / mois"
+
+msgid "Marge / mois"
+msgstr "Marge / mois"
+
+msgid "Ouverte depuis"
+msgstr "Ouverte depuis"
+
+msgid "Local"
+msgstr "Local"
+
+msgid "Surface"
+msgstr "Surface"
+
+msgid "Horaires"
+msgstr "Horaires"
+
+msgid "Clients par jour"
+msgstr "Clients par jour"
+
+msgid "Panier moyen"
+msgstr "Panier moyen"
+
+msgid "Employés"
+msgstr "Employés"
+
+msgid "le porteur"
+msgstr "le porteur"
+
+msgid "Concurrents à 500 m"
+msgstr "Concurrents à 500 m"
+
+msgid "Électricité"
+msgstr "Électricité"
+
+msgid "Bilan simplifié"
+msgstr "Bilan simplifié"
+
+msgid "Stock"
+msgstr "Stock"
+
+msgid "Équipements"
+msgstr "Équipements"
+
+msgid "Trésorerie"
+msgstr "Trésorerie"
+
+msgid "Crédits clients (carnet)"
+msgstr "Crédits clients (carnet)"
+
+msgid "Dettes fournisseurs"
+msgstr "Dettes fournisseurs"
+
+msgid "Autres dettes"
+msgstr "Autres dettes"
+
+msgid "Ventes : espèces / mobile / crédit"
+msgstr "Ventes : espèces / mobile / crédit"
+
+msgid "Registre du commerce"
+msgstr "Registre du commerce"
+
+msgid "Pas de registre du commerce"
+msgstr "Pas de registre du commerce"
+
+msgid "Tient ses comptes"
+msgstr "Tient ses comptes"
+
+msgid "Pas de comptabilité"
+msgstr "Pas de comptabilité"
+
+msgid "Assurée"
+msgstr "Assurée"
+
+msgid "Non assurée"
+msgstr "Non assurée"
+
+msgid "Emplacement"
+msgstr "Emplacement"
+
+msgid "Ce que changera le financement"
+msgstr "Ce que changera le financement"
+
+msgid "Saisonnalité et approvisionnement"
+msgstr "Saisonnalité et approvisionnement"
+
+#, python-format
+msgid "réassort tous les %(d)s jours"
+msgstr "réassort tous les %(d)s jours"
+
+msgid "Problème résolu"
+msgstr "Problème résolu"
+
+msgid "Solution"
+msgstr "Solution"
+
+msgid "Clients visés"
+msgstr "Clients visés"
+
+msgid "Concurrence et avantage"
+msgstr "Concurrence et avantage"
+
+msgid "Modèle économique"
+msgstr "Modèle économique"
+
+msgid "Risques"
+msgstr "Risques"
+
+msgid "Équipe"
+msgstr "Équipe"
+
+#, python-format
+msgid "%(y)s ans d'expérience"
+msgstr "%(y)s ans d'expérience"
+
+msgid "temps partiel"
+msgstr "temps partiel"
+
+msgid "Prévisions"
+msgstr "Prévisions"
+
+msgid "Année"
+msgstr "Année"
+
+msgid "Chiffre d'affaires"
+msgstr "Chiffre d'affaires"
+
+msgid "Charges"
+msgstr "Charges"
+
+msgid "Résultat"
+msgstr "Résultat"
+
+msgid "Fournisseur"
+msgstr "Fournisseur"
+
+msgid "Coût d'achat"
+msgstr "Coût d'achat"
+
+msgid "Frais annexes"
+msgstr "Frais annexes"
+
+msgid "Revente attendue"
+msgstr "Revente attendue"
+
+msgid "Bénéfice attendu"
+msgstr "Bénéfice attendu"
+
+msgid "Durée du cycle"
+msgstr "Durée du cycle"
+
+#, python-format
+msgid "%(d)s jours"
+msgstr "%(d)s jours"
+
+msgid "Couverture de la dette"
+msgstr "Couverture de la dette"
+
+msgid "Acheteur identifié"
+msgstr "Acheteur identifié"
+
+msgid "Bon de commande signé"
+msgstr "Bon de commande signé"
+
+msgid "Opérations similaires"
+msgstr "Opérations similaires"
+
+msgid "Sûretés"
+msgstr "Sûretés"
+
+msgid "Étapes"
+msgstr "Étapes"
+
+msgid "Questionnaire du porteur"
+msgstr "Questionnaire du porteur"
+
+msgid "Pas encore de réponses publiées."
+msgstr "Pas encore de réponses publiées."
+
+msgid "Vérifié par l'équipe"
+msgstr "Vérifié par l'équipe"
+
+msgid "Aucun document partagé."
+msgstr "Aucun document partagé."
+
+msgid "Les justificatifs sont visibles par les membres vérifiés."
+msgstr "Les justificatifs sont visibles par les membres vérifiés."
+
+msgid "Rapports publiés"
+msgstr "Rapports publiés"
+
+msgid "Période"
+msgstr "Période"
+
+msgid "Charges totales"
+msgstr "Charges totales"
+
+msgid "Remis"
+msgstr "Remis"
+
+msgid "à temps"
+msgstr "à temps"
+
+msgid "en retard"
+msgstr "en retard"
+
+msgid "Échéancier Mourabaha"
+msgstr "Échéancier Mourabaha"
+
+msgid "Échéance"
+msgstr "Échéance"
+
+msgid "Capital"
+msgstr "Capital"
+
+msgid "Versements aux investisseurs"
+msgstr "Versements aux investisseurs"
+
+msgid "Nature"
+msgstr "Nature"
+
+msgid "Net distribué"
+msgstr "Net distribué"
+
+msgid "Par part"
+msgstr "Par part"
+
+msgid "Aucun versement pour l'instant."
+msgstr "Aucun versement pour l'instant."
+
+msgid "Nouvelles du porteur"
+msgstr "Nouvelles du porteur"
+
+msgid "Voir sur le marché"
+msgstr "Voir sur le marché"
+
+msgid "Prix des échanges"
+msgstr "Prix des échanges"
+
+msgid "Aucune part à vendre actuellement."
+msgstr "Aucune part à vendre actuellement."
+
+msgid "Questions au porteur"
+msgstr "Questions au porteur"
+
+msgid "Aucune question pour l'instant."
+msgstr "Aucune question pour l'instant."
+
+msgid "Poser la question"
+msgstr "Poser la question"
+
+msgid "Avis des investisseurs"
+msgstr "Avis des investisseurs"
+
+msgid "Les investisseurs pourront noter le porteur une fois les fonds versés."
+msgstr "Les investisseurs pourront noter le porteur une fois les fonds versés."
+
+msgid "Votre avis sur le porteur"
+msgstr "Votre avis sur le porteur"
+
+msgid "Publier mon avis"
+msgstr "Publier mon avis"
+
+msgid "Projets à financer"
+msgstr "Projets à financer"
+
+msgid "Nom, quartier, boutique…"
+msgstr "Nom, quartier, boutique…"
+
+msgid "Filtrer"
+msgstr "Filtrer"
+
+msgid "Aucun projet ne correspond à ces critères."
+msgstr "Aucun projet ne correspond à ces critères."
+
+msgid "Effacer les filtres"
+msgstr "Effacer les filtres"
+
+msgid "Page publique"
+msgstr "Page publique"
+
+msgid "Mon portefeuille"
+msgstr "Mon portefeuille"
+
+msgid "MRU collectés"
+msgstr "MRU collectés"
+
+msgid "parts en circulation"
+msgstr "parts en circulation"
+
+msgid "mon score de confiance"
+msgstr "mon score de confiance"
+
+#, python-format
+msgid "Clôture le %(d)s. Partagez la page du projet dans vos groupes WhatsApp : la confiance de votre entourage attire les autres investisseurs."
+msgstr "Clôture le %(d)s. Partagez la page du projet dans vos groupes WhatsApp : la confiance de votre entourage attire les autres investisseurs."
+
+#, python-format
+msgid "Payer %(f)s MRU pour 7 jours de mise en avant ?"
+msgstr "Payer %(f)s MRU pour 7 jours de mise en avant ?"
+
+#, python-format
+msgid "Mettre en avant 7 jours (%(f)s MRU)"
+msgstr "Mettre en avant 7 jours (%(f)s MRU)"
+
+msgid "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; les fonds seront ensuite versés dans votre portefeuille."
+msgstr "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; les fonds seront ensuite versés dans votre portefeuille."
+
+msgid "Rapports à publier"
+msgstr "Rapports à publier"
+
+msgid "Chaque rapport à l'heure fait monter votre score. Joignez une photo de votre cahier ou un relevé."
+msgstr "Chaque rapport à l'heure fait monter votre score. Joignez une photo de votre cahier ou un relevé."
+
+#, python-format
+msgid "à remettre avant le %(d)s"
+msgstr "à remettre avant le %(d)s"
+
+msgid "Publier le rapport"
+msgstr "Publier le rapport"
+
+msgid "Rapports et distributions"
+msgstr "Rapports et distributions"
+
+msgid "Part investisseurs"
+msgstr "Part investisseurs"
+
+msgid "Distribué"
+msgstr "Distribué"
+
+#, python-format
+msgid "Verser %(a)s MRU aux investisseurs ?"
+msgstr "Verser %(a)s MRU aux investisseurs ?"
+
+msgid "Verser aux investisseurs"
+msgstr "Verser aux investisseurs"
+
+msgid "Échéancier"
+msgstr "Échéancier"
+
+#, python-format
+msgid "Payer %(a)s MRU maintenant ?"
+msgstr "Payer %(a)s MRU maintenant ?"
+
+msgid "Payer"
+msgstr "Payer"
+
+msgid "Racheter des parts"
+msgstr "Racheter des parts"
+
+msgid "Les parts sont rachetées à tous les investisseurs au prorata. Quand vous avez tout racheté, le projet est terminé et vous redevenez seul propriétaire."
+msgstr "Les parts sont rachetées à tous les investisseurs au prorata. Quand vous avez tout racheté, le projet est terminé et vous redevenez seul propriétaire."
+
+msgid "Confirmer le rachat ? Le montant sera prélevé sur votre portefeuille."
+msgstr "Confirmer le rachat ? Le montant sera prélevé sur votre portefeuille."
+
+msgid "Racheter"
+msgstr "Racheter"
+
+msgid "Questions des investisseurs"
+msgstr "Questions des investisseurs"
+
+msgid "Répondre publiquement"
+msgstr "Répondre publiquement"
+
+msgid "Aucune question en attente."
+msgstr "Aucune question en attente."
+
+msgid "Donner des nouvelles"
+msgstr "Donner des nouvelles"
+
+msgid "Publier"
+msgstr "Publier"
+
+msgid "Associés"
+msgstr "Associés"
+
+msgid "Investisseur"
+msgstr "Investisseur"
+
+msgid "Part du capital"
+msgstr "Part du capital"
+
+msgid "Pas encore d'investisseur."
+msgstr "Pas encore d'investisseur."
+
+msgid "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
+msgstr "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
+
+msgid "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles."
+msgstr "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles."
+
+msgid "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande."
+msgstr "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande."
+
+msgid "Une société à créer ou qui démarre. Les investisseurs deviennent associés."
+msgstr "Une société à créer ou qui démarre. Les investisseurs deviennent associés."
+
+msgid "Recommandé pour les boutiques et les entreprises. Vous partagez un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
+msgstr "Recommandé pour les boutiques et les entreprises. Vous partagez un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
+
+msgid "Recommandé pour les opérations ponctuelles. Vous rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non."
+msgstr "Recommandé pour les opérations ponctuelles. Vous rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non."
+
+msgid "Continuer"
+msgstr "Continuer"
+
+msgid "Aperçu de la page publique"
+msgstr "Aperçu de la page publique"
+
+msgid "Supprimer définitivement ce brouillon ?"
+msgstr "Supprimer définitivement ce brouillon ?"
+
+msgid "Supprimer le brouillon"
+msgstr "Supprimer le brouillon"
+
+msgid "Corrections demandées par l'équipe :"
+msgstr "Corrections demandées par l'équipe :"
+
+msgid "Conditions du financement"
+msgstr "Conditions du financement"
+
+msgid "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus."
+msgstr "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus."
+
+msgid "Mourabaha : vous vous engagez sur une marge fixe, payée selon l'échéancier, même si les ventes sont moins bonnes que prévu."
+msgstr "Mourabaha : vous vous engagez sur une marge fixe, payée selon l'échéancier, même si les ventes sont moins bonnes que prévu."
+
+#, python-format
+msgid "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."
+msgstr "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."
+
+msgid "Votre boutique"
+msgstr "Votre boutique"
+
+msgid "Votre entreprise"
+msgstr "Votre entreprise"
+
+msgid "Votre opération"
+msgstr "Votre opération"
+
+msgid "Position de la boutique"
+msgstr "Position de la boutique"
+
+msgid "Touchez la carte ou déplacez le repère sur l'entrée de la boutique."
+msgstr "Touchez la carte ou déplacez le repère sur l'entrée de la boutique."
+
+msgid "Utiliser ma position actuelle"
+msgstr "Utiliser ma position actuelle"
+
+msgid "Ventes des 12 derniers mois"
+msgstr "Ventes des 12 derniers mois"
+
+msgid "Recopiez votre cahier. Au moins 6 mois. Les investisseurs compareront ces chiffres aux rapports que vous publierez ensuite."
+msgstr "Recopiez votre cahier. Au moins 6 mois. Les investisseurs compareront ces chiffres aux rapports que vous publierez ensuite."
+
+msgid "Vos produits phares"
+msgstr "Vos produits phares"
+
+msgid "Au moins 3 produits : ils permettent de vérifier votre marge."
+msgstr "Au moins 3 produits : ils permettent de vérifier votre marge."
+
+msgid "Prévisions sur 3 à 5 ans (MRU)"
+msgstr "Prévisions sur 3 à 5 ans (MRU)"
+
+msgid "Étapes clés"
+msgstr "Étapes clés"
+
+msgid "Achat, transport, stockage, revente : datez chaque étape."
+msgstr "Achat, transport, stockage, revente : datez chaque étape."
+
+#, python-format
+msgid "Le total doit correspondre au montant recherché (%(t)s MRU). Actuellement : %(u)s MRU."
+msgstr "Le total doit correspondre au montant recherché (%(t)s MRU). Actuellement : %(u)s MRU."
+
+msgid "Les investisseurs lisent ces réponses avant de décider. Les questions marquées d'une étoile sont obligatoires. Certaines réponses restent confidentielles (réservées à l'équipe)."
+msgstr "Les investisseurs lisent ces réponses avant de décider. Les questions marquées d'une étoile sont obligatoires. Certaines réponses restent confidentielles (réservées à l'équipe)."
+
+msgid "Photos"
+msgstr "Photos"
+
+msgid "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos."
+msgstr "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos."
+
+msgid "Ajouter les photos"
+msgstr "Ajouter les photos"
+
+msgid "Visible des investisseurs"
+msgstr "Visible des investisseurs"
+
+msgid "Réservé à l'équipe"
+msgstr "Réservé à l'équipe"
+
+msgid "Ajouter le justificatif"
+msgstr "Ajouter le justificatif"
+
+#, python-format
+msgid "L'envoi déclenche les frais d'étude de %(f)s MRU, prélevés sur votre portefeuille (solde : %(b)s MRU)."
+msgstr "L'envoi déclenche les frais d'étude de %(f)s MRU, prélevés sur votre portefeuille (solde : %(b)s MRU)."
+
+msgid "Déposer maintenant"
+msgstr "Déposer maintenant"
+
+msgid "Après l'envoi, le dossier n'est plus modifiable sauf si l'équipe demande des corrections."
+msgstr "Après l'envoi, le dossier n'est plus modifiable sauf si l'équipe demande des corrections."
+
+msgid "Envoyer pour étude"
+msgstr "Envoyer pour étude"
+
+msgid "Enregistrer et continuer"
+msgstr "Enregistrer et continuer"
+
+msgid "Tableau de bord"
+msgstr "Tableau de bord"
+
+msgid "Dépôts"
+msgstr "Dépôts"
+
+msgid "Retraits"
+msgstr "Retraits"
+
+msgid "Rapports"
+msgstr "Rapports"
+
+msgid "Administration"
+msgstr "Administration"
+
+msgid "dossiers KYC à vérifier"
+msgstr "dossiers KYC à vérifier"
+
+msgid "projets à étudier"
+msgstr "projets à étudier"
+
+msgid "projets financés : fonds à libérer"
+msgstr "projets financés : fonds à libérer"
+
+msgid "dépôts à confirmer"
+msgstr "dépôts à confirmer"
+
+msgid "retraits à payer"
+msgstr "retraits à payer"
+
+msgid "rapports à vérifier"
+msgstr "rapports à vérifier"
+
+msgid "Revenus du mois"
+msgstr "Revenus du mois"
+
+#, python-format
+msgid "Solde du compte plateforme : %(b)s MRU"
+msgstr "Solde du compte plateforme : %(b)s MRU"
+
+msgid "Fonds des clients"
+msgstr "Fonds des clients"
+
+msgid "Disponibles"
+msgstr "Disponibles"
+
+msgid "En séquestre"
+msgstr "En séquestre"
+
+msgid "Utilisateurs (vérifiés)"
+msgstr "Utilisateurs (vérifiés)"
+
+msgid "Le total doit correspondre au solde des comptes de cantonnement à la banque."
+msgstr "Le total doit correspondre au solde des comptes de cantonnement à la banque."
+
+msgid "Échéances en retard"
+msgstr "Échéances en retard"
+
+msgid "Dépôts à confirmer"
+msgstr "Dépôts à confirmer"
+
+msgid "Référence"
+msgstr "Référence"
+
+msgid "Client"
+msgstr "Client"
+
+msgid "Transaction"
+msgstr "Transaction"
+
+msgid "reçu"
+msgstr "reçu"
+
+msgid "Le paiement apparaît bien sur le compte marchand ?"
+msgstr "Le paiement apparaît bien sur le compte marchand ?"
+
+msgid "Confirmer"
+msgstr "Confirmer"
+
+msgid "motif du refus"
+msgstr "motif du refus"
+
+msgid "File vide."
+msgstr "File vide."
+
+msgid "Dossiers KYC"
+msgstr "Dossiers KYC"
+
+msgid "Wilaya"
+msgstr "Wilaya"
+
+msgid "Envoyé"
+msgstr "Envoyé"
+
+msgid "Examiner"
+msgstr "Examiner"
+
+#, python-format
+msgid "inscrit le %(d)s"
+msgstr "inscrit le %(d)s"
+
+msgid "Points d'attention"
+msgstr "Points d'attention"
+
+msgid "Déclarations"
+msgstr "Déclarations"
+
+msgid "Pièce"
+msgstr "Pièce"
+
+msgid "Validité"
+msgstr "Validité"
+
+msgid "Naissance"
+msgstr "Naissance"
+
+msgid "Profession"
+msgstr "Profession"
+
+msgid "Revenu"
+msgstr "Revenu"
+
+msgid "Origine des fonds"
+msgstr "Origine des fonds"
+
+msgid "Expérience"
+msgstr "Expérience"
+
+msgid "Décision"
+msgstr "Décision"
+
+msgid "Enregistrer la décision"
+msgstr "Enregistrer la décision"
+
+msgid "Porteur"
+msgstr "Porteur"
+
+msgid "page projet"
+msgstr "page projet"
+
+msgid "Complétude"
+msgstr "Complétude"
+
+msgid "Modèle de la boutique"
+msgstr "Modèle de la boutique"
+
+msgid "Net"
+msgstr "Net"
+
+msgid "Investisseurs"
+msgstr "Investisseurs"
+
+msgid "public"
+msgstr "public"
+
+msgid "Pour marquer un document comme vérifié, utilisez l'administration."
+msgstr "Pour marquer un document comme vérifié, utilisez l'administration."
+
+msgid "Libérer les fonds"
+msgstr "Libérer les fonds"
+
+msgid "Après signature du contrat avec le porteur : les investisseurs reçoivent leurs parts, le porteur reçoit les fonds nets de la commission de succès."
+msgstr "Après signature du contrat avec le porteur : les investisseurs reçoivent leurs parts, le porteur reçoit les fonds nets de la commission de succès."
+
+msgid "Libérer les fonds maintenant ?"
+msgstr "Libérer les fonds maintenant ?"
+
+msgid "Annuler la collecte"
+msgstr "Annuler la collecte"
+
+msgid "Motif"
+msgstr "Motif"
+
+msgid "Rembourser tous les investisseurs ?"
+msgstr "Rembourser tous les investisseurs ?"
+
+msgid "Annuler et rembourser"
+msgstr "Annuler et rembourser"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Suspendre la revente des parts"
+msgstr "Suspendre la revente des parts"
+
+msgid "Réautoriser la revente"
+msgstr "Réautoriser la revente"
+
+msgid "Déclarer ce projet en défaut ?"
+msgstr "Déclarer ce projet en défaut ?"
+
+msgid "Déclarer en défaut"
+msgstr "Déclarer en défaut"
+
+msgid "risque"
+msgstr "risque"
+
+msgid "Autres projets"
+msgstr "Autres projets"
+
+msgid "Rendement annoncé"
+msgstr "Rendement annoncé"
+
+msgid "Apport"
+msgstr "Apport"
+
+msgid "Frais d'étude payés"
+msgstr "Frais d'étude payés"
+
+msgid "Rapports financiers à vérifier"
+msgstr "Rapports financiers à vérifier"
+
+msgid "voir"
+msgstr "voir"
+
+msgid "Valider"
+msgstr "Valider"
+
+msgid "question au porteur"
+msgstr "question au porteur"
+
+msgid "Contester"
+msgstr "Contester"
+
+msgid "Retraits à payer"
+msgstr "Retraits à payer"
+
+msgid "Vers"
+msgstr "Vers"
+
+msgid "À envoyer"
+msgstr "À envoyer"
+
+msgid "réf. paiement"
+msgstr "réf. paiement"
+
+msgid "Comment le score de confiance est calculé"
+msgstr "Comment le score de confiance est calculé"
+
+msgid "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public."
+msgstr "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public."
+
+msgid "Composante"
+msgstr "Composante"
+
+msgid "Maximum"
+msgstr "Maximum"
+
+msgid "Ce qui compte"
+msgstr "Ce qui compte"
+
+msgid "Dossier KYC approuvé, justificatif de domicile, ancienneté du compte."
+msgstr "Dossier KYC approuvé, justificatif de domicile, ancienneté du compte."
+
+msgid "Paiements"
+msgstr "Paiements"
+
+msgid "Part des échéances et des distributions payées à l'heure. Un défaut retire 150 points."
+msgstr "Part des échéances et des distributions payées à l'heure. Un défaut retire 150 points."
+
+#, python-format
+msgid "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %%, un rapport manquant pour zéro, un rapport contesté retire 20 points."
+msgstr "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %%, un rapport manquant pour zéro, un rapport contesté retire 20 points."
+
+msgid "Moyenne des notes (communication, transparence, engagements), lissée pour qu'un seul avis ne fasse pas tout basculer."
+msgstr "Moyenne des notes (communication, transparence, engagements), lissée pour qu'un seul avis ne fasse pas tout basculer."
+
+msgid "Projets menés à terme"
+msgstr "Projets menés à terme"
+
+msgid "Projets terminés, collectes réussies ; moins les défauts et les collectes échouées."
+msgstr "Projets terminés, collectes réussies ; moins les défauts et les collectes échouées."
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Un membre sans historique reçoit la mention « Nouveau » : son score repose seulement sur son identité et sur des valeurs neutres. Ce n'est ni un bon ni un mauvais signe."
+msgstr "Un membre sans historique reçoit la mention « Nouveau » : son score repose seulement sur son identité et sur des valeurs neutres. Ce n'est ni un bon ni un mauvais signe."
+
+#, python-format
+msgid "membre depuis %(d)s"
+msgstr "membre depuis %(d)s"
+
+msgid "projets publiés"
+msgstr "projets publiés"
+
+msgid "MRU levés"
+msgstr "MRU levés"
+
+msgid "versements à l'heure"
+msgstr "versements à l'heure"
+
+msgid "Historique des projets"
+msgstr "Historique des projets"
+
+msgid "Levé"
+msgstr "Levé"
+
+msgid "Reversé"
+msgstr "Reversé"
+
+msgid "Début"
+msgstr "Début"
+
+msgid "Aucun projet publié."
+msgstr "Aucun projet publié."
+
+msgid "Historique des versements"
+msgstr "Historique des versements"
+
+msgid "Ponctualité"
+msgstr "Ponctualité"
+
+msgid "à l'heure"
+msgstr "à l'heure"
+
+msgid "Aucun avis pour l'instant."
+msgstr "Aucun avis pour l'instant."
+
+msgid "Derniers événements"
+msgstr "Derniers événements"
+
+msgid "Déposer de l'argent"
+msgstr "Déposer de l'argent"
+
+#, python-format
+msgid "Minimum %(m)s MRU. Les dépôts sont gratuits."
+msgstr "Minimum %(m)s MRU. Les dépôts sont gratuits."
+
+#, python-format
+msgid "Dépôt de %(a)s MRU"
+msgstr "Dépôt de %(a)s MRU"
+
+msgid "J'ai payé, envoyer la preuve"
+msgstr "J'ai payé, envoyer la preuve"
+
+msgid "Preuve reçue. Nous vérifions et créditons votre portefeuille."
+msgstr "Preuve reçue. Nous vérifions et créditons votre portefeuille."
+
+msgid "MRU bloqués"
+msgstr "MRU bloqués"
+
+msgid "MRU au total"
+msgstr "MRU au total"
+
+msgid "J'ai payé"
+msgstr "J'ai payé"
+
+msgid "Historique"
+msgstr "Historique"
+
+msgid "Opération"
+msgstr "Opération"
+
+msgid "Bloqué"
+msgstr "Bloqué"
+
+msgid "Solde"
+msgstr "Solde"
+
+msgid "Aucune opération. Commencez par un dépôt."
+msgstr "Aucune opération. Commencez par un dépôt."
+
+msgid "Retirer de l'argent"
+msgstr "Retirer de l'argent"
+
+#, python-format
+msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code SMS confirme l'opération."
+msgstr "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code SMS confirme l'opération."
+
+msgid "Recevoir le code de confirmation"
+msgstr "Recevoir le code de confirmation"
+
+msgid "Confirmer le retrait"
+msgstr "Confirmer le retrait"
+

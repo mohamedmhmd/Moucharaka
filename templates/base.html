@@ -1,0 +1,91 @@
+{% load i18n static mk %}{% get_current_language as LANG %}<!doctype html>
+<html lang="{{ LANG }}" dir="{% if IS_RTL %}rtl{% else %}ltr{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% trans "Investir ensemble dans les commerces de Mauritanie" %}{% endblock %} · Moucharaka</title>
+  <meta name="description" content="{% trans 'Financement participatif conforme à la charia : investissez dans des boutiques, des opérations commerciales et des entreprises mauritaniennes vérifiées.' %}">
+  <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='9' width='17' height='17' rx='4' fill='%231C2559'/%3E%3Crect x='12' y='5' width='17' height='17' rx='4' fill='%230B7A4B' fill-opacity='.9'/%3E%3C/svg%3E">
+  {% block head %}{% endblock %}
+</head>
+<body>
+<a class="sr-only" href="#main">{% trans "Aller au contenu" %}</a>
+<div class="frieze" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="{% url 'core:home' %}" aria-label="Moucharaka">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="9" width="17" height="17" rx="4" fill="var(--ink)"/><rect x="12" y="5" width="17" height="17" rx="4" fill="var(--palm)" fill-opacity=".9"/></svg>
+      <b>{% if IS_RTL %}مشاركة{% else %}Moucharaka{% endif %}</b>
+    </a>
+    <nav class="nav" id="main-nav" aria-label="{% trans 'Navigation principale' %}">
+      {% url 'projects:explore' as u_exp %}{% url 'market:index' as u_mk %}{% url 'core:page' 'how' as u_how %}{% url 'core:page' 'fees' as u_fees %}
+      <a href="{{ u_exp }}" {% if request.path == u_exp %}aria-current="page"{% endif %}>{% trans "Projets" %}</a>
+      <a href="{{ u_mk }}" {% if request.path == u_mk %}aria-current="page"{% endif %}>{% trans "Marché des parts" %}</a>
+      <a href="{{ u_how }}" {% if request.path == u_how %}aria-current="page"{% endif %}>{% trans "Comment ça marche" %}</a>
+      <a href="{{ u_fees }}" {% if request.path == u_fees %}aria-current="page"{% endif %}>{% trans "Frais" %}</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'core:dashboard' %}">{% trans "Mon espace" %}</a>
+        {% if user.is_staff %}<a href="{% url 'staff:dashboard' %}">{% trans "Back-office" %}</a>{% endif %}
+      {% endif %}
+    </nav>
+    <div class="header-end">
+      <form class="lang-form" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        {% if LANG == "ar" %}<button name="language" value="fr" lang="fr" title="Français">FR</button>
+        {% else %}<button name="language" value="ar" lang="ar" title="العربية">ع</button>{% endif %}
+      </form>
+      {% if user.is_authenticated %}
+        {% if nav_wallet %}<a class="wallet-chip" href="{% url 'wallet:home' %}" title="{% trans 'Portefeuille' %}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M16 13h2"/></svg><span class="num">{{ nav_wallet.balance|money }} MRU</span></a>{% endif %}
+        <a class="icon-btn" href="{% url 'core:notifications' %}" aria-label="{% trans 'Notifications' %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg>
+          {% if unread_count %}<span class="dot">{{ unread_count }}</span>{% endif %}
+        </a>
+        <form action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="btn ghost small">{% trans "Déconnexion" %}</button></form>
+      {% else %}
+        <a class="btn ghost small" href="{% url 'accounts:login' %}">{% trans "Connexion" %}</a>
+        <a class="btn small" href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a>
+      {% endif %}
+      <button class="icon-btn menu-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="{% trans 'Menu' %}">
+        <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+{% if user.is_authenticated and not user.is_approved and not hide_kyc_banner %}
+  <div class="wrap"><div class="note warn" style="margin-top:16px">
+    {% if user.status == "new" %}{% trans "Votre identité n'est pas encore vérifiée." %} <a href="{% url 'accounts:kyc' %}">{% trans "Compléter mon dossier" %}</a>
+    {% elif user.status == "pending" %}{% trans "Votre dossier est en cours de vérification. Vous recevrez un SMS dès qu'il sera validé." %}
+    {% else %}{{ user.get_status_display }} — <a href="{% url 'accounts:kyc_status' %}">{% trans "voir le détail" %}</a>{% endif %}
+  </div></div>
+{% endif %}
+{% if messages %}<ul class="messages wrap">{% for m in messages %}<li class="{{ m.tags }}" role="status">{{ m }}</li>{% endfor %}</ul>{% endif %}
+<main id="main">{% block content %}{% endblock %}</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b style="font-family:var(--display);font-size:1.3rem;color:#fff">{% if IS_RTL %}مشاركة{% else %}Moucharaka{% endif %}</b>
+        <p class="small" style="margin-top:8px">{% trans "Les Mauritaniens financent les commerces et les entreprises de leur pays, sans intérêt, avec des chiffres publiés chaque mois." %}</p>
+      </div>
+      <div><h4>{% trans "Investir" %}</h4><ul>
+        <li><a href="{% url 'projects:explore' %}">{% trans "Projets ouverts" %}</a></li>
+        <li><a href="{% url 'market:index' %}">{% trans "Marché des parts" %}</a></li>
+        <li><a href="{% url 'trust:method' %}">{% trans "Score de confiance" %}</a></li></ul></div>
+      <div><h4>{% trans "Se financer" %}</h4><ul>
+        <li><a href="{% url 'projects:new' %}">{% trans "Proposer un projet" %}</a></li>
+        <li><a href="{% url 'core:page' 'fees' %}">{% trans "Frais" %}</a></li>
+        <li><a href="{% url 'core:page' 'sharia' %}">{% trans "Conformité à la charia" %}</a></li></ul></div>
+      <div><h4>{% trans "Aide" %}</h4><ul>
+        <li><a href="{% url 'core:page' 'faq' %}">{% trans "Questions fréquentes" %}</a></li>
+        <li><a href="{% url 'core:page' 'terms' %}">{% trans "Conditions d'utilisation" %}</a></li>
+        <li><a href="{% url 'core:page' 'privacy' %}">{% trans "Confidentialité" %}</a></li></ul></div>
+    </div>
+    <div class="legal">{% trans "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, sauf la marge contractuelle des opérations Mourabaha, elle-même soumise au risque de défaut du porteur." %}</div>
+  </div>
+</footer>
+<script src="{% static 'js/app.js' %}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

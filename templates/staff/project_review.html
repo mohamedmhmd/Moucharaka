@@ -1,0 +1,30 @@
+{% extends "staff/base_staff.html" %}{% load i18n mk %}
+{% block title %}{{ project.title }}{% endblock %}
+{% block staff %}<div class="section-head"><div><h1 style="margin:0">{{ project.title }}</h1><p class="muted" style="margin:6px 0 0">{% badge project.status project.get_status_display %} {{ project.get_kind_display }} · {{ project.get_financing_model_display }} · {{ project.target_amount|money }} MRU · <a href="{{ project.get_absolute_url }}" target="_blank">{% trans "page projet" %}</a></p></div></div>
+<div class="split"><div>
+  <div class="panel"><h2>{% trans "Complétude" %}</h2><ul class="checklist">{% for i in checklist %}<li class="{% if i.done %}done{% endif %}">{{ i.label }}</li>{% endfor %}</ul></div>
+  {% if indicators %}<div class="panel"><h2>{% trans "Modèle de la boutique" %}</h2>
+    <div class="indicators">{% for i in indicators %}<div class="indicator {% if i.ok %}ok{% else %}ko{% endif %}"><span class="small muted">{{ i.label }}</span><b>{{ i.value|money }} {{ i.unit }}</b></div>{% endfor %}</div>
+    <table class="table" style="margin-top:12px"><thead><tr><th></th><th class="n">{% trans "Ventes" %}</th><th class="n">{% trans "Net" %}</th><th class="n">{% trans "Investisseurs" %}</th><th class="n">%/an</th></tr></thead><tbody>
+    {% for k, s in scenarios.items %}<tr><td>{{ k }}</td><td class="n">{{ s.revenue|money }}</td><td class="n">{{ s.net|money }}</td><td class="n">{{ s.investors|money }}</td><td class="n">{{ s.annual_yield }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+  <div class="panel"><h2>{% trans "Documents" %}</h2><table class="table"><tbody>{% for d in documents %}<tr><td><a href="{% url 'projects:document' d.pk %}" target="_blank">{{ d.title }}</a> <span class="small muted">{{ d.get_kind_display }}</span></td><td>{% if d.visible_to_investors %}{% trans "public" %}{% else %}{% trans "équipe" %}{% endif %}</td></tr>{% empty %}<tr><td class="muted">—</td></tr>{% endfor %}</tbody></table>
+    <p class="small muted">{% trans "Pour marquer un document comme vérifié, utilisez l'administration." %}</p></div>
+  {% if project.status == "submitted" %}<div class="panel"><h2>{% trans "Décision" %}</h2><form method="post" class="form">{% csrf_token %}{% include "includes/form.html" with grid="stack" %}<button class="btn">{% trans "Enregistrer" %}</button></form></div>{% endif %}
+  {% if project.status == "funded" %}<div class="panel"><h2>{% trans "Libérer les fonds" %}</h2><p>{% trans "Après signature du contrat avec le porteur : les investisseurs reçoivent leurs parts, le porteur reçoit les fonds nets de la commission de succès." %}</p>
+    <form method="post" action="{% url 'staff:project_action' project.pk 'release' %}">{% csrf_token %}<button class="btn" data-confirm="{% trans 'Libérer les fonds maintenant ?' %}">{% trans "Libérer les fonds" %}</button></form></div>{% endif %}
+  {% if project.status in "funding funded" %}<div class="panel"><h2>{% trans "Annuler la collecte" %}</h2><form method="post" action="{% url 'staff:project_action' project.pk 'refund' %}" class="form">{% csrf_token %}<div class="field"><label>{% trans "Motif" %}</label><input name="reason" required></div><button class="btn danger" data-confirm="{% trans 'Rembourser tous les investisseurs ?' %}">{% trans "Annuler et rembourser" %}</button></form></div>{% endif %}
+  {% if project.status == "active" %}<div class="panel"><h2>{% trans "Actions" %}</h2><div class="row">
+    <form method="post" action="{% url 'staff:project_action' project.pk 'toggle_trading' %}">{% csrf_token %}<button class="btn secondary">{% if project.trading_enabled %}{% trans "Suspendre la revente des parts" %}{% else %}{% trans "Réautoriser la revente" %}{% endif %}</button></form>
+    <form method="post" action="{% url 'staff:project_action' project.pk 'default' %}">{% csrf_token %}<input type="hidden" name="reason" value="staff"><button class="btn danger" data-confirm="{% trans 'Déclarer ce projet en défaut ?' %}">{% trans "Déclarer en défaut" %}</button></form></div></div>{% endif %}
+</div><aside>
+  <div class="panel"><h3>{% trans "Porteur" %}</h3><p><b>{{ project.owner.full_name }}</b><br><span class="ltr">+222 {{ project.owner.phone }}</span></p>
+    {% if owner_kyc %}<p class="small">NNI <span class="ltr">{{ owner_kyc.nni }}</span> · {% trans "risque" %} {{ owner_kyc.get_risk_level_display|default:"—" }} · <a href="{% url 'staff:kyc_review' owner_kyc.pk %}">KYC</a></p>{% endif %}
+    {% include "includes/score.html" with score=owner_score %}
+    {% if other_projects %}<h4 style="margin-top:16px">{% trans "Autres projets" %}</h4>{% for o in other_projects %}<div class="small"><a href="{% url 'staff:project_review' o.pk %}">{{ o.title }}</a> {% badge o.status o.get_status_display %}</div>{% endfor %}{% endif %}</div>
+  <div class="panel"><h3>{% trans "Conditions" %}</h3><ul class="terms-list small">
+    <li><span>{% trans "Parts" %}</span><b>{{ project.total_shares }} × {{ project.share_price|money }}</b></li>
+    {% if project.is_moucharaka %}<li><span>{% trans "Part investisseurs" %}</span><b>{{ project.investor_profit_share_pct }} %</b></li><li><span>{% trans "Rendement annoncé" %}</span><b>{{ project.projected_annual_return_pct }} %</b></li>
+    {% else %}<li><span>{% trans "Marge" %}</span><b>{{ project.margin_pct }} % ({{ project.mourabaha_annualized_pct }} %/an)</b></li>{% endif %}
+    <li><span>{% trans "Durée" %}</span><b>{{ project.duration_months }} {% trans "mois" %}</b></li><li><span>{% trans "Apport" %}</span><b>{{ project.owner_contribution|money }}</b></li>
+    <li><span>{% trans "Frais d'étude payés" %}</span><b>{{ project.review_fee_paid|money }}</b></li></ul></div>
+</aside></div>{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{{ member.display_name }}{% endblock %}
+{% block content %}<div class="wrap section">
+  <div class="split">
+    <div>
+      <h1>{{ member.display_name }}</h1>
+      <p class="muted">{% if member.is_approved %}<span class="badge tone-good">{% trans "Identité vérifiée" %}</span>{% endif %}
+        {% if kyc %}{{ kyc.wilaya.name }} · {% endif %}{% blocktrans with d=member.date_joined|date:"m/Y" %}membre depuis {{ d }}{% endblocktrans %}</p>
+      <div class="stats" style="margin-top:20px">
+        <div class="stat"><b class="num">{{ totals.projects }}</b><span>{% trans "projets publiés" %}</span></div>
+        <div class="stat"><b class="num">{{ totals.raised|money }}</b><span>{% trans "MRU levés" %}</span></div>
+        <div class="stat"><b class="num">{{ totals.distributed|money }}</b><span>{% trans "MRU reversés aux investisseurs" %}</span></div>
+        <div class="stat"><b class="num">{% if totals.on_time_pct is not None %}{{ totals.on_time_pct }} %{% else %}—{% endif %}</b><span>{% trans "versements à l'heure" %}</span></div>
+      </div>
+      <div class="panel" style="margin-top:20px"><h2>{% trans "Historique des projets" %}</h2>
+      {% if projects %}<div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Contrat" %}</th><th>{% trans "Statut" %}</th><th class="n">{% trans "Levé" %}</th><th class="n">{% trans "Reversé" %}</th><th>{% trans "Début" %}</th></tr></thead><tbody>
+        {% for p in projects %}<tr><td><a href="{{ p.get_absolute_url }}">{{ p.title }}</a><div class="small muted">{{ p.get_kind_display }}</div></td>
+          <td><span class="model {{ p.financing_model }}">{% if p.is_moucharaka %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span></td>
+          <td>{% badge p.status p.get_status_display %}</td><td class="n">{{ p.raised_amount|money }}</td><td class="n pos">{{ p.paid|default:0|money }}</td><td class="small">{{ p.campaign_start|date:"m/Y" }}</td></tr>{% endfor %}
+      </tbody></table></div>{% else %}<p class="muted">{% trans "Aucun projet publié." %}</p>{% endif %}</div>
+      <div class="panel"><h2>{% trans "Historique des versements" %}</h2>
+      {% if distributions %}<div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Date" %}</th><th>{% trans "Projet" %}</th><th>{% trans "Nature" %}</th><th class="n">{% trans "Montant" %}</th><th>{% trans "Ponctualité" %}</th></tr></thead><tbody>
+        {% for d in distributions %}<tr><td class="small">{{ d.paid_at|date:"d/m/Y" }}</td><td>{{ d.project.title }}</td><td>{{ d.get_kind_display }}</td><td class="n pos">{{ d.net_amount|money }}</td>
+          <td>{% if d.on_time %}<span class="badge tone-good">{% trans "à l'heure" %}</span>{% else %}<span class="badge tone-warn">{% trans "en retard" %}</span>{% endif %}</td></tr>{% endfor %}
+      </tbody></table></div>{% else %}<p class="muted">{% trans "Aucun versement pour l'instant." %}</p>{% endif %}</div>
+      <div class="panel"><h2>{% trans "Avis des investisseurs" %}</h2>
+        {% for r in reviews %}<div class="qa-item"><span class="rating">{% for i in "12345" %}{% if forloop.counter <= r.average %}★{% else %}☆{% endif %}{% endfor %}</span> <span class="small muted">{{ r.project.title }} · {{ r.created_at|date:"m/Y" }}</span>{% if r.comment %}<p>{{ r.comment }}</p>{% endif %}</div>
+        {% empty %}<p class="muted">{% trans "Aucun avis pour l'instant." %}</p>{% endfor %}</div>
+    </div>
+    <aside>
+      <div class="panel"><h3>{% trans "Score de confiance" %}</h3>{% include "includes/score.html" %}
+        <div class="bars" style="margin-top:18px">{% for c in components %}<div class="bar"><div class="row"><span>{% if c.key == "identity" %}{% trans "Identité" %}{% elif c.key == "repayment" %}{% trans "Paiements" %}{% elif c.key == "reporting" %}{% trans "Rapports" %}{% elif c.key == "feedback" %}{% trans "Avis des investisseurs" %}{% else %}{% trans "Projets menés à terme" %}{% endif %}</span><span class="num small">{{ c.value }} / {{ c.max }}</span></div>
+          <div class="progress"><i style="width:{{ c.pct }}%"></i></div></div>{% endfor %}</div></div>
+      {% if events %}<div class="panel"><h3>{% trans "Derniers événements" %}</h3>{% for e in events %}<div class="row between small qa-item"><span>{{ e.get_kind_display }}{% if e.project %} · {{ e.project.title|truncatechars:24 }}{% endif %}</span><b class="{% if e.points > 0 %}pos{% else %}neg{% endif %}">{% if e.points > 0 %}+{% endif %}{{ e.points }}</b></div>{% endfor %}</div>{% endif %}
+    </aside>
+  </div>
+</div>{% endblock %}

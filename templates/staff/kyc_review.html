@@ -1,0 +1,18 @@
+{% extends "staff/base_staff.html" %}{% load i18n mk %}
+{% block title %}KYC {{ kyc.full_name_fr }}{% endblock %}
+{% block staff %}<h1>{{ kyc.full_name_fr }} <span class="small muted" dir="rtl">{{ kyc.full_name_ar }}</span></h1>
+<p>{% badge kyc.status kyc.get_status_display %} · <span class="ltr">+222 {{ kyc.user.phone }}</span> · {% blocktrans with d=kyc.user.date_joined|date:"d/m/Y" %}inscrit le {{ d }}{% endblocktrans %}</p>
+{% if flags %}<div class="note warn"><b>{% trans "Points d'attention" %}</b><ul>{% for f in flags %}<li>{{ f }}</li>{% endfor %}</ul></div>{% endif %}
+<div class="doc-view" style="margin-top:16px">{% for key, label, f in docs %}{% if f %}<figure>{% if f.name|slice:"-4:" == ".pdf" %}<iframe src="{% url 'accounts:kyc_document' kyc.user_id key %}" title="{{ label }}"></iframe>{% else %}<a href="{% url 'accounts:kyc_document' kyc.user_id key %}" target="_blank"><img src="{% url 'accounts:kyc_document' kyc.user_id key %}" alt="{{ label }}"></a>{% endif %}<figcaption>{{ label }}</figcaption></figure>{% endif %}{% endfor %}</div>
+<div class="grid g2" style="margin-top:20px">
+  <div class="panel"><h2>{% trans "Déclarations" %}</h2><dl class="kv">
+    <dt>NNI</dt><dd class="ltr">{{ kyc.nni }}</dd><dt>{% trans "Pièce" %}</dt><dd>{{ kyc.get_id_type_display }} <span class="ltr">{{ kyc.id_number }}</span></dd>
+    <dt>{% trans "Validité" %}</dt><dd>{{ kyc.id_issue_date|date:"d/m/Y" }} → {{ kyc.id_expiry_date|date:"d/m/Y" }}</dd>
+    <dt>{% trans "Naissance" %}</dt><dd>{{ kyc.date_of_birth|date:"d/m/Y" }} ({{ kyc.age }}), {{ kyc.place_of_birth }}</dd>
+    <dt>{% trans "Adresse" %}</dt><dd>{{ kyc.address }}, {{ kyc.moughataa.name }}, {{ kyc.wilaya.name }}</dd>
+    <dt>{% trans "Profession" %}</dt><dd>{{ kyc.profession }}{% if kyc.employer %} · {{ kyc.employer }}{% endif %}</dd>
+    <dt>{% trans "Revenu" %}</dt><dd>{{ kyc.get_monthly_income_display }}</dd><dt>{% trans "Origine des fonds" %}</dt><dd>{{ kyc.get_source_of_funds_display }}</dd>
+    <dt>{% trans "Expérience" %}</dt><dd>{{ kyc.get_experience_display }}</dd><dt>PPE</dt><dd>{% if kyc.is_pep %}{% trans "Oui" %}{% else %}{% trans "Non" %}{% endif %}</dd></dl></div>
+  <div class="panel"><h2>{% trans "Décision" %}</h2>
+    <form method="post" class="form">{% csrf_token %}{% include "includes/form.html" with grid="stack" %}<button class="btn">{% trans "Enregistrer la décision" %}</button></form></div>
+</div>{% endblock %}

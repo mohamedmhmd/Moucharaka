@@ -1,0 +1,14 @@
+{% extends "accounts/auth_base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Vendre des parts" %}{% endblock %}
+{% block auth %}<h1>{% trans "Vendre des parts" %}</h1>
+<p><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></p>
+<ul class="terms-list">
+  <li><span>{% trans "Parts disponibles" %}</span><b>{{ holding.free_shares }}</b></li>
+  <li><span>{% trans "Votre prix de revient moyen" %}</span><b>{{ holding.avg_cost|money }} MRU</b></li>
+  <li><span>{% trans "Valeur nominale" %}</span><b>{{ project.share_price|money }} MRU</b></li>
+  <li><span>{% trans "Dernier prix échangé" %}</span><b>{% if last_price %}{{ last_price|money }} MRU{% else %}—{% endif %}</b></li>
+  <li><span>{% trans "Prix autorisé" %}</span><b>{{ low|money }} – {{ high|money }} MRU</b></li>
+</ul>
+<form method="post" class="form" style="margin-top:16px" novalidate>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}
+<p class="small muted">{% blocktrans with s=settings.trade_fee_seller_pct|floatformat:"-1" %}Frais vendeur : {{ s }} % du montant vendu. Annonce valable 30 jours, annulable à tout moment.{% endblocktrans %}</p>
+<button class="btn block">{% trans "Publier l'annonce" %}</button></form>{% endblock %}

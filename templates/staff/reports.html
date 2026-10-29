@@ -1,0 +1,8 @@
+{% extends "staff/base_staff.html" %}{% load i18n mk %}
+{% block title %}{% trans "Rapports" %}{% endblock %}
+{% block staff %}<h1>{% trans "Rapports financiers à vérifier" %}</h1>
+<div class="panel">{% if items %}<div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Période" %}</th><th class="n">{% trans "Ventes" %}</th><th class="n">{% trans "Net" %}</th><th>{% trans "Pièce" %}</th><th></th></tr></thead><tbody>
+{% for r in items %}<tr><td><a href="{% url 'staff:project_review' r.project.pk %}">{{ r.project.title }}</a></td><td>{{ r.period_start|date:"m/Y" }}</td><td class="n">{{ r.revenue|money }}</td><td class="n">{{ r.net_profit|money }}</td>
+  <td>{% if r.attachment %}<a href="{% url 'projects:report_attachment' r.pk %}" target="_blank">{% trans "voir" %}</a>{% else %}—{% endif %}</td>
+  <td class="n"><form method="post" class="row" style="justify-content:flex-end">{% csrf_token %}<input type="hidden" name="id" value="{{ r.pk }}"><button class="btn small" name="action" value="verify">{% trans "Valider" %}</button><input name="comment" placeholder="{% trans 'question au porteur' %}" style="width:160px;min-height:34px"><button class="btn small ghost" name="action" value="flag">{% trans "Contester" %}</button></form></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty">{% trans "File vide." %}</div>{% endif %}</div>{% endblock %}

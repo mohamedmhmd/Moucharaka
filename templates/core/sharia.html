@@ -1,0 +1,16 @@
+{% extends "core/page.html" %}{% load i18n %}
+{% block title %}{% trans "Conformité à la charia" %}{% endblock %}
+{% block page %}
+<h1>{% trans "Conformité à la charia" %}</h1>
+<div class="panel stack">
+  <h2>{% trans "Moucharaka (association)" %}</h2>
+  <p>{% trans "Les investisseurs et le porteur sont associés. Le bénéfice est partagé selon un pourcentage fixé dans le contrat ; la perte est supportée en proportion du capital apporté, sauf faute ou négligence du gérant. Aucun montant n'est garanti : le rendement affiché est une estimation fondée sur les chiffres du commerce." %}</p>
+  <p>{% trans "Moucharaka moutanaqisa (dégressive) : le porteur rachète progressivement les parts des investisseurs, à un prix convenu au moment du rachat, jusqu'à redevenir seul propriétaire." %}</p>
+  <h2>{% trans "Mourabaha (vente avec marge)" %}</h2>
+  <p>{% trans "Les investisseurs financent l'achat d'une marchandise identifiée (stock, bétail, équipement). Elle est revendue au porteur au prix de revient plus une marge connue d'avance, payée en une ou plusieurs échéances. La marge ne change pas en cas de retard : il n'y a pas d'intérêt de retard." %}</p>
+  <h2>{% trans "Ce que la plateforme refuse" %}</h2>
+  <ul><li>{% trans "Les prêts d'argent contre intérêt et les pénalités de retard qui profitent au prêteur." %}</li>
+      <li>{% trans "Les activités illicites (alcool, tabac, jeux, spéculation sur des biens non possédés)." %}</li>
+      <li>{% trans "La vente de parts d'une collecte non clôturée, ou de biens que le vendeur ne possède pas encore." %}</li></ul>
+  <p class="small muted">{% trans "Les contrats types et la liste des activités admises sont validés par un comité de conformité. La plateforme recommande de consulter un savant de confiance pour toute question personnelle." %}</p>
+</div>{% endblock %}

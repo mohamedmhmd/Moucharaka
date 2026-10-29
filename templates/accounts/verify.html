@@ -1,0 +1,12 @@
+{% extends "accounts/auth_base.html" %}{% load i18n %}
+{% block title %}{% trans "Code de vérification" %}{% endblock %}
+{% block auth %}
+{% if purpose == "register" %}<div class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i></div>{% endif %}
+<h1>{% trans "Entrez le code reçu" %}</h1>
+<p class="muted">{% blocktrans with p=phone ttl=ttl_minutes %}Envoyé par SMS au <span class="ltr">+222 {{ p }}</span>. Il expire dans {{ ttl }} minutes.{% endblocktrans %}</p>
+<form method="post" class="form" novalidate>{% csrf_token %}
+  {% include "includes/form.html" with grid="stack" %}
+  <button class="btn block">{% trans "Vérifier" %}</button>
+</form>
+<form method="post" style="margin-top:12px;text-align:center">{% csrf_token %}<button class="btn ghost small" name="resend" value="1">{% trans "Renvoyer un code" %}</button></form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "accounts/auth_base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Mon dossier" %}{% endblock %}
+{% block auth %}<h1>{% trans "Mon dossier d'identité" %}</h1>
+{% if not kyc %}<p>{% trans "Vous n'avez pas encore envoyé votre dossier." %}</p><a class="btn" href="{% url 'accounts:kyc' %}">{% trans "Compléter mon dossier" %}</a>
+{% else %}
+  <p>{% badge kyc.status kyc.get_status_display %}</p>
+  {% if kyc.status == "submitted" %}<p class="muted">{% blocktrans with d=kyc.submitted_at|date:"d/m/Y H:i" %}Envoyé le {{ d }}. Nous vérifions en général sous 48 h ouvrées et vous prévenons par SMS.{% endblocktrans %}</p>
+  {% elif kyc.status == "approved" %}<p>{% trans "Votre identité est vérifiée." %}</p><a class="btn" href="{% url 'core:dashboard' %}">{% trans "Aller à mon espace" %}</a>
+  {% elif kyc.status == "resubmit" %}<div class="note warn">{{ kyc.rejection_reason }}</div><a class="btn" style="margin-top:12px" href="{% url 'accounts:kyc' %}">{% trans "Corriger mon dossier" %}</a>
+  {% else %}<div class="note bad">{{ kyc.rejection_reason }}</div>{% endif %}
+  <dl class="kv" style="margin-top:18px"><dt>{% trans "NNI" %}</dt><dd class="ltr">{{ kyc.nni }}</dd><dt>{% trans "Nom" %}</dt><dd>{{ kyc.full_name_fr }}</dd></dl>
+{% endif %}{% endblock %}

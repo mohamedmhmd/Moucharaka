@@ -1,0 +1,90 @@
+{% extends "base.html" %}{% load i18n static mk %}
+{% block title %}{% if project %}{{ project.title }}{% else %}{% trans "Nouveau projet" %}{% endif %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'vendor/leaflet/leaflet.css' %}">{% endblock %}
+{% block content %}<div class="wrap wizard">
+  <nav aria-label="{% trans 'Étapes' %}"><ol class="steps">
+    {% for s in steps %}<li class="{% if s.key == step %}current{% endif %}">{% if project %}<a href="{% url 'projects:edit' project.slug s.key %}" {% if s.key == step %}aria-current="step"{% endif %}>{{ s.label }}</a>{% else %}<span>{{ s.label }}</span>{% endif %}</li>{% endfor %}
+  </ol>
+  {% if project %}<p class="small" style="margin-top:16px"><a href="{{ project.get_absolute_url }}" target="_blank">{% trans "Aperçu de la page publique" %}</a></p>
+    {% if project.status == "draft" %}<form method="post" action="{% url 'projects:delete' project.slug %}">{% csrf_token %}<button class="btn ghost small" data-confirm="{% trans 'Supprimer définitivement ce brouillon ?' %}">{% trans "Supprimer le brouillon" %}</button></form>{% endif %}{% endif %}
+  </nav>
+  <div>
+    {% if project.status == "changes" %}<div class="note warn" style="margin-bottom:16px"><b>{% trans "Corrections demandées par l'équipe :" %}</b><br>{{ project.changes_requested|linebreaksbr }}</div>{% endif %}
+    <form method="post" enctype="multipart/form-data" class="form" novalidate>{% csrf_token %}
+
+    {% if step == "basics" %}
+      <h1>{% if project %}{{ project.title }}{% else %}{{ kind_label }}{% endif %}</h1>
+      <div class="panel">{% include "includes/form.html" %}</div>
+
+    {% elif step == "terms" %}
+      <h1>{% trans "Conditions du financement" %}</h1>
+      <div class="note" style="margin-bottom:16px">{% if project.is_moucharaka %}{% trans "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus." %}{% else %}{% trans "Mourabaha : vous vous engagez sur une marge fixe, payée selon l'échéancier, même si les ventes sont moins bonnes que prévu." %}{% endif %}
+        {% blocktrans with s=policy.success_fee_pct|floatformat:"-1" m=policy.management_fee_pct|floatformat:"-1" %}Frais : {{ s }} % des fonds levés en cas de succès, {{ m }} % des sommes distribuées.{% endblocktrans %}</div>
+      <div class="panel">{% include "includes/form.html" %}</div>
+
+    {% elif step == "details" %}
+      <h1>{% if project.kind == "boutique" %}{% trans "Votre boutique" %}{% elif project.kind == "company" %}{% trans "Votre entreprise" %}{% else %}{% trans "Votre opération" %}{% endif %}</h1>
+      {% if form.non_field_errors %}<div class="note bad">{{ form.non_field_errors }}</div>{% endif %}
+      {% if project.kind == "boutique" %}
+        {% for h in form.hidden_fields %}{{ h }}{% endfor %}
+        {% for title, fields in form.iter_fieldsets %}<fieldset class="panel"><legend>{{ title }}</legend><div class="form-grid">{% for field in fields %}{% include "includes/field.html" %}{% endfor %}</div>
+          {% if forloop.first %}<div class="field wide"><span class="label">{% trans "Position de la boutique" %}</span>
+            <div id="shop-map" class="map" data-pick="1" data-zoom="{% if form.instance.latitude %}17{% else %}13{% endif %}" data-lat="{% firstof form.instance.latitude map_center.latitude '18.0735' %}" data-lng="{% firstof form.instance.longitude map_center.longitude '-15.9582' %}"></div>
+            <div class="help">{% trans "Touchez la carte ou déplacez le repère sur l'entrée de la boutique." %} <a href="#" id="use-my-location">{% trans "Utiliser ma position actuelle" %}</a></div></div>{% endif %}
+        </fieldset>{% endfor %}
+      {% else %}<div class="panel">{% include "includes/form.html" %}</div>{% endif %}
+
+    {% elif step == "figures" %}
+      {% if project.kind == "boutique" %}
+        <h1>{% trans "Ventes et produits" %}</h1>
+        <div class="panel"><h2>{% trans "Ventes des 12 derniers mois" %}</h2><p class="small muted">{% trans "Recopiez votre cahier. Au moins 6 mois. Les investisseurs compareront ces chiffres aux rapports que vous publierez ensuite." %}</p>
+          {% include "includes/formset_table.html" with fs=formsets.months %}</div>
+        <div class="panel"><h2>{% trans "Vos produits phares" %}</h2><p class="small muted">{% trans "Au moins 3 produits : ils permettent de vérifier votre marge." %}</p>
+          {% include "includes/formset_table.html" with fs=formsets.products %}</div>
+      {% elif project.kind == "company" %}
+        <h1>{% trans "Équipe et prévisions" %}</h1>
+        <div class="panel"><h2>{% trans "Équipe" %}</h2>{% include "includes/formset_table.html" with fs=formsets.team %}</div>
+        <div class="panel"><h2>{% trans "Prévisions sur 3 à 5 ans (MRU)" %}</h2>{% include "includes/formset_table.html" with fs=formsets.projections %}</div>
+        <div class="panel"><h2>{% trans "Étapes clés" %}</h2>{% include "includes/formset_table.html" with fs=formsets.milestones %}</div>
+      {% else %}
+        <h1>{% trans "Étapes de l'opération" %}</h1>
+        <div class="panel"><p class="small muted">{% trans "Achat, transport, stockage, revente : datez chaque étape." %}</p>{% include "includes/formset_table.html" with fs=formsets.milestones %}</div>
+      {% endif %}
+
+    {% elif step == "funds" %}
+      <h1>{% trans "Utilisation des fonds" %}</h1>
+      <div class="panel"><p class="small muted">{% blocktrans with t=project.target_amount|money u=uses_total|money %}Le total doit correspondre au montant recherché ({{ t }} MRU). Actuellement : {{ u }} MRU.{% endblocktrans %}</p>
+        {% include "includes/formset_table.html" with fs=formset %}</div>
+
+    {% elif step == "questions" %}
+      <h1>{% trans "Questionnaire" %}</h1>
+      <p class="muted">{% trans "Les investisseurs lisent ces réponses avant de décider. Les questions marquées d'une étoile sont obligatoires. Certaines réponses restent confidentielles (réservées à l'équipe)." %}</p>
+      {% for section, fields in form.sections %}<fieldset class="panel"><legend>{{ section.title }}</legend><div class="form-grid">{% for field in fields %}{% include "includes/field.html" with wide=True %}{% endfor %}</div></fieldset>{% endfor %}
+
+    {% elif step == "media" %}
+      <h1>{% trans "Photos et justificatifs" %}</h1>
+      <div class="panel"><h2>{% trans "Photos" %}</h2>
+        <p class="small muted">{% trans "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos." %}</p>
+        {% if images %}<div class="gallery" style="margin-bottom:12px">{% for im in images %}<div><img src="{{ im.image.url }}" alt=""><button class="btn ghost small" name="delete_image" value="{{ im.pk }}">{% trans "Retirer" %}</button></div>{% endfor %}</div>{% endif %}
+        <input type="file" name="images" accept="image/*" multiple> <button class="btn secondary small" name="photos" value="1">{% trans "Ajouter les photos" %}</button>
+      </div>
+      <div class="panel"><h2>{% trans "Justificatifs" %}</h2>
+        {% if documents %}<table class="table"><tbody>{% for d in documents %}<tr><td>{{ d.title }}<div class="small muted">{{ d.get_kind_display }}</div></td><td>{% if d.visible_to_investors %}{% trans "Visible des investisseurs" %}{% else %}{% trans "Réservé à l'équipe" %}{% endif %}</td><td class="n"><button class="btn ghost small" name="delete_doc" value="{{ d.pk }}">{% trans "Retirer" %}</button></td></tr>{% endfor %}</tbody></table>{% endif %}
+        <div class="form-grid" style="margin-top:12px">{% for field in doc_form.visible_fields %}{% include "includes/field.html" %}{% endfor %}</div>
+        <button class="btn secondary small" name="doc" value="1">{% trans "Ajouter le justificatif" %}</button>
+      </div>
+
+    {% elif step == "submit" %}
+      <h1>{% trans "Vérifier et envoyer" %}</h1>
+      <div class="panel"><ul class="checklist">{% for i in checklist %}<li class="{% if i.done %}done{% endif %}">{{ i.label }}</li>{% endfor %}</ul></div>
+      <div class="panel">{% if policy.review_fee %}<p>{% blocktrans with f=policy.review_fee|money b=wallet.balance|money %}L'envoi déclenche les frais d'étude de {{ f }} MRU, prélevés sur votre portefeuille (solde : {{ b }} MRU).{% endblocktrans %}{% if wallet.balance < policy.review_fee and not project.review_fee_paid %} <a href="{% url 'wallet:deposit' %}?amount={{ policy.review_fee|stringformat:'d' }}">{% trans "Déposer maintenant" %}</a>{% endif %}</p>{% endif %}
+        <p class="small muted">{% trans "Après l'envoi, le dossier n'est plus modifiable sauf si l'équipe demande des corrections." %}</p>
+        <button class="btn" {% if not ready %}disabled{% endif %}>{% trans "Envoyer pour étude" %}</button></div>
+    {% endif %}
+
+    {% if step != "submit" and step != "media" %}<div class="row" style="margin-top:8px"><button class="btn">{% trans "Enregistrer et continuer" %}</button>{% if project %}<button class="btn secondary" name="stay" value="1">{% trans "Enregistrer" %}</button>{% endif %}</div>
+    {% elif step == "media" %}<div class="row" style="margin-top:8px"><button class="btn" name="next" value="1">{% trans "Continuer" %}</button></div>{% endif %}
+    </form>
+  </div>
+</div>{% endblock %}
+{% block scripts %}<script src="{% static 'vendor/leaflet/leaflet.js' %}" defer></script>{% endblock %}

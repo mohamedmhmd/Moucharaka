@@ -1,0 +1,15 @@
+{% load i18n mk %}{# Signature element: where one month of sales goes #}
+<div class="flow">
+  <div class="flow-head"><h3>{{ flow_title }}</h3><div><span class="flow-total num">{{ flow.revenue|money }}</span> <span class="muted">MRU</span></div></div>
+  <div class="flow-bar{% if animate %} animate{% endif %}" role="img" aria-label="{% trans 'Répartition des ventes mensuelles' %}">
+    <div class="cogs" style="flex:{{ flow.cogs }}"></div>
+    <div class="fixed" style="flex:{{ flow.fixed }}"></div>
+    {% if flow.net > 0 %}<div class="owner" style="flex:{{ flow.owner }}"></div><div class="inv" style="flex:{{ flow.investors }}"></div>{% endif %}
+  </div>
+  <div class="flow-legend">
+    <div class="cogs"><span>{% trans "Marchandises achetées" %}</span><b>{{ flow.cogs|money }}</b></div>
+    <div class="fixed"><span>{% trans "Loyer, salaires, charges" %}</span><b>{{ flow.fixed|money }}</b></div>
+    <div class="owner"><span>{% trans "Reste au porteur" %}</span><b>{{ flow.owner|money }}</b></div>
+    <div class="inv"><span>{% trans "Part des investisseurs" %}</span><b>{{ flow.investors|money }}</b></div>
+  </div>
+</div>

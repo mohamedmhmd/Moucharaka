@@ -1,0 +1,12 @@
+{% load i18n %}{{ fs.management_form }}
+{% if fs.non_form_errors %}<div class="note bad">{{ fs.non_form_errors }}</div>{% endif %}
+<div class="formset-wrap"><table class="formset-table">
+  <thead><tr>{% for f in fs.empty_form.visible_fields %}{% if f.name != "DELETE" %}<th>{{ f.label }}</th>{% endif %}{% endfor %}<th>{% trans "Suppr." %}</th></tr></thead>
+  <tbody id="{{ fs.prefix }}-rows">
+  {% for form in fs.forms %}<tr>{% for h in form.hidden_fields %}{{ h }}{% endfor %}
+    {% for f in form.visible_fields %}{% if f.name != "DELETE" %}<td>{{ f }}{% for e in f.errors %}<div class="small neg">{{ e }}</div>{% endfor %}</td>{% endif %}{% endfor %}
+    <td class="del">{% if form.DELETE %}{{ form.DELETE }}{% endif %}</td></tr>{% endfor %}
+  </tbody>
+</table></div>
+<template id="{{ fs.prefix }}-empty"><tr>{% for h in fs.empty_form.hidden_fields %}{{ h }}{% endfor %}{% for f in fs.empty_form.visible_fields %}{% if f.name != "DELETE" %}<td>{{ f }}</td>{% endif %}{% endfor %}<td class="del"></td></tr></template>
+<button type="button" class="btn secondary small" data-formset-add="{{ fs.prefix }}" style="margin-top:8px">+ {% trans "Ajouter une ligne" %}</button>

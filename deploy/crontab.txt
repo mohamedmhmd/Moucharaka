@@ -1,0 +1,2 @@
+# crontab -e  (as the moucharaka user)
+15 2 * * * cd /srv/moucharaka && .venv/bin/python manage.py run_daily >> /var/log/moucharaka-daily.log 2>&1

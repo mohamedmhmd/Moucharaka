@@ -1,0 +1,13 @@
+{% extends "core/page.html" %}{% load i18n %}
+{% block title %}{% trans "Score de confiance" %}{% endblock %}
+{% block page %}<h1>{% trans "Comment le score de confiance est calculé" %}</h1>
+<p class="muted">{% trans "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public." %}</p>
+<div class="panel"><table class="table"><thead><tr><th>{% trans "Composante" %}</th><th class="n">{% trans "Maximum" %}</th><th>{% trans "Ce qui compte" %}</th></tr></thead><tbody>
+  <tr><td>{% trans "Identité" %}</td><td class="n">{{ max.identity }}</td><td>{% trans "Dossier KYC approuvé, justificatif de domicile, ancienneté du compte." %}</td></tr>
+  <tr><td>{% trans "Paiements" %}</td><td class="n">{{ max.repayment }}</td><td>{% trans "Part des échéances et des distributions payées à l'heure. Un défaut retire 150 points." %}</td></tr>
+  <tr><td>{% trans "Rapports" %}</td><td class="n">{{ max.reporting }}</td><td>{% trans "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %, un rapport manquant pour zéro, un rapport contesté retire 20 points." %}</td></tr>
+  <tr><td>{% trans "Avis des investisseurs" %}</td><td class="n">{{ max.feedback }}</td><td>{% trans "Moyenne des notes (communication, transparence, engagements), lissée pour qu'un seul avis ne fasse pas tout basculer." %}</td></tr>
+  <tr><td>{% trans "Projets menés à terme" %}</td><td class="n">{{ max.outcomes }}</td><td>{% trans "Projets terminés, collectes réussies ; moins les défauts et les collectes échouées." %}</td></tr>
+</tbody></table></div>
+<div class="panel"><h2>{% trans "Notes" %}</h2><p>A+ ≥ 850 · A ≥ 750 · B ≥ 650 · C ≥ 550 · D ≥ 450 · E &lt; 450</p>
+<p>{% trans "Un membre sans historique reçoit la mention « Nouveau » : son score repose seulement sur son identité et sur des valeurs neutres. Ce n'est ni un bon ni un mauvais signe." %}</p></div>{% endblock %}

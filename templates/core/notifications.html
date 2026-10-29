@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "Notifications" %}{% endblock %}
+{% block content %}<div class="wrap section" style="max-width:760px">
+  <h1>{% trans "Notifications" %}</h1>
+  <div class="panel">{% for n in items %}<div class="qa-item"{% if not n.is_read %} style="border-inline-start:3px solid var(--palm);padding-inline-start:12px"{% endif %}>
+    {% if n.url %}<a href="{{ n.url }}"><b>{{ n.title }}</b></a>{% else %}<b>{{ n.title }}</b>{% endif %}
+    {% if n.body %}<div>{{ n.body }}</div>{% endif %}<div class="small muted">{{ n.created_at|date:"d/m/Y H:i" }}</div></div>
+  {% empty %}<div class="empty">{% trans "Aucune notification pour l'instant." %}</div>{% endfor %}</div>
+</div>{% endblock %}

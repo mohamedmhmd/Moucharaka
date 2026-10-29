@@ -1,0 +1,274 @@
+{% extends "base.html" %}{% load i18n static mk %}
+{% block title %}{{ project.title }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'vendor/leaflet/leaflet.css' %}">{% endblock %}
+{% block content %}<div class="wrap">
+{% if not project.is_public %}<div class="note warn" style="margin-top:16px">{% blocktrans with s=project.get_status_display %}Aperçu : ce projet n'est pas public ({{ s }}).{% endblocktrans %}</div>{% endif %}
+
+<div class="p-layout">
+<section class="p-hero">
+    <div class="cover" {% if project.cover %}style="background-image:url('{{ project.cover.url }}')"{% endif %} role="img" aria-label="{{ project.title }}"></div>
+    <div class="row" style="margin-top:16px">
+      <span class="model {{ project.financing_model }}">{% if project.is_moucharaka %}{% trans "Moucharaka — partage des bénéfices" %}{% else %}{% trans "Mourabaha — marge fixe" %}{% endif %}</span>
+      {% badge project.status project.get_status_display %}
+      {% if project.risk_grade %}<span class="badge tone-info">{% trans "Note de risque" %} {{ project.risk_grade }}</span>{% endif %}
+    </div>
+    <h1>{{ project.title }}</h1>
+    <p class="lead muted" style="font-size:1.1rem">{{ project.tagline }}</p>
+    <p class="small muted">{{ project.get_kind_display }} · {{ project.sector.name }} · {% if project.neighborhood %}{{ project.neighborhood }}, {% endif %}{{ project.moughataa.name }}, {{ project.wilaya.name }} · {% trans "Réf." %} <span class="ltr">{{ project.reference }}</span></p>
+</section>
+
+<aside class="p-aside"><div class="invest-box anchor" id="invest">
+    <div class="panel">
+      <div class="row between"><b class="num" style="font-size:1.5rem;font-family:var(--display);color:var(--ink)">{{ project.raised_amount|money }} MRU</b><span class="muted">{{ project.funding_pct }} %</span></div>
+      <div class="progress lg" style="margin:8px 0"><i style="width:{{ project.funding_pct }}%"></i></div>
+      <div class="row between small muted"><span>{% blocktrans with t=project.target_amount|money %}sur {{ t }} MRU{% endblocktrans %}</span>
+        <span>{% blocktrans count n=project.investors_count %}{{ n }} investisseur{% plural %}{{ n }} investisseurs{% endblocktrans %}</span></div>
+      {% if project.status == "funding" %}<p class="small" style="margin:8px 0 0">{% blocktrans with d=project.campaign_end|date:"d/m/Y" n=project.days_left %}Clôture le {{ d }} ({{ n }} j).{% endblocktrans %}</p>{% endif %}
+      <ul class="terms-list" style="margin-top:14px">
+        <li><span>{% trans "Prix d'une part" %}</span><b class="num">{{ project.share_price|money }} MRU</b></li>
+        {% if project.is_moucharaka %}
+          <li><span>{% trans "Part du bénéfice net aux investisseurs" %}</span><b>{{ project.investor_profit_share_pct|floatformat:"-1" }} %</b></li>
+          <li><span>{% trans "Rendement annuel estimé" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %<br><small class="muted">{% trans "non garanti" %}</small></b></li>
+          <li><span>{% trans "Distributions" %}</span><b>{{ project.get_distribution_frequency_display }}</b></li>
+          <li><span>{% trans "Sortie" %}</span><b class="small">{{ project.get_exit_mode_display }}</b></li>
+        {% else %}
+          <li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %<br><small class="muted">{% blocktrans with a=project.mourabaha_annualized_pct %}soit {{ a }} % par an{% endblocktrans %}</small></b></li>
+          <li><span>{% trans "Remboursement" %}</span><b>{{ project.get_repayment_mode_display }}</b></li>
+          <li><span>{% trans "Garanties" %}</span><b class="small">{{ project.guarantee|truncatechars:80 }}</b></li>
+        {% endif %}
+        <li><span>{% trans "Durée" %}</span><b>{% blocktrans with m=project.duration_months %}{{ m }} mois{% endblocktrans %}</b></li>
+        <li><span>{% trans "Apport du porteur" %}</span><b class="num">{{ project.owner_contribution|money }} MRU</b></li>
+      </ul>
+      {% if invest_form %}
+        <form method="post" action="{% url 'projects:invest' project.slug %}" id="invest-form" data-share-price="{{ project.share_price|stringformat:'s' }}" data-balance="{{ wallet.balance|stringformat:'s' }}" style="margin-top:14px">{% csrf_token %}
+          <div class="field"><label for="id_shares">{% trans "Nombre de parts" %}</label>
+            <input type="number" name="shares" id="id_shares" min="{{ project.min_shares }}" max="{{ max_shares }}" value="{{ project.min_shares }}" required>
+            <div class="help">{% blocktrans with m=max_shares %}Maximum {{ m }} parts pour vous dans ce projet.{% endblocktrans %}</div></div>
+          <p class="row between"><span>{% trans "Total" %}</span><b><span id="invest-total" class="num">—</span> MRU</b></p>
+          <p class="small note warn" id="invest-warn" hidden>{% blocktrans with b=wallet.balance|money %}Votre solde est de {{ b }} MRU : vous serez invité à déposer la différence.{% endblocktrans %}</p>
+          <label class="check small"><input type="checkbox" name="risk" required> <span>{% trans "J'ai compris que mon capital n'est pas garanti et que je peux perdre tout ou partie de ma mise." %}</span></label>
+          <button class="btn block" style="margin-top:12px">{% trans "Investir" %}</button>
+          <p class="small muted" style="margin:8px 0 0">{% trans "Fonds bloqués jusqu'à la clôture, annulation possible pendant 48 h." %}</p>
+        </form>
+      {% elif project.status == "funding" and not user.is_authenticated %}
+        <a class="btn block" style="margin-top:14px" href="{% url 'accounts:register' %}">{% trans "Créer un compte pour investir" %}</a>
+      {% elif project.status == "funding" and user.is_authenticated and not user.is_approved %}
+        <p class="note warn small" style="margin-top:14px">{% trans "Votre identité doit être vérifiée avant d'investir." %}</p>
+      {% elif is_owner %}<a class="btn block secondary" style="margin-top:14px" href="{% url 'projects:manage' project.slug %}">{% trans "Gérer mon projet" %}</a>{% endif %}
+      {% if holding and holding.shares %}<p class="note good small" style="margin-top:12px">{% blocktrans with n=holding.shares r=holding.received_total|money %}Vous détenez {{ n }} parts · {{ r }} MRU reçus.{% endblocktrans %}{% if project.is_tradable and holding.free_shares %} <a href="{% url 'market:sell' project.slug %}">{% trans "Vendre" %}</a>{% endif %}</p>{% endif %}
+      {% if user.is_authenticated and user.is_approved %}
+        <form method="post" action="{% url 'projects:favorite' project.slug %}" data-fav style="margin-top:10px">{% csrf_token %}
+          <button class="btn ghost small" aria-pressed="{% if is_favorite %}true{% else %}false{% endif %}" data-on="{% trans 'Suivi' %}" data-off="{% trans 'Suivre ce projet' %}">★ <span>{% if is_favorite %}{% trans "Suivi" %}{% else %}{% trans "Suivre ce projet" %}{% endif %}</span></button></form>
+      {% endif %}
+    </div>
+    <div class="panel"><h4>{% trans "Le porteur" %}</h4>
+      <p style="margin:0 0 10px"><a href="{% url 'trust:profile' project.owner.public_id %}"><b>{{ project.owner.display_name }}</b></a> <span class="badge tone-good">{% trans "Identité vérifiée" %}</span></p>
+      {% include "includes/score.html" with score=owner_score %}
+    </div>
+</div></aside>
+
+<div class="p-body">
+
+<nav class="tabs" aria-label="{% trans 'Sections du projet' %}">
+  <a href="#overview">{% trans "Présentation" %}</a>
+  {% if boutique %}<a href="#shop">{% trans "La boutique en chiffres" %}</a>{% elif company %}<a href="#company">{% trans "L'entreprise" %}</a>{% elif deal %}<a href="#deal">{% trans "L'opération" %}</a>{% endif %}
+  <a href="#answers">{% trans "Questionnaire" %}</a>
+  <a href="#documents">{% trans "Justificatifs" %}</a>
+  {% if project.status in "active completed defaulted" %}<a href="#reports">{% trans "Suivi et versements" %}</a>{% endif %}
+  {% if project.status == "active" %}<a href="#market">{% trans "Revente" %}</a>{% endif %}
+  <a href="#qa">{% trans "Questions" %}</a>
+  <a href="#reviews">{% trans "Avis" %}</a>
+</nav>
+
+<section id="overview" class="anchor panel">
+  <h2>{% trans "Présentation" %}</h2>
+  {{ project.description|linebreaks }}
+  {% if project.video_url %}<p><a href="{{ project.video_url }}" target="_blank" rel="noopener">{% trans "Voir la vidéo de présentation" %}</a></p>{% endif %}
+  {% if images %}<div class="gallery" style="margin-top:16px">{% for im in images %}<a href="{{ im.image.url }}" target="_blank" rel="noopener"><img src="{{ im.image.url }}" alt="{{ im.caption|default:project.title }}" loading="lazy"></a>{% endfor %}</div>{% endif %}
+  {% if project.review_notes %}<div class="note" style="margin-top:20px"><b>{% trans "Avis de l'équipe Moucharaka" %}</b><br>{{ project.review_notes|linebreaksbr }}</div>{% endif %}
+  <h3 style="margin-top:24px">{% trans "À quoi servira l'argent" %}</h3>
+  <table class="table"><tbody>{% for u in uses %}<tr><td>{{ u.label }}<div class="small muted">{{ u.get_category_display }}</div></td>
+    <td style="width:35%"><div class="progress"><i style="width:{{ u.amount|pct_of:uses_total }}%;background:var(--ink)"></i></div></td><td class="n">{{ u.amount|money }} MRU</td></tr>{% endfor %}</tbody></table>
+</section>
+
+{% if boutique %}
+<section id="shop" class="anchor panel">
+  <h2>{{ boutique.shop_name }}</h2>
+  <p class="muted">{{ boutique.get_category_display }} · {{ boutique.get_location_type_display }}{% if boutique.landmark %} · {{ boutique.landmark }}{% endif %}</p>
+  {% trans "Un mois type après financement" as ftitle %}
+  {% include "includes/flow.html" with flow=scenarios.base flow_title=ftitle %}
+
+  <h3 style="margin-top:28px">{% trans "Trois scénarios, par mois" %}</h3>
+  <div class="scen highlight-base">
+    <div><h4>{% trans "Aujourd'hui" %}</h4><div class="small muted">{% trans "Ventes" %}</div><b class="num">{{ scenarios.current.revenue|money }}</b><div class="small muted" style="margin-top:6px">{% trans "Bénéfice net" %}</div><b class="num">{{ scenarios.current.net|money }}</b></div>
+    <div><h4>{% trans "Prudent (−20 %)" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.pessimistic.investors|money }}</div><div class="small muted">~{{ scenarios.pessimistic.annual_yield }} % / {% trans "an" %}</div></div>
+    <div><h4>{% trans "Prévu" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.base.investors|money }}</div><div class="small muted">~{{ scenarios.base.annual_yield }} % / {% trans "an" %}</div></div>
+    <div><h4>{% trans "Favorable (+15 %)" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.optimistic.investors|money }}</div><div class="small muted">~{{ scenarios.optimistic.annual_yield }} % / {% trans "an" %}</div></div>
+  </div>
+  <p class="small muted" style="margin-top:8px">{% blocktrans with u=boutique.expected_revenue_uplift_pct|floatformat:"-1" m=boutique.gross_margin_pct|floatformat:"-1" %}Calcul : ventes moyennes déclarées + {{ u }} % attendus du financement, marge brute de {{ m }} %, moins toutes les charges fixes (y compris le salaire du gérant).{% endblocktrans %}</p>
+
+  <div class="sim" id="simulator" data-model="{{ sim }}" style="margin-top:24px">
+    <h3>{% trans "Simulez votre investissement" %}</h3>
+    <label for="sim-amount">{% trans "Montant investi" %} : <b><span id="sim-amount-out" class="num"></span> MRU</b></label>
+    <input type="range" id="sim-amount" min="{{ project.share_price|stringformat:'d' }}" max="{% widthratio project.target_amount 10 4 %}" step="{{ project.share_price|stringformat:'d' }}" value="{% widthratio project.share_price 1 10 %}">
+    {% if project.is_moucharaka %}<div class="seg" role="group" aria-label="{% trans 'Scénario' %}" style="margin-top:10px">
+      <button type="button" data-factor="0.8" aria-pressed="false">{% trans "Prudent" %}</button>
+      <button type="button" data-factor="1" aria-pressed="true">{% trans "Prévu" %}</button>
+      <button type="button" data-factor="1.15" aria-pressed="false">{% trans "Favorable" %}</button></div>{% endif %}
+    <div class="out">
+      <div><b id="sim-monthly">—</b><span>{% trans "MRU par mois (estimation)" %}</span></div>
+      <div><b id="sim-yearly">—</b><span>{% trans "rendement annuel" %}</span></div>
+      <div><b id="sim-total">—</b><span>{% trans "MRU récupérés sur la durée, capital compris" %}</span></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px">{% trans "Santé de la boutique" %}</h3>
+  <div class="indicators">{% for i in indicators %}<div class="indicator {% if i.ok %}ok{% else %}ko{% endif %}">
+    <span class="small muted">{{ i.label }}</span><b class="num">{{ i.value|money }} {{ i.unit }}</b>
+    <span class="verdict">{% if i.ok %}{% trans "Correct" %}{% else %}{% trans "À surveiller" %}{% endif %}</span><p>{{ i.hint }}</p></div>{% endfor %}</div>
+
+  <h3 style="margin-top:28px">{% trans "Ventes mois par mois" %}</h3>
+  <div class="chart-box"><canvas id="revenue-chart" data-chart="{{ chart }}" data-l-declared="{% trans 'Ventes déclarées (avant financement)' %}" data-l-actual="{% trans 'Ventes réelles publiées' %}" data-l-profit="{% trans 'Bénéfice net' %}"></canvas></div>
+
+  <h3 style="margin-top:28px">{% trans "Produits phares" %}</h3>
+  <div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Produit" %}</th><th class="n">{% trans "Achat" %}</th><th class="n">{% trans "Vente" %}</th><th class="n">{% trans "Marge" %}</th><th class="n">{% trans "Vendus / mois" %}</th><th class="n">{% trans "Marge / mois" %}</th></tr></thead>
+  <tbody>{% for pr in products %}<tr><td>{{ pr.name }}{% if pr.unit %} <span class="small muted">({{ pr.unit }})</span>{% endif %}</td><td class="n">{{ pr.buy_price|money }}</td><td class="n">{{ pr.sell_price|money }}</td><td class="n">{{ pr.margin_pct }} %</td><td class="n">{{ pr.monthly_units|money }}</td><td class="n">{{ pr.monthly_margin|money }}</td></tr>{% endfor %}</tbody></table></div>
+
+  <div class="grid g2" style="margin-top:28px">
+    <div><h3>{% trans "La boutique" %}</h3><dl class="kv">
+      <dt>{% trans "Ouverte depuis" %}</dt><dd>{{ boutique.opened_on|date:"m/Y"|default:"—" }}</dd>
+      <dt>{% trans "Local" %}</dt><dd>{{ boutique.get_premises_display }}{% if boutique.monthly_rent %} · {{ boutique.monthly_rent|money }} MRU{% endif %}</dd>
+      <dt>{% trans "Surface" %}</dt><dd>{{ boutique.surface_m2 }} m² + {{ boutique.storage_m2 }} m²</dd>
+      <dt>{% trans "Horaires" %}</dt><dd>{% if boutique.opening_time %}{{ boutique.opening_time|time:"H:i" }}–{{ boutique.closing_time|time:"H:i" }}, {% endif %}{{ boutique.days_open }}/7</dd>
+      <dt>{% trans "Clients par jour" %}</dt><dd>{{ boutique.customers_per_day }}</dd>
+      <dt>{% trans "Panier moyen" %}</dt><dd>{{ boutique.average_basket|money }} MRU</dd>
+      <dt>{% trans "Employés" %}</dt><dd>{{ boutique.staff_count }}{% if boutique.owner_works_in_shop %} + {% trans "le porteur" %}{% endif %}</dd>
+      <dt>{% trans "Concurrents à 500 m" %}</dt><dd>{{ boutique.competitors_nearby }}</dd>
+      <dt>{% trans "Électricité" %}</dt><dd>{{ boutique.get_energy_display }}</dd>
+    </dl></div>
+    <div><h3>{% trans "Bilan simplifié" %}</h3><dl class="kv">
+      <dt>{% trans "Stock" %}</dt><dd>{{ boutique.inventory_value|money }}</dd>
+      <dt>{% trans "Équipements" %}</dt><dd>{{ boutique.equipment_value|money }}</dd>
+      <dt>{% trans "Trésorerie" %}</dt><dd>{{ boutique.cash_on_hand|money }}</dd>
+      <dt>{% trans "Crédits clients (carnet)" %}</dt><dd>{{ boutique.customer_credit|money }}</dd>
+      <dt>{% trans "Dettes fournisseurs" %}</dt><dd class="neg">{{ boutique.supplier_debt|money }}</dd>
+      <dt>{% trans "Autres dettes" %}</dt><dd class="neg">{{ boutique.other_debt|money }}</dd>
+      <dt>{% trans "Ventes : espèces / mobile / crédit" %}</dt><dd>{{ boutique.cash_sales_pct|floatformat:"0" }} / {{ boutique.mobile_money_pct|floatformat:"0" }} / {{ boutique.credit_sales_pct|floatformat:"0" }} %</dd>
+    </dl>
+    <p class="small" style="margin-top:12px">{% if boutique.has_trade_register %}✓ {% trans "Registre du commerce" %}{% else %}✕ {% trans "Pas de registre du commerce" %}{% endif %} ·
+      {% if boutique.keeps_books %}✓ {% trans "Tient ses comptes" %}{% else %}✕ {% trans "Pas de comptabilité" %}{% endif %} ·
+      {% if boutique.insured %}✓ {% trans "Assurée" %}{% else %}✕ {% trans "Non assurée" %}{% endif %}</p></div>
+  </div>
+  {% if boutique.latitude %}<h3 style="margin-top:24px">{% trans "Emplacement" %}</h3><div id="shop-map" class="map" data-lat="{{ boutique.latitude|stringformat:'s' }}" data-lng="{{ boutique.longitude|stringformat:'s' }}"></div>{% endif %}
+  <div class="grid g2" style="margin-top:24px">
+    <div><h4>{% trans "Ce que changera le financement" %}</h4><p>{{ boutique.growth_plan|linebreaksbr }}</p></div>
+    <div><h4>{% trans "Saisonnalité et approvisionnement" %}</h4><p>{{ boutique.seasonality|linebreaksbr }}</p><p class="small muted">{{ boutique.supply_origin }} · {% blocktrans with d=boutique.restock_frequency_days %}réassort tous les {{ d }} jours{% endblocktrans %}</p></div>
+  </div>
+</section>
+{% endif %}
+
+{% if company %}
+<section id="company" class="anchor panel">
+  <h2>{% trans "L'entreprise" %}</h2>
+  <p><span class="badge tone-info">{{ company.get_stage_display }}</span> <span class="badge tone-muted">{{ company.get_legal_form_display }}</span>{% if company.is_registered %} <span class="badge tone-good">RCCM {{ company.rccm_number }}</span>{% endif %}</p>
+  <dl class="answers">
+    <dt>{% trans "Problème résolu" %}</dt><dd>{{ company.problem|linebreaksbr }}</dd>
+    <dt>{% trans "Solution" %}</dt><dd>{{ company.solution|linebreaksbr }}</dd>
+    <dt>{% trans "Clients visés" %}</dt><dd>{{ company.target_customers|linebreaksbr }}</dd>
+    <dt>{% trans "Concurrence et avantage" %}</dt><dd>{{ company.competitors|linebreaksbr }}<br>{{ company.advantage|linebreaksbr }}</dd>
+    <dt>{% trans "Modèle économique" %}</dt><dd>{{ company.revenue_model|linebreaksbr }}</dd>
+    <dt>{% trans "Risques" %}</dt><dd>{{ company.key_risks|linebreaksbr }}</dd>
+  </dl>
+  {% if team %}<h3 style="margin-top:20px">{% trans "Équipe" %}</h3><div class="grid g2">{% for m in team %}<div class="card"><b>{{ m.name }}</b> — {{ m.role }}<div class="small muted">{% blocktrans with y=m.years_experience %}{{ y }} ans d'expérience{% endblocktrans %}{% if not m.full_time %} · {% trans "temps partiel" %}{% endif %}</div>{% if m.background %}<p class="small">{{ m.background }}</p>{% endif %}</div>{% endfor %}</div>{% endif %}
+  {% if projections %}<h3 style="margin-top:20px">{% trans "Prévisions" %}</h3><table class="table"><thead><tr><th>{% trans "Année" %}</th><th class="n">{% trans "Chiffre d'affaires" %}</th><th class="n">{% trans "Charges" %}</th><th class="n">{% trans "Résultat" %}</th></tr></thead>
+    <tbody>{% for y in projections %}<tr><td>{{ y.year }}</td><td class="n">{{ y.revenue|money }}</td><td class="n">{{ y.expenses|money }}</td><td class="n {% if y.profit >= 0 %}pos{% else %}neg{% endif %}">{{ y.profit|money }}</td></tr>{% endfor %}</tbody></table>{% endif %}
+</section>
+{% endif %}
+
+{% if deal %}
+<section id="deal" class="anchor panel">
+  <h2>{{ deal.get_operation_display }}</h2>
+  <p>{{ deal.goods_description|linebreaksbr }}</p>
+  <div class="grid g2"><dl class="kv">
+    <dt>{% trans "Fournisseur" %}</dt><dd>{{ deal.supplier }}</dd>
+    <dt>{% trans "Coût d'achat" %}</dt><dd>{{ deal.purchase_cost|money }} MRU</dd>
+    <dt>{% trans "Frais annexes" %}</dt><dd>{{ deal.other_costs|money }} MRU</dd>
+    <dt>{% trans "Revente attendue" %}</dt><dd>{{ deal.expected_sale_value|money }} MRU</dd>
+    <dt>{% trans "Bénéfice attendu" %}</dt><dd class="pos">{{ deal.expected_profit|money }} MRU</dd>
+  </dl><dl class="kv">
+    <dt>{% trans "Durée du cycle" %}</dt><dd>{% blocktrans with d=deal.cycle_days %}{{ d }} jours{% endblocktrans %}</dd>
+    <dt>{% trans "Couverture de la dette" %}</dt><dd>{{ deal.coverage_ratio }} ×</dd>
+    <dt>{% trans "Acheteur identifié" %}</dt><dd>{% if deal.buyer_identified %}{% trans "Oui" %}{% else %}{% trans "Non" %}{% endif %}</dd>
+    <dt>{% trans "Bon de commande signé" %}</dt><dd>{% if deal.has_purchase_order %}{% trans "Oui" %}{% else %}{% trans "Non" %}{% endif %}</dd>
+    <dt>{% trans "Opérations similaires" %}</dt><dd>{{ deal.previous_cycles }}</dd>
+  </dl></div>
+  {% if deal.collateral %}<div class="note" style="margin-top:12px"><b>{% trans "Sûretés" %}</b> : {{ deal.collateral }} ({{ deal.collateral_value|money }} MRU)</div>{% endif %}
+</section>
+{% endif %}
+
+{% if milestones %}<section class="panel"><h2>{% trans "Étapes" %}</h2><ol class="timeline">{% for m in milestones %}<li><span class="muted">{{ m.due_date|date:"d/m/Y" }}</span><span>{{ m.title }}</span><span>{% badge m.status m.get_status_display %}</span></li>{% endfor %}</ol></section>{% endif %}
+
+<section id="answers" class="anchor panel">
+  <h2>{% trans "Questionnaire du porteur" %}</h2>
+  {% for section, answers in answer_sections %}<h3 style="margin-top:18px">{{ section.title }}</h3>
+    <dl class="answers">{% for a in answers %}<dt>{{ a.question.text }}</dt><dd>{{ a.display|linebreaksbr }}</dd>{% endfor %}</dl>
+  {% empty %}<p class="muted">{% trans "Pas encore de réponses publiées." %}</p>{% endfor %}
+</section>
+
+<section id="documents" class="anchor panel">
+  <h2>{% trans "Justificatifs" %}</h2>
+  {% if can_see_docs %}<table class="table"><tbody>{% for d in documents %}<tr><td><a href="{% url 'projects:document' d.pk %}" target="_blank" rel="noopener">{{ d.title }}</a><div class="small muted">{{ d.get_kind_display }}</div></td><td>{% if d.verified %}<span class="badge tone-good">{% trans "Vérifié par l'équipe" %}</span>{% endif %}</td></tr>
+    {% empty %}<tr><td class="muted">{% trans "Aucun document partagé." %}</td></tr>{% endfor %}</tbody></table>
+  {% else %}<p class="muted">{% trans "Les justificatifs sont visibles par les membres vérifiés." %} <a href="{% url 'accounts:login' %}">{% trans "Connexion" %}</a></p>{% endif %}
+</section>
+
+{% if project.status in "active completed defaulted" %}
+<section id="reports" class="anchor panel">
+  <h2>{% trans "Suivi et versements" %}</h2>
+  {% if not boutique %}<div class="chart-box"><canvas id="revenue-chart" data-chart="{{ chart }}" data-l-declared="{% trans 'Prévu' %}" data-l-actual="{% trans 'Ventes réelles publiées' %}" data-l-profit="{% trans 'Bénéfice net' %}"></canvas></div>{% endif %}
+  {% if reports %}<h3>{% trans "Rapports publiés" %}</h3><div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Période" %}</th><th class="n">{% trans "Ventes" %}</th><th class="n">{% trans "Charges totales" %}</th><th class="n">{% trans "Bénéfice net" %}</th><th>{% trans "Remis" %}</th><th></th></tr></thead>
+    <tbody>{% for r in reports %}<tr><td>{{ r.period_start|date:"m/Y" }}</td><td class="n">{{ r.revenue|money }}</td><td class="n">{{ r.cogs|add:r.expenses|money }}</td><td class="n {% if r.net_profit >= 0 %}pos{% else %}neg{% endif %}">{{ r.net_profit|money }}</td>
+      <td>{% if r.on_time %}<span class="badge tone-good">{% trans "à temps" %}</span>{% else %}<span class="badge tone-warn">{% trans "en retard" %}</span>{% endif %}</td><td>{% badge r.status r.get_status_display %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+  {% if installments %}<h3 style="margin-top:20px">{% trans "Échéancier Mourabaha" %}</h3><table class="table"><thead><tr><th>#</th><th>{% trans "Échéance" %}</th><th class="n">{% trans "Capital" %}</th><th class="n">{% trans "Marge" %}</th><th>{% trans "Statut" %}</th></tr></thead>
+    <tbody>{% for i in installments %}<tr><td>{{ i.number }}</td><td>{{ i.due_date|date:"d/m/Y" }}</td><td class="n">{{ i.principal|money }}</td><td class="n">{{ i.margin|money }}</td><td>{% badge i.status i.get_status_display %}{% if i.paid_at and i.days_late %} <span class="small muted">+{{ i.days_late }} j</span>{% endif %}</td></tr>{% endfor %}</tbody></table>{% endif %}
+  <h3 style="margin-top:20px">{% trans "Versements aux investisseurs" %}</h3>
+  {% if distributions %}<table class="table"><thead><tr><th>{% trans "Date" %}</th><th>{% trans "Nature" %}</th><th class="n">{% trans "Net distribué" %}</th><th class="n">{% trans "Par part" %}</th><th></th></tr></thead>
+    <tbody>{% for d in distributions %}<tr><td>{{ d.paid_at|date:"d/m/Y" }}</td><td>{{ d.get_kind_display }}{% if d.note %} <span class="small muted">{{ d.note }}</span>{% endif %}</td><td class="n pos">{{ d.net_amount|money }}</td><td class="n">{{ d.per_share|floatformat:2 }}</td><td>{% if not d.on_time %}<span class="badge tone-warn">{% trans "en retard" %}</span>{% endif %}</td></tr>{% endfor %}</tbody></table>
+  {% else %}<p class="muted">{% trans "Aucun versement pour l'instant." %}</p>{% endif %}
+  {% if updates %}<h3 style="margin-top:20px">{% trans "Nouvelles du porteur" %}</h3>{% for u in updates %}<div class="qa-item"><b>{{ u.title }}</b> <span class="small muted">{{ u.created_at|date:"d/m/Y" }}</span><p>{{ u.body|linebreaksbr }}</p>{% if u.image %}<img src="{{ u.image.url }}" alt="" style="max-height:220px;border-radius:8px">{% endif %}</div>{% endfor %}{% endif %}
+</section>
+{% endif %}
+
+{% if project.status == "active" %}
+<section id="market" class="anchor panel">
+  <div class="section-head"><h2>{% trans "Parts à vendre" %}</h2><a href="{% url 'market:index' %}?project={{ project.slug }}">{% trans "Voir sur le marché" %}</a></div>
+  <div class="chart-box" style="height:200px"><canvas id="price-chart" data-chart="{{ price_history }}" data-l-price="{% trans 'Prix des échanges' %}" data-l-nominal="{% trans 'Valeur nominale' %}"></canvas></div>
+  {% if listings %}<table class="table" style="margin-top:12px"><tbody>{% for l in listings %}<tr><td>{{ l.seller.display_name }}</td><td class="n">{{ l.remaining }} {% trans "parts" %}</td><td class="n"><b>{{ l.price_per_share|money }}</b> MRU <span class="small {% if l.premium_pct >= 0 %}pos{% else %}neg{% endif %}">{{ l.premium_pct }} %</span></td>
+    <td class="n">{% if user.is_authenticated and user != l.seller and user != project.owner %}<a class="btn small" href="{% url 'market:buy' l.pk %}">{% trans "Acheter" %}</a>{% endif %}</td></tr>{% endfor %}</tbody></table>
+  {% else %}<p class="muted">{% trans "Aucune part à vendre actuellement." %}</p>{% endif %}
+</section>
+{% endif %}
+
+<section id="qa" class="anchor panel">
+  <h2>{% trans "Questions au porteur" %}</h2>
+  {% for q in questions %}<div class="qa-item"><p style="margin:0"><b>{{ q.asker.display_name }}</b> : {{ q.question }}</p><p class="small" style="margin:6px 0 0;padding-inline-start:14px;border-inline-start:3px solid var(--palm)">{{ q.answer }}</p></div>
+  {% empty %}<p class="muted">{% trans "Aucune question pour l'instant." %}</p>{% endfor %}
+  {% if question_form %}<form method="post" action="{% url 'projects:ask' project.slug %}" class="form" style="margin-top:12px">{% csrf_token %}{% include "includes/form.html" with form=question_form grid="stack" %}<button class="btn secondary">{% trans "Poser la question" %}</button></form>{% endif %}
+</section>
+
+<section id="reviews" class="anchor panel">
+  <h2>{% trans "Avis des investisseurs" %}</h2>
+  {% for r in reviews %}<div class="qa-item"><span class="rating" aria-label="{{ r.average }} / 5">{% for i in "12345" %}{% if forloop.counter <= r.average %}★{% else %}☆{% endif %}{% endfor %}</span> <b>{{ r.reviewer.display_name }}</b> <span class="small muted">{{ r.created_at|date:"m/Y" }}</span>{% if r.comment %}<p>{{ r.comment }}</p>{% endif %}</div>
+  {% empty %}<p class="muted">{% trans "Les investisseurs pourront noter le porteur une fois les fonds versés." %}</p>{% endfor %}
+  {% if review_form %}<form method="post" action="{% url 'projects:review' project.slug %}" class="form" style="margin-top:16px">{% csrf_token %}
+    <h3>{% trans "Votre avis sur le porteur" %}</h3>
+    {% for field in review_form %}{% if field.name != "comment" %}<div class="field"><span class="label">{{ field.label|capfirst }}</span>
+      <div class="stars">{% for v in "54321" %}<input type="radio" name="{{ field.html_name }}" value="{{ v }}" id="{{ field.auto_id }}_{{ v }}" required><label for="{{ field.auto_id }}_{{ v }}" title="{{ v }}/5"><span class="sr-only">{{ v }}</span></label>{% endfor %}</div></div>
+    {% else %}{% include "includes/field.html" %}{% endif %}{% endfor %}
+    <button class="btn secondary">{% trans "Publier mon avis" %}</button></form>{% endif %}
+</section>
+
+</div>
+</div>
+</div>{% endblock %}
+{% block scripts %}<script src="{% static 'vendor/chartjs/chart.umd.min.js' %}" defer></script><script src="{% static 'vendor/leaflet/leaflet.js' %}" defer></script>{% endblock %}

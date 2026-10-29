@@ -1,0 +1,14 @@
+# /etc/systemd/system/moucharaka.service
+[Unit]
+Description=Moucharaka (gunicorn)
+After=network.target postgresql.service
+
+[Service]
+User=moucharaka
+WorkingDirectory=/srv/moucharaka
+EnvironmentFile=/srv/moucharaka/.env
+ExecStart=/srv/moucharaka/.venv/bin/gunicorn config.wsgi:application -c deploy/gunicorn.conf.py --bind 127.0.0.1:8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

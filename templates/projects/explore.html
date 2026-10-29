@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Projets" %}{% endblock %}
+{% block content %}<div class="wrap section">
+  <div class="section-head"><h1 style="margin:0">{% trans "Projets à financer" %}</h1><a class="btn secondary" href="{% url 'projects:new' %}">{% trans "Proposer un projet" %}</a></div>
+  <form method="get" class="panel" style="padding:16px">
+    <div class="grid g4" style="gap:10px">
+      <input type="search" name="q" value="{{ form.q.value|default:'' }}" placeholder="{% trans 'Nom, quartier, boutique…' %}" aria-label="{% trans 'Rechercher' %}">
+      {{ form.kind }} {{ form.model }} {{ form.wilaya }} {{ form.sector }} {{ form.status }} {{ form.sort }}
+      <button class="btn">{% trans "Filtrer" %}</button>
+    </div>
+  </form>
+  {% if page.object_list %}<div class="grid g3" style="margin-top:20px">{% for p in page.object_list %}{% include "includes/project_card.html" %}{% endfor %}</div>
+  {% include "includes/pagination.html" %}
+  {% else %}<div class="empty panel" style="margin-top:20px">{% trans "Aucun projet ne correspond à ces critères." %}<br><a class="btn secondary" href="{% url 'projects:explore' %}">{% trans "Effacer les filtres" %}</a></div>{% endif %}
+</div>{% endblock %}

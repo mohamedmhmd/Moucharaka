@@ -1,0 +1,14 @@
+{% extends "accounts/auth_base.html" %}{% load i18n %}
+{% block title %}{% trans "Connexion" %}{% endblock %}
+{% block auth %}
+<h1>{% trans "Connexion" %}</h1>
+<form method="post" class="form" novalidate>{% csrf_token %}
+  {% include "includes/form.html" with grid="stack" %}
+  <button class="btn block">{% trans "Se connecter" %}</button>
+</form>
+<div class="row between small" style="margin-top:14px">
+  <a href="{% url 'accounts:otp_login' %}">{% trans "Connexion par code SMS" %}</a>
+  <a href="{% url 'accounts:reset' %}">{% trans "Mot de passe oublié ?" %}</a>
+</div>
+{% endblock %}
+{% block below %}<p class="small muted" style="text-align:center;margin-top:16px">{% trans "Pas encore de compte ?" %} <a href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a></p>{% endblock %}

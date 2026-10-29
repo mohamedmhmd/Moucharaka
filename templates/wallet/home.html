@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Portefeuille" %}{% endblock %}
+{% block content %}<div class="wrap section">
+  <div class="section-head"><h1 style="margin:0">{% trans "Portefeuille" %}</h1>
+    <div class="row"><a class="btn" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a><a class="btn secondary" href="{% url 'wallet:withdraw' %}">{% trans "Retirer" %}</a></div></div>
+  <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat"><b class="num">{{ wallet.balance|money }}</b><span>{% trans "MRU disponibles" %}</span></div>
+    <div class="stat"><b class="num">{{ wallet.held|money }}</b><span>{% trans "MRU bloqués" %}</span></div>
+    <div class="stat"><b class="num">{{ wallet.total|money }}</b><span>{% trans "MRU au total" %}</span></div>
+  </div>
+  {% if deposits or withdrawals %}<div class="panel" style="margin-top:20px"><h2>{% trans "En attente" %}</h2><table class="table"><tbody>
+    {% for d in deposits %}<tr><td>{% trans "Dépôt" %} <span class="ltr small">{{ d.reference }}</span><div class="small muted">{{ d.get_method_display }} · {{ d.created_at|date:"d/m H:i" }}</div></td><td class="n">{{ d.amount|money }} MRU</td><td>{% badge d.status d.get_status_display %}</td>
+      <td class="n">{% if d.status == "pending" %}<a class="btn small" href="{% url 'wallet:deposit_detail' d.reference %}">{% trans "J'ai payé" %}</a>{% endif %}</td></tr>{% endfor %}
+    {% for w in withdrawals %}<tr><td>{% trans "Retrait" %} <span class="ltr small">{{ w.reference }}</span><div class="small muted">{{ w.get_method_display }} → <span class="ltr">{{ w.destination }}</span></div></td><td class="n">{{ w.amount|money }} MRU</td><td>{% badge w.status w.get_status_display %}</td>
+      <td class="n"><form method="post" action="{% url 'wallet:withdraw_cancel' w.reference %}">{% csrf_token %}<button class="btn small ghost">{% trans "Annuler" %}</button></form></td></tr>{% endfor %}
+  </tbody></table></div>{% endif %}
+  <div class="panel" style="margin-top:20px"><h2>{% trans "Historique" %}</h2>
+  {% if page.object_list %}<div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Date" %}</th><th>{% trans "Opération" %}</th><th class="n">{% trans "Montant" %}</th><th class="n">{% trans "Bloqué" %}</th><th class="n">{% trans "Solde" %}</th></tr></thead><tbody>
+    {% for t in page.object_list %}<tr><td class="small">{{ t.created_at|date:"d/m/Y H:i" }}</td>
+      <td>{{ t.get_kind_display }}{% if t.project %}<div class="small"><a href="{{ t.project.get_absolute_url }}">{{ t.project.title }}</a></div>{% elif t.description %}<div class="small muted">{{ t.description }}</div>{% endif %}</td>
+      <td class="n {% if t.amount > 0 %}pos{% elif t.amount < 0 %}neg{% endif %}">{% if t.amount %}{{ t.amount|signed_money }}{% endif %}</td>
+      <td class="n muted">{% if t.held_delta %}{{ t.held_delta|signed_money }}{% endif %}</td><td class="n">{{ t.balance_after|money }}</td></tr>{% endfor %}
+  </tbody></table></div>{% include "includes/pagination.html" %}
+  {% else %}<div class="empty">{% trans "Aucune opération. Commencez par un dépôt." %}<br><a class="btn" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a></div>{% endif %}</div>
+</div>{% endblock %}

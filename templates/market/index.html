@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Marché des parts" %}{% endblock %}
+{% block content %}<div class="wrap section">
+  <div class="section-head"><div><h1 style="margin:0">{% trans "Marché des parts" %}</h1><p class="muted" style="margin:6px 0 0">{% blocktrans with b=settings.trade_fee_buyer_pct|floatformat:"-1" s=settings.trade_fee_seller_pct|floatformat:"-1" %}Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : {{ b }} % acheteur, {{ s }} % vendeur.{% endblocktrans %}</p></div>
+    {% if user.is_authenticated %}<a class="btn secondary" href="{% url 'market:mine' %}">{% trans "Mes annonces" %}</a>{% endif %}</div>
+  <div class="panel"><h2>{% trans "Projets négociables" %}</h2>
+  {% if projects %}<div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Contrat" %}</th><th class="n">{% trans "Valeur nominale" %}</th><th class="n">{% trans "Meilleure offre" %}</th><th class="n">{% trans "Parts dispo." %}</th><th class="n">{% trans "Échangées" %}</th><th class="n">{% trans "Versé / part" %}</th><th></th></tr></thead><tbody>
+    {% for p in projects %}<tr><td><a href="{{ p.get_absolute_url }}">{{ p.title }}</a><div class="small muted">{{ p.wilaya.name }}</div></td>
+      <td><span class="model {{ p.financing_model }}">{% if p.is_moucharaka %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span></td>
+      <td class="n">{{ p.share_price|money }}</td><td class="n">{% if p.best %}<b>{{ p.best|money }}</b>{% else %}—{% endif %}</td><td class="n">{{ p.available|default:0 }}</td><td class="n">{{ p.volume|default:0 }}</td>
+      <td class="n pos">{% if p.distributions_total %}{{ p.distributions_total|money }}{% else %}—{% endif %}</td>
+      <td class="n">{% if p.offers %}<a class="btn small secondary" href="?project={{ p.slug }}#offers">{% trans "Voir les offres" %}</a>{% endif %}</td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<div class="empty">{% trans "Aucun projet en activité pour l'instant." %}</div>{% endif %}</div>
+  <div class="panel anchor" id="offers" style="margin-top:20px"><h2>{% if selected %}{% blocktrans with t=selected.title %}Offres sur « {{ t }} »{% endblocktrans %}{% else %}{% trans "Toutes les offres" %}{% endif %}</h2>
+  {% if listings %}<div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Vendeur" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Prix / part" %}</th><th class="n">{% trans "vs nominal" %}</th><th></th></tr></thead><tbody>
+    {% for l in listings %}<tr><td><a href="{{ l.project.get_absolute_url }}">{{ l.project.title }}</a></td><td>{{ l.seller.display_name }}{% if l.note %}<div class="small muted">{{ l.note }}</div>{% endif %}</td>
+      <td class="n">{{ l.remaining }}{% if not l.allow_partial %} <span class="small muted">({% trans "lot entier" %})</span>{% endif %}</td><td class="n"><b>{{ l.price_per_share|money }}</b></td>
+      <td class="n {% if l.premium_pct >= 0 %}pos{% else %}neg{% endif %}">{{ l.premium_pct }} %</td>
+      <td class="n">{% if user != l.seller and user != l.project.owner %}<a class="btn small" href="{% url 'market:buy' l.pk %}">{% trans "Acheter" %}</a>{% endif %}</td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<div class="empty">{% trans "Aucune part en vente pour le moment." %}</div>{% endif %}</div>
+  {% if recent %}<div class="panel" style="margin-top:20px"><h2>{% trans "Derniers échanges" %}</h2><table class="table"><tbody>{% for t in recent %}<tr><td class="small">{{ t.created_at|date:"d/m H:i" }}</td><td>{{ t.project.title }}</td><td class="n">{{ t.shares }} × {{ t.price_per_share|money }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+</div>{% endblock %}

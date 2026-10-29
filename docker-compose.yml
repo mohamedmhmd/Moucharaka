@@ -1,0 +1,43 @@
+# Production-like stack: docker compose up -d --build
+# Then: docker compose exec web python manage.py createsuperuser
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: moucharaka
+      POSTGRES_USER: moucharaka
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-moucharaka}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moucharaka"]
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+
+  web:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://moucharaka:${POSTGRES_PASSWORD:-moucharaka}@db:5432/moucharaka
+    volumes: [media:/data/media, private_media:/data/private_media]
+    ports: ["8000:8000"]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+
+  # Daily jobs: close campaigns, late installments/reports, trust scores
+  scheduler:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://moucharaka:${POSTGRES_PASSWORD:-moucharaka}@db:5432/moucharaka
+      SKIP_MIGRATE: "1"
+    command: ["sh", "-c", "while true; do python manage.py run_daily; sleep 86400; done"]
+    volumes: [media:/data/media, private_media:/data/private_media]
+    depends_on: [web]
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  media:
+  private_media:

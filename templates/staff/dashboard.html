@@ -1,0 +1,19 @@
+{% extends "staff/base_staff.html" %}{% load i18n mk %}
+{% block title %}{% trans "Back-office" %}{% endblock %}
+{% block staff %}<h1>{% trans "Back-office" %}</h1>
+<div class="queue">
+  <a href="{% url 'staff:kyc_list' %}" {% if kyc_pending %}class="hot"{% endif %}><b>{{ kyc_pending }}</b>{% trans "dossiers KYC à vérifier" %}</a>
+  <a href="{% url 'staff:project_list' %}" {% if projects_pending %}class="hot"{% endif %}><b>{{ projects_pending }}</b>{% trans "projets à étudier" %}</a>
+  <a href="{% url 'staff:project_list' %}?status=funded" {% if funded_pending %}class="hot"{% endif %}><b>{{ funded_pending }}</b>{% trans "projets financés : fonds à libérer" %}</a>
+  <a href="{% url 'staff:deposits' %}" {% if deposits_pending %}class="hot"{% endif %}><b>{{ deposits_pending }}</b>{% trans "dépôts à confirmer" %}</a>
+  <a href="{% url 'staff:withdrawals' %}" {% if withdrawals_pending %}class="hot"{% endif %}><b>{{ withdrawals_pending }}</b>{% trans "retraits à payer" %}</a>
+  <a href="{% url 'staff:reports' %}"><b>{{ reports_pending }}</b>{% trans "rapports à vérifier" %}</a>
+</div>
+<div class="grid g2" style="margin-top:20px">
+  <div class="panel"><h2>{% trans "Revenus du mois" %}</h2><dl class="kv">{% for r in revenue %}<dt>{{ r.kind }}</dt><dd>{{ r.total|money }} MRU</dd>{% endfor %}<dt><b>{% trans "Total" %}</b></dt><dd><b>{{ revenue_total|money }} MRU</b></dd></dl>
+    <p class="small muted" style="margin-top:12px">{% blocktrans with b=platform.balance|money %}Solde du compte plateforme : {{ b }} MRU{% endblocktrans %}</p></div>
+  <div class="panel"><h2>{% trans "Fonds des clients" %}</h2><dl class="kv"><dt>{% trans "Disponibles" %}</dt><dd>{{ user_balances|money }} MRU</dd><dt>{% trans "En séquestre" %}</dt><dd>{{ escrow|money }} MRU</dd><dt>{% trans "Utilisateurs (vérifiés)" %}</dt><dd>{{ users }} ({{ approved_users }})</dd></dl>
+    <p class="small muted" style="margin-top:12px">{% trans "Le total doit correspondre au solde des comptes de cantonnement à la banque." %}</p></div>
+</div>
+{% if late_installments %}<div class="panel" style="margin-top:20px"><h2>{% trans "Échéances en retard" %}</h2><table class="table"><tbody>{% for i in late_installments %}<tr><td><a href="{% url 'staff:project_review' i.project.pk %}">{{ i.project.title }}</a></td><td>#{{ i.number }} · {{ i.due_date|date:"d/m/Y" }}</td><td class="n">{{ i.amount|money }}</td><td>{% badge i.status i.get_status_display %} +{{ i.days_late }} j</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+{% endblock %}

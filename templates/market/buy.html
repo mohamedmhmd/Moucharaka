@@ -1,0 +1,15 @@
+{% extends "accounts/auth_base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Acheter des parts" %}{% endblock %}
+{% block auth %}<h1>{% trans "Acheter des parts" %}</h1>
+<p><a href="{{ listing.project.get_absolute_url }}">{{ listing.project.title }}</a> · {{ listing.seller.display_name }}</p>
+<form method="post" class="form">{% csrf_token %}
+  <div class="field"><label for="shares">{% trans "Nombre de parts" %}</label><input type="number" id="shares" name="shares" min="1" max="{{ listing.remaining }}" value="{{ shares }}" {% if not listing.allow_partial %}readonly{% endif %}></div>
+  <button class="btn ghost small" formmethod="get">{% trans "Recalculer" %}</button>
+  <ul class="terms-list" style="margin-top:12px">
+    <li><span>{{ shares }} × {{ listing.price_per_share|money }} MRU</span><b>{{ q.gross|money }} MRU</b></li>
+    <li><span>{% trans "Frais acheteur" %}</span><b>{{ q.buyer_fee|money:2 }} MRU</b></li>
+    <li><span>{% trans "Total débité" %}</span><b>{{ q.buyer_total|money:2 }} MRU</b></li>
+    <li><span>{% trans "Votre solde" %}</span><b>{{ wallet.balance|money }} MRU</b></li>
+  </ul>
+  <button class="btn block" name="confirm" value="1" style="margin-top:12px">{% trans "Confirmer l'achat" %}</button>
+</form>{% endblock %}

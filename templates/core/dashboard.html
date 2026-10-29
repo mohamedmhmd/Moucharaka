@@ -1,0 +1,45 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Mon espace" %}{% endblock %}
+{% block content %}<div class="wrap section">
+  <div class="section-head"><h1>{% blocktrans with n=user.full_name %}Bonjour {{ n }}{% endblocktrans %}</h1>
+    <div class="row"><a class="btn secondary" href="{% url 'trust:profile' user.public_id %}">{% trans "Mon profil public" %}</a><a class="btn ghost" href="{% url 'accounts:settings' %}">{% trans "Paramètres" %}</a></div></div>
+  {% if user.is_approved %}
+  <div class="stats">
+    <div class="stat"><b class="num">{{ wallet.balance|money }}</b><span>{% trans "MRU disponibles" %}</span></div>
+    <div class="stat"><b class="num">{{ wallet.held|money }}</b><span>{% trans "MRU bloqués (collectes, retraits)" %}</span></div>
+    <div class="stat"><b class="num">{{ holdings_value|money }}</b><span>{% trans "MRU investis (valeur nominale)" %}</span></div>
+    <div class="stat"><b class="num">{{ received|money }}</b><span>{% trans "MRU déjà reçus" %}</span></div>
+  </div>
+  <div class="row" style="margin-top:16px">
+    <a class="btn" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a>
+    <a class="btn secondary" href="{% url 'wallet:withdraw' %}">{% trans "Retirer" %}</a>
+    <a class="btn secondary" href="{% url 'core:portfolio' %}">{% trans "Mon portefeuille de parts" %}</a>
+  </div>
+  {% endif %}
+  <div class="split" style="margin-top:28px">
+    <div>
+      <div class="panel">
+        <div class="section-head"><h2>{% trans "Mes projets" %}</h2>{% if user.is_approved %}<a class="btn small" href="{% url 'projects:new' %}">{% trans "Nouveau projet" %}</a>{% endif %}</div>
+        {% if my_projects %}<div class="table-wrap"><table class="table">
+          <thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Statut" %}</th><th class="n">{% trans "Collecté" %}</th><th></th></tr></thead>
+          <tbody>{% for p in my_projects %}<tr>
+            <td><a href="{{ p.get_absolute_url }}">{{ p.title }}</a><div class="small muted">{{ p.get_kind_display }}</div></td>
+            <td>{% badge p.status p.get_status_display %}</td>
+            <td class="n">{{ p.raised_amount|money }} / {{ p.target_amount|money }}</td>
+            <td class="n">{% if p.is_editable %}<a class="btn small secondary" href="{% url 'projects:edit' p.slug 'basics' %}">{% trans "Compléter" %}</a>
+              {% elif p.status != "submitted" %}<a class="btn small secondary" href="{% url 'projects:manage' p.slug %}">{% trans "Gérer" %}</a>{% endif %}</td>
+          </tr>{% if p.status == "changes" %}<tr><td colspan="4"><div class="note warn small">{{ p.changes_requested }}</div></td></tr>{% endif %}{% endfor %}</tbody></table></div>
+        {% else %}<div class="empty">{% trans "Vous n'avez pas encore proposé de projet." %}<br>{% if user.is_approved %}<a class="btn" href="{% url 'projects:new' %}">{% trans "Proposer un projet" %}</a>{% endif %}</div>{% endif %}
+      </div>
+      {% if held_investments %}<div class="panel"><h2>{% trans "Collectes auxquelles vous participez" %}</h2>
+        <table class="table"><tbody>{% for i in held_investments %}<tr><td><a href="{{ i.project.get_absolute_url }}">{{ i.project.title }}</a></td><td class="n">{{ i.shares }} {% trans "parts" %}</td><td class="n">{{ i.amount|money }} MRU</td><td>{% badge i.project.status i.project.get_status_display %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+      {% if recommended %}<div class="panel"><h2>{% trans "Collectes qui se terminent bientôt" %}</h2><div class="grid g3">{% for p in recommended %}{% include "includes/project_card.html" %}{% endfor %}</div></div>{% endif %}
+    </div>
+    <aside>
+      {% if score %}<div class="panel"><h3>{% trans "Mon score de confiance" %}</h3>{% include "includes/score.html" %}</div>{% endif %}
+      <div class="panel"><div class="row between"><h3 style="margin:0">{% trans "Notifications" %}</h3><a class="small" href="{% url 'core:notifications' %}">{% trans "Tout voir" %}</a></div>
+        {% for n in notifications %}<div class="qa-item"><a href="{{ n.url|default:'#' }}"><b>{{ n.title }}</b></a><div class="small muted">{{ n.body|truncatechars:110 }}</div><div class="small muted">{{ n.created_at|timesince }}</div></div>
+        {% empty %}<p class="muted small">{% trans "Rien de nouveau." %}</p>{% endfor %}</div>
+    </aside>
+  </div>
+</div>{% endblock %}
