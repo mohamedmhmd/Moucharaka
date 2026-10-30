@@ -179,6 +179,9 @@ class Project(TimeStamped):
     released_at = models.DateTimeField(null=True, blank=True)
     closed_at = models.DateTimeField(null=True, blank=True)
     trading_enabled = models.BooleanField(_("revente des parts autorisée"), default=True)
+    preview_token = models.CharField(max_length=24, blank=True, editable=False, db_index=True,
+                                     help_text=_("Clé du lien d'aperçu privé (projet pas encore publié)."))
+    shares_count = models.PositiveIntegerField(default=0, editable=False, help_text=_("Ouvertures du lien partagé."))
     featured_until = models.DateTimeField(null=True, blank=True)
 
     class Meta:
@@ -193,6 +196,10 @@ class Project(TimeStamped):
     def save(self, *args, **kwargs):
         if not self.reference:
             self.reference = "MP-" + uuid.uuid4().hex[:6].upper()
+        if not self.preview_token:
+            import secrets
+
+            self.preview_token = secrets.token_urlsafe(12)
         if not self.slug:
             base = slugify(self.title, allow_unicode=False)[:60] or "projet"
             self.slug = f"{base}-{self.reference[3:].lower()}"
@@ -200,6 +207,12 @@ class Project(TimeStamped):
 
     def get_absolute_url(self):
         return reverse("projects:detail", args=[self.slug])
+
+    def get_share_path(self, private=False):
+        """Short link built from the project ID, e.g. /s/MP-3FA9C1/.
+        `private=True` adds the preview key so a draft can be shown before publication."""
+        path = reverse("short", args=[self.reference])
+        return f"{path}?k={self.preview_token}" if private and not self.is_public else path
 
     # ---------------------------------------------------------- derived values
     @property
@@ -765,6 +778,23 @@ class ProjectQuestion(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+
+class ProjectInterest(models.Model):
+    """Someone who wants to invest once the campaign opens (shared link before launch)."""
+
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="interests")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="project_interests")
+    amount = models.DecimalField(_("montant envisagé (MRU)"), **MONEY, null=True, blank=True)
+    note = models.CharField(_("message au porteur (facultatif)"), max_length=200, blank=True)
+    notified_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        unique_together = [("project", "user")]
+        verbose_name = _("intention d'investissement")
+        verbose_name_plural = _("intentions d'investissement")
 
 
 class Favorite(models.Model):

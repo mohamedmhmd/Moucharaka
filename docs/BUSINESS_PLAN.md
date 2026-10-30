@@ -49,7 +49,7 @@ Moucharaka is a Sharia-compliant marketplace where Mauritanians finance shops, t
 | **Revenue per shop** | **≈ 53 500** |
 | Cost: KYC + file review (4 h) + field visit | − 4 000 |
 | Cost: 36 monthly report checks (20 min each) | − 6 000 |
-| Cost: SMS, payment collection | − 2 000 |
+| Cost: WhatsApp messages, payment collection | − 2 000 |
 | **Contribution** | **≈ 41 500 (~1 040 USD)** |
 
 **Exit.** By default the owner progressively buys back the shares (*Moucharaka moutanaqisa*) after year 1. Investors see their capital come back on top of their profit share, and the owner ends up sole owner. Shares can also be resold on the market at any time.
@@ -113,7 +113,7 @@ Assumptions: 1.6 applications per funded project (review fees), investors earn 1
 | Management fees | 0.5M | 2.1M | 5.5M |
 | Market, withdrawals, featured | 0.25M | 0.9M | 2.3M |
 | **Revenue (M MRU)** | **3.3** | **10.8** | **25.5** |
-| Team, office, IT, SMS | 2.8M | 5.5M | 9.0M |
+| Team, office, IT, messaging | 2.8M | 5.5M | 9.0M |
 | Marketing | 0.6M | 1.5M | 3.0M |
 | Legal, Sharia board, audit | 0.4M | 0.6M | 0.8M |
 | **Operating result (M MRU)** | **−0.5** | **+3.2** | **+12.7** |
@@ -126,7 +126,7 @@ Revenue is about 6 % of the volume raised. With the year-1 cost base (3.8 M MRU)
 |---|---|
 | Fraudulent owner | Phone OTP, NNI, ID and selfie reviewed by staff with automatic flags (duplicate name and date of birth, expired ID, PEP); documents and photos required; risk grade A–E; field visit. |
 | Optimistic projections | Declared history vs. traffic × basket check, three scenarios, monthly actual-vs-plan chart, reviews from investors. |
-| Late or missing reports | Daily job flags missed reports, sends SMS reminders, and lowers the public trust score. |
+| Late or missing reports | Daily job flags missed reports, sends WhatsApp reminders, and lowers the public trust score. |
 | Default | 90-day rule, trading suspension, guarantees, public record on the owner's profile (deterrent). |
 | Concentration | One investor can hold at most 40 % of a campaign. |
 | Liquidity | Secondary market, diminishing-Moucharaka buybacks. |

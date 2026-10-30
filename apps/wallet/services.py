@@ -60,12 +60,16 @@ def confirm_deposit(deposit: DepositRequest, by=None, external_ref=None, payload
     deposit.confirmed_by = by
     deposit.confirmed_at = timezone.now()
     deposit.save()
+    acc = deposit.payment_account
+    if acc is not None and acc.verified_at is None:
+        acc.verified_at = timezone.now()
+        acc.save(update_fields=["verified_at"])
     post(Wallet.for_user(deposit.user), Transaction.Kind.DEPOSIT, deposit.amount,
          description=f"{deposit.get_method_display()} {deposit.external_ref}".strip(), reference=deposit.reference)
     audit("deposit.confirmed", deposit, actor=by, amount=str(deposit.amount))
     notify(deposit.user, N_("Dépôt confirmé"),
            N_("%(a)s MRU ont été ajoutés à votre portefeuille.") % {"a": f"{deposit.amount:,.0f}".replace(",", " ")},
-           url="/wallet/", sms=True)
+           url="/wallet/", whatsapp=True)
     return deposit
 
 
@@ -87,13 +91,21 @@ def withdrawal_fee(amount):
 
 
 @transaction.atomic
-def request_withdrawal(user, amount, method, destination):
+def request_withdrawal(user, amount, account):
+    """Withdraw to one of the user's saved payment accounts."""
     s = PlatformSettings.get()
     amount = q2(amount)
+    if account.user_id != user.pk or not account.is_active:
+        raise WalletError(_("Compte de réception invalide."))
+    if not account.can_receive_withdrawal:
+        raise WalletError(_("Ce compte vient d'être ajouté : il pourra recevoir un retrait à partir du %(d)s.") % {
+            "d": account.withdrawable_from.strftime("%d/%m/%Y %H:%M")})
     if amount < s.min_withdrawal:
         raise WalletError(_("Le retrait minimum est de %(m)s MRU.") % {"m": f"{s.min_withdrawal:,.0f}"})
     fee = withdrawal_fee(amount)
-    wr = WithdrawalRequest.objects.create(user=user, amount=amount, fee=fee, method=method, destination=destination)
+    destination = account.number
+    wr = WithdrawalRequest.objects.create(user=user, amount=amount, fee=fee, method=account.method,
+                                          destination=destination, payment_account=account)
     post(Wallet.for_user(user), Transaction.Kind.WITHDRAWAL_HOLD, -(amount + fee), held_delta=amount + fee,
          description=destination, reference=wr.reference)
     audit("withdrawal.requested", wr, actor=user, amount=str(amount))
@@ -118,7 +130,7 @@ def mark_withdrawal_paid(wr, by, external_ref=""):
     audit("withdrawal.paid", wr, actor=by)
     notify(wr.user, N_("Retrait envoyé"),
            N_("%(a)s MRU envoyés vers %(d)s.") % {"a": f"{wr.amount:,.0f}".replace(",", " "), "d": wr.destination},
-           url="/wallet/", sms=True)
+           url="/wallet/", whatsapp=True)
     return wr
 
 
@@ -145,3 +157,41 @@ def adjust(user, amount, by=None, reason=""):
     tx = post(Wallet.for_user(user), Transaction.Kind.ADJUSTMENT, amount, description=reason)
     audit("wallet.adjusted", tx.wallet, actor=by, amount=str(amount), reason=reason)
     return tx
+
+
+# ------------------------------------------------------------------ payment accounts
+
+@transaction.atomic
+def save_payment_account(user, form, request=None):
+    from .models import PaymentAccount
+
+    created = form.instance.pk is None
+    acc = form.save(commit=False)
+    acc.user = user
+    if not user.payment_accounts.filter(is_active=True).exclude(pk=acc.pk).exists():
+        acc.is_default = True
+    if acc.is_default:
+        PaymentAccount.objects.filter(user=user).exclude(pk=acc.pk).update(is_default=False)
+    acc.save()
+    if created:
+        audit("payment_account.added", acc, actor=user, request=request, method=acc.method)
+        notify(user, N_("Nouveau compte de paiement ajouté"),
+               N_("%(m)s %(n)s a été ajouté à votre portefeuille. Si ce n'est pas vous, contactez le support "
+                  "immédiatement.") % {"m": acc.get_method_display(), "n": acc.display_number},
+               url="/wallet/accounts/", whatsapp=True)
+    return acc
+
+
+def remove_payment_account(acc, request=None):
+    if acc.withdrawals.filter(status="pending").exists():
+        raise WalletError(_("Un retrait en cours utilise ce compte. Attendez qu'il soit traité."))
+    acc.is_active = False
+    was_default = acc.is_default
+    acc.is_default = False
+    acc.save(update_fields=["is_active", "is_default"])
+    if was_default:
+        nxt = acc.user.payment_accounts.filter(is_active=True).first()
+        if nxt:
+            nxt.is_default = True
+            nxt.save(update_fields=["is_default"])
+    audit("payment_account.removed", acc, actor=acc.user, request=request)

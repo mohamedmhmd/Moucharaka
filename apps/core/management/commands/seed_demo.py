@@ -22,7 +22,7 @@ from apps.core.factories import make_project, make_user
 from apps.core.models import PlatformSettings
 from apps.investments.services import invest, pay_installment, pay_profit_distribution, release_funds
 from apps.market.services import buy, create_listing
-from apps.projects.models import Project, ProjectQuestion, ProjectUpdate
+from apps.projects.models import Project, ProjectInterest, ProjectQuestion, ProjectUpdate
 from apps.projects.services import approve_project, report_periods, submit_project, submit_report
 from apps.trust.models import Review
 from apps.trust.services import compute_score
@@ -73,7 +73,10 @@ class Command(BaseCommand):
                 names = ["Mohamed Ould Baba", "Fatimetou Mint Salem", "Ahmed Ould Sidi", "Zeinabou Mint Cheikh",
                          "Moussa Ba", "Oumar Diallo", "Vatimetou Mint Isselmou", "Abdallahi Ould Ahmedou",
                          "Lalla Mint Moctar", "El Hacen Ould Mahfoudh", "Coumba Sy", "Yahya Ould Brahim"]
-                investors = [make_user(n, phone=f"3300{i:04d}", password=password, balance=rnd.choice([300_000, 500_000, 800_000]))
+                # Diaspora members log in with their foreign WhatsApp number
+                diaspora = {1: "+33612345601", 3: "+34612345603", 6: "+971501234506", 9: "+12025550109"}
+                investors = [make_user(n, phone=diaspora.get(i, f"3300{i:04d}"), password=password,
+                                       balance=rnd.choice([300_000, 500_000, 800_000]))
                              for i, n in enumerate(names)]
             demo_investor = investors[0]
 
@@ -188,6 +191,23 @@ class Command(BaseCommand):
             # 6. Queues for the back-office
             make_project(owners["sidi"], "boutique", "moucharaka", 250_000, title="Boutique Sebkha Bord de Mer",
                          status=Project.Status.SUBMITTED, wilaya_code="NKO")
+            # A draft shared privately with relatives, who already signalled interest
+            draft = make_project(owners["aicha"], "boutique", "moucharaka", 200_000, title="Couture Mint Sidi — Ksar",
+                                 tagline="Atelier de melhfa et de broderie qui veut acheter deux machines.",
+                                 wilaya_code="NKO")
+            for inv, amount in ((investors[1], 20_000), (investors[6], 50_000), (investors[9], None)):
+                ProjectInterest.objects.create(project=draft, user=inv, amount=amount)
+
+            # Payment accounts: Bankily / Masrvi / Sedad numbers in Mauritania, even for diaspora members
+            from apps.wallet.models import PaymentAccount
+
+            methods = ["bankily", "masrvi", "sedad"]
+            for i, u in enumerate(User.objects.filter(status="approved").order_by("pk")):
+                PaymentAccount.objects.create(user=u, method=methods[i % 3], number=f"+2224{i:07d}",
+                                              holder_name=u.full_name, is_default=True, verified_at=now)
+            PaymentAccount.objects.create(user=investors[1], method="bank", number="MR1300020001010000123456753",
+                                          bank_name="BMCI", holder_name=investors[1].full_name,
+                                          label="Compte de ma famille à Nouakchott")
             pending = make_user("Hawa Sow", approved=False, phone="44000001", password=password)
             from apps.core.factories import image_file
             from apps.core.models import Moughataa
@@ -208,7 +228,7 @@ class Command(BaseCommand):
                 compute_score(u)
         self.stdout.write(self.style.SUCCESS(
             f"Demo ready. Admin: 20000000 / {password} · Staff: 20000001 · Owner: 22000101 · "
-            f"Investor: {demo_investor.phone} (same password)."))
+            f"Investor: {demo_investor.phone} · Diaspora investor: +33612345601 (same password)."))
         self.stdout.write(f"Admin user id {admin.pk}.")
 
     def _fill(self, project, investors, rnd, start, total):

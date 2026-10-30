@@ -8,10 +8,13 @@
     <div class="stat"><b class="num">{{ wallet.held|money }}</b><span>{% trans "MRU bloqués" %}</span></div>
     <div class="stat"><b class="num">{{ wallet.total|money }}</b><span>{% trans "MRU au total" %}</span></div>
   </div>
+  <div class="panel" style="margin-top:20px"><div class="row between"><h2 style="margin:0">{% trans "Mes comptes de paiement" %}</h2><a class="small" href="{% url 'wallet:accounts' %}">{% trans "Gérer mes comptes" %}</a></div>
+    {% for a in accounts %}<div class="qa-item small"><b>{{ a.get_method_display }}</b> <span class="ltr">{{ a.display_number }}</span>{% if a.is_default %} <span class="badge tone-info">{% trans "Principal" %}</span>{% endif %}{% if a.verified_at %} <span class="badge tone-good">{% trans "Vérifié" %}</span>{% endif %}</div>
+    {% empty %}<p class="muted" style="margin-top:8px">{% trans "Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et retirer." %} <a href="{% url 'wallet:account_add' %}">{% trans "Ajouter un compte" %}</a></p>{% endfor %}</div>
   {% if deposits or withdrawals %}<div class="panel" style="margin-top:20px"><h2>{% trans "En attente" %}</h2><table class="table"><tbody>
     {% for d in deposits %}<tr><td>{% trans "Dépôt" %} <span class="ltr small">{{ d.reference }}</span><div class="small muted">{{ d.get_method_display }} · {{ d.created_at|date:"d/m H:i" }}</div></td><td class="n">{{ d.amount|money }} MRU</td><td>{% badge d.status d.get_status_display %}</td>
       <td class="n">{% if d.status == "pending" %}<a class="btn small" href="{% url 'wallet:deposit_detail' d.reference %}">{% trans "J'ai payé" %}</a>{% endif %}</td></tr>{% endfor %}
-    {% for w in withdrawals %}<tr><td>{% trans "Retrait" %} <span class="ltr small">{{ w.reference }}</span><div class="small muted">{{ w.get_method_display }} → <span class="ltr">{{ w.destination }}</span></div></td><td class="n">{{ w.amount|money }} MRU</td><td>{% badge w.status w.get_status_display %}</td>
+    {% for w in withdrawals %}<tr><td>{% trans "Retrait" %} <span class="ltr small">{{ w.reference }}</span><div class="small muted">{{ w.get_method_display }} → <span class="ltr">{% if w.payment_account %}{{ w.payment_account.display_number }}{% else %}{{ w.destination }}{% endif %}</span></div></td><td class="n">{{ w.amount|money }} MRU</td><td>{% badge w.status w.get_status_display %}</td>
       <td class="n"><form method="post" action="{% url 'wallet:withdraw_cancel' w.reference %}">{% csrf_token %}<button class="btn small ghost">{% trans "Annuler" %}</button></form></td></tr>{% endfor %}
   </tbody></table></div>{% endif %}
   <div class="panel" style="margin-top:20px"><h2>{% trans "Historique" %}</h2>

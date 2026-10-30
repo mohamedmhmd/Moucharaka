@@ -1,0 +1,15 @@
+{% load i18n %}{# Share kit: short link by ID, WhatsApp, copy, native share, QR code, poster #}
+<div class="share" id="share">
+  <div class="row between"><h4 style="margin:0">{% trans "Partager ce projet" %}</h4><span class="small muted">{% trans "ID" %} <b class="ltr">{{ project.reference }}</b></span></div>
+  {% if share_private %}<p class="small note warn" style="margin:10px 0">{% trans "Lien d'aperçu privé : le projet n'est pas encore publié. Seules les personnes qui ont ce lien peuvent le voir et signaler leur intérêt." %}</p>{% endif %}
+  <div class="share-link"><input type="text" readonly value="{{ share_url }}" dir="ltr" aria-label="{% trans 'Lien du projet' %}" onclick="this.select()">
+    <button type="button" class="btn small secondary" data-copy="{{ share_url }}" data-done="{% trans 'Copié' %}">{% trans "Copier" %}</button></div>
+  <div class="row" style="margin-top:10px">
+    <a class="btn small wa" href="{{ whatsapp_url }}" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.1.3.7 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg> {% trans "Partager sur WhatsApp" %}</a>
+    <button type="button" class="btn small ghost" data-native-share data-title="{{ project.title }}" data-text="{{ share_text }}" data-url="{{ share_url }}" hidden>{% trans "Plus d'options" %}</button>
+    <a class="btn small ghost" href="{% url 'projects:poster' project.slug %}{% if share_private %}?k={{ project.preview_token }}{% endif %}" target="_blank">{% trans "Affiche à imprimer" %}</a>
+  </div>
+  <details style="margin-top:10px"><summary class="small">{% trans "Code QR" %}</summary>
+    <img src="{% url 'projects:qr' project.slug %}" alt="{% trans 'Code QR du projet' %}" width="160" height="160" style="margin-top:8px;background:#fff;padding:6px;border-radius:8px">
+    <p class="small muted">{% trans "À imprimer sur la vitrine ou à montrer depuis votre téléphone." %}</p></details>
+</div>

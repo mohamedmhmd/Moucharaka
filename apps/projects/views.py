@@ -5,12 +5,13 @@ from decimal import Decimal
 
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.db.models import F, Q, Sum
+from django.db.models import F, Sum
 from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _lazy
 from django.views.decorators.http import require_POST
 
 from apps.accounts.decorators import approved_required
@@ -47,8 +48,9 @@ def explore(request):
         elif status:
             qs = qs.model.objects.select_related("sector", "wilaya", "moughataa", "owner").filter(status=status)
         if d.get("q"):
-            qs = qs.filter(Q(title__icontains=d["q"]) | Q(tagline__icontains=d["q"]) |
-                           Q(boutique__shop_name__icontains=d["q"]) | Q(neighborhood__icontains=d["q"]))
+            from .sharing import search_projects
+
+            qs = qs.filter(pk__in=search_projects(d["q"]).values("pk"))
         if d.get("kind"):
             qs = qs.filter(kind=d["kind"])
         if d.get("model"):
@@ -74,8 +76,9 @@ def explore(request):
 
 
 def _can_view(request, project):
-    u = request.user
-    return project.is_public or (u.is_authenticated and (u.is_staff or u.pk == project.owner_id))
+    from .sharing import can_view
+
+    return can_view(request, project)
 
 
 def detail(request, slug):
@@ -88,7 +91,16 @@ def detail(request, slug):
         seen.append(project.pk)
         request.session.modified = True
     u = request.user
-    ctx = {"project": project, "owner_score": get_score(project.owner)}
+    from .models import ProjectInterest
+    from .sharing import share_context
+
+    ctx = {"project": project, "owner_score": get_score(project.owner), **share_context(request, project)}
+    ctx["og_image"] = request.build_absolute_uri(project.cover.url) if project.cover else ""
+    ctx["og_url"] = request.build_absolute_uri(project.get_share_path())
+    ctx["interest_open"] = project.status in ("draft", "submitted", "changes", "funding")
+    ctx["interests_count"] = project.interests.count()
+    if u.is_authenticated:
+        ctx["my_interest"] = ProjectInterest.objects.filter(project=project, user=u).first()
     ctx["is_owner"] = u.is_authenticated and u.pk == project.owner_id
     ctx["can_see_docs"] = u.is_authenticated and (u.is_staff or u.is_approved or ctx["is_owner"])
     ctx["documents"] = project.documents.all() if ctx["is_owner"] or (u.is_authenticated and u.is_staff) else \
@@ -288,12 +300,12 @@ STEPS = {
     Kind.DEAL: ["basics", "terms", "details", "figures", "funds", "questions", "media", "submit"],
 }
 STEP_LABELS = {
-    "basics": _("Présentation"), "terms": _("Conditions"), "details": _("Fiche détaillée"),
-    "figures": _("Chiffres"), "funds": _("Utilisation des fonds"), "questions": _("Questionnaire"),
-    "media": _("Photos et justificatifs"), "submit": _("Vérifier et envoyer"),
+    "basics": _lazy("Présentation"), "terms": _lazy("Conditions"), "details": _lazy("Fiche détaillée"),
+    "figures": _lazy("Chiffres"), "funds": _lazy("Utilisation des fonds"), "questions": _lazy("Questionnaire"),
+    "media": _lazy("Photos et justificatifs"), "submit": _lazy("Vérifier et envoyer"),
 }
-FIGURE_LABELS = {Kind.BOUTIQUE: _("Ventes et produits"), Kind.COMPANY: _("Équipe et prévisions"),
-                 Kind.DEAL: _("Étapes de l'opération")}
+FIGURE_LABELS = {Kind.BOUTIQUE: _lazy("Ventes et produits"), Kind.COMPANY: _lazy("Équipe et prévisions"),
+                 Kind.DEAL: _lazy("Étapes de l'opération")}
 
 
 @approved_required
@@ -356,7 +368,9 @@ def edit_project(request, slug, step):
         raise Http404
     steps = STEPS[project.kind]
     next_step = steps[min(steps.index(step) + 1, len(steps) - 1)]
-    ctx = {"project": project, "step": step, "steps": _steps_nav(project, project.kind)}
+    from .sharing import share_context
+
+    ctx = {"project": project, "step": step, "steps": _steps_nav(project, project.kind), **share_context(request, project)}
     post, files = (request.POST, request.FILES) if request.method == "POST" else (None, None)
 
     def done():
@@ -505,7 +519,11 @@ def manage(request, slug):
         "wallet": Wallet.for_user(request.user), "settings": PlatformSettings.get(),
         "outstanding": holdings.aggregate(s=Sum("shares"))["s"] or 0,
         "score": get_score(request.user),
+        "interests": project.interests.select_related("user"),
     }
+    from .sharing import share_context
+
+    ctx.update(share_context(request, project))
     return render(request, "projects/manage.html", ctx)
 
 

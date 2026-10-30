@@ -1,5 +1,12 @@
 {% extends "base.html" %}{% load i18n static mk %}
-{% block title %}{{ project.title }}{% endblock %}
+{% block title %}{{ project.title }} ({{ project.reference }}){% endblock %}
+{% block meta %}<meta name="description" content="{{ project.tagline }}">
+<meta property="og:site_name" content="Moucharaka"><meta property="og:type" content="website">
+<meta property="og:title" content="{{ project.title }}">
+<meta property="og:description" content="{{ project.tagline }}{% if project.status == 'funding' %} · {{ project.funding_pct }} % {% endif %}">
+<meta property="og:url" content="{{ og_url }}">{% if og_image %}
+<meta property="og:image" content="{{ og_image }}"><meta name="twitter:card" content="summary_large_image">{% endif %}
+{% if not project.is_public %}<meta name="robots" content="noindex">{% endif %}{% endblock %}
 {% block head %}<link rel="stylesheet" href="{% static 'vendor/leaflet/leaflet.css' %}">{% endblock %}
 {% block content %}<div class="wrap">
 {% if not project.is_public %}<div class="note warn" style="margin-top:16px">{% blocktrans with s=project.get_status_display %}Aperçu : ce projet n'est pas public ({{ s }}).{% endblocktrans %}</div>{% endif %}
@@ -59,6 +66,20 @@
       {% if user.is_authenticated and user.is_approved %}
         <form method="post" action="{% url 'projects:favorite' project.slug %}" data-fav style="margin-top:10px">{% csrf_token %}
           <button class="btn ghost small" aria-pressed="{% if is_favorite %}true{% else %}false{% endif %}" data-on="{% trans 'Suivi' %}" data-off="{% trans 'Suivre ce projet' %}">★ <span>{% if is_favorite %}{% trans "Suivi" %}{% else %}{% trans "Suivre ce projet" %}{% endif %}</span></button></form>
+      {% endif %}
+    </div>
+    <div class="panel">{% include "includes/share.html" %}
+      {% if interest_open and not is_owner and project.status != "funding" %}
+        <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+        <h4 style="margin:0 0 6px">{% trans "Intéressé ?" %}</h4>
+        <p class="small muted" style="margin:0 0 8px">{% blocktrans count n=interests_count %}{{ n }} personne a déjà signalé son intérêt.{% plural %}{{ n }} personnes ont déjà signalé leur intérêt.{% endblocktrans %} {% trans "Nous vous préviendrons sur WhatsApp à l'ouverture de la collecte." %}</p>
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'projects:interest' project.slug %}" class="form">{% csrf_token %}
+            <div class="field"><label for="ia">{% trans "Montant envisagé (MRU, facultatif)" %}</label><input id="ia" type="number" name="amount" min="0" step="1000" value="{{ my_interest.amount|default_if_none:'' }}"></div>
+            <button class="btn small block">{% if my_interest %}{% trans "Mettre à jour mon intérêt" %}{% else %}{% trans "Je suis intéressé" %}{% endif %}</button>
+            {% if my_interest %}<button class="btn small ghost block" name="remove" value="1" style="margin-top:6px">{% trans "Retirer mon intérêt" %}</button>{% endif %}
+          </form>
+        {% else %}<a class="btn small block" href="{% url 'accounts:register' %}">{% trans "Créer un compte pour être prévenu" %}</a>{% endif %}
       {% endif %}
     </div>
     <div class="panel"><h4>{% trans "Le porteur" %}</h4>

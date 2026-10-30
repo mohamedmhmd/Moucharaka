@@ -1,8 +1,16 @@
-"""SMS backends.
+"""Messaging backends: WhatsApp (default) and SMS (optional fallback).
 
-Each backend receives the provider configuration and returns the provider's
-message id, or raises SMSError. Network calls use `requests` with a short
-timeout so a slow gateway cannot block a web request for long.
+Every backend implements three operations:
+
+* ``send_otp(phone, code, lang, text)``  – one-time code. WhatsApp backends use an
+  *authentication* template (with the "copy code" button); SMS backends send `text`.
+* ``send_notification(phone, title, body, lang)`` – account updates. WhatsApp
+  backends use a *utility* template with two parameters (title, body).
+* ``send_text(phone, text, lang)`` – free text (WhatsApp only delivers it inside
+  the 24 h customer-service window; used for tests and fallbacks).
+
+Each returns the provider's message id or raises MessagingError. Network calls
+use a short timeout so a slow gateway cannot block a web request for long.
 """
 import json
 import logging
@@ -14,17 +22,35 @@ logger = logging.getLogger(__name__)
 TIMEOUT = 10
 
 
-class SMSError(Exception):
+class MessagingError(Exception):
     pass
 
 
+SMSError = MessagingError  # backwards-compatible name
+
+
 class BaseBackend:
-    def __init__(self, config: dict, sender_id: str = ""):
+    channel = "sms"
+
+    def __init__(self, config: dict, sender_id: str = "", channel: str = ""):
         self.config = config or {}
         self.sender_id = sender_id
+        if channel:
+            self.channel = channel
 
-    def send(self, phone_e164: str, body: str) -> str:  # pragma: no cover - interface
+    # Default behaviour: everything becomes plain text.
+    def send_text(self, phone_e164: str, text: str, lang: str = "fr") -> str:  # pragma: no cover - interface
         raise NotImplementedError
+
+    def send_otp(self, phone_e164, code, lang, text):
+        return self.send_text(phone_e164, text, lang)
+
+    def send_notification(self, phone_e164, title, body, lang):
+        return self.send_text(phone_e164, f"{title}. {body}".strip(" .") + ".", lang)
+
+    # Old interface
+    def send(self, phone_e164, body):
+        return self.send_text(phone_e164, body)
 
 
 class ConsoleBackend(BaseBackend):
@@ -32,11 +58,136 @@ class ConsoleBackend(BaseBackend):
 
     outbox: list = []
 
-    def send(self, phone_e164, body):
-        logger.warning("SMS to %s: %s", phone_e164, body)
-        ConsoleBackend.outbox.append((phone_e164, body))
+    def send_text(self, phone_e164, text, lang="fr"):
+        logger.warning("[%s] to %s: %s", self.channel, phone_e164, text)
+        ConsoleBackend.outbox.append((phone_e164, text))
         return f"console-{len(ConsoleBackend.outbox)}"
 
+
+def _template_language(config, lang):
+    """Template language code for the user's language, e.g. {"fr": "fr", "ar": "ar"}."""
+    mapping = config.get("languages") or {"fr": "fr", "ar": "ar"}
+    return mapping.get(lang) or mapping.get("fr") or "fr"
+
+
+def _per_language(value, lang):
+    if isinstance(value, dict):
+        return value.get(lang) or value.get("fr") or next(iter(value.values()), "")
+    return value or ""
+
+
+class WhatsAppCloudBackend(BaseBackend):
+    """Meta WhatsApp Cloud API (direct, no intermediary).
+
+    config::
+
+        {
+          "phone_number_id": "1234567890",          # WhatsApp Manager › API setup
+          "access_token": "EAAG…",                  # permanent system-user token
+          "api_version": "v21.0",
+          "otp_template": "moucharaka_code",        # category AUTHENTICATION, copy-code button
+          "notification_template": "moucharaka_update",   # category UTILITY, body {{1}} and {{2}}
+          "languages": {"fr": "fr", "ar": "ar"}     # template language per user language
+        }
+    """
+
+    channel = "whatsapp"
+
+    def _post(self, payload):
+        cfg = self.config
+        pid, token = cfg.get("phone_number_id"), cfg.get("access_token")
+        if not pid or not token:
+            raise MessagingError("WhatsApp Cloud: phone_number_id and access_token required")
+        url = f"https://graph.facebook.com/{cfg.get('api_version', 'v21.0')}/{pid}/messages"
+        payload = {"messaging_product": "whatsapp", **payload}
+        try:
+            r = requests.post(url, json=payload, headers={"Authorization": f"Bearer {token}"}, timeout=TIMEOUT)
+        except requests.RequestException as exc:
+            raise MessagingError(f"network error: {exc}") from exc
+        if r.status_code >= 400:
+            raise MessagingError(f"WhatsApp {r.status_code}: {r.text[:300]}")
+        try:
+            return r.json()["messages"][0]["id"]
+        except (ValueError, KeyError, IndexError):
+            return ""
+
+    def _template(self, phone, name, lang, body_params, button_param=None):
+        components = [{"type": "body", "parameters": [{"type": "text", "text": str(p)[:1000]} for p in body_params]}]
+        if button_param is not None:
+            components.append({"type": "button", "sub_type": "url", "index": "0",
+                               "parameters": [{"type": "text", "text": str(button_param)}]})
+        return self._post({"to": phone.lstrip("+"), "type": "template", "template": {
+            "name": name, "language": {"code": _template_language(self.config, lang)}, "components": components}})
+
+    def send_text(self, phone_e164, text, lang="fr"):
+        return self._post({"to": phone_e164.lstrip("+"), "type": "text", "text": {"body": text[:4096]}})
+
+    def send_otp(self, phone_e164, code, lang, text):
+        name = self.config.get("otp_template")
+        if not name:
+            raise MessagingError("WhatsApp Cloud: 'otp_template' is required for verification codes")
+        button = code if self.config.get("otp_copy_button", True) else None
+        return self._template(phone_e164, name, lang, [code], button)
+
+    def send_notification(self, phone_e164, title, body, lang):
+        name = self.config.get("notification_template")
+        if not name:
+            return super().send_notification(phone_e164, title, body, lang)
+        # WhatsApp refuses empty or multi-line parameters
+        clean = lambda s: " ".join(str(s).split()) or "-"  # noqa: E731
+        return self._template(phone_e164, name, lang, [clean(title)[:200], clean(body)[:700]])
+
+
+class TwilioWhatsAppBackend(BaseBackend):
+    """WhatsApp through Twilio (Content API templates).
+
+    config::
+
+        {
+          "account_sid": "AC…", "auth_token": "…",
+          "from": "whatsapp:+14155238886",
+          "otp_content_sid": {"fr": "HX…", "ar": "HX…"},          # authentication template, variable {{1}} = code
+          "notification_content_sid": {"fr": "HX…", "ar": "HX…"}  # utility template, {{1}} title, {{2}} body
+        }
+    """
+
+    channel = "whatsapp"
+
+    def _post(self, phone, **data):
+        sid, token = self.config.get("account_sid"), self.config.get("auth_token")
+        sender = self.config.get("from") or self.sender_id
+        if not sid or not token or not sender:
+            raise MessagingError("Twilio WhatsApp: account_sid, auth_token and from required")
+        if not sender.startswith("whatsapp:"):
+            sender = "whatsapp:" + sender
+        data.update({"To": "whatsapp:" + phone, "From": sender})
+        try:
+            r = requests.post(f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json",
+                              data=data, auth=(sid, token), timeout=TIMEOUT)
+        except requests.RequestException as exc:
+            raise MessagingError(str(exc)) from exc
+        if r.status_code >= 400:
+            raise MessagingError(f"Twilio {r.status_code}: {r.text[:300]}")
+        return r.json().get("sid", "")
+
+    def send_text(self, phone_e164, text, lang="fr"):
+        return self._post(phone_e164, Body=text[:1600])
+
+    def send_otp(self, phone_e164, code, lang, text):
+        content = _per_language(self.config.get("otp_content_sid"), lang)
+        if not content:
+            raise MessagingError("Twilio WhatsApp: 'otp_content_sid' is required for verification codes")
+        return self._post(phone_e164, ContentSid=content, ContentVariables=json.dumps({"1": code}))
+
+    def send_notification(self, phone_e164, title, body, lang):
+        content = _per_language(self.config.get("notification_content_sid"), lang)
+        if not content:
+            return super().send_notification(phone_e164, title, body, lang)
+        return self._post(phone_e164, ContentSid=content,
+                          ContentVariables=json.dumps({"1": str(title)[:200], "2": str(body)[:700]}))
+
+
+# ---------------------------------------------------------------- SMS (optional fallback)
 
 class _SafeDict(dict):
     def __missing__(self, key):
@@ -54,7 +205,8 @@ def _render(value, ctx):
 
 
 class HTTPBackend(BaseBackend):
-    """Generic HTTP gateway, fits most local operators and aggregators.
+    """Generic HTTP gateway (local SMS operator or aggregator, or any WhatsApp
+    BSP that takes a simple HTTP request).
 
     config example::
 
@@ -65,20 +217,27 @@ class HTTPBackend(BaseBackend):
           "params": {"to": "{phone}", "text": "{message}", "from": "{sender}",
                       "username": "...", "password": "..."},
           "headers": {"Authorization": "Bearer ..."},
-          "phone_format": "e164",              # e164 (+222...) | intl (222...) | local (8 digits)
+          "phone_format": "e164",              # e164 (+222...) | intl (222...) | local (national number)
           "success_contains": "OK",            # optional substring expected in the response
           "message_id_json_path": "data.id"    # optional
         }
+
+    Placeholders: {phone} {message} {sender} {code} {lang}.
     """
 
-    def send(self, phone_e164, body):
+    def _request(self, phone_e164, text, code="", lang="fr"):
         cfg = self.config
         url = cfg.get("url")
         if not url:
-            raise SMSError("HTTP backend: missing 'url'")
+            raise MessagingError("HTTP backend: missing 'url'")
         fmt = cfg.get("phone_format", "e164")
-        phone = {"e164": phone_e164, "intl": phone_e164.lstrip("+"), "local": phone_e164[-8:]}.get(fmt, phone_e164)
-        ctx = {"phone": phone, "message": body, "sender": self.sender_id}
+        if fmt == "local":
+            from apps.accounts.phones import national_number
+
+            phone = national_number(phone_e164)
+        else:
+            phone = {"e164": phone_e164, "intl": phone_e164.lstrip("+")}.get(fmt, phone_e164)
+        ctx = {"phone": phone, "message": text, "sender": self.sender_id, "code": code, "lang": lang}
         params = _render(cfg.get("params", {}), ctx)
         headers = _render(cfg.get("headers", {}), ctx)
         method = cfg.get("method", "POST").upper()
@@ -90,12 +249,12 @@ class HTTPBackend(BaseBackend):
             else:
                 r = requests.post(url, json=params, headers=headers, timeout=TIMEOUT)
         except requests.RequestException as exc:
-            raise SMSError(f"network error: {exc}") from exc
+            raise MessagingError(f"network error: {exc}") from exc
         if r.status_code >= 400:
-            raise SMSError(f"HTTP {r.status_code}: {r.text[:200]}")
+            raise MessagingError(f"HTTP {r.status_code}: {r.text[:200]}")
         expected = cfg.get("success_contains")
         if expected and expected not in r.text:
-            raise SMSError(f"unexpected response: {r.text[:200]}")
+            raise MessagingError(f"unexpected response: {r.text[:200]}")
         path = cfg.get("message_id_json_path")
         if path:
             try:
@@ -107,15 +266,21 @@ class HTTPBackend(BaseBackend):
                 pass
         return r.text[:100]
 
+    def send_text(self, phone_e164, text, lang="fr"):
+        return self._request(phone_e164, text, lang=lang)
+
+    def send_otp(self, phone_e164, code, lang, text):
+        return self._request(phone_e164, text, code=code, lang=lang)
+
 
 class TwilioBackend(BaseBackend):
-    """config: {"account_sid": "...", "auth_token": "...", "from": "+1..." or messaging_service_sid}"""
+    """SMS via Twilio. config: {"account_sid", "auth_token", "from": "+1…"} or "messaging_service_sid"."""
 
-    def send(self, phone_e164, body):
+    def send_text(self, phone_e164, text, lang="fr"):
         sid, token = self.config.get("account_sid"), self.config.get("auth_token")
         if not sid or not token:
-            raise SMSError("Twilio: account_sid and auth_token required")
-        data = {"To": phone_e164, "Body": body}
+            raise MessagingError("Twilio: account_sid and auth_token required")
+        data = {"To": phone_e164, "Body": text}
         if self.config.get("messaging_service_sid"):
             data["MessagingServiceSid"] = self.config["messaging_service_sid"]
         else:
@@ -124,28 +289,28 @@ class TwilioBackend(BaseBackend):
             r = requests.post(f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json",
                               data=data, auth=(sid, token), timeout=TIMEOUT)
         except requests.RequestException as exc:
-            raise SMSError(str(exc)) from exc
+            raise MessagingError(str(exc)) from exc
         if r.status_code >= 400:
-            raise SMSError(f"Twilio {r.status_code}: {r.text[:200]}")
+            raise MessagingError(f"Twilio {r.status_code}: {r.text[:200]}")
         return r.json().get("sid", "")
 
 
 class InfobipBackend(BaseBackend):
-    """config: {"base_url": "https://xxxx.api.infobip.com", "api_key": "..."}"""
+    """SMS via Infobip. config: {"base_url": "https://xxxx.api.infobip.com", "api_key": "..."}"""
 
-    def send(self, phone_e164, body):
+    def send_text(self, phone_e164, text, lang="fr"):
         base, key = self.config.get("base_url"), self.config.get("api_key")
         if not base or not key:
-            raise SMSError("Infobip: base_url and api_key required")
+            raise MessagingError("Infobip: base_url and api_key required")
         payload = {"messages": [{"destinations": [{"to": phone_e164.lstrip("+")}],
-                                 "from": self.sender_id or "Moucharaka", "text": body}]}
+                                 "from": self.sender_id or "Moucharaka", "text": text}]}
         try:
             r = requests.post(f"{base.rstrip('/')}/sms/2/text/advanced", json=payload,
                               headers={"Authorization": f"App {key}"}, timeout=TIMEOUT)
         except requests.RequestException as exc:
-            raise SMSError(str(exc)) from exc
+            raise MessagingError(str(exc)) from exc
         if r.status_code >= 400:
-            raise SMSError(f"Infobip {r.status_code}: {r.text[:200]}")
+            raise MessagingError(f"Infobip {r.status_code}: {r.text[:200]}")
         try:
             return r.json()["messages"][0]["messageId"]
         except (ValueError, KeyError, IndexError):
@@ -153,36 +318,39 @@ class InfobipBackend(BaseBackend):
 
 
 class VonageBackend(BaseBackend):
-    """config: {"api_key": "...", "api_secret": "..."}"""
+    """SMS via Vonage. config: {"api_key": "...", "api_secret": "..."}"""
 
-    def send(self, phone_e164, body):
+    def send_text(self, phone_e164, text, lang="fr"):
         key, secret = self.config.get("api_key"), self.config.get("api_secret")
         if not key or not secret:
-            raise SMSError("Vonage: api_key and api_secret required")
+            raise MessagingError("Vonage: api_key and api_secret required")
         try:
             r = requests.post("https://rest.nexmo.com/sms/json", data={
                 "api_key": key, "api_secret": secret, "to": phone_e164.lstrip("+"),
-                "from": self.sender_id or "Moucharaka", "text": body, "type": "unicode"}, timeout=TIMEOUT)
+                "from": self.sender_id or "Moucharaka", "text": text, "type": "unicode"}, timeout=TIMEOUT)
         except requests.RequestException as exc:
-            raise SMSError(str(exc)) from exc
+            raise MessagingError(str(exc)) from exc
         data = r.json() if r.content else {}
         msg = (data.get("messages") or [{}])[0]
         if r.status_code >= 400 or msg.get("status") not in (None, "0"):
-            raise SMSError(f"Vonage: {json.dumps(data)[:200]}")
+            raise MessagingError(f"Vonage: {json.dumps(data)[:200]}")
         return msg.get("message-id", "")
 
 
 BACKENDS = {
     "console": ConsoleBackend,
+    "whatsapp_cloud": WhatsAppCloudBackend,
+    "twilio_whatsapp": TwilioWhatsAppBackend,
     "http": HTTPBackend,
     "twilio": TwilioBackend,
     "infobip": InfobipBackend,
     "vonage": VonageBackend,
 }
+WHATSAPP_BACKENDS = {"whatsapp_cloud", "twilio_whatsapp"}
 
 
-def get_backend(name, config=None, sender_id=""):
+def get_backend(name, config=None, sender_id="", channel=""):
     try:
-        return BACKENDS[name](config or {}, sender_id)
+        return BACKENDS[name](config or {}, sender_id, channel)
     except KeyError as exc:
-        raise SMSError(f"unknown SMS backend {name!r}") from exc
+        raise MessagingError(f"unknown messaging backend {name!r}") from exc

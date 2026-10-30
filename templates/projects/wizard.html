@@ -6,6 +6,10 @@
     {% for s in steps %}<li class="{% if s.key == step %}current{% endif %}">{% if project %}<a href="{% url 'projects:edit' project.slug s.key %}" {% if s.key == step %}aria-current="step"{% endif %}>{{ s.label }}</a>{% else %}<span>{{ s.label }}</span>{% endif %}</li>{% endfor %}
   </ol>
   {% if project %}<p class="small" style="margin-top:16px"><a href="{{ project.get_absolute_url }}" target="_blank">{% trans "Aperçu de la page publique" %}</a></p>
+    <div class="card small" style="margin:12px 0;padding:14px"><b>{% trans "ID du projet" %} <span class="ltr">{{ project.reference }}</span></b>
+      <p class="muted" style="margin:6px 0">{% trans "Partagez l'aperçu privé avec vos proches dès maintenant : ils pourront signaler leur intérêt avant l'ouverture." %}</p>
+      <button type="button" class="btn small secondary block" data-copy="{{ share_url }}" data-done="{% trans 'Copié' %}">{% trans "Copier le lien d'aperçu" %}</button>
+      <a class="btn small wa block" style="margin-top:6px" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{% trans "Partager sur WhatsApp" %}</a></div>
     {% if project.status == "draft" %}<form method="post" action="{% url 'projects:delete' project.slug %}">{% csrf_token %}<button class="btn ghost small" data-confirm="{% trans 'Supprimer définitivement ce brouillon ?' %}">{% trans "Supprimer le brouillon" %}</button></form>{% endif %}{% endif %}
   </nav>
   <div>

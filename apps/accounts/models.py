@@ -14,18 +14,10 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
-phone_validator = RegexValidator(
-    r"^[234]\d{7}$", _("Numéro mauritanien à 8 chiffres commençant par 2, 3 ou 4."))
+from .phones import display_phone, normalize_phone, validate_phone  # noqa: F401
+
+phone_validator = validate_phone  # kept for existing imports
 nni_validator = RegexValidator(r"^\d{10}$", _("Le NNI comporte 10 chiffres."))
-
-
-def normalize_phone(raw: str) -> str:
-    digits = "".join(c for c in str(raw or "") if c.isdigit())
-    if digits.startswith("00"):
-        digits = digits[2:]
-    if digits.startswith(settings.PHONE_COUNTRY_CODE) and len(digits) == 11:
-        digits = digits[3:]
-    return digits
 
 
 class PrivateStorage(FileSystemStorage):
@@ -82,7 +74,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         REJECTED = "rejected", _("Refusé")
         SUSPENDED = "suspended", _("Suspendu")
 
-    phone = models.CharField(_("téléphone"), max_length=8, unique=True, validators=[phone_validator])
+    phone = models.CharField(_("numéro WhatsApp"), max_length=16, unique=True, validators=[validate_phone],
+                             help_text=_("Format international E.164, ex. +22222123456"))
+    whatsapp_notifications = models.BooleanField(
+        _("recevoir les notifications importantes sur WhatsApp"), default=True,
+        help_text=_("Versements, échéances, validation du compte. Les codes de connexion sont toujours envoyés."))
     full_name = models.CharField(_("nom complet"), max_length=150)
     email = models.EmailField(_("e-mail"), blank=True)
     preferred_language = models.CharField(_("langue"), max_length=5, choices=settings.LANGUAGES, default="ar")
@@ -116,7 +112,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def masked_phone(self):
-        return f"{self.phone[:2]}••••{self.phone[-2:]}"
+        return f"{self.phone[:6]}••••{self.phone[-2:]}"
+
+    @property
+    def phone_display(self):
+        return display_phone(self.phone)
 
     @property
     def display_name(self):
@@ -249,7 +249,7 @@ class PhoneOTP(models.Model):
         RESET = "reset", _("Mot de passe oublié")
         WITHDRAW = "withdraw", _("Retrait")
 
-    phone = models.CharField(max_length=8, db_index=True)
+    phone = models.CharField(max_length=16, db_index=True)
     purpose = models.CharField(max_length=10, choices=Purpose.choices)
     code_hash = models.CharField(max_length=64)
     created_at = models.DateTimeField(auto_now_add=True)

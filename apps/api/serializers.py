@@ -7,7 +7,7 @@ from apps.market.models import Listing, Trade
 from apps.projects.models import (BoutiqueProduct, BoutiqueProfile, FinancialReport, Installment, Project, Sector,
                                   UseOfFunds)
 from apps.trust.models import TrustScore
-from apps.wallet.models import DepositRequest, Transaction, Wallet, WithdrawalRequest
+from apps.wallet.models import DepositRequest, PaymentAccount, Transaction, Wallet, WithdrawalRequest
 
 
 class WilayaSerializer(serializers.ModelSerializer):
@@ -165,18 +165,47 @@ class TransactionSerializer(serializers.ModelSerializer):
                   "project", "created_at"]
 
 
+class PaymentAccountSerializer(serializers.ModelSerializer):
+    display_number = serializers.CharField(read_only=True)
+    can_receive_withdrawal = serializers.BooleanField(read_only=True)
+    withdrawable_from = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = PaymentAccount
+        fields = ["id", "method", "number", "display_number", "holder_name", "bank_name", "label", "is_default",
+                  "verified_at", "can_receive_withdrawal", "withdrawable_from", "created_at"]
+        read_only_fields = ["verified_at", "created_at"]
+
+
 class DepositSerializer(serializers.ModelSerializer):
+    account = serializers.PrimaryKeyRelatedField(source="payment_account", queryset=PaymentAccount.objects.none(),
+                                                 required=False, allow_null=True)
+
     class Meta:
         model = DepositRequest
-        fields = ["reference", "amount", "method", "payer_phone", "external_ref", "status", "created_at"]
-        read_only_fields = ["reference", "status", "created_at"]
+        fields = ["reference", "amount", "method", "account", "external_ref", "status", "created_at"]
+        read_only_fields = ["reference", "method", "status", "created_at"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        req = self.context.get("request")
+        if req and req.user.is_authenticated:
+            self.fields["account"].queryset = req.user.payment_accounts.filter(is_active=True)
 
 
 class WithdrawalSerializer(serializers.ModelSerializer):
+    account = serializers.PrimaryKeyRelatedField(source="payment_account", queryset=PaymentAccount.objects.none())
+
     class Meta:
         model = WithdrawalRequest
-        fields = ["reference", "amount", "fee", "method", "destination", "status", "created_at"]
-        read_only_fields = ["reference", "fee", "status", "created_at"]
+        fields = ["reference", "amount", "fee", "account", "method", "destination", "status", "created_at"]
+        read_only_fields = ["reference", "fee", "method", "destination", "status", "created_at"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        req = self.context.get("request")
+        if req and req.user.is_authenticated:
+            self.fields["account"].queryset = req.user.payment_accounts.filter(is_active=True)
 
 
 class HoldingSerializer(serializers.ModelSerializer):

@@ -110,10 +110,13 @@ def approve_project(project, reviewer, risk_grade, public_notes=""):
     project.changes_requested = ""
     project.save()
     audit("project.approved", project, actor=reviewer, grade=risk_grade)
+    from .sharing import notify_interested
+
+    notify_interested(project)
     notify(project.owner, N_("Votre projet est en ligne"),
            N_("La collecte de « %(p)s » est ouverte jusqu'au %(d)s.") % {
                "p": project.title, "d": project.campaign_end.strftime("%d/%m/%Y")},
-           url=project.get_absolute_url(), sms=True)
+           url=project.get_absolute_url(), whatsapp=True)
     return project
 
 
@@ -124,7 +127,7 @@ def request_changes(project, reviewer, message):
     project.save()
     audit("project.changes_requested", project, actor=reviewer)
     notify(project.owner, N_("Corrections demandées sur votre projet"), message,
-           url=f"/projects/{project.slug}/edit/", sms=True)
+           url=f"/projects/{project.slug}/edit/", whatsapp=True)
 
 
 def reject_project(project, reviewer, message):
@@ -133,7 +136,7 @@ def reject_project(project, reviewer, message):
     project.reviewed_by = reviewer
     project.save()
     audit("project.rejected", project, actor=reviewer)
-    notify(project.owner, N_("Projet refusé"), message, url="/dashboard/", sms=True)
+    notify(project.owner, N_("Projet refusé"), message, url="/dashboard/", whatsapp=True)
 
 
 # ------------------------------------------------------------------ reporting
@@ -197,5 +200,5 @@ def verify_report(report, by, ok=True, comment=""):
     if not ok:
         record_event(report.project.owner, "report_flagged", project=report.project, note=comment)
         notify(report.project.owner, N_("Rapport à clarifier"), comment,
-               url=f"/projects/{report.project.slug}/manage/", sms=True)
+               url=f"/projects/{report.project.slug}/manage/", whatsapp=True)
     audit("report.verified" if ok else "report.flagged", report, actor=by)

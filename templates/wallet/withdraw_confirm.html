@@ -1,5 +1,6 @@
 {% extends "accounts/auth_base.html" %}{% load i18n mk %}
 {% block title %}{% trans "Confirmer le retrait" %}{% endblock %}
 {% block auth %}<h1>{% trans "Confirmer le retrait" %}</h1>
-<ul class="terms-list"><li><span>{% trans "Montant" %}</span><b>{{ pending.amount|money }} MRU</b></li><li><span>{% trans "Frais" %}</span><b>{{ pending.fee|money }} MRU</b></li><li><span>{% trans "Vers" %}</span><b class="ltr">{{ pending.destination }}</b></li></ul>
-<form method="post" class="form" style="margin-top:16px">{% csrf_token %}<div class="field"><label for="code">{% trans "Code reçu par SMS" %}</label><input id="code" name="code" class="otp" inputmode="numeric" autocomplete="one-time-code" dir="ltr" required autofocus></div><button class="btn block">{% trans "Confirmer le retrait" %}</button></form>{% endblock %}
+<ul class="terms-list"><li><span>{% trans "Montant" %}</span><b>{{ pending.amount|money }} MRU</b></li><li><span>{% trans "Frais" %}</span><b>{{ pending.fee|money }} MRU</b></li>
+<li><span>{% trans "Vers" %}</span><b>{{ pending.method }} <span class="ltr">{{ pending.destination }}</span><br><small class="muted">{{ pending.holder }}</small></b></li></ul>
+<form method="post" class="form" style="margin-top:16px">{% csrf_token %}<div class="field"><label for="code">{% trans "Code reçu sur WhatsApp" %}</label><input id="code" name="code" class="otp" inputmode="numeric" autocomplete="one-time-code" dir="ltr" required autofocus></div><button class="btn block">{% trans "Confirmer le retrait" %}</button></form>{% endblock %}

@@ -89,7 +89,7 @@ def kyc_review(request, pk):
         d = form.cleaned_data
         if d["decision"] == "approve":
             approve_kyc(profile, request.user, d["risk_level"], d["message"], request=request)
-            messages.success(request, _("Dossier approuvé, l'utilisateur est prévenu par SMS."))
+            messages.success(request, _("Dossier approuvé, l'utilisateur est prévenu sur WhatsApp."))
         else:
             reject_kyc(profile, request.user, d["message"], allow_resubmit=d["decision"] == "resubmit", request=request)
             messages.success(request, _("Décision enregistrée et envoyée à l'utilisateur."))

@@ -7,6 +7,7 @@ router = DefaultRouter(trailing_slash=False)
 router.register("projects", views.ProjectViewSet, basename="project")
 router.register("market/listings", views.ListingViewSet, basename="listing")
 router.register("wallet/deposits", views.DepositViewSet, basename="deposit")
+router.register("wallet/accounts", views.PaymentAccountViewSet, basename="payment-account")
 
 app_name = "api"
 

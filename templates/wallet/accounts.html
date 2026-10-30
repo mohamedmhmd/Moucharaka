@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Mes comptes de paiement" %}{% endblock %}
+{% block content %}<div class="wrap section" style="max-width:860px">
+  <div class="section-head"><div><h1 style="margin:0">{% trans "Mes comptes de paiement" %}</h1>
+    <p class="muted" style="margin:6px 0 0">{% trans "Les comptes Bankily, Masrvi, Sedad ou bancaires depuis lesquels vous déposez et sur lesquels vous recevez vos retraits. Ils peuvent être différents de votre numéro WhatsApp." %}</p></div>
+    <a class="btn" href="{% url 'wallet:account_add' %}">{% trans "Ajouter un compte" %}</a></div>
+  <div class="panel">
+  {% for a in accounts %}<div class="qa-item row between">
+    <div><b>{{ a.get_method_display }}</b> <span class="ltr">{{ a.display_number }}</span>
+      {% if a.is_default %}<span class="badge tone-info">{% trans "Principal" %}</span>{% endif %}
+      {% if a.verified_at %}<span class="badge tone-good">{% trans "Vérifié" %}</span>{% elif not a.can_receive_withdrawal %}<span class="badge tone-warn">{% blocktrans with d=a.withdrawable_from|date:"d/m H:i" %}Retraits possibles dès le {{ d }}{% endblocktrans %}</span>{% endif %}
+      <div class="small muted">{{ a.holder_name }}{% if a.bank_name %} · {{ a.bank_name }}{% endif %}{% if a.label %} · {{ a.label }}{% endif %}</div></div>
+    <div class="row">
+      {% if not a.is_default %}<form method="post" action="{% url 'wallet:account_default' a.pk %}">{% csrf_token %}<button class="btn small ghost">{% trans "Rendre principal" %}</button></form>{% endif %}
+      <a class="btn small secondary" href="{% url 'wallet:account_edit' a.pk %}">{% trans "Modifier" %}</a>
+      <form method="post" action="{% url 'wallet:account_remove' a.pk %}">{% csrf_token %}<button class="btn small ghost" data-confirm="{% trans 'Retirer ce compte ?' %}">{% trans "Retirer" %}</button></form>
+    </div></div>
+  {% empty %}<div class="empty">{% trans "Aucun compte pour l'instant. Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et retirer." %}<br><a class="btn" href="{% url 'wallet:account_add' %}">{% trans "Ajouter un compte" %}</a></div>{% endfor %}
+  </div>
+  <p class="note small" style="margin-top:16px">{% blocktrans with h=hold_hours %}Par sécurité, un compte nouvellement ajouté peut recevoir un retrait après {{ h }} h, ou dès qu'un dépôt fait depuis ce compte a été confirmé. Chaque ajout vous est signalé sur WhatsApp.{% endblocktrans %}</p>
+</div>{% endblock %}

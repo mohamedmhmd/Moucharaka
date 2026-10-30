@@ -114,6 +114,66 @@ class PaymentMethod(models.TextChoices):
     CASH = "cash", _("Espèces (agence partenaire)")
 
 
+MOBILE_MONEY = ("bankily", "masrvi", "sedad")
+
+
+class PaymentAccount(models.Model):
+    """A Mauritanian mobile-money wallet or bank account the user deposits from
+    and withdraws to. Independent from the WhatsApp number used to log in, so a
+    member living abroad can still use a Bankily/Sedad account in Mauritania."""
+
+    METHODS = [c for c in PaymentMethod.choices if c[0] != "cash"]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="payment_accounts")
+    method = models.CharField(_("type de compte"), max_length=10, choices=METHODS)
+    number = models.CharField(_("numéro du compte"), max_length=40,
+                              help_text=_("Numéro mauritanien du compte mobile, ou RIB / IBAN pour une banque."))
+    holder_name = models.CharField(_("titulaire du compte"), max_length=150)
+    bank_name = models.CharField(_("banque"), max_length=80, blank=True)
+    label = models.CharField(_("nom personnel (facultatif)"), max_length=60, blank=True,
+                             help_text=_("Ex : « Bankily de ma mère », « Compte BMCI pro »."))
+    is_default = models.BooleanField(_("compte principal"), default=False)
+    is_active = models.BooleanField(default=True)
+    verified_at = models.DateTimeField(_("vérifié le"), null=True, blank=True,
+                                       help_text=_("Renseigné au premier dépôt confirmé depuis ce compte, ou par l'équipe."))
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-is_default", "-created_at"]
+        verbose_name = _("compte de paiement")
+        verbose_name_plural = _("comptes de paiement")
+        constraints = [models.UniqueConstraint(fields=["user", "method", "number"], condition=models.Q(is_active=True),
+                                               name="unique_active_payment_account")]
+
+    def __str__(self):
+        return f"{self.get_method_display()} {self.display_number}"
+
+    @property
+    def is_mobile_money(self):
+        return self.method in MOBILE_MONEY
+
+    @property
+    def display_number(self):
+        if self.is_mobile_money:
+            from apps.accounts.phones import display_phone
+
+            return display_phone(self.number)
+        n = self.number
+        return f"{n[:4]} •••• {n[-4:]}" if len(n) > 10 else n
+
+    @property
+    def withdrawable_from(self):
+        from datetime import timedelta
+
+        return self.created_at + timedelta(hours=settings.NEW_PAYMENT_ACCOUNT_HOLD_HOURS)
+
+    @property
+    def can_receive_withdrawal(self):
+        from django.utils import timezone
+
+        return self.is_active and (self.verified_at is not None or timezone.now() >= self.withdrawable_from)
+
+
 class DepositRequest(models.Model):
     class Status(models.TextChoices):
         PENDING = "pending", _("En attente du paiement")
@@ -126,7 +186,9 @@ class DepositRequest(models.Model):
     reference = models.CharField(max_length=16, unique=True, editable=False)
     amount = models.DecimalField(_("montant (MRU)"), **MONEY)
     method = models.CharField(_("moyen de paiement"), max_length=10, choices=PaymentMethod.choices)
-    payer_phone = models.CharField(_("numéro payeur"), max_length=20, blank=True)
+    payer_phone = models.CharField(_("numéro payeur"), max_length=40, blank=True)
+    payment_account = models.ForeignKey(PaymentAccount, null=True, blank=True, on_delete=models.SET_NULL,
+                                        related_name="deposits", verbose_name=_("compte payeur"))
     external_ref = models.CharField(_("identifiant de la transaction"), max_length=80, blank=True,
                                     help_text=_("Numéro de transaction reçu par SMS de votre banque."))
     receipt = models.FileField(_("capture du reçu"), upload_to="deposits/", storage=private_storage,
@@ -168,6 +230,8 @@ class WithdrawalRequest(models.Model):
     fee = models.DecimalField(_("frais"), **MONEY, default=ZERO)
     method = models.CharField(_("moyen de réception"), max_length=10, choices=PaymentMethod.choices)
     destination = models.CharField(_("numéro / RIB de réception"), max_length=60)
+    payment_account = models.ForeignKey(PaymentAccount, null=True, blank=True, on_delete=models.SET_NULL,
+                                        related_name="withdrawals", verbose_name=_("compte de réception"))
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING, db_index=True)
     external_ref = models.CharField(_("référence du paiement"), max_length=80, blank=True)
     staff_note = models.CharField(max_length=255, blank=True)

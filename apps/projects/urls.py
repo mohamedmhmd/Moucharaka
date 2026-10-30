@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from . import sharing, views
 
 app_name = "projects"
 
@@ -12,6 +12,9 @@ urlpatterns = [
     path("report-file/<int:pk>/", views.report_attachment, name="report_attachment"),
     path("investment/<int:pk>/cancel/", views.cancel_investment_view, name="cancel_investment"),
     path("<slug:slug>/", views.detail, name="detail"),
+    path("<slug:slug>/qr.svg", sharing.qr_svg, name="qr"),
+    path("<slug:slug>/poster/", sharing.poster, name="poster"),
+    path("<slug:slug>/interest/", sharing.register_interest, name="interest"),
     path("<slug:slug>/invest/", views.invest_view, name="invest"),
     path("<slug:slug>/favorite/", views.toggle_favorite, name="favorite"),
     path("<slug:slug>/ask/", views.ask_question, name="ask"),

@@ -100,7 +100,8 @@ def register_finish(request):
             return redirect("accounts:login")
         user = User.objects.create_user(
             phone, d["password1"], full_name=d["full_name"], email=d["email"],
-            preferred_language=d["preferred_language"], phone_verified_at=timezone.now())
+            preferred_language=d["preferred_language"], phone_verified_at=timezone.now(),
+            whatsapp_notifications=d.get("whatsapp_notifications", False))
         request.session.pop("verified_register", None)
         login(request, user, backend="apps.accounts.backends.PhoneBackend")
         audit("user.registered", user, actor=user, request=request)
@@ -131,7 +132,7 @@ def kyc(request):
         audit("kyc.submitted", profile, actor=user, request=request)
         for staff in User.objects.filter(is_staff=True, is_active=True):
             notify(staff, N_("Nouveau dossier KYC à vérifier"), profile.full_name_fr, url="/staff/kyc/")
-        messages.success(request, _("Dossier envoyé. Notre équipe le vérifie, vous recevrez un SMS."))
+        messages.success(request, _("Dossier envoyé. Notre équipe le vérifie, vous recevrez un message WhatsApp."))
         return redirect("accounts:kyc_status")
     return render(request, "accounts/kyc.html", {"form": form, "kyc": instance})
 
@@ -186,7 +187,7 @@ def login_view(request):
 
 
 def otp_login(request):
-    """Passwordless login with an SMS code (useful on shared phones)."""
+    """Passwordless login with a WhatsApp code."""
     form = PhoneOnlyForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         phone = form.cleaned_data["phone"]

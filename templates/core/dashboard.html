@@ -15,6 +15,7 @@
     <a class="btn secondary" href="{% url 'wallet:withdraw' %}">{% trans "Retirer" %}</a>
     <a class="btn secondary" href="{% url 'core:portfolio' %}">{% trans "Mon portefeuille de parts" %}</a>
   </div>
+  {% if no_accounts %}<div class="note" style="margin-top:16px">{% trans "Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et recevoir vos gains. Il peut être différent de votre numéro WhatsApp." %} <a href="{% url 'wallet:account_add' %}">{% trans "Ajouter un compte" %}</a></div>{% endif %}
   {% endif %}
   <div class="split" style="margin-top:28px">
     <div>
@@ -23,7 +24,7 @@
         {% if my_projects %}<div class="table-wrap"><table class="table">
           <thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Statut" %}</th><th class="n">{% trans "Collecté" %}</th><th></th></tr></thead>
           <tbody>{% for p in my_projects %}<tr>
-            <td><a href="{{ p.get_absolute_url }}">{{ p.title }}</a><div class="small muted">{{ p.get_kind_display }}</div></td>
+            <td><a href="{{ p.get_absolute_url }}">{{ p.title }}</a><div class="small muted">{{ p.get_kind_display }} · <span class="ltr">{{ p.reference }}</span> · <a href="{{ p.get_absolute_url }}#share">{% trans "Partager" %}</a></div></td>
             <td>{% badge p.status p.get_status_display %}</td>
             <td class="n">{{ p.raised_amount|money }} / {{ p.target_amount|money }}</td>
             <td class="n">{% if p.is_editable %}<a class="btn small secondary" href="{% url 'projects:edit' p.slug 'basics' %}">{% trans "Compléter" %}</a>
@@ -33,6 +34,7 @@
       </div>
       {% if held_investments %}<div class="panel"><h2>{% trans "Collectes auxquelles vous participez" %}</h2>
         <table class="table"><tbody>{% for i in held_investments %}<tr><td><a href="{{ i.project.get_absolute_url }}">{{ i.project.title }}</a></td><td class="n">{{ i.shares }} {% trans "parts" %}</td><td class="n">{{ i.amount|money }} MRU</td><td>{% badge i.project.status i.project.get_status_display %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+      {% if followed %}<div class="panel"><h2>{% trans "Projets que je suis" %}</h2><div class="grid g3">{% for p in followed %}{% include "includes/project_card.html" %}{% endfor %}</div></div>{% endif %}
       {% if recommended %}<div class="panel"><h2>{% trans "Collectes qui se terminent bientôt" %}</h2><div class="grid g3">{% for p in recommended %}{% include "includes/project_card.html" %}{% endfor %}</div></div>{% endif %}
     </div>
     <aside>

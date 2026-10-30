@@ -1,9 +1,9 @@
-{% extends "base.html" %}{% load i18n %}
+{% extends "base.html" %}{% load i18n mk %}
 {% block title %}{% trans "Paramètres" %}{% endblock %}
 {% block content %}<div class="wrap section" style="max-width:760px">
   <h1>{% trans "Paramètres" %}</h1>
   <div class="panel"><h2>{% trans "Préférences" %}</h2>
-    <dl class="kv" style="margin-bottom:16px"><dt>{% trans "Téléphone" %}</dt><dd class="ltr">+222 {{ user.phone }}</dd><dt>{% trans "Statut" %}</dt><dd>{{ user.get_status_display }}</dd></dl>
+    <dl class="kv" style="margin-bottom:16px"><dt>{% trans "Téléphone" %}</dt><dd class="ltr">{{ user.phone|phone }}</dd><dt>{% trans "Statut" %}</dt><dd>{{ user.get_status_display }}</dd></dl>
     <form method="post" class="form">{% csrf_token %}{% include "includes/form.html" %}<button class="btn">{% trans "Enregistrer" %}</button></form></div>
   <div class="panel"><h2>{% trans "Changer de mot de passe" %}</h2>
     <form method="post" class="form">{% csrf_token %}{% include "includes/form.html" with form=pwd_form %}<button class="btn secondary">{% trans "Changer le mot de passe" %}</button></form></div>

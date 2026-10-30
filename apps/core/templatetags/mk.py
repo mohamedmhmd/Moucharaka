@@ -83,3 +83,11 @@ def querystring(context, **kwargs):
     for k, v in kwargs.items():
         q[k] = v
     return q.urlencode()
+
+
+@register.filter
+def phone(value):
+    """+22222123456 → +222 22 12 34 56"""
+    from apps.accounts.phones import display_phone
+
+    return display_phone(value)

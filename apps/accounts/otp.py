@@ -5,9 +5,10 @@ from django.conf import settings
 from django.core.cache import cache
 from django.db.models import F
 from django.utils import timezone
+from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 
-from apps.sms.service import send_sms
+from apps.sms.service import send_otp
 
 from .models import PhoneOTP
 
@@ -39,8 +40,10 @@ def issue_otp(phone, purpose, ip=None):
     minutes = settings.OTP_TTL_SECONDS // 60
     body = _("Moucharaka : votre code est %(code)s. Valable %(min)s min. Ne le partagez avec personne.") % {
         "code": code, "min": minutes}
-    if not send_sms(phone, body, purpose="otp"):
-        raise OTPError(_("L'envoi du SMS a échoué. Réessayez dans quelques instants."))
+    lang = (get_language() or "fr")[:2]
+    if not send_otp(phone, code, body, lang=lang):
+        raise OTPError(_("Le code n'a pas pu être envoyé sur WhatsApp. Vérifiez que ce numéro utilise WhatsApp, "
+                         "puis réessayez."))
     return code
 
 

@@ -2,4 +2,6 @@
 {% block title %}{% trans "Déposer" %}{% endblock %}
 {% block auth %}<h1>{% trans "Déposer de l'argent" %}</h1>
 <p class="muted">{% blocktrans with m=settings.min_deposit|money %}Minimum {{ m }} MRU. Les dépôts sont gratuits.{% endblocktrans %}</p>
-<form method="post" class="form" novalidate>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}<button class="btn block">{% trans "Continuer" %}</button></form>{% endblock %}
+{% if not has_accounts %}<div class="note" style="margin-bottom:14px">{% trans "Ajoutez le compte Bankily, Masrvi, Sedad ou bancaire depuis lequel vous payez : vos dépôts et retraits seront plus rapides." %} <a href="{% url 'wallet:account_add' %}?next={% url 'wallet:deposit' %}">{% trans "Ajouter un compte" %}</a></div>{% endif %}
+<form method="post" class="form" novalidate>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}<button class="btn block">{% trans "Continuer" %}</button></form>
+{% if has_accounts %}<p class="small" style="margin-top:12px"><a href="{% url 'wallet:account_add' %}?next={% url 'wallet:deposit' %}">{% trans "Payer depuis un autre compte" %}</a></p>{% endif %}{% endblock %}

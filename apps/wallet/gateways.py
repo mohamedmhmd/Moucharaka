@@ -38,8 +38,11 @@ class MobileMoneyManual(Gateway):
 
     def instructions(self, deposit):
         number = getattr(PlatformSettings.get(), self.merchant_field, "") or "—"
+        acc = deposit.payment_account
+        open_app = (_("Ouvrez l'application %(app)s du compte %(n)s.") % {"app": self.app_name, "n": acc.display_number}
+                    if acc else _("Ouvrez l'application %(app)s.") % {"app": self.app_name})
         return [
-            _("Ouvrez l'application %(app)s.") % {"app": self.app_name},
+            open_app,
             _("Payez %(amount)s MRU au marchand %(number)s.") % {
                 "amount": f"{deposit.amount:,.0f}".replace(",", " "), "number": number},
             _("Indiquez la référence %(ref)s dans le motif si l'application le permet.") % {"ref": deposit.reference},

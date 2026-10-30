@@ -1,0 +1,43 @@
+{% load i18n static mk %}{% get_current_language as LANG %}<!doctype html>
+<html lang="{{ LANG }}" dir="{% if IS_RTL %}rtl{% else %}ltr{% endif %}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ project.title }} · {{ project.reference }}</title>
+<link rel="stylesheet" href="{% static 'css/fonts.css' %}"><link rel="stylesheet" href="{% static 'css/app.css' %}">
+<style>
+  body { background: #fff; color: #1E2238; }
+  .poster { max-width: 190mm; margin: 0 auto; padding: 14mm 12mm; }
+  .poster h1 { font-size: 2.6rem; margin: 14px 0 6px; color: #1C2559; }
+  .poster .tag { font-size: 1.25rem; color: #5B6383; margin: 0 0 22px; }
+  .poster .grid2 { display: grid; grid-template-columns: 1fr 64mm; gap: 10mm; align-items: center; }
+  .poster .terms li { font-size: 1.1rem; }
+  .poster .qr img { width: 64mm; height: 64mm; }
+  .poster .ref { font-family: var(--display); font-size: 2rem; color: #0B7A4B; letter-spacing: .04em; }
+  .poster .url { font-size: 1rem; word-break: break-all; }
+  .noprint { text-align: center; margin: 16px; }
+  @media print { .noprint { display: none; } @page { size: A4; margin: 0; } }
+</style></head>
+<body><div class="frieze"></div>
+<div class="noprint"><button class="btn" onclick="window.print()">{% trans "Imprimer l'affiche" %}</button></div>
+<div class="poster">
+  <div class="row between"><b style="font-family:var(--display);font-size:1.5rem;color:#1C2559">{% if IS_RTL %}مشاركة{% else %}Moucharaka{% endif %}</b>
+    <span class="model {{ project.financing_model }}">{% if project.is_moucharaka %}{% trans "Moucharaka — partage des bénéfices" %}{% else %}{% trans "Mourabaha — marge fixe" %}{% endif %}</span></div>
+  <h1>{% if boutique %}{% trans "Devenez associé de cette boutique" %}{% else %}{{ project.title }}{% endif %}</h1>
+  <p class="tag">{% if boutique %}<b>{{ boutique.shop_name }}</b> · {% endif %}{{ project.tagline }}</p>
+  <div class="grid2">
+    <ul class="terms-list terms">
+      <li><span>{% trans "Prix d'une part" %}</span><b>{{ project.share_price|money }} MRU</b></li>
+      {% if project.is_moucharaka %}<li><span>{% trans "Rendement annuel estimé" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %</b></li>
+      <li><span>{% trans "Part du bénéfice net aux investisseurs" %}</span><b>{{ project.investor_profit_share_pct|floatformat:"-1" }} %</b></li>
+      {% else %}<li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %</b></li>{% endif %}
+      <li><span>{% trans "Montant recherché" %}</span><b>{{ project.target_amount|money }} MRU</b></li>
+      <li><span>{% trans "Durée" %}</span><b>{% blocktrans with m=project.duration_months %}{{ m }} mois{% endblocktrans %}</b></li>
+      <li><span>{% trans "Lieu" %}</span><b>{{ project.moughataa.name }}, {{ project.wilaya.name }}</b></li>
+    </ul>
+    <div class="qr" style="text-align:center"><img src="{% url 'projects:qr' project.slug %}{% if share_private %}?k={{ project.preview_token }}{% endif %}" alt="QR">
+      <div class="small muted">{% trans "Scannez pour voir le projet" %}</div></div>
+  </div>
+  <div style="margin-top:12mm;text-align:center">
+    <div class="small muted">{% trans "ID du projet" %}</div><div class="ref ltr">{{ project.reference }}</div>
+    <div class="url ltr">{{ share_url }}</div>
+  </div>
+  <p class="small muted" style="margin-top:12mm;text-align:center;max-width:none">{% trans "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, sauf la marge contractuelle des opérations Mourabaha, elle-même soumise au risque de défaut du porteur." %}</p>
+</div></body></html>

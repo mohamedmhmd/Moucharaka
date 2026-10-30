@@ -5,28 +5,34 @@ Sharia-compliant crowdfunding and share-trading platform for Mauritania, in Arab
 - **Three project types**: an existing boutique, a one-off trade operation (Tabaski sheep, imports, purchase orders), or a future company.
 - **Two contracts, clearly labelled everywhere**: *Moucharaka* (share of real profits, with progressive buyback) and *Mourabaha* (fixed margin on goods, paid in installments).
 - **Boutique model**: 12-month sales history, top products and margins, balance sheet, rent and staff, shop on a map, six health ratios, three scenarios and an investor simulator. Monthly reports are charted against the declared history.
-- **Verified members**: sign-up with phone and SMS code, then NNI, ID document, selfie and financial profile. Staff approve the file, and documents are stored outside the public web root.
-- **Wallet with escrow**: Bankily, Masrvi, Sedad, bank transfer or cash. Funds stay held until a campaign succeeds and are refunded automatically if it fails. Withdrawals are confirmed by SMS code.
+- **WhatsApp login, worldwide**: members sign up and log in with their WhatsApp number from any country, confirmed by a code sent on WhatsApp. They then send their NNI, ID document, selfie and financial profile; staff approve the file, and documents are stored outside the public web root. SMS is kept only as an optional backup.
+- **Payment accounts separate from the login number**: each member adds one or more Bankily, Masrvi, Sedad or bank accounts and picks a default. Deposits come from them and withdrawals go to them, confirmed by a WhatsApp code. A new account must wait 24 h, or receive a confirmed deposit, before it can receive a withdrawal.
+- **Wallet with escrow**: funds stay held until a campaign succeeds and are refunded automatically if it fails.
 - **Distributions**: monthly profit shares, Mourabaha installments and buybacks, paid pro rata to every holder.
 - **Secondary market**: fixed-price listings with partial fills, price bounds and fees.
+- **Sharing**: every project has an ID (`MP-3FA9C1`) and a short link (`/s/MP-3FA9C1/`), with a Share on WhatsApp button, copy, a QR code and a printable A4 poster for the shop window. Shared links show a preview card (title, photo, summary) in WhatsApp. Drafts get a private preview link, so owners can show their project to relatives, who register their interest (and an amount) before launch and are told on WhatsApp when the campaign opens.
+- **Search**: one search box finds projects by name, ID, shop name, neighbourhood, town, sector or owner (French or Arabic name), and lists matching owners. Typing an exact ID opens the project.
 - **Trust score (0–1000)**: built from identity, on-time payments, report discipline, investor reviews and outcomes. Each member has a public track record page.
-- **Back-office**: KYC review with documents side by side and automatic flags, project review with a checklist and risk grade, deposit/withdrawal desks, report verification, revenue and escrow reconciliation.
-- **Configurable SMS providers** with priority, operator-prefix routing and automatic failover.
+- **Back-office**: KYC review with documents side by side and automatic flags, project review with a checklist and risk grade, deposit and withdrawal desks showing the payment account and whether it's verified, report verification, revenue and escrow reconciliation.
+- **Configurable messaging providers** (Meta WhatsApp Cloud API, Twilio WhatsApp, generic HTTP, SMS backups) with priority, country routing and automatic failover.
 - **REST API** (`/api/v1/`) ready for a mobile app.
 - A questionnaire of more than 60 questions (bilingual and editable in the admin) adapted to each project type.
 
-Business model and fees: [`docs/BUSINESS_PLAN.md`](docs/BUSINESS_PLAN.md) · SMS: [`docs/SMS.md`](docs/SMS.md) · Money flows: [`docs/PAYMENTS.md`](docs/PAYMENTS.md) · API: [`docs/API.md`](docs/API.md)
+Business model and fees: [`docs/BUSINESS_PLAN.md`](docs/BUSINESS_PLAN.md) · WhatsApp: [`docs/WHATSAPP.md`](docs/WHATSAPP.md) · Money flows: [`docs/PAYMENTS.md`](docs/PAYMENTS.md) · API: [`docs/API.md`](docs/API.md)
 
 ## Run it locally (5 minutes)
 
 ```bash
-python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env            # then set DEBUG=True and ALLOWED_HOSTS=* for local use
+printf 'DEBUG=True\nSECRET_KEY=local-dev-key\nALLOWED_HOSTS=*\n' > .env
 python manage.py migrate
-python manage.py seed_demo      # optional: demo users, projects and 4 months of history
+python manage.py seed_demo
 python manage.py runserver
 ```
+
+`seed_demo` is optional: it creates demo users, projects and four months of history.
 
 Open http://127.0.0.1:8000 (Arabic) or http://127.0.0.1:8000/fr/ (French).
 
@@ -37,9 +43,10 @@ Demo accounts created by `seed_demo` (password `Moucharaka#2026`):
 | Superuser (admin) | 20000000 |
 | Staff (compliance + operations) | 20000001 |
 | Boutique owner with 4 months of history | 22000101 |
-| Investor | 33000000 |
+| Investor in Mauritania | 33000000 |
+| Investor in the diaspora (French WhatsApp number) | +33612345601 |
 
-With `DEBUG=True` and the console SMS backend, OTP codes are shown on screen and printed in the server log.
+Until a WhatsApp provider is configured, codes are printed in the server log, and shown on screen when `DEBUG=True`.
 
 ## Tests
 
@@ -57,14 +64,16 @@ Whatever the host, do this after the first deployment:
 
 1. `python manage.py migrate`, then `python manage.py createsuperuser` (log in with the phone number).
 2. In `/admin/` set **Paramètres de la plateforme**: merchant numbers, bank details and fees.
-3. Add at least one **Fournisseur SMS** and send yourself a test SMS.
+3. Create the two WhatsApp templates, add a **Fournisseur de messagerie** (Meta Cloud API or Twilio), and send yourself a test code. See [`docs/WHATSAPP.md`](docs/WHATSAPP.md).
 4. Schedule `python manage.py run_daily` once a day. It closes campaigns, flags late installments and reports, sends reminders, expires listings and deposits, and recomputes trust scores.
 5. Add staff members to the **Conformité** and/or **Opérations** groups.
 
 ### Docker / any VPS with Docker
 
+Copy `.env.example` to `.env` and set `SECRET_KEY`, `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS`, then:
+
 ```bash
-cp .env.example .env   # set SECRET_KEY, ALLOWED_HOSTS, CSRF_TRUSTED_ORIGINS
+cp .env.example .env
 docker compose up -d --build
 docker compose exec web python manage.py createsuperuser
 ```
@@ -73,16 +82,18 @@ This runs PostgreSQL, the web app (gunicorn on port 8000, migrations at start-up
 
 ### Plain VPS (Ubuntu, Debian)
 
+In `.env`, set `DATABASE_URL=postgres://…` and `SERVE_MEDIA=False`. For the cron job, add the line from `deploy/crontab.txt`.
+
 ```bash
 sudo apt install python3-venv postgresql nginx
 git clone … /srv/moucharaka && cd /srv/moucharaka
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-cp .env.example .env    # DATABASE_URL=postgres://…, SERVE_MEDIA=False
+cp .env.example .env
 .venv/bin/python manage.py migrate && .venv/bin/python manage.py collectstatic --noinput
 sudo cp deploy/moucharaka.service /etc/systemd/system/ && sudo systemctl enable --now moucharaka
 sudo cp deploy/nginx.conf /etc/nginx/sites-enabled/moucharaka && sudo systemctl reload nginx
 sudo certbot --nginx -d your-domain
-crontab -e   # add the line from deploy/crontab.txt
+crontab -e
 ```
 
 ### cPanel / Plesk shared hosting ("Setup Python App")
@@ -102,9 +113,10 @@ A `Procfile` is included (release: migrate; web: gunicorn). Add a PostgreSQL add
 ```
 apps/
   accounts     phone + OTP auth, KYC (NNI, ID, selfie), approval, private documents
-  sms          provider models, backends (HTTP, Twilio, Infobip, Vonage, console), failover service
-  projects     projects, boutique/company/deal models, questionnaire, reports, installments, wizard, owner workspace
-  wallet       ledger, deposits, withdrawals, payment gateways, webhook
+  sms          messaging: WhatsApp (Meta Cloud API, Twilio) and SMS backends, channel order, failover, message log
+  projects     projects, boutique/company/deal models, questionnaire, reports, installments, wizard, owner workspace,
+               sharing (short links, QR, poster, private preview, interest) and search
+  wallet       ledger, payment accounts (Bankily, Masrvi, Sedad, bank), deposits, withdrawals, gateways, webhook
   investments  escrow, release, distributions, buybacks, defaults
   market       share listings and trades
   trust        trust score engine, events, investor reviews, public profiles
@@ -121,12 +133,10 @@ deploy/        gunicorn, nginx, systemd, cron, Docker entrypoint
 
 UI strings are written in French in the code and translated to Arabic in `locale/ar/LC_MESSAGES/django.po`. After changing text:
 
-```bash
-pip install -r requirements-dev.txt
-python scripts/i18n.py extract    # adds new strings to the .po
-# translate the new entries (any PO editor, e.g. Poedit)
-python scripts/i18n.py compile    # builds django.mo
-```
+1. `pip install -r requirements-dev.txt`
+2. `python scripts/i18n.py extract` adds the new strings to the `.po` file.
+3. Translate the new entries in any PO editor (for example Poedit).
+4. `python scripts/i18n.py compile` builds `django.mo`.
 
 Content managed in the admin (questionnaire, sectors, wilayas) has its own French and Arabic fields.
 

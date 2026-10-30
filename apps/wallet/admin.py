@@ -1,7 +1,7 @@
 from django.contrib import admin, messages
 from django.utils.translation import gettext_lazy as _
 
-from .models import DepositRequest, Transaction, Wallet, WithdrawalRequest
+from .models import DepositRequest, PaymentAccount, Transaction, Wallet, WithdrawalRequest
 from .services import WalletError, confirm_deposit, mark_withdrawal_paid
 
 
@@ -62,3 +62,17 @@ class WithdrawalAdmin(admin.ModelAdmin):
     def paid(self, request, queryset):
         for w in queryset.filter(status="pending"):
             mark_withdrawal_paid(w, by=request.user)
+
+
+@admin.register(PaymentAccount)
+class PaymentAccountAdmin(admin.ModelAdmin):
+    list_display = ("user", "method", "number", "holder_name", "is_default", "is_active", "verified_at", "created_at")
+    list_filter = ("method", "is_active")
+    search_fields = ("user__phone", "user__full_name", "number", "holder_name")
+    actions = ["mark_verified"]
+
+    @admin.action(description=_("Marquer comme vérifiés"))
+    def mark_verified(self, request, queryset):
+        from django.utils import timezone
+
+        queryset.filter(verified_at__isnull=True).update(verified_at=timezone.now())

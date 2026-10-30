@@ -21,7 +21,11 @@ urlpatterns = [
     path("healthz", healthz),
 ]
 
+from apps.projects import sharing  # noqa: E402
+
 urlpatterns += i18n_patterns(
+    path("s/<str:ref>/", sharing.short_link, name="short"),
+    path("search/", sharing.search, name="search"),
     path("", include("apps.core.urls")),
     path("accounts/", include("apps.accounts.urls")),
     path("projects/", include("apps.projects.urls")),

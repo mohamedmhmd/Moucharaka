@@ -59,7 +59,7 @@ class SMSFailoverTests(TestCase):
         self.assertEqual(statuses, [("failed", "http"), ("sent", "console")])
 
     def test_prefix_routing(self):
-        SMSProvider.objects.create(name="Mattel only", backend="console", priority=1, prefixes="3")
+        SMSProvider.objects.create(name="Mattel only", backend="console", priority=1, prefixes="2223")
         SMSProvider.objects.create(name="Fallback", backend="console", priority=5)
         send_sms("22000000", "x")
         self.assertEqual(SMSMessage.objects.latest("id").provider.name, "Fallback")
@@ -82,7 +82,7 @@ class RegistrationFlowTests(TestCase):
         r = c.post("/fr/accounts/register/finish/", {"full_name": "Ahmed Salem", "email": "", "preferred_language": "ar",
                                                      "password1": "Tres-Sur#2026", "password2": "Tres-Sur#2026"})
         self.assertRedirects(r, "/fr/accounts/identity/")
-        user = User.objects.get(phone="46123456")
+        user = User.objects.get(phone="+22246123456")
         self.assertEqual(user.status, "new")
         # Investing is blocked before approval
         r = c.get("/fr/wallet/")
@@ -138,7 +138,7 @@ class APITests(TestCase):
         auth = {"HTTP_AUTHORIZATION": f"Token {token}"}
         self.assertEqual(c.get("/api/v1/wallet", **auth).status_code, 403)  # not approved yet
         # Approve, fund and invest
-        user = User.objects.get(phone="36000001")
+        user = User.objects.get(phone="+22236000001")
         staff = make_user("Staff", staff=True)
         owner = make_user("Owner", balance=10_000)
         from apps.projects.services import approve_project, submit_project
@@ -184,6 +184,9 @@ class PagesRenderTests(TestCase):
     """Every main page renders in both languages for each role."""
 
     def test_pages(self):
+        from django.utils import translation
+
+        translation.activate("ar")  # other tests leave "fr" active in this thread
         owner = make_user("Owner", balance=10_000)
         staff = make_user("Staff", staff=True)
         staff.is_superuser = True
@@ -197,10 +200,14 @@ class PagesRenderTests(TestCase):
         p.refresh_from_db()
         approve_project(p, staff, "B")
         invest(inv, p, 5, True)
+        from apps.wallet.models import PaymentAccount
+
+        PaymentAccount.objects.create(user=inv, method="bankily", number="+22236000099", holder_name="Investor",
+                                      is_default=True)
         for user, urls in [
             (None, ["/", "/projects/", "/market/", p.get_absolute_url(), "/p/how/", "/p/fees/", "/p/sharia/", "/p/faq/",
                     "/trust-score/", f"/u/{owner.public_id}/", "/accounts/login/", "/accounts/register/"]),
-            (inv, ["/dashboard/", "/portfolio/", "/wallet/", "/wallet/deposit/", "/wallet/withdraw/", "/projects/new/",
+            (inv, ["/dashboard/", "/portfolio/", "/wallet/", "/wallet/deposit/", "/wallet/withdraw/", "/wallet/accounts/", "/wallet/accounts/add/", "/projects/new/",
                    p.get_absolute_url(), "/notifications/", "/accounts/settings/"]),
             (owner, [f"/projects/{p.slug}/manage/"]),
             (staff, ["/staff/", "/staff/kyc/", "/staff/projects/", f"/staff/projects/{p.pk}/", "/staff/deposits/",
@@ -239,3 +246,117 @@ class NotificationLanguageTests(TestCase):
         self.assertEqual(n2.title, "تم تأكيد الإيداع")
         self.assertIn("500", n2.body)
         self.assertIn("محفظتك", n2.body)
+
+
+class InternationalPhoneTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def test_normalization_and_allowlist(self):
+        from django.core.exceptions import ValidationError
+
+        from apps.accounts.phones import normalize_phone, validate_phone
+
+        for raw in ("22 12 34 56", "+222 22123456", "0022222123456"):
+            self.assertEqual(normalize_phone(raw), "+22222123456")
+        self.assertEqual(normalize_phone("+33 6 12 34 56 78"), "+33612345678")
+        self.assertEqual(normalize_phone("0033612345678"), "+33612345678")
+        validate_phone("+33612345678")
+        validate_phone("+79123456789")           # worldwide by default (WhatsApp)
+        with self.assertRaises(ValidationError):
+            validate_phone("612345678")          # French number typed without +33 → read as Mauritanian, invalid
+        with self.settings(PHONE_ALLOWED_COUNTRIES=["MR", "FR"]):
+            with self.assertRaises(ValidationError):
+                validate_phone("+79123456789")
+
+    def test_diaspora_registration_and_routing(self):
+        SMSProvider.objects.create(name="Local MR", backend="console", priority=1, prefixes="222")
+        SMSProvider.objects.create(name="International", backend="console", priority=2)
+        r = self.client.post("/fr/accounts/register/", {"phone": "+33 6 12 34 56 78", "accept_terms": "on"})
+        self.assertRedirects(r, "/fr/accounts/verify/")
+        self.assertEqual(SMSMessage.objects.latest("id").provider.name, "International")
+        self.assertEqual(SMSMessage.objects.latest("id").phone, "+33612345678")
+        self.client.post("/fr/accounts/verify/", {"code": last_code()})
+        self.client.post("/fr/accounts/register/finish/", {"full_name": "Sidi Paris", "preferred_language": "fr",
+                                                           "password1": "Tres-Sur#2026", "password2": "Tres-Sur#2026"})
+        self.assertTrue(User.objects.filter(phone="+33612345678").exists())
+        send_sms("+22222123456", "x")
+        self.assertEqual(SMSMessage.objects.latest("id").provider.name, "Local MR")
+        with self.settings(PHONE_ALLOWED_COUNTRIES=["MR", "FR"]):
+            r = self.client_class().post("/fr/accounts/register/", {"phone": "+7 912 345 67 89", "accept_terms": "on"})
+        self.assertContains(r, "pas encore ouverte")
+
+
+class WhatsAppTests(TestCase):
+    """Payloads sent to Meta and Twilio, channel order and opt-out."""
+
+    def setUp(self):
+        cache.clear()
+
+    def _fake(self, captured, json_resp):
+        from unittest import mock
+
+        def post(url, **kw):
+            captured.append((url, kw))
+            r = mock.Mock(status_code=200, text="ok", content=b"{}")
+            r.json.return_value = json_resp
+            return r
+        return mock.patch("apps.sms.backends.requests.post", side_effect=post)
+
+    def test_meta_cloud_authentication_template(self):
+        SMSProvider.objects.create(name="Meta", backend="whatsapp_cloud", priority=1, config={
+            "phone_number_id": "111", "access_token": "TOKEN", "otp_template": "moucharaka_code",
+            "notification_template": "moucharaka_update"})
+        captured = []
+        with self._fake(captured, {"messages": [{"id": "wamid.1"}]}):
+            from django.utils import translation
+
+            with translation.override("ar"):
+                code = issue_otp("+33612345678", "register")
+        url, kw = captured[0]
+        self.assertEqual(url, "https://graph.facebook.com/v21.0/111/messages")
+        self.assertEqual(kw["headers"]["Authorization"], "Bearer TOKEN")
+        body = kw["json"]
+        self.assertEqual(body["to"], "33612345678")
+        self.assertEqual(body["template"]["name"], "moucharaka_code")
+        self.assertEqual(body["template"]["language"]["code"], "ar")
+        self.assertEqual(body["template"]["components"][0]["parameters"][0]["text"], code)
+        self.assertEqual(body["template"]["components"][1]["sub_type"], "url")  # copy-code button
+        msg = SMSMessage.objects.latest("id")
+        self.assertEqual((msg.channel, msg.status, msg.provider_message_id), ("whatsapp", "sent", "wamid.1"))
+        self.assertNotIn(code, msg.body)
+
+    def test_twilio_whatsapp_and_notification(self):
+        SMSProvider.objects.create(name="Twilio WA", backend="twilio_whatsapp", priority=1, config={
+            "account_sid": "AC1", "auth_token": "t", "from": "+14155238886",
+            "otp_content_sid": {"fr": "HXfr", "ar": "HXar"}, "notification_content_sid": "HXnotif"})
+        captured = []
+        with self._fake(captured, {"sid": "SM1"}):
+            from django.utils import translation
+
+            with translation.override("fr"):
+                code = issue_otp("+22222123456", "login")
+            user = make_user("Notif User", lang="ar")
+            from apps.core.utils import N_, notify
+
+            captured.clear()
+            notify(user, N_("Dépôt confirmé"), "500 MRU", whatsapp=True)
+            user.whatsapp_notifications = False
+            notify(user, N_("Dépôt confirmé"), "500 MRU", whatsapp=True)
+        self.assertEqual(len(captured), 1)  # opt-out respected
+        data = captured[0][1]["data"]
+        self.assertEqual(data["ContentSid"], "HXnotif")
+        self.assertEqual(data["To"], "whatsapp:" + user.phone)
+        self.assertEqual(json.loads(data["ContentVariables"])["1"], "تم تأكيد الإيداع")
+        self.assertTrue(code)
+
+    def test_sms_fallback_when_whatsapp_fails(self):
+        SMSProvider.objects.create(name="Meta broken", backend="whatsapp_cloud", priority=1, config={})
+        SMSProvider.objects.create(name="SMS backup", backend="console", channel="sms", priority=2)
+        issue_otp("+22222123456", "register")
+        rows = list(SMSMessage.objects.order_by("id").values_list("channel", "status"))
+        self.assertEqual(rows, [("whatsapp", "failed"), ("sms", "sent")])
+        with self.settings(OTP_CHANNELS=["whatsapp"]):
+            cache.clear()
+            with self.assertRaises(OTPError):
+                issue_otp("+22222123457", "register")

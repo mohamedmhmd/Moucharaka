@@ -39,7 +39,7 @@ def check_installments(today=None):
         record_event(inst.project.owner, "installment_overdue", project=inst.project, note=f"#{inst.number}")
         notify(inst.project.owner, N_("Échéance en retard"),
                N_("L'échéance n°%(n)s de « %(p)s » est impayée.") % {"n": inst.number, "p": inst.project.title},
-               url=f"/projects/{inst.project.slug}/manage/", sms=True)
+               url=f"/projects/{inst.project.slug}/manage/", whatsapp=True)
         late += 1
     for inst in Installment.objects.filter(status=Installment.Status.LATE,
                                            due_date__lt=today - timedelta(days=DEFAULT_AFTER_DAYS)):
@@ -52,7 +52,7 @@ def check_installments(today=None):
         notify(inst.project.owner, N_("Rappel d'échéance"),
                N_("%(a)s MRU à payer le %(d)s pour « %(p)s ».") % {
                    "a": f"{inst.amount:,.0f}", "d": inst.due_date.strftime("%d/%m"), "p": inst.project.title},
-               url=f"/projects/{inst.project.slug}/manage/", sms=True)
+               url=f"/projects/{inst.project.slug}/manage/", whatsapp=True)
     return late
 
 
@@ -69,12 +69,12 @@ def check_reports(today=None):
                     record_event(project.owner, "report_missed", project=project, note=key, recompute=False)
                     notify(project.owner, N_("Rapport financier en retard"),
                            N_("Le rapport %(m)s de « %(p)s » n'a pas été envoyé.") % {"m": key, "p": project.title},
-                           url=f"/projects/{project.slug}/manage/", sms=True)
+                           url=f"/projects/{project.slug}/manage/", whatsapp=True)
                     missed += 1
             elif (due - today).days == 3:
                 notify(project.owner, N_("Rapport à envoyer"),
                        N_("Envoyez les chiffres de %(m)s avant le %(d)s.") % {"m": key, "d": due.strftime("%d/%m")},
-                       url=f"/projects/{project.slug}/manage/", sms=True)
+                       url=f"/projects/{project.slug}/manage/", whatsapp=True)
     return missed
 
 

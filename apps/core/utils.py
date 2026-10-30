@@ -63,20 +63,23 @@ def N_(text):  # noqa: N802 - gettext-style marker, extracted by scripts/i18n.py
     return Msg(text)
 
 
-def notify(user, title, body="", url="", sms=False):
-    """In-app notification, optionally mirrored by SMS.
+def notify(user, title, body="", url="", whatsapp=False, sms=None):
+    """In-app notification, mirrored on WhatsApp when `whatsapp=True` and the
+    user accepted WhatsApp notifications.
 
-    `title` and `body` may be lazy translation strings: they are rendered in
-    the recipient's preferred language, not the caller's.
+    `title` and `body` may be N_() / lazy strings: they are rendered in the
+    recipient's preferred language, not the caller's.
     """
-    from apps.sms.service import send_sms
+    from apps.sms.service import send_notification
 
     from .models import Notification
 
+    if sms is not None:  # old keyword
+        whatsapp = whatsapp or sms
     lang = getattr(user, "preferred_language", None) or "ar"
     with translation.override(lang):
         title_s, body_s = str(title), str(body)
     n = Notification.objects.create(user=user, title=title_s[:200], body=body_s, url=url)
-    if sms and user.phone:
-        send_sms(user.phone, f"{title_s}. {body_s}".strip()[:300], purpose="notification")
+    if whatsapp and user.phone and getattr(user, "whatsapp_notifications", True):
+        send_notification(user.phone, title_s, body_s, lang=lang)
     return n

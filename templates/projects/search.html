@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% if q %}{{ q }} · {% endif %}{% trans "Recherche" %}{% endblock %}
+{% block content %}<div class="wrap section">
+  <h1>{% trans "Recherche" %}</h1>
+  <form method="get" class="panel row" style="padding:14px" role="search">
+    <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'Nom du projet, ID (MP-3FA9C1), boutique, quartier, porteur…' %}" style="flex:1" autofocus>
+    <button class="btn">{% trans "Rechercher" %}</button>
+  </form>
+  {% if q %}
+    {% if members %}<h2 style="margin-top:24px">{% trans "Porteurs de projet" %}</h2>
+      <div class="grid g3">{% for m in members %}<a class="card" href="{% url 'trust:profile' m.public_id %}" style="text-decoration:none;color:inherit">
+        <b>{{ m.display_name }}</b><div class="small muted">{% blocktrans count n=m.n_projects %}{{ n }} projet{% plural %}{{ n }} projets{% endblocktrans %}{% if m.trust %} · {% trans "score" %} {{ m.trust.score }}{% endif %}</div></a>{% endfor %}</div>{% endif %}
+    <h2 style="margin-top:24px">{% blocktrans count n=projects|length %}{{ n }} projet trouvé{% plural %}{{ n }} projets trouvés{% endblocktrans %}</h2>
+    {% if projects %}<div class="grid g3">{% for p in projects %}{% include "includes/project_card.html" %}{% endfor %}</div>
+    {% else %}<div class="empty panel">{% trans "Aucun résultat. Essayez le nom de la boutique, le quartier, le nom du porteur ou l'ID du projet (ex. MP-3FA9C1)." %}<br><a class="btn secondary" href="{% url 'projects:explore' %}">{% trans "Voir tous les projets" %}</a></div>{% endif %}
+  {% else %}<p class="muted">{% trans "Chaque projet a un ID (ex. MP-3FA9C1) que son porteur peut partager. Tapez-le pour ouvrir directement le projet." %}</p>{% endif %}
+</div>{% endblock %}

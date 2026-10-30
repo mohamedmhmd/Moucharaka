@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from django.shortcuts import redirect, render
 
 from apps.investments.models import Distribution, Holding, Investment, Payout
@@ -43,6 +43,9 @@ def dashboard(request):
         ctx["recommended"] = (Project.objects.filter(status="funding").exclude(owner=u)
                               .exclude(investments__investor=u).order_by("campaign_end")[:3])
         ctx["score"] = get_score(u)
+        ctx["followed"] = (Project.objects.filter(Q(favorited_by__user=u) | Q(interests__user=u))
+                           .select_related("sector", "wilaya", "moughataa").distinct()[:6])
+        ctx["no_accounts"] = not u.payment_accounts.filter(is_active=True).exists()
     return render(request, "core/dashboard.html", ctx)
 
 

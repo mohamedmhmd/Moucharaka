@@ -118,7 +118,7 @@ def mark_funded(project):
     record_event(project.owner, "campaign_funded", project=project)
     notify(project.owner, N_("Objectif atteint !"),
            N_("« %(p)s » est financé. Notre équipe prépare le contrat et le versement des fonds.") % {"p": project.title},
-           url=project.get_absolute_url(), sms=True)
+           url=project.get_absolute_url(), whatsapp=True)
     for staff in User.objects.filter(is_staff=True, is_active=True):
         notify(staff, N_("Projet financé : fonds à libérer"), project.title, url=f"/staff/projects/{project.pk}/")
     for inv in project.investments.filter(status="held").select_related("investor"):
@@ -149,7 +149,7 @@ def refund_campaign(project, reason=""):
         inv.status = Investment.Status.REFUNDED
         inv.save(update_fields=["status"])
         notify(inv.investor, N_("Collecte non aboutie : vous êtes remboursé"),
-               N_("%(a)s MRU sont de nouveau disponibles.") % {"a": fmt(inv.amount)}, url="/wallet/", sms=True)
+               N_("%(a)s MRU sont de nouveau disponibles.") % {"a": fmt(inv.amount)}, url="/wallet/", whatsapp=True)
     project.status = Project.Status.FAILED if not reason else Project.Status.CANCELLED
     project.closed_at = timezone.now()
     project.save(update_fields=["status", "closed_at", "updated_at"])
@@ -193,7 +193,7 @@ def release_funds(project, by=None):
     audit("project.released", project, actor=by, total=str(total), fee=str(fee))
     notify(project.owner, N_("Fonds versés"),
            N_("%(a)s MRU (après commission de %(f)s MRU) sont disponibles dans votre portefeuille.") % {
-               "a": fmt(total - fee), "f": fmt(fee)}, url="/wallet/", sms=True)
+               "a": fmt(total - fee), "f": fmt(fee)}, url="/wallet/", whatsapp=True)
     return project
 
 
@@ -396,4 +396,4 @@ def mark_default(project, by=None, note=""):
     for h in project.holdings.filter(shares__gt=0).select_related("user"):
         notify(h.user, N_("Projet en défaut de paiement"),
                N_("Notre équipe engage le recouvrement et les garanties de « %(p)s ».") % {"p": project.title},
-               url=project.get_absolute_url(), sms=True)
+               url=project.get_absolute_url(), whatsapp=True)

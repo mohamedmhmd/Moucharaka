@@ -5,6 +5,8 @@
     <div class="row" style="margin-top:8px">{% badge project.status project.get_status_display %}<span class="model {{ project.financing_model }}">{% if project.is_moucharaka %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span><a class="small" href="{{ project.get_absolute_url }}">{% trans "Page publique" %}</a></div></div>
     <div class="row"><span class="muted small">{% trans "Mon portefeuille" %}</span><b class="num">{{ wallet.balance|money }} MRU</b><a class="btn small secondary" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a></div></div>
 
+  <div class="panel" style="margin-bottom:20px">{% include "includes/share.html" %}
+    <p class="small muted" style="margin:10px 0 0">{% blocktrans with n=project.shares_count %}Lien ouvert {{ n }} fois.{% endblocktrans %}</p></div>
   <div class="stats">
     <div class="stat"><b class="num">{{ project.raised_amount|money }}</b><span>{% trans "MRU collectés" %}</span></div>
     <div class="stat"><b class="num">{{ project.investors_count }}</b><span>{% trans "investisseurs" %}</span></div>
@@ -48,6 +50,8 @@
       <form method="post" enctype="multipart/form-data" action="{% url 'projects:post_update' project.slug %}" class="form">{% csrf_token %}{% include "includes/form.html" with form=update_form grid="stack" %}<button class="btn secondary">{% trans "Publier" %}</button></form></div>
   </div>
 
+  {% if interests %}<div class="panel anchor" id="interests" style="margin-top:20px"><h2>{% trans "Intentions d'investissement" %}</h2>
+    <table class="table"><tbody>{% for it in interests %}<tr><td>{{ it.user.display_name }}</td><td class="n">{% if it.amount %}{{ it.amount|money }} MRU{% else %}—{% endif %}</td><td class="small muted">{{ it.created_at|date:"d/m/Y" }}</td><td>{% if it.notified_at %}<span class="badge tone-good">{% trans "prévenu" %}</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
   <div class="panel" style="margin-top:20px"><h2>{% trans "Associés" %}</h2>
     {% if holdings %}<table class="table"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Part du capital" %}</th></tr></thead><tbody>
       {% for h in holdings %}<tr><td>{{ h.user.display_name }}</td><td class="n">{{ h.shares }}</td><td class="n">{{ h.shares|pct_of:outstanding }} %</td></tr>{% endfor %}</tbody></table>

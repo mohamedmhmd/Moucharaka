@@ -1,4 +1,4 @@
 {% extends "accounts/auth_base.html" %}{% load i18n %}
 {% block title %}{% trans "Mot de passe oublié" %}{% endblock %}
-{% block auth %}<h1>{% trans "Mot de passe oublié" %}</h1><p class="muted">{% trans "Si ce numéro a un compte, vous recevrez un code par SMS." %}</p>
+{% block auth %}<h1>{% trans "Mot de passe oublié" %}</h1><p class="muted">{% trans "Si ce numéro a un compte, vous recevrez un code sur WhatsApp." %}</p>
 <form method="post" class="form" novalidate>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}<button class="btn block">{% trans "Recevoir le code" %}</button></form>{% endblock %}

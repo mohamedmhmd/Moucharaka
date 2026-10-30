@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-29 13:09+0100\n"
+"POT-Creation-Date: 2026-10-30 11:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -56,8 +56,11 @@ msgstr "Complétez la vérification de votre identité pour continuer."
 msgid "Votre compte doit être validé par notre équipe avant cette action."
 msgstr "Votre compte doit être validé par notre équipe avant cette action."
 
-msgid "Numéro de téléphone"
-msgstr "Numéro de téléphone"
+msgid "Numéro WhatsApp"
+msgstr "Numéro WhatsApp"
+
+msgid "Le numéro qui utilise WhatsApp, dans n'importe quel pays. Mauritanie : 8 chiffres. Autres pays : + et l'indicatif, ex. +33 6 12 34 56 78."
+msgstr "Le numéro qui utilise WhatsApp, dans n'importe quel pays. Mauritanie : 8 chiffres. Autres pays : + et l'indicatif, ex. +33 6 12 34 56 78."
 
 msgid "J'accepte les conditions d'utilisation et la politique de confidentialité"
 msgstr "J'accepte les conditions d'utilisation et la politique de confidentialité"
@@ -65,8 +68,8 @@ msgstr "J'accepte les conditions d'utilisation et la politique de confidentialit
 msgid "Ce numéro a déjà un compte. Connectez-vous."
 msgstr "Ce numéro a déjà un compte. Connectez-vous."
 
-msgid "Code reçu par SMS"
-msgstr "Code reçu par SMS"
+msgid "Code reçu sur WhatsApp"
+msgstr "Code reçu sur WhatsApp"
 
 msgid "Mot de passe"
 msgstr "Mot de passe"
@@ -86,8 +89,11 @@ msgstr "Tel qu'il apparaît sur votre pièce d'identité."
 msgid "E-mail (facultatif)"
 msgstr "E-mail (facultatif)"
 
-msgid "Langue des SMS et notifications"
-msgstr "Langue des SMS et notifications"
+msgid "Langue des messages et notifications"
+msgstr "Langue des messages et notifications"
+
+msgid "J'accepte de recevoir sur WhatsApp les messages importants concernant mon compte (versements, échéances, validation)."
+msgstr "J'accepte de recevoir sur WhatsApp les messages importants concernant mon compte (versements, échéances, validation)."
 
 msgid "Je certifie que ces informations sont exactes et j'autorise leur vérification."
 msgstr "Je certifie que ces informations sont exactes et j'autorise leur vérification."
@@ -106,9 +112,6 @@ msgstr "Engagement"
 
 msgid "Ce NNI est déjà associé à un autre compte. Contactez le support."
 msgstr "Ce NNI est déjà associé à un autre compte. Contactez le support."
-
-msgid "Numéro mauritanien à 8 chiffres commençant par 2, 3 ou 4."
-msgstr "Numéro mauritanien à 8 chiffres commençant par 2, 3 ou 4."
 
 msgid "Le NNI comporte 10 chiffres."
 msgstr "Le NNI comporte 10 chiffres."
@@ -135,8 +138,17 @@ msgstr "Refusé"
 msgid "Suspendu"
 msgstr "Suspendu"
 
-msgid "téléphone"
-msgstr "téléphone"
+msgid "numéro WhatsApp"
+msgstr "numéro WhatsApp"
+
+msgid "Format international E.164, ex. +22222123456"
+msgstr "Format international E.164, ex. +22222123456"
+
+msgid "recevoir les notifications importantes sur WhatsApp"
+msgstr "recevoir les notifications importantes sur WhatsApp"
+
+msgid "Versements, échéances, validation du compte. Les codes de connexion sont toujours envoyés."
+msgstr "Versements, échéances, validation du compte. Les codes de connexion sont toujours envoyés."
 
 msgid "nom complet"
 msgstr "nom complet"
@@ -400,8 +412,8 @@ msgstr "Trop de demandes depuis cette connexion. Réessayez plus tard."
 msgid "Moucharaka : votre code est %(code)s. Valable %(min)s min. Ne le partagez avec personne."
 msgstr "Moucharaka : votre code est %(code)s. Valable %(min)s min. Ne le partagez avec personne."
 
-msgid "L'envoi du SMS a échoué. Réessayez dans quelques instants."
-msgstr "L'envoi du SMS a échoué. Réessayez dans quelques instants."
+msgid "Le code n'a pas pu être envoyé sur WhatsApp. Vérifiez que ce numéro utilise WhatsApp, puis réessayez."
+msgstr "Le code n'a pas pu être envoyé sur WhatsApp. Vérifiez que ce numéro utilise WhatsApp, puis réessayez."
 
 msgid "Code expiré. Demandez un nouveau code."
 msgstr "Code expiré. Demandez un nouveau code."
@@ -412,6 +424,12 @@ msgstr "Trop d'essais. Demandez un nouveau code."
 #, python-format
 msgid "Code incorrect. Il vous reste %(n)s essai(s)."
 msgstr "Code incorrect. Il vous reste %(n)s essai(s)."
+
+msgid "Numéro de téléphone invalide. Hors de Mauritanie, commencez par + et l'indicatif du pays (ex. +33 6 12 34 56 78)."
+msgstr "Numéro de téléphone invalide. Hors de Mauritanie, commencez par + et l'indicatif du pays (ex. +33 6 12 34 56 78)."
+
+msgid "L'inscription n'est pas encore ouverte aux numéros de ce pays."
+msgstr "L'inscription n'est pas encore ouverte aux numéros de ce pays."
 
 msgid "Votre compte est validé"
 msgstr "Votre compte est validé"
@@ -441,8 +459,8 @@ msgstr "Compte créé. Dernière étape : vérifier votre identité."
 msgid "Nouveau dossier KYC à vérifier"
 msgstr "Nouveau dossier KYC à vérifier"
 
-msgid "Dossier envoyé. Notre équipe le vérifie, vous recevrez un SMS."
-msgstr "Dossier envoyé. Notre équipe le vérifie, vous recevrez un SMS."
+msgid "Dossier envoyé. Notre équipe le vérifie, vous recevrez un message WhatsApp."
+msgstr "Dossier envoyé. Notre équipe le vérifie, vous recevrez un message WhatsApp."
 
 msgid "Numéro ou mot de passe incorrect."
 msgstr "Numéro ou mot de passe incorrect."
@@ -1240,6 +1258,12 @@ msgstr "corrections demandées"
 msgid "revente des parts autorisée"
 msgstr "revente des parts autorisée"
 
+msgid "Clé du lien d'aperçu privé (projet pas encore publié)."
+msgstr "Clé du lien d'aperçu privé (projet pas encore publié)."
+
+msgid "Ouvertures du lien partagé."
+msgstr "Ouvertures du lien partagé."
+
 msgid "projet"
 msgstr "projet"
 
@@ -1867,6 +1891,18 @@ msgstr "votre question"
 msgid "réponse"
 msgstr "réponse"
 
+msgid "montant envisagé (MRU)"
+msgstr "montant envisagé (MRU)"
+
+msgid "message au porteur (facultatif)"
+msgstr "message au porteur (facultatif)"
+
+msgid "intention d'investissement"
+msgstr "intention d'investissement"
+
+msgid "intentions d'investissement"
+msgstr "intentions d'investissement"
+
 msgid "À clarifier"
 msgstr "À clarifier"
 
@@ -2029,6 +2065,41 @@ msgstr "« %(p)s » a publié ses chiffres de %(m)s."
 msgid "Rapport à clarifier"
 msgstr "Rapport à clarifier"
 
+#, python-format
+msgid "marge fixe de %(m)s %%"
+msgstr "marge fixe de %(m)s %%"
+
+#, python-format
+msgid "rendement estimé ~%(r)s %% par an"
+msgstr "rendement estimé ~%(r)s %% par an"
+
+#, python-format
+msgid "%(t)s — %(tag)s. Parts dès %(p)s MRU, %(terms)s. Réf. %(ref)s : %(url)s"
+msgstr "%(t)s — %(tag)s. Parts dès %(p)s MRU, %(terms)s. Réf. %(ref)s : %(url)s"
+
+msgid "Ce projet n'accepte plus d'intentions."
+msgstr "Ce projet n'accepte plus d'intentions."
+
+msgid "Intention retirée."
+msgstr "Intention retirée."
+
+msgid "Nouvelle intention d'investissement"
+msgstr "Nouvelle intention d'investissement"
+
+#, python-format
+msgid "%(n)s souhaite investir dans « %(p)s »."
+msgstr "%(n)s souhaite investir dans « %(p)s »."
+
+msgid "C'est noté. Nous vous préviendrons sur WhatsApp dès l'ouverture de la collecte."
+msgstr "C'est noté. Nous vous préviendrons sur WhatsApp dès l'ouverture de la collecte."
+
+msgid "La collecte est ouverte"
+msgstr "La collecte est ouverte"
+
+#, python-format
+msgid "« %(p)s », que vous suivez, accepte maintenant les investissements."
+msgstr "« %(p)s », que vous suivez, accepte maintenant les investissements."
+
 msgid "Indiquez le nombre de parts et confirmez avoir compris les risques."
 msgstr "Indiquez le nombre de parts et confirmez avoir compris les risques."
 
@@ -2142,20 +2213,30 @@ msgstr "Seule une collecte en cours peut être mise en avant."
 msgid "Projet mis en avant pendant 7 jours."
 msgstr "Projet mis en avant pendant 7 jours."
 
-msgid "Envoyer un SMS de test à mon numéro"
-msgstr "Envoyer un SMS de test à mon numéro"
+msgid "Envoyer un code de test à mon numéro"
+msgstr "Envoyer un code de test à mon numéro"
 
-msgid "SMS de test envoyé."
-msgstr "SMS de test envoyé."
+#, python-format
+msgid "Code de test envoyé par %(c)s."
+msgstr "Code de test envoyé par %(c)s."
 
-msgid "Aucun fournisseur n'a accepté le message. Consultez le journal SMS."
-msgstr "Aucun fournisseur n'a accepté le message. Consultez le journal SMS."
+msgid "Aucun fournisseur n'a accepté le message. Consultez le journal des messages."
+msgstr "Aucun fournisseur n'a accepté le message. Consultez le journal des messages."
+
+msgid "WhatsApp — API Cloud de Meta (direct)"
+msgstr "WhatsApp — API Cloud de Meta (direct)"
+
+msgid "WhatsApp — Twilio"
+msgstr "WhatsApp — Twilio"
 
 msgid "Console (développement, n'envoie rien)"
 msgstr "Console (développement, n'envoie rien)"
 
 msgid "Passerelle HTTP générique (opérateur local / agrégateur)"
 msgstr "Passerelle HTTP générique (opérateur local / agrégateur)"
+
+msgid "canal"
+msgstr "canal"
 
 msgid "priorité"
 msgstr "priorité"
@@ -2169,8 +2250,8 @@ msgstr "expéditeur (Sender ID)"
 msgid "préfixes desservis"
 msgstr "préfixes desservis"
 
-msgid "Optionnel. Ex : 2,3,4 pour ne router que les numéros commençant par ces chiffres (Chinguitel, Mattel, Mauritel). Vide = tous."
-msgstr "Optionnel. Ex : 2,3,4 pour ne router que les numéros commençant par ces chiffres (Chinguitel, Mattel, Mauritel). Vide = tous."
+msgid "Optionnel. Indicatifs internationaux servis par ce fournisseur, sans « + ». Ex : 222 (Mauritanie), 2223 (Mattel), 33,34 (France, Espagne). Vide = tous les pays."
+msgstr "Optionnel. Indicatifs internationaux servis par ce fournisseur, sans « + ». Ex : 222 (Mauritanie), 2223 (Mattel), 33,34 (France, Espagne). Vide = tous les pays."
 
 msgid "configuration"
 msgstr "configuration"
@@ -2178,11 +2259,11 @@ msgstr "configuration"
 msgid "Paramètres propres au fournisseur (voir docs/SMS.md). Ex. HTTP : url, method, params, headers, body_format, success_contains."
 msgstr "Paramètres propres au fournisseur (voir docs/SMS.md). Ex. HTTP : url, method, params, headers, body_format, success_contains."
 
-msgid "fournisseur SMS"
-msgstr "fournisseur SMS"
+msgid "fournisseur de messagerie"
+msgstr "fournisseur de messagerie"
 
-msgid "fournisseurs SMS"
-msgstr "fournisseurs SMS"
+msgid "fournisseurs de messagerie (WhatsApp, SMS)"
+msgstr "fournisseurs de messagerie (WhatsApp, SMS)"
 
 msgid "envoyé"
 msgstr "envoyé"
@@ -2190,11 +2271,11 @@ msgstr "envoyé"
 msgid "échec"
 msgstr "échec"
 
-msgid "SMS envoyé"
-msgstr "SMS envoyé"
+msgid "message envoyé"
+msgstr "message envoyé"
 
-msgid "journal SMS"
-msgstr "journal SMS"
+msgid "journal des messages"
+msgstr "journal des messages"
 
 msgid "Approuver"
 msgstr "Approuver"
@@ -2229,8 +2310,8 @@ msgstr "Avis public de l'équipe (affiché aux investisseurs)"
 msgid "Message au porteur"
 msgstr "Message au porteur"
 
-msgid "Dossier approuvé, l'utilisateur est prévenu par SMS."
-msgstr "Dossier approuvé, l'utilisateur est prévenu par SMS."
+msgid "Dossier approuvé, l'utilisateur est prévenu sur WhatsApp."
+msgstr "Dossier approuvé, l'utilisateur est prévenu sur WhatsApp."
 
 msgid "Décision enregistrée et envoyée à l'utilisateur."
 msgstr "Décision enregistrée et envoyée à l'utilisateur."
@@ -2357,11 +2438,35 @@ msgstr "Confirmer les dépôts sélectionnés"
 msgid "Marquer comme payés"
 msgstr "Marquer comme payés"
 
+msgid "Marquer comme vérifiés"
+msgstr "Marquer comme vérifiés"
+
+msgid "Les comptes Bankily, Masrvi et Sedad sont des numéros mauritaniens (8 chiffres)."
+msgstr "Les comptes Bankily, Masrvi et Sedad sont des numéros mauritaniens (8 chiffres)."
+
+msgid "RIB ou IBAN invalide (10 à 34 chiffres ou lettres)."
+msgstr "RIB ou IBAN invalide (10 à 34 chiffres ou lettres)."
+
+msgid "Indiquez le nom de la banque."
+msgstr "Indiquez le nom de la banque."
+
+msgid "Ce compte est déjà enregistré."
+msgstr "Ce compte est déjà enregistré."
+
+msgid "Vous avez atteint le nombre maximum de comptes. Retirez-en un d'abord."
+msgstr "Vous avez atteint le nombre maximum de comptes. Retirez-en un d'abord."
+
 msgid "Montant à déposer (MRU)"
 msgstr "Montant à déposer (MRU)"
 
-msgid "Moyen de paiement"
-msgstr "Moyen de paiement"
+msgid "Payer depuis"
+msgstr "Payer depuis"
+
+msgid "Je dépose en espèces dans une agence partenaire"
+msgstr "Je dépose en espèces dans une agence partenaire"
+
+msgid "Choisissez le compte depuis lequel vous payez, ou le dépôt en espèces."
+msgstr "Choisissez le compte depuis lequel vous payez, ou le dépôt en espèces."
 
 msgid "Cet identifiant de transaction a déjà été utilisé."
 msgstr "Cet identifiant de transaction a déjà été utilisé."
@@ -2372,8 +2477,13 @@ msgstr "Montant à retirer (MRU)"
 msgid "Recevoir sur"
 msgstr "Recevoir sur"
 
-msgid "Numéro du compte mobile ou RIB"
-msgstr "Numéro du compte mobile ou RIB"
+#, python-format
+msgid "Par sécurité, un nouveau compte peut recevoir un retrait à partir du %(d)s, ou dès qu'un dépôt depuis ce compte a été confirmé."
+msgstr "Par sécurité, un nouveau compte peut recevoir un retrait à partir du %(d)s, ou dès qu'un dépôt depuis ce compte a été confirmé."
+
+#, python-format
+msgid "Ouvrez l'application %(app)s du compte %(n)s."
+msgstr "Ouvrez l'application %(app)s du compte %(n)s."
 
 #, python-format
 msgid "Ouvrez l'application %(app)s."
@@ -2510,6 +2620,42 @@ msgstr "Virement bancaire"
 msgid "Espèces (agence partenaire)"
 msgstr "Espèces (agence partenaire)"
 
+msgid "type de compte"
+msgstr "type de compte"
+
+msgid "numéro du compte"
+msgstr "numéro du compte"
+
+msgid "Numéro mauritanien du compte mobile, ou RIB / IBAN pour une banque."
+msgstr "Numéro mauritanien du compte mobile, ou RIB / IBAN pour une banque."
+
+msgid "titulaire du compte"
+msgstr "titulaire du compte"
+
+msgid "banque"
+msgstr "banque"
+
+msgid "nom personnel (facultatif)"
+msgstr "nom personnel (facultatif)"
+
+msgid "Ex : « Bankily de ma mère », « Compte BMCI pro »."
+msgstr "Ex : « Bankily de ma mère », « Compte BMCI pro »."
+
+msgid "compte principal"
+msgstr "compte principal"
+
+msgid "vérifié le"
+msgstr "vérifié le"
+
+msgid "Renseigné au premier dépôt confirmé depuis ce compte, ou par l'équipe."
+msgstr "Renseigné au premier dépôt confirmé depuis ce compte, ou par l'équipe."
+
+msgid "compte de paiement"
+msgstr "compte de paiement"
+
+msgid "comptes de paiement"
+msgstr "comptes de paiement"
+
 msgid "En attente du paiement"
 msgstr "En attente du paiement"
 
@@ -2521,6 +2667,9 @@ msgstr "moyen de paiement"
 
 msgid "numéro payeur"
 msgstr "numéro payeur"
+
+msgid "compte payeur"
+msgstr "compte payeur"
 
 msgid "identifiant de la transaction"
 msgstr "identifiant de la transaction"
@@ -2552,6 +2701,9 @@ msgstr "moyen de réception"
 msgid "numéro / RIB de réception"
 msgstr "numéro / RIB de réception"
 
+msgid "compte de réception"
+msgstr "compte de réception"
+
 msgid "référence du paiement"
 msgstr "référence du paiement"
 
@@ -2581,6 +2733,13 @@ msgstr "%(a)s MRU ont été ajoutés à votre portefeuille."
 msgid "Dépôt refusé"
 msgstr "Dépôt refusé"
 
+msgid "Compte de réception invalide."
+msgstr "Compte de réception invalide."
+
+#, python-format
+msgid "Ce compte vient d'être ajouté : il pourra recevoir un retrait à partir du %(d)s."
+msgstr "Ce compte vient d'être ajouté : il pourra recevoir un retrait à partir du %(d)s."
+
 #, python-format
 msgid "Le retrait minimum est de %(m)s MRU."
 msgstr "Le retrait minimum est de %(m)s MRU."
@@ -2598,6 +2757,22 @@ msgstr "%(a)s MRU envoyés vers %(d)s."
 msgid "Retrait refusé"
 msgstr "Retrait refusé"
 
+msgid "Nouveau compte de paiement ajouté"
+msgstr "Nouveau compte de paiement ajouté"
+
+#, python-format
+msgid "%(m)s %(n)s a été ajouté à votre portefeuille. Si ce n'est pas vous, contactez le support immédiatement."
+msgstr "%(m)s %(n)s a été ajouté à votre portefeuille. Si ce n'est pas vous, contactez le support immédiatement."
+
+msgid "Un retrait en cours utilise ce compte. Attendez qu'il soit traité."
+msgstr "Un retrait en cours utilise ce compte. Attendez qu'il soit traité."
+
+msgid "Compte enregistré."
+msgstr "Compte enregistré."
+
+msgid "Compte retiré."
+msgstr "Compte retiré."
+
 #, python-format
 msgid "Minimum %(m)s MRU."
 msgstr "Minimum %(m)s MRU."
@@ -2611,6 +2786,9 @@ msgstr "Merci. Votre dépôt sera confirmé après vérification (généralement
 #, python-format
 msgid "Demande %(r)s enregistrée. Paiement sous 24 h ouvrées."
 msgstr "Demande %(r)s enregistrée. Paiement sous 24 h ouvrées."
+
+msgid "Ajoutez d'abord le compte Bankily, Masrvi, Sedad ou bancaire qui recevra l'argent."
+msgstr "Ajoutez d'abord le compte Bankily, Masrvi, Sedad ou bancaire qui recevra l'argent."
 
 #, python-format
 msgid "Solde disponible insuffisant (frais de %(f)s MRU inclus)."
@@ -2662,8 +2840,8 @@ msgid "Compléter mon dossier"
 msgstr "Compléter mon dossier"
 
 #, python-format
-msgid "Envoyé le %(d)s. Nous vérifions en général sous 48 h ouvrées et vous prévenons par SMS."
-msgstr "Envoyé le %(d)s. Nous vérifions en général sous 48 h ouvrées et vous prévenons par SMS."
+msgid "Envoyé le %(d)s. Nous vérifions en général sous 48 h ouvrées et vous prévenons sur WhatsApp."
+msgstr "Envoyé le %(d)s. Nous vérifions en général sous 48 h ouvrées et vous prévenons sur WhatsApp."
 
 msgid "Votre identité est vérifiée."
 msgstr "Votre identité est vérifiée."
@@ -2680,8 +2858,8 @@ msgstr "Nom"
 msgid "Se connecter"
 msgstr "Se connecter"
 
-msgid "Connexion par code SMS"
-msgstr "Connexion par code SMS"
+msgid "Connexion par code WhatsApp"
+msgstr "Connexion par code WhatsApp"
 
 msgid "Mot de passe oublié ?"
 msgstr "Mot de passe oublié ?"
@@ -2692,14 +2870,14 @@ msgstr "Pas encore de compte ?"
 msgid "Créer un compte"
 msgstr "Créer un compte"
 
-msgid "Connexion par SMS"
-msgstr "Connexion par SMS"
+msgid "Connexion par WhatsApp"
+msgstr "Connexion par WhatsApp"
 
 msgid "Recevoir le code"
 msgstr "Recevoir le code"
 
-msgid "Nous envoyons un code par SMS pour vérifier votre numéro."
-msgstr "Nous envoyons un code par SMS pour vérifier votre numéro."
+msgid "Nous envoyons un code sur WhatsApp pour vérifier votre numéro. Tous les pays sont acceptés."
+msgstr "Nous envoyons un code sur WhatsApp pour vérifier votre numéro. Tous les pays sont acceptés."
 
 msgid "Déjà inscrit ?"
 msgstr "Déjà inscrit ?"
@@ -2708,8 +2886,8 @@ msgid "Votre compte"
 msgstr "Votre compte"
 
 #, python-format
-msgid "Numéro vérifié : <span class=\"ltr\">+222 %(p)s</span>"
-msgstr "Numéro vérifié : <span class=\"ltr\">+222 %(p)s</span>"
+msgid "Numéro vérifié : <span class=\"ltr\">%(p)s</span>"
+msgstr "Numéro vérifié : <span class=\"ltr\">%(p)s</span>"
 
 msgid "Créer mon compte"
 msgstr "Créer mon compte"
@@ -2720,8 +2898,8 @@ msgstr "Nouveau mot de passe"
 msgid "Enregistrer"
 msgstr "Enregistrer"
 
-msgid "Si ce numéro a un compte, vous recevrez un code par SMS."
-msgstr "Si ce numéro a un compte, vous recevrez un code par SMS."
+msgid "Si ce numéro a un compte, vous recevrez un code sur WhatsApp."
+msgstr "Si ce numéro a un compte, vous recevrez un code sur WhatsApp."
 
 msgid "Paramètres"
 msgstr "Paramètres"
@@ -2748,8 +2926,8 @@ msgid "Entrez le code reçu"
 msgstr "Entrez le code reçu"
 
 #, python-format
-msgid "Envoyé par SMS au <span class=\"ltr\">+222 %(p)s</span>. Il expire dans %(ttl)s minutes."
-msgstr "Envoyé par SMS au <span class=\"ltr\">+222 %(p)s</span>. Il expire dans %(ttl)s minutes."
+msgid "Envoyé sur WhatsApp au <span class=\"ltr\">%(p)s</span>. Il expire dans %(ttl)s minutes."
+msgstr "Envoyé sur WhatsApp au <span class=\"ltr\">%(p)s</span>. Il expire dans %(ttl)s minutes."
 
 msgid "Vérifier"
 msgstr "Vérifier"
@@ -2781,11 +2959,20 @@ msgstr "Comment ça marche"
 msgid "Frais"
 msgstr "Frais"
 
+msgid "Recherche"
+msgstr "Recherche"
+
 msgid "Mon espace"
 msgstr "Mon espace"
 
 msgid "Back-office"
 msgstr "Back-office"
+
+msgid "Rechercher un projet, un ID ou un porteur"
+msgstr "Rechercher un projet, un ID ou un porteur"
+
+msgid "Projet, ID (MP-…), porteur…"
+msgstr "Projet, ID (MP-…), porteur…"
 
 msgid "Notifications"
 msgstr "Notifications"
@@ -2799,8 +2986,8 @@ msgstr "Menu"
 msgid "Votre identité n'est pas encore vérifiée."
 msgstr "Votre identité n'est pas encore vérifiée."
 
-msgid "Votre dossier est en cours de vérification. Vous recevrez un SMS dès qu'il sera validé."
-msgstr "Votre dossier est en cours de vérification. Vous recevrez un SMS dès qu'il sera validé."
+msgid "Votre dossier est en cours de vérification. Vous recevrez un message WhatsApp dès qu'il sera validé."
+msgstr "Votre dossier est en cours de vérification. Vous recevrez un message WhatsApp dès qu'il sera validé."
 
 msgid "voir le détail"
 msgstr "voir le détail"
@@ -2866,6 +3053,12 @@ msgstr "Retirer"
 msgid "Mon portefeuille de parts"
 msgstr "Mon portefeuille de parts"
 
+msgid "Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et recevoir vos gains. Il peut être différent de votre numéro WhatsApp."
+msgstr "Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et recevoir vos gains. Il peut être différent de votre numéro WhatsApp."
+
+msgid "Ajouter un compte"
+msgstr "Ajouter un compte"
+
 msgid "Mes projets"
 msgstr "Mes projets"
 
@@ -2878,6 +3071,9 @@ msgstr "Projet"
 msgid "Collecté"
 msgstr "Collecté"
 
+msgid "Partager"
+msgstr "Partager"
+
 msgid "Compléter"
 msgstr "Compléter"
 
@@ -2889,6 +3085,9 @@ msgstr "Vous n'avez pas encore proposé de projet."
 
 msgid "Collectes auxquelles vous participez"
 msgstr "Collectes auxquelles vous participez"
+
+msgid "Projets que je suis"
+msgstr "Projets que je suis"
 
 msgid "Collectes qui se terminent bientôt"
 msgstr "Collectes qui se terminent bientôt"
@@ -3077,8 +3276,8 @@ msgstr "Pour : stock de saison, moutons de Tabaski, importations, bons de comman
 msgid "Vérifiez votre identité"
 msgstr "Vérifiez votre identité"
 
-msgid "Numéro de téléphone, code SMS, NNI et pièce d'identité. Notre équipe valide sous 48 h."
-msgstr "Numéro de téléphone, code SMS, NNI et pièce d'identité. Notre équipe valide sous 48 h."
+msgid "Numéro WhatsApp, code de vérification, NNI et pièce d'identité. Notre équipe valide sous 48 h."
+msgstr "Numéro WhatsApp, code de vérification, NNI et pièce d'identité. Notre équipe valide sous 48 h."
 
 msgid "Alimentez votre portefeuille"
 msgstr "Alimentez votre portefeuille"
@@ -3110,8 +3309,8 @@ msgstr "Moucharaka met en relation des Mauritaniens qui ont un projet et des Mau
 msgid "Inscription vérifiée."
 msgstr "Inscription vérifiée."
 
-msgid "Votre numéro est confirmé par SMS, puis vous envoyez votre NNI, votre pièce d'identité et un selfie. Un membre de l'équipe valide le dossier."
-msgstr "Votre numéro est confirmé par SMS, puis vous envoyez votre NNI, votre pièce d'identité et un selfie. Un membre de l'équipe valide le dossier."
+msgid "Votre numéro WhatsApp est confirmé par un code, puis vous envoyez votre NNI, votre pièce d'identité et un selfie. Un membre de l'équipe valide le dossier."
+msgstr "Votre numéro WhatsApp est confirmé par un code, puis vous envoyez votre NNI, votre pièce d'identité et un selfie. Un membre de l'équipe valide le dossier."
 
 msgid "Portefeuille."
 msgstr "Portefeuille."
@@ -3242,8 +3441,8 @@ msgstr "Vos pièces d'identité, votre selfie et votre NNI sont stockés hors de
 msgid "Votre profil public affiche votre prénom, l'initiale de votre nom, votre wilaya, vos projets, vos versements et votre score de confiance. Votre numéro de téléphone n'est jamais affiché."
 msgstr "Votre profil public affiche votre prénom, l'initiale de votre nom, votre wilaya, vos projets, vos versements et votre score de confiance. Votre numéro de téléphone n'est jamais affiché."
 
-msgid "Les codes SMS ne sont jamais conservés en clair."
-msgstr "Les codes SMS ne sont jamais conservés en clair."
+msgid "Les codes de vérification ne sont jamais conservés en clair."
+msgstr "Les codes de vérification ne sont jamais conservés en clair."
 
 msgid "Moucharaka (association)"
 msgstr "Moucharaka (association)"
@@ -3347,6 +3546,42 @@ msgstr "Pas encore d'historique"
 
 msgid "Comment ce score est calculé"
 msgstr "Comment ce score est calculé"
+
+msgid "Partager ce projet"
+msgstr "Partager ce projet"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Lien d'aperçu privé : le projet n'est pas encore publié. Seules les personnes qui ont ce lien peuvent le voir et signaler leur intérêt."
+msgstr "Lien d'aperçu privé : le projet n'est pas encore publié. Seules les personnes qui ont ce lien peuvent le voir et signaler leur intérêt."
+
+msgid "Lien du projet"
+msgstr "Lien du projet"
+
+msgid "Copié"
+msgstr "Copié"
+
+msgid "Copier"
+msgstr "Copier"
+
+msgid "Partager sur WhatsApp"
+msgstr "Partager sur WhatsApp"
+
+msgid "Plus d'options"
+msgstr "Plus d'options"
+
+msgid "Affiche à imprimer"
+msgstr "Affiche à imprimer"
+
+msgid "Code QR"
+msgstr "Code QR"
+
+msgid "Code QR du projet"
+msgstr "Code QR du projet"
+
+msgid "À imprimer sur la vitrine ou à montrer depuis votre téléphone."
+msgstr "À imprimer sur la vitrine ou à montrer depuis votre téléphone."
 
 msgid "Acheter des parts"
 msgstr "Acheter des parts"
@@ -3559,6 +3794,33 @@ msgstr "Suivi"
 
 msgid "Suivre ce projet"
 msgstr "Suivre ce projet"
+
+msgid "Intéressé ?"
+msgstr "Intéressé ?"
+
+#, python-format
+msgid "%(n)s personne a déjà signalé son intérêt."
+msgid_plural "%(n)s personnes ont déjà signalé leur intérêt."
+msgstr[0] "%(n)s personne a déjà signalé son intérêt."
+msgstr[1] "%(n)s personnes ont déjà signalé leur intérêt."
+
+msgid "Nous vous préviendrons sur WhatsApp à l'ouverture de la collecte."
+msgstr "Nous vous préviendrons sur WhatsApp à l'ouverture de la collecte."
+
+msgid "Montant envisagé (MRU, facultatif)"
+msgstr "Montant envisagé (MRU, facultatif)"
+
+msgid "Mettre à jour mon intérêt"
+msgstr "Mettre à jour mon intérêt"
+
+msgid "Je suis intéressé"
+msgstr "Je suis intéressé"
+
+msgid "Retirer mon intérêt"
+msgstr "Retirer mon intérêt"
+
+msgid "Créer un compte pour être prévenu"
+msgstr "Créer un compte pour être prévenu"
 
 msgid "Le porteur"
 msgstr "Le porteur"
@@ -3971,6 +4233,10 @@ msgstr "Page publique"
 msgid "Mon portefeuille"
 msgstr "Mon portefeuille"
 
+#, python-format
+msgid "Lien ouvert %(n)s fois."
+msgstr "Lien ouvert %(n)s fois."
+
 msgid "MRU collectés"
 msgstr "MRU collectés"
 
@@ -4061,6 +4327,12 @@ msgstr "Donner des nouvelles"
 msgid "Publier"
 msgstr "Publier"
 
+msgid "Intentions d'investissement"
+msgstr "Intentions d'investissement"
+
+msgid "prévenu"
+msgstr "prévenu"
+
 msgid "Associés"
 msgstr "Associés"
 
@@ -4094,8 +4366,62 @@ msgstr "Recommandé pour les opérations ponctuelles. Vous rachetez la marchandi
 msgid "Continuer"
 msgstr "Continuer"
 
+msgid "Imprimer l'affiche"
+msgstr "Imprimer l'affiche"
+
+msgid "Devenez associé de cette boutique"
+msgstr "Devenez associé de cette boutique"
+
+msgid "Montant recherché"
+msgstr "Montant recherché"
+
+msgid "Lieu"
+msgstr "Lieu"
+
+msgid "Scannez pour voir le projet"
+msgstr "Scannez pour voir le projet"
+
+msgid "ID du projet"
+msgstr "ID du projet"
+
+msgid "Nom du projet, ID (MP-3FA9C1), boutique, quartier, porteur…"
+msgstr "Nom du projet, ID (MP-3FA9C1), boutique, quartier, porteur…"
+
+msgid "Porteurs de projet"
+msgstr "Porteurs de projet"
+
+#, python-format
+msgid "%(n)s projet"
+msgid_plural "%(n)s projets"
+msgstr[0] "%(n)s projet"
+msgstr[1] "%(n)s projets"
+
+msgid "score"
+msgstr "score"
+
+#, python-format
+msgid "%(n)s projet trouvé"
+msgid_plural "%(n)s projets trouvés"
+msgstr[0] "%(n)s projet trouvé"
+msgstr[1] "%(n)s projets trouvés"
+
+msgid "Aucun résultat. Essayez le nom de la boutique, le quartier, le nom du porteur ou l'ID du projet (ex. MP-3FA9C1)."
+msgstr "Aucun résultat. Essayez le nom de la boutique, le quartier, le nom du porteur ou l'ID du projet (ex. MP-3FA9C1)."
+
+msgid "Voir tous les projets"
+msgstr "Voir tous les projets"
+
+msgid "Chaque projet a un ID (ex. MP-3FA9C1) que son porteur peut partager. Tapez-le pour ouvrir directement le projet."
+msgstr "Chaque projet a un ID (ex. MP-3FA9C1) que son porteur peut partager. Tapez-le pour ouvrir directement le projet."
+
 msgid "Aperçu de la page publique"
 msgstr "Aperçu de la page publique"
+
+msgid "Partagez l'aperçu privé avec vos proches dès maintenant : ils pourront signaler leur intérêt avant l'ouverture."
+msgstr "Partagez l'aperçu privé avec vos proches dès maintenant : ils pourront signaler leur intérêt avant l'ouverture."
+
+msgid "Copier le lien d'aperçu"
+msgstr "Copier le lien d'aperçu"
 
 msgid "Supprimer définitivement ce brouillon ?"
 msgstr "Supprimer définitivement ce brouillon ?"
@@ -4432,6 +4758,12 @@ msgstr "Vers"
 msgid "À envoyer"
 msgstr "À envoyer"
 
+msgid "vérifié"
+msgstr "vérifié"
+
+msgid "jamais utilisé pour un dépôt"
+msgstr "jamais utilisé pour un dépôt"
+
 msgid "réf. paiement"
 msgstr "réf. paiement"
 
@@ -4521,12 +4853,63 @@ msgstr "Aucun avis pour l'instant."
 msgid "Derniers événements"
 msgstr "Derniers événements"
 
+msgid "Modifier le compte"
+msgstr "Modifier le compte"
+
+msgid "Ajouter un compte de paiement"
+msgstr "Ajouter un compte de paiement"
+
+msgid "Mobile money : le numéro mauritanien du compte (8 chiffres). Banque : votre RIB ou IBAN. Le titulaire doit être vous ou un proche : il apparaîtra sur les ordres de paiement."
+msgstr "Mobile money : le numéro mauritanien du compte (8 chiffres). Banque : votre RIB ou IBAN. Le titulaire doit être vous ou un proche : il apparaîtra sur les ordres de paiement."
+
+#, python-format
+msgid "Les retraits vers ce compte seront possibles après %(h)s h, ou dès votre premier dépôt confirmé depuis ce compte."
+msgstr "Les retraits vers ce compte seront possibles après %(h)s h, ou dès votre premier dépôt confirmé depuis ce compte."
+
+msgid "Enregistrer le compte"
+msgstr "Enregistrer le compte"
+
+msgid "Mes comptes de paiement"
+msgstr "Mes comptes de paiement"
+
+msgid "Les comptes Bankily, Masrvi, Sedad ou bancaires depuis lesquels vous déposez et sur lesquels vous recevez vos retraits. Ils peuvent être différents de votre numéro WhatsApp."
+msgstr "Les comptes Bankily, Masrvi, Sedad ou bancaires depuis lesquels vous déposez et sur lesquels vous recevez vos retraits. Ils peuvent être différents de votre numéro WhatsApp."
+
+msgid "Principal"
+msgstr "Principal"
+
+#, python-format
+msgid "Retraits possibles dès le %(d)s"
+msgstr "Retraits possibles dès le %(d)s"
+
+msgid "Rendre principal"
+msgstr "Rendre principal"
+
+msgid "Modifier"
+msgstr "Modifier"
+
+msgid "Retirer ce compte ?"
+msgstr "Retirer ce compte ?"
+
+msgid "Aucun compte pour l'instant. Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et retirer."
+msgstr "Aucun compte pour l'instant. Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et retirer."
+
+#, python-format
+msgid "Par sécurité, un compte nouvellement ajouté peut recevoir un retrait après %(h)s h, ou dès qu'un dépôt fait depuis ce compte a été confirmé. Chaque ajout vous est signalé sur WhatsApp."
+msgstr "Par sécurité, un compte nouvellement ajouté peut recevoir un retrait après %(h)s h, ou dès qu'un dépôt fait depuis ce compte a été confirmé. Chaque ajout vous est signalé sur WhatsApp."
+
 msgid "Déposer de l'argent"
 msgstr "Déposer de l'argent"
 
 #, python-format
 msgid "Minimum %(m)s MRU. Les dépôts sont gratuits."
 msgstr "Minimum %(m)s MRU. Les dépôts sont gratuits."
+
+msgid "Ajoutez le compte Bankily, Masrvi, Sedad ou bancaire depuis lequel vous payez : vos dépôts et retraits seront plus rapides."
+msgstr "Ajoutez le compte Bankily, Masrvi, Sedad ou bancaire depuis lequel vous payez : vos dépôts et retraits seront plus rapides."
+
+msgid "Payer depuis un autre compte"
+msgstr "Payer depuis un autre compte"
 
 #, python-format
 msgid "Dépôt de %(a)s MRU"
@@ -4543,6 +4926,12 @@ msgstr "MRU bloqués"
 
 msgid "MRU au total"
 msgstr "MRU au total"
+
+msgid "Gérer mes comptes"
+msgstr "Gérer mes comptes"
+
+msgid "Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et retirer."
+msgstr "Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et retirer."
 
 msgid "J'ai payé"
 msgstr "J'ai payé"
@@ -4566,11 +4955,14 @@ msgid "Retirer de l'argent"
 msgstr "Retirer de l'argent"
 
 #, python-format
-msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code SMS confirme l'opération."
-msgstr "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code SMS confirme l'opération."
+msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
+msgstr "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
 
 msgid "Recevoir le code de confirmation"
 msgstr "Recevoir le code de confirmation"
+
+msgid "Ajouter un compte de réception"
+msgstr "Ajouter un compte de réception"
 
 msgid "Confirmer le retrait"
 msgstr "Confirmer le retrait"

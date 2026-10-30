@@ -8,12 +8,23 @@ All movements go through `apps.wallet.services.post()`, which locks the wallet r
 
 **The total of all user wallets (available + held) must always equal the balance of the segregated bank account.** The staff dashboard shows both numbers for daily reconciliation.
 
+## Payment accounts
+
+The WhatsApp number a member logs in with can be in any country, while money moves through Mauritanian accounts. So each member adds one or more **payment accounts** in **Portefeuille › Mes comptes de paiement**:
+
+- **Bankily, Masrvi or Sedad:** a Mauritanian mobile number (8 digits).
+- **Bank:** RIB or IBAN, plus the bank name.
+
+One account is the default. Each addition triggers a WhatsApp alert to the member.
+
+**Safety rule:** a new account can receive a withdrawal only after `NEW_PAYMENT_ACCOUNT_HOLD_HOURS` (24 h by default), or as soon as a deposit made from it has been confirmed. A stolen session therefore can't add an account and empty the wallet straight away. Every withdrawal also needs a WhatsApp code. The staff withdrawal desk shows the account holder and whether the account was ever used for a deposit.
+
 ## Deposits
 
-1. The user chooses an amount and a method (Bankily, Masrvi, Sedad, bank transfer, cash at a partner agency). A deposit request with a reference such as `DEP-3FA9C1D2` is created.
+1. The user chooses an amount and the payment account they pay from (or cash at a partner agency). A deposit request with a reference such as `DEP-3FA9C1D2` is created.
 2. The user sees step-by-step instructions with the merchant numbers set in **Paramètres de la plateforme**.
 3. After paying, the user enters the transaction id from their bank SMS and attaches a screenshot.
-4. Staff confirm it in **Back-office › Dépôts**, or a payment provider confirms it automatically through the webhook. The wallet is credited and the user gets an SMS.
+4. Staff confirm it in **Back-office › Dépôts**, or a payment provider confirms it automatically through the webhook. The wallet is credited, the payment account is marked as verified, and the user gets a WhatsApp message.
 
 A transaction id cannot be used twice for the same method.
 
@@ -33,7 +44,7 @@ The webhook checks the signature and that the amount matches the request, and it
 
 ## Withdrawals
 
-The user requests an amount and a destination (mobile wallet number or bank account), then confirms with an SMS code. The amount plus fee is moved to *held*. Staff pay it out and mark it as paid in **Back-office › Retraits** (with the payment reference), or reject it, which releases the funds.
+The user requests an amount and picks one of their payment accounts, then confirms with a WhatsApp code. The amount plus fee is moved to *held*. Staff pay it out and mark it as paid in **Back-office › Retraits** (with the payment reference), or reject it, which releases the funds.
 
 ## Campaign escrow → release
 

@@ -202,7 +202,8 @@ def reference(request):
 class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "slug"
     filterset_fields = ["kind", "financing_model", "status", "wilaya", "sector"]
-    search_fields = ["title", "tagline", "neighborhood"]
+    search_fields = ["title", "tagline", "neighborhood", "reference", "boutique__shop_name", "owner__full_name",
+                     "owner__public_id"]
     ordering_fields = ["campaign_end", "raised_amount", "projected_annual_return_pct", "created_at"]
 
     def get_queryset(self):
@@ -255,23 +256,55 @@ class DepositViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.Ge
     def create(self, request, *args, **kwargs):
         ser = self.get_serializer(data=request.data)
         ser.is_valid(raise_exception=True)
-        dep = ser.save(user=request.user, status="proof" if ser.validated_data.get("external_ref") else "pending")
+        acc = ser.validated_data.get("payment_account")
+        dep = ser.save(user=request.user, method=acc.method if acc else "cash",
+                       payer_phone=acc.number if acc else request.user.phone,
+                       status="proof" if ser.validated_data.get("external_ref") else "pending")
         return Response({**S.DepositSerializer(dep).data,
                          "instructions": [str(s) for s in get_gateway(dep.method).instructions(dep)]}, status=201)
+
+
+class PaymentAccountViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin,
+                            viewsets.GenericViewSet):
+    """Mobile-money and bank accounts used for deposits and withdrawals."""
+
+    serializer_class = S.PaymentAccountSerializer
+    permission_classes = [IsApproved]
+
+    def get_queryset(self):
+        return self.request.user.payment_accounts.filter(is_active=True)
+
+    def create(self, request, *args, **kwargs):
+        from apps.wallet.forms import PaymentAccountForm
+        from apps.wallet.services import save_payment_account
+
+        form = PaymentAccountForm(request.data, user=request.user)
+        if not form.is_valid():
+            return Response(form.errors, status=400)
+        acc = save_payment_account(request.user, form, request=request)
+        return Response(S.PaymentAccountSerializer(acc).data, status=201)
+
+    def destroy(self, request, *args, **kwargs):
+        from apps.wallet.services import remove_payment_account
+
+        try:
+            remove_payment_account(self.get_object(), request=request)
+        except WalletError as e:
+            return Response({"detail": str(e)}, status=409)
+        return Response(status=204)
 
 
 @api_view(["POST"])
 @permission_classes([IsApproved])
 def withdraw(request):
-    ser = S.WithdrawalSerializer(data=request.data)
+    ser = S.WithdrawalSerializer(data=request.data, context={"request": request})
     ser.is_valid(raise_exception=True)
     try:
         verify_otp(request.user.phone, PhoneOTP.Purpose.WITHDRAW, request.data.get("code", ""))
     except OTPError as e:
         return Response({"code": str(e), "hint": "POST /api/v1/wallet/withdraw/otp first"}, status=400)
     try:
-        wr = request_withdrawal(request.user, ser.validated_data["amount"], ser.validated_data["method"],
-                                ser.validated_data["destination"])
+        wr = request_withdrawal(request.user, ser.validated_data["amount"], ser.validated_data["payment_account"])
     except WalletError as e:
         return Response({"detail": str(e)}, status=400)
     return Response(S.WithdrawalSerializer(wr).data, status=201)

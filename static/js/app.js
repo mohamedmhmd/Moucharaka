@@ -157,6 +157,25 @@
     }
   }));
 
+  // Copy-to-clipboard buttons (share links, IDs)
+  $$("[data-copy]").forEach((b) => b.addEventListener("click", async () => {
+    const value = b.dataset.copy;
+    try { await navigator.clipboard.writeText(value); }
+    catch (e) {
+      const t = document.createElement("textarea"); t.value = value; document.body.appendChild(t);
+      t.select(); document.execCommand("copy"); t.remove();
+    }
+    const old = b.textContent; b.textContent = b.dataset.done || "✓";
+    setTimeout(() => { b.textContent = old; }, 1800);
+  }));
+
+  // Native share sheet on phones (WhatsApp, Telegram, SMS…)
+  $$("[data-native-share]").forEach((b) => {
+    if (!navigator.share) return;
+    b.hidden = false;
+    b.addEventListener("click", () => navigator.share({ title: b.dataset.title, text: b.dataset.text, url: b.dataset.url }).catch(() => {}));
+  });
+
   // Confirm dangerous actions
   $$("[data-confirm]").forEach((el) => el.addEventListener("click", (e) => {
     if (!window.confirm(el.dataset.confirm)) e.preventDefault();

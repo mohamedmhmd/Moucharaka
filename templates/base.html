@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{% trans "Investir ensemble dans les commerces de Mauritanie" %}{% endblock %} · Moucharaka</title>
-  <meta name="description" content="{% trans 'Financement participatif conforme à la charia : investissez dans des boutiques, des opérations commerciales et des entreprises mauritaniennes vérifiées.' %}">
+  {% block meta %}<meta name="description" content="{% trans 'Financement participatif conforme à la charia : investissez dans des boutiques, des opérations commerciales et des entreprises mauritaniennes vérifiées.' %}">
+  <meta property="og:site_name" content="Moucharaka"><meta property="og:type" content="website">
+  <meta property="og:title" content="{% trans 'Investir ensemble dans les commerces de Mauritanie' %}">{% endblock %}
   <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='9' width='17' height='17' rx='4' fill='%231C2559'/%3E%3Crect x='12' y='5' width='17' height='17' rx='4' fill='%230B7A4B' fill-opacity='.9'/%3E%3C/svg%3E">
@@ -25,11 +27,16 @@
       <a href="{{ u_mk }}" {% if request.path == u_mk %}aria-current="page"{% endif %}>{% trans "Marché des parts" %}</a>
       <a href="{{ u_how }}" {% if request.path == u_how %}aria-current="page"{% endif %}>{% trans "Comment ça marche" %}</a>
       <a href="{{ u_fees }}" {% if request.path == u_fees %}aria-current="page"{% endif %}>{% trans "Frais" %}</a>
+      <a class="nav-search" href="{% url 'search' %}">{% trans "Recherche" %}</a>
       {% if user.is_authenticated %}
         <a href="{% url 'core:dashboard' %}">{% trans "Mon espace" %}</a>
         {% if user.is_staff %}<a href="{% url 'staff:dashboard' %}">{% trans "Back-office" %}</a>{% endif %}
       {% endif %}
     </nav>
+    <form class="header-search" action="{% url 'search' %}" method="get" role="search">
+      <label class="sr-only" for="hs">{% trans "Rechercher un projet, un ID ou un porteur" %}</label>
+      <input id="hs" type="search" name="q" value="{{ request.GET.q|default:'' }}" placeholder="{% trans 'Projet, ID (MP-…), porteur…' %}" autocomplete="off">
+    </form>
     <div class="header-end">
       <form class="lang-form" action="{% url 'set_language' %}" method="post">{% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
@@ -56,7 +63,7 @@
 {% if user.is_authenticated and not user.is_approved and not hide_kyc_banner %}
   <div class="wrap"><div class="note warn" style="margin-top:16px">
     {% if user.status == "new" %}{% trans "Votre identité n'est pas encore vérifiée." %} <a href="{% url 'accounts:kyc' %}">{% trans "Compléter mon dossier" %}</a>
-    {% elif user.status == "pending" %}{% trans "Votre dossier est en cours de vérification. Vous recevrez un SMS dès qu'il sera validé." %}
+    {% elif user.status == "pending" %}{% trans "Votre dossier est en cours de vérification. Vous recevrez un message WhatsApp dès qu'il sera validé." %}
     {% else %}{{ user.get_status_display }} — <a href="{% url 'accounts:kyc_status' %}">{% trans "voir le détail" %}</a>{% endif %}
   </div></div>
 {% endif %}

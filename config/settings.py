@@ -5,6 +5,7 @@ Every deployment-specific value comes from environment variables (or a .env
 file next to manage.py), so the same code runs on a VPS, Docker, cPanel /
 Passenger hosting, Render, Railway, Heroku-like PaaS, etc.
 """
+import sys
 from pathlib import Path
 
 import environ
@@ -122,13 +123,18 @@ MEDIA_ROOT = Path(env("MEDIA_ROOT", default=str(BASE_DIR / "media")))
 PRIVATE_MEDIA_ROOT = Path(env("PRIVATE_MEDIA_ROOT", default=str(BASE_DIR / "private_media")))
 SERVE_MEDIA = env.bool("SERVE_MEDIA", default=True)
 
+# Hashed, compressed static files once `collectstatic` has been run (production).
+# Without it (local run with DEBUG=False, first deploy), fall back to serving
+# straight from static/ so the site never crashes on a missing manifest.
+STATIC_COLLECTED = (STATIC_ROOT / "staticfiles.json").exists() or "collectstatic" in sys.argv
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
-        if not DEBUG else "django.contrib.staticfiles.storage.StaticFilesStorage"
+        if (STATIC_COLLECTED and not DEBUG) else "django.contrib.staticfiles.storage.StaticFilesStorage"
     },
 }
+WHITENOISE_USE_FINDERS = not STATIC_COLLECTED
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 MAX_UPLOAD_MB = env.int("MAX_UPLOAD_MB", default=8)
@@ -183,9 +189,22 @@ OTP_LENGTH = 6
 OTP_TTL_SECONDS = env.int("OTP_TTL_SECONDS", default=300)
 OTP_MAX_ATTEMPTS = 5
 OTP_MAX_PER_HOUR = env.int("OTP_MAX_PER_HOUR", default=5)
-PHONE_COUNTRY_CODE = "222"
-# Fallback SMS backend used when no SMS provider is configured in the admin.
-SMS_FALLBACK_BACKEND = env("SMS_FALLBACK_BACKEND", default="console")
+# Phones: numbers typed without "+" are read as Mauritanian.
+PHONE_DEFAULT_REGION = env("PHONE_DEFAULT_REGION", default="MR")
+# Countries allowed to register (ISO codes, "*" = the whole world). WhatsApp codes
+# are not exposed to SMS premium-rate fraud, so the default is worldwide; restrict
+# (e.g. "MR,FR,ES,AE") if you also enable SMS fallback.
+PHONE_ALLOWED_COUNTRIES = env.list("PHONE_ALLOWED_COUNTRIES", default=["*"])
+# Messaging: WhatsApp first, SMS only if an SMS provider is configured.
+OTP_CHANNELS = env.list("OTP_CHANNELS", default=["whatsapp", "sms"])
+NOTIFICATION_CHANNELS = env.list("NOTIFICATION_CHANNELS", default=["whatsapp"])
+# Used when no provider is configured in the admin (console = print to the log, for development).
+MESSAGING_FALLBACK_BACKEND = env("MESSAGING_FALLBACK_BACKEND", default=env("SMS_FALLBACK_BACKEND", default="console"))
+SMS_FALLBACK_BACKEND = MESSAGING_FALLBACK_BACKEND
+# A newly added payment account must wait this long before receiving a
+# withdrawal (unless a deposit from it was already confirmed).
+NEW_PAYMENT_ACCOUNT_HOLD_HOURS = env.int("NEW_PAYMENT_ACCOUNT_HOLD_HOURS", default=24)
+MAX_PAYMENT_ACCOUNTS = 6
 # Shared secret used to verify payment provider webhooks (HMAC-SHA256).
 PAYMENT_WEBHOOK_SECRET = env("PAYMENT_WEBHOOK_SECRET", default="")
 
@@ -197,7 +216,6 @@ LOGGING = {
 }
 
 # Keep test uploads out of real media folders
-import sys  # noqa: E402
 
 if len(sys.argv) > 1 and sys.argv[1] == "test":
     MEDIA_ROOT = BASE_DIR / ".test_media" / "public"

@@ -1,4 +1,4 @@
 {% extends "accounts/auth_base.html" %}{% load i18n %}
-{% block title %}{% trans "Connexion par SMS" %}{% endblock %}
-{% block auth %}<h1>{% trans "Connexion par code SMS" %}</h1>
+{% block title %}{% trans "Connexion par WhatsApp" %}{% endblock %}
+{% block auth %}<h1>{% trans "Connexion par code WhatsApp" %}</h1>
 <form method="post" class="form" novalidate>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}<button class="btn block">{% trans "Recevoir le code" %}</button></form>{% endblock %}

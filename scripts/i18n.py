@@ -22,7 +22,7 @@ from babel.messages.mofile import write_mo  # noqa: E402
 from babel.messages.pofile import read_po, write_po  # noqa: E402
 
 PO = ROOT / "locale" / "ar" / "LC_MESSAGES" / "django.po"
-KEYWORDS = {"_": None, "N_": None, "gettext": None, "gettext_lazy": None, "gettext_noop": None, "ngettext": (1, 2),
+KEYWORDS = {"_": None, "N_": None, "_lazy": None, "gettext": None, "gettext_lazy": None, "gettext_noop": None, "ngettext": (1, 2),
             "ngettext_lazy": (1, 2), "pgettext": ((1, "c"), 2), "pgettext_lazy": ((1, "c"), 2),
             "npgettext": ((1, "c"), 2, 3)}
 

@@ -11,10 +11,12 @@ from .models import KYCProfile, User, normalize_phone, phone_validator
 
 class PhoneField(forms.CharField):
     def __init__(self, **kwargs):
-        kwargs.setdefault("label", _("Numéro de téléphone"))
-        kwargs.setdefault("max_length", 20)
+        kwargs.setdefault("label", _("Numéro WhatsApp"))
+        kwargs.setdefault("max_length", 24)
+        kwargs.setdefault("help_text", _("Le numéro qui utilise WhatsApp, dans n'importe quel pays. Mauritanie : 8 chiffres. "
+                                         "Autres pays : + et l'indicatif, ex. +33 6 12 34 56 78."))
         kwargs.setdefault("widget", forms.TextInput(attrs={
-            "inputmode": "tel", "autocomplete": "tel", "placeholder": "22 12 34 56", "dir": "ltr"}))
+            "type": "tel", "inputmode": "tel", "autocomplete": "tel", "placeholder": "22 12 34 56", "dir": "ltr"}))
         super().__init__(**kwargs)
 
     def clean(self, value):
@@ -35,7 +37,7 @@ class PhoneStartForm(forms.Form):
 
 
 class OTPForm(forms.Form):
-    code = forms.CharField(label=_("Code reçu par SMS"), max_length=8, widget=forms.TextInput(attrs={
+    code = forms.CharField(label=_("Code reçu sur WhatsApp"), max_length=8, widget=forms.TextInput(attrs={
         "inputmode": "numeric", "autocomplete": "one-time-code", "dir": "ltr", "class": "otp", "autofocus": True}))
 
 
@@ -60,8 +62,11 @@ class RegisterFinishForm(PasswordPairMixin):
     full_name = forms.CharField(label=_("Nom complet"), max_length=150,
                                 help_text=_("Tel qu'il apparaît sur votre pièce d'identité."))
     email = forms.EmailField(label=_("E-mail (facultatif)"), required=False)
-    preferred_language = forms.ChoiceField(label=_("Langue des SMS et notifications"), choices=settings.LANGUAGES)
-    field_order = ["full_name", "email", "preferred_language", "password1", "password2"]
+    preferred_language = forms.ChoiceField(label=_("Langue des messages et notifications"), choices=settings.LANGUAGES)
+    whatsapp_notifications = forms.BooleanField(
+        label=_("J'accepte de recevoir sur WhatsApp les messages importants concernant mon compte "
+                "(versements, échéances, validation)."), required=False, initial=True)
+    field_order = ["full_name", "email", "preferred_language", "whatsapp_notifications", "password1", "password2"]
 
 
 class LoginForm(forms.Form):
@@ -80,7 +85,7 @@ class NewPasswordForm(PasswordPairMixin):
 class SettingsForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["email", "preferred_language"]
+        fields = ["email", "preferred_language", "whatsapp_notifications"]
 
 
 class KYCForm(forms.ModelForm):
