@@ -26,3 +26,6 @@ staticfiles/
 .DS_Store
 .idea/
 .vscode/
+*.pyc
+*.sqlite3
+*.sqlite3
