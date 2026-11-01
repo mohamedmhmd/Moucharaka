@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+.moucharaka/
+
+# Secrets and local settings
+.env
+
+# Local database and uploaded files (ID documents must never be committed)
+db.sqlite3
+db.sqlite3-journal
+media/
+private_media/
+.test_media/
+
+# Generated
+staticfiles/
+*.log
+
+# macOS and editors
+.DS_Store
+.idea/
+.vscode/

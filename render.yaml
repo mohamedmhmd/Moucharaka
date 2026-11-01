@@ -1,0 +1,77 @@
+# Render Blueprint: New > Blueprint, pick this repo, and Render creates
+# the database, the website and the daily job in one go.
+databases:
+  - name: moucharaka-db
+    databaseName: moucharaka
+    user: moucharaka
+    region: frankfurt
+    plan: basic-256mb
+
+services:
+  - type: web
+    name: moucharaka
+    runtime: python
+    region: frankfurt
+    plan: starter
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    preDeployCommand: python manage.py migrate --noinput && python manage.py createcachetable
+    startCommand: gunicorn config.wsgi:application -c deploy/gunicorn.conf.py
+    healthCheckPath: /healthz
+    disk:
+      name: media
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: moucharaka-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false
+      - key: USE_X_FORWARDED_PROTO
+        value: "True"
+      - key: SECURE_SSL_REDIRECT
+        value: "True"
+      - key: CACHE_URL
+        value: dbcache://django_cache
+      - key: MEDIA_ROOT
+        value: /var/data/media
+      - key: PRIVATE_MEDIA_ROOT
+        value: /var/data/private_media
+      - key: SERVE_MEDIA
+        value: "True"
+      - key: WEB_CONCURRENCY
+        value: "2"
+
+  - type: cron
+    name: moucharaka-daily
+    runtime: python
+    region: frankfurt
+    plan: starter
+    schedule: "0 3 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py run_daily
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: moucharaka-db
+          property: connectionString
+      - key: SECRET_KEY
+        fromService:
+          type: web
+          name: moucharaka
+          envVarKey: SECRET_KEY
+      - key: DEBUG
+        value: "False"
+      - key: CACHE_URL
+        value: dbcache://django_cache
