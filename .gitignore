@@ -31,3 +31,4 @@ staticfiles/
 *.sqlite3
 .DS_Store
 *.pyc
+*.sqlite3
