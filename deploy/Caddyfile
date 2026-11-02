@@ -1,0 +1,9 @@
+# HTTPS in front of the app. Caddy gets and renews the certificate itself.
+# DOMAIN comes from .env (e.g. moucharaka.mr, or 34-155-10-20.sslip.io before you own a domain).
+{$DOMAIN} {
+	encode gzip
+	request_body {
+		max_size 20MB
+	}
+	reverse_proxy web:8000
+}
