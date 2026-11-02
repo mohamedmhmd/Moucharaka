@@ -1,16 +1,48 @@
 from django.contrib import admin, messages
+from django import forms
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.urls import reverse
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from .models import KYCProfile, PhoneOTP, User
+from .phones import normalize_phone, validate_phone
+
+
+class _PhoneCleanMixin:
+    """Admin forms: accept any common format and store E.164, rejecting duplicates."""
+
+    def clean_phone(self):
+        raw = self.cleaned_data.get("phone")
+        validate_phone(raw)
+        phone = normalize_phone(raw)
+        others = User.objects.filter(phone=phone)
+        if self.instance.pk:
+            others = others.exclude(pk=self.instance.pk)
+        if others.exists():
+            raise forms.ValidationError(_("Un compte existe déjà avec ce numéro."))
+        return phone
+
+
+class AdminUserCreationForm(_PhoneCleanMixin, UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ("phone", "full_name")
+
+
+class AdminUserChangeForm(_PhoneCleanMixin, UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        model = User
+        fields = "__all__"
 from .services import approve_kyc, reject_kyc
 
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
+    form = AdminUserChangeForm
+    add_form = AdminUserCreationForm
     ordering = ("-date_joined",)
     list_display = ("phone", "full_name", "status", "is_staff", "date_joined")
     list_filter = ("status", "is_staff", "is_active", "preferred_language")

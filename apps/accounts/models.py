@@ -104,6 +104,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         if not self.public_id:
             self.public_id = secrets.token_hex(5)
+        # Always store E.164 (+22236123456), whatever was typed in a form or the admin,
+        # so login (which normalizes what the user types) finds the account.
+        if self.phone:
+            self.phone = normalize_phone(self.phone)
         super().save(*args, **kwargs)
 
     @property

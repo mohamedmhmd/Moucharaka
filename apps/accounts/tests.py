@@ -360,3 +360,38 @@ class WhatsAppTests(TestCase):
             cache.clear()
             with self.assertRaises(OTPError):
                 issue_otp("+22222123457", "register")
+
+
+class AdminCreatedUserLoginTests(TestCase):
+    """A staff account added in the admin with a number typed with spaces can log in."""
+
+    def setUp(self):
+        cache.clear()
+        from django.utils import translation
+        translation.activate("ar")
+        self.admin = User.objects.create_superuser(phone="+22220000000", password="Admin#2026x", full_name="Admin")
+
+    def test_admin_add_user_then_login(self):
+        self.client.force_login(self.admin)
+        r = self.client.post("/fr/admin/accounts/user/add/", {
+            "phone": "36 12 34 56", "full_name": "Agent Conformité",
+            "password1": "Staff#2026long", "password2": "Staff#2026long", "_save": "1"})
+        self.assertEqual(r.status_code, 302, getattr(r, "context", None) and r.context["adminform"].form.errors)
+        self.assertTrue(User.objects.filter(phone="+22236123456").exists())
+        # duplicate in another format is refused
+        r = self.client.post("/fr/admin/accounts/user/add/", {
+            "phone": "+222 36123456", "full_name": "Doublon",
+            "password1": "Staff#2026long", "password2": "Staff#2026long", "_save": "1"})
+        self.assertEqual(r.status_code, 200)
+        self.client.logout()
+        for typed in ("36123456", "36 12 34 56", "+22236123456", "0022236123456"):
+            r = self.client.post("/fr/accounts/login/", {"phone": typed, "password": "Staff#2026long"})
+            self.assertEqual(r.status_code, 302, typed)
+            self.client.logout()
+
+    def test_save_normalizes(self):
+        u = make_user(phone="+22237000001")
+        u.phone = "37 00 00 02"
+        u.save()
+        u.refresh_from_db()
+        self.assertEqual(u.phone, "+22237000002")
