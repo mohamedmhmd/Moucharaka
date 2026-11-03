@@ -91,7 +91,6 @@ class RegistrationFlowTests(TestCase):
         img = lambda n: SimpleUploadedFile(n, image_file(n).read(), content_type="image/jpeg")  # noqa: E731
         r = c.post("/fr/accounts/identity/", {
             "full_name": "Ahmed Salem", "nni": "1234567890", "id_type": "cni",
-            "id_number": "1234567890", "id_issue_date": "2022-01-10", "id_expiry_date": "2032-01-10",
             "date_of_birth": "1990-05-05", "place_of_birth": "Atar", "gender": "m", "nationality": "Mauritanienne",
             "wilaya": m.wilaya_id, "moughataa": m.pk, "address": "Ilot C", "profession": "Enseignant",
             "monthly_income": "20-50k", "source_of_funds": "salary", "experience": "none", "purpose": "invest",
@@ -412,13 +411,23 @@ class SimplifiedKYCTests(TestCase):
         pdf = SimpleUploadedFile("cni.pdf", b"%PDF-1.4\n%test\n", content_type="application/pdf")
         r = self.client.post("/fr/accounts/identity/", {
             "full_name": "محمد ولد أحمد", "nni": "1234509876", "id_type": "cni",
-            "id_number": "1234509876", "id_issue_date": "2022-01-10", "id_expiry_date": "2032-01-10",
             "date_of_birth": "1990-05-05", "place_of_birth": "Atar", "gender": "m", "nationality": "Mauritanienne",
             "wilaya": m.wilaya_id, "moughataa": m.pk, "address": "Ilot C", "profession": "Commerçant",
             "monthly_income": "20-50k", "source_of_funds": "salary", "experience": "none", "purpose": "raise",
             "id_front": pdf, "confirm_truth": "on"})
         self.assertRedirects(r, "/fr/accounts/identity/status/")
         self.assertEqual(KYCProfile.objects.get(user=u).full_name, "محمد ولد أحمد")
+        for gone in ('name="id_number"', 'name="id_issue_date"', 'name="id_expiry_date"', 'name="id_back"'):
+            self.assertNotIn(gone, page)
+        # Staff see the PDF inside the review page: the document may be framed by the site itself
+        staff = make_user("Staff PDF", staff=True)
+        self.client.force_login(staff)
+        kyc = KYCProfile.objects.get(user=u)
+        review = self.client.get(f"/fr/staff/kyc/{kyc.pk}/").content.decode()
+        self.assertIn("<iframe", review)
+        doc = self.client.get(f"/fr/accounts/identity/document/{u.pk}/id_front/")
+        self.assertEqual(doc["Content-Type"], "application/pdf")
+        self.assertEqual(doc["X-Frame-Options"], "SAMEORIGIN")
 
 
 class CodeOnScreenTests(TestCase):

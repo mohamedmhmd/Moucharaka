@@ -16,7 +16,8 @@ from apps.accounts.models import KYCProfile, User
 from apps.accounts.services import approve_kyc, reject_kyc
 from apps.investments.services import InvestmentError, mark_default, refund_campaign, release_funds
 from apps.projects.models import FinancialReport, Installment, Project
-from apps.projects.services import ProjectError, approve_project, checklist, reject_project, request_changes, verify_report
+from apps.projects.services import (ProjectError, approve_project, checklist, missing_terms, reject_project,
+                                    request_changes, verify_report)
 from apps.trust.services import get_score
 from apps.wallet.models import DepositRequest, Transaction, Wallet, WithdrawalRequest
 from apps.wallet.services import WalletError, cancel_withdrawal, confirm_deposit, mark_withdrawal_paid, reject_deposit
@@ -131,7 +132,8 @@ def project_review(request, pk):
         except ProjectError as e:
             messages.error(request, str(e))
         return redirect("staff:project_review", pk=pk)
-    ctx = {"project": project, "form": form, "checklist": checklist(project), "owner_score": get_score(project.owner),
+    ctx = {"project": project, "form": form, "checklist": checklist(project), "missing_terms": missing_terms(project),
+           "owner_score": get_score(project.owner),
            "owner_kyc": getattr(project.owner, "kyc", None), "documents": project.documents.all(),
            "other_projects": Project.objects.filter(owner=project.owner).exclude(pk=pk)}
     if hasattr(project, "boutique"):

@@ -18,7 +18,9 @@ STATUS_TONE = {
 
 @register.filter
 def money(value, decimals=0):
-    """1234567.5 → '1 234 568' (thin no-break space as thousands separator)."""
+    """1234567.5 → '1 234 568' (thin no-break space as thousands separator). Empty → '—'."""
+    if value is None or value == "":
+        return "—"
     try:
         d = Decimal(value)
     except (InvalidOperation, TypeError, ValueError):

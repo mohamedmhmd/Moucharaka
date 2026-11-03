@@ -65,8 +65,8 @@ class UseOfFundsSerializer(serializers.ModelSerializer):
 
 class ProjectListSerializer(serializers.ModelSerializer):
     sector = SectorSerializer(read_only=True)
-    wilaya = serializers.CharField(source="wilaya.name_fr")
-    moughataa = serializers.CharField(source="moughataa.name_fr")
+    wilaya = serializers.CharField(source="wilaya.name_fr", allow_null=True, default=None)
+    moughataa = serializers.CharField(source="moughataa.name_fr", allow_null=True, default=None)
     total_shares = serializers.IntegerField(read_only=True)
     funding_pct = serializers.IntegerField(read_only=True)
     headline_return = serializers.SerializerMethodField()

@@ -40,13 +40,18 @@ def share_context(request, project):
     is_manager = u.is_authenticated and (u.is_staff or u.pk == project.owner_id)
     private = is_manager and not project.is_public
     url = share_url(request, project, private=private)
-    if project.is_mourabaha:
+    terms = ""
+    if project.is_mourabaha and project.margin_pct is not None:
         terms = _("marge fixe de %(m)s %%") % {"m": f"{project.margin_pct:g}"}
-    else:
-        terms = _("rendement potentiel ~%(r)s %%") % {"r": f"{project.projected_annual_return_pct or 0:g}"}
-    text = _("%(t)s — %(tag)s. Parts dès %(p)s MRU, %(terms)s. Réf. %(ref)s : %(url)s") % {
-        "t": project.title, "tag": project.tagline, "p": f"{project.share_price:,.0f}".replace(",", " "),
-        "terms": terms, "ref": project.reference, "url": url}
+    elif project.is_moucharaka and project.projected_annual_return_pct is not None:
+        terms = _("rendement potentiel ~%(r)s %%") % {"r": f"{project.projected_annual_return_pct:g}"}
+    # Optional details are left out when the owner has not filled them in
+    head = f"{project.title} — {project.tagline}" if project.tagline else project.title
+    details = [_("Parts dès %(p)s MRU") % {"p": f"{project.share_price:,.0f}".replace(",", " ")}]
+    if terms:
+        details.append(terms)
+    text = _("%(head)s. %(details)s. Réf. %(ref)s : %(url)s") % {
+        "head": head, "details": ", ".join(str(d) for d in details), "ref": project.reference, "url": url}
     return {"share_url": url, "share_text": text, "share_private": private,
             "whatsapp_url": "https://wa.me/?text=" + quote(text)}
 

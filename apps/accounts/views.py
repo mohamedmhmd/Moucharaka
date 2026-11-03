@@ -9,6 +9,7 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.http import require_POST
 
 from apps.core.utils import N_, audit, client_ip, notify
@@ -143,6 +144,7 @@ def kyc_status(request):
     return render(request, "accounts/kyc_status.html", {"kyc": profile})
 
 
+@xframe_options_sameorigin  # PDFs are shown inside the staff review page (same site only)
 @login_required
 def kyc_document(request, user_id, field):
     """Serve an identity document to its owner or to staff only."""

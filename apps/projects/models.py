@@ -118,11 +118,12 @@ class Project(TimeStamped):
     status = models.CharField(_("statut"), max_length=10, choices=Status.choices, default=Status.DRAFT, db_index=True)
 
     title = models.CharField(_("nom du projet"), max_length=120)
-    tagline = models.CharField(_("résumé en une phrase"), max_length=200)
-    description = models.TextField(_("présentation détaillée"))
-    sector = models.ForeignKey(Sector, on_delete=models.PROTECT, verbose_name=_("secteur"))
-    wilaya = models.ForeignKey("core.Wilaya", on_delete=models.PROTECT, verbose_name=_("wilaya"))
-    moughataa = models.ForeignKey("core.Moughataa", on_delete=models.PROTECT, verbose_name=_("moughataa"))
+    tagline = models.CharField(_("résumé en une phrase"), max_length=200, blank=True)
+    description = models.TextField(_("présentation détaillée"), blank=True)
+    sector = models.ForeignKey(Sector, on_delete=models.PROTECT, verbose_name=_("secteur"), null=True, blank=True)
+    wilaya = models.ForeignKey("core.Wilaya", on_delete=models.PROTECT, verbose_name=_("wilaya"), null=True, blank=True)
+    moughataa = models.ForeignKey("core.Moughataa", on_delete=models.PROTECT, verbose_name=_("moughataa"),
+                                  null=True, blank=True)
     neighborhood = models.CharField(_("quartier"), max_length=120, blank=True)
     cover = models.ImageField(_("photo principale"), upload_to="projects/covers/", blank=True)
     video_url = models.URLField(_("lien vidéo (facultatif)"), blank=True)
@@ -215,6 +216,12 @@ class Project(TimeStamped):
         return f"{path}?k={self.preview_token}" if private and not self.is_public else path
 
     # ---------------------------------------------------------- derived values
+    @property
+    def place(self):
+        """"Quartier, Moughataa, Wilaya" with whatever the owner filled in."""
+        parts = [self.neighborhood, getattr(self.moughataa, "name", ""), getattr(self.wilaya, "name", "")]
+        return ", ".join(p for p in parts if p)
+
     @property
     def total_shares(self):
         if not self.share_price:
@@ -562,22 +569,22 @@ class CompanyPlan(models.Model):
     STAGES = [("idea", _("Idée")), ("prototype", _("Prototype / test")), ("first_sales", _("Premières ventes")),
               ("ready", _("Prêt à lancer"))]
     project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="company")
-    legal_form = models.CharField(_("forme juridique"), max_length=6, choices=LEGAL_FORMS)
-    stage = models.CharField(_("stade d'avancement"), max_length=12, choices=STAGES)
+    legal_form = models.CharField(_("forme juridique"), max_length=6, choices=LEGAL_FORMS, blank=True)
+    stage = models.CharField(_("stade d'avancement"), max_length=12, choices=STAGES, blank=True)
     is_registered = models.BooleanField(_("société déjà immatriculée"), default=False)
     rccm_number = models.CharField(_("numéro RCCM"), max_length=40, blank=True)
     nif = models.CharField(_("NIF"), max_length=30, blank=True)
     planned_launch = models.DateField(_("date de lancement prévue"), null=True, blank=True)
-    problem = models.TextField(_("problème résolu"))
-    solution = models.TextField(_("solution / produit"))
-    target_customers = models.TextField(_("clients visés"))
+    problem = models.TextField(_("problème résolu"), blank=True)
+    solution = models.TextField(_("solution / produit"), blank=True)
+    target_customers = models.TextField(_("clients visés"), blank=True)
     market_size = models.TextField(_("taille du marché"), blank=True)
-    competitors = models.TextField(_("concurrents"))
-    advantage = models.TextField(_("avantage concurrentiel"))
-    revenue_model = models.TextField(_("comment l'entreprise gagne de l'argent"))
-    go_to_market = models.TextField(_("plan commercial"))
+    competitors = models.TextField(_("concurrents"), blank=True)
+    advantage = models.TextField(_("avantage concurrentiel"), blank=True)
+    revenue_model = models.TextField(_("comment l'entreprise gagne de l'argent"), blank=True)
+    go_to_market = models.TextField(_("plan commercial"), blank=True)
     licences_needed = models.TextField(_("autorisations nécessaires"), blank=True)
-    key_risks = models.TextField(_("principaux risques et parades"))
+    key_risks = models.TextField(_("principaux risques et parades"), blank=True)
     breakeven_month = models.PositiveSmallIntegerField(_("mois d'atteinte de l'équilibre"), null=True, blank=True)
     jobs_created = models.PositiveSmallIntegerField(_("emplois créés"), default=0)
     investors_equity_pct = models.DecimalField(_("part du capital offerte aux investisseurs (%)"), **PCT,
@@ -638,13 +645,13 @@ class DealPlan(models.Model):
         ("other", _("Autre opération")),
     ]
     project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="deal")
-    operation = models.CharField(_("nature de l'opération"), max_length=10, choices=OPERATIONS)
-    goods_description = models.TextField(_("biens achetés (quantité, qualité)"))
-    supplier = models.CharField(_("fournisseur"), max_length=160)
-    purchase_cost = models.DecimalField(_("coût d'achat total (MRU)"), **MONEY)
+    operation = models.CharField(_("nature de l'opération"), max_length=10, choices=OPERATIONS, blank=True)
+    goods_description = models.TextField(_("biens achetés (quantité, qualité)"), blank=True)
+    supplier = models.CharField(_("fournisseur"), max_length=160, blank=True)
+    purchase_cost = models.DecimalField(_("coût d'achat total (MRU)"), **MONEY, null=True, blank=True)
     other_costs = models.DecimalField(_("frais annexes : transport, douane, stockage (MRU)"), **MONEY, default=ZERO)
-    expected_sale_value = models.DecimalField(_("valeur de revente attendue (MRU)"), **MONEY)
-    cycle_days = models.PositiveSmallIntegerField(_("durée du cycle (jours)"))
+    expected_sale_value = models.DecimalField(_("valeur de revente attendue (MRU)"), **MONEY, null=True, blank=True)
+    cycle_days = models.PositiveSmallIntegerField(_("durée du cycle (jours)"), null=True, blank=True)
     buyer_identified = models.BooleanField(_("acheteur déjà identifié"), default=False)
     buyer_details = models.TextField(_("acheteur / débouchés"), blank=True)
     has_purchase_order = models.BooleanField(_("bon de commande ou contrat signé"), default=False)
@@ -654,13 +661,17 @@ class DealPlan(models.Model):
 
     @property
     def expected_profit(self):
-        return self.expected_sale_value - self.purchase_cost - self.other_costs
+        if self.expected_sale_value is None or self.purchase_cost is None:
+            return None
+        return self.expected_sale_value - self.purchase_cost - (self.other_costs or 0)
 
     @property
     def coverage_ratio(self):
         """Expected sale value ÷ (financing + margin owed). >1 = cushion."""
         owed = self.project.target_amount + self.project.margin_amount
-        return (self.expected_sale_value / owed).quantize(Decimal("0.01")) if owed else None
+        if not owed or self.expected_sale_value is None:
+            return None
+        return (self.expected_sale_value / owed).quantize(Decimal("0.01"))
 
 
 # ---------------------------------------------------------------- Questionnaire

@@ -30,7 +30,7 @@
       {% else %}<li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %</b></li>{% endif %}
       <li><span>{% trans "Montant recherché" %}</span><b>{{ project.target_amount|money }} MRU</b></li>
       <li><span>{% trans "Durée" %}</span><b>{% blocktrans with m=project.duration_months %}{{ m }} mois{% endblocktrans %}</b></li>
-      <li><span>{% trans "Lieu" %}</span><b>{{ project.moughataa.name }}, {{ project.wilaya.name }}</b></li>
+      {% if project.place %}<li><span>{% trans "Lieu" %}</span><b>{{ project.place }}</b></li>{% endif %}
     </ul>
     <div class="qr" style="text-align:center"><img src="{% url 'projects:qr' project.slug %}{% if share_private %}?k={{ project.preview_token }}{% endif %}" alt="QR">
       <div class="small muted">{% trans "Scannez pour voir le projet" %}</div></div>

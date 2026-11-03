@@ -2,7 +2,6 @@ from datetime import date, timedelta
 from decimal import Decimal
 
 from django.db import transaction
-from django.db.models import Sum
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
@@ -12,7 +11,7 @@ from apps.trust.services import record_event
 from apps.wallet.models import Transaction, Wallet
 from apps.wallet.services import WalletError, collect_fee, post
 
-from .models import FeePolicy, FinancialReport, Kind, Project, Question
+from .models import FeePolicy, FinancialReport, Project
 
 
 class ProjectError(Exception):
@@ -20,41 +19,33 @@ class ProjectError(Exception):
 
 
 def checklist(project):
-    """List of (label, done) the owner sees before submitting."""
+    """What must be filled in before sending a project for review.
+
+    Launch period: only the name and the amount are required. Everything else is optional; the team
+    completes the contract terms with the owner before publishing (see approve_project)."""
     items = []
 
     def add(label, ok):
         items.append({"label": label, "done": bool(ok)})
 
-    add(_("Présentation du projet"), (project.description or "").strip())
-    add(_("Photo principale"), project.cover)
-    uses = project.uses_of_funds.aggregate(s=Sum("amount"))["s"] or Decimal("0")
-    add(_("Utilisation des fonds détaillée (total = montant recherché)"),
-        project.target_amount and abs(uses - project.target_amount) <= project.target_amount * Decimal("0.05"))
-    if project.is_moucharaka:
-        add(_("Part des bénéfices, rendement potentiel et sortie définis"),
-            project.investor_profit_share_pct and project.projected_annual_return_pct is not None and project.exit_mode)
-    else:
-        add(_("Marge, échéancier et garanties définis"), project.margin_pct and project.repayment_mode and project.guarantee)
-    if project.kind == Kind.BOUTIQUE:
-        b = getattr(project, "boutique", None)
-        add(_("Fiche boutique complète"), b)
-        add(_("Ventes des 6 derniers mois au moins"), project.boutique_months.count() >= 6)
-        add(_("Au moins 3 produits phares"), project.boutique_products.count() >= 3)
-        add(_("Au moins 3 photos de la boutique"), project.images.count() >= 3)
-    elif project.kind == Kind.COMPANY:
-        add(_("Plan d'entreprise complet"), getattr(project, "company", None))
-        add(_("Équipe présentée"), project.team.exists())
-        add(_("Prévisions sur 3 ans"), project.projections.count() >= 3)
-        add(_("Au moins 2 étapes clés"), project.milestones.count() >= 2)
-    else:
-        add(_("Description de l'opération"), getattr(project, "deal", None))
-    required = [q for q in Question.objects.filter(active=True, required=True) if q.applies(project.kind)]
-    answered = set(project.answers.exclude(value__isnull=True).exclude(value="").values_list("question_id", flat=True))
-    add(_("Questions obligatoires du questionnaire (%(a)s / %(t)s)") % {
-        "a": len([q for q in required if q.pk in answered]), "t": len(required)},
-        all(q.pk in answered for q in required))
+    add(_("Nom du projet"), (project.title or "").strip())
+    add(_("Montant recherché"), project.target_amount and project.target_amount > 0)
     return items
+
+
+def missing_terms(project):
+    """Contract terms the team must set (in the administration) before a campaign can open."""
+    missing = []
+    if project.is_moucharaka and project.investor_profit_share_pct is None:
+        missing.append(_("part des bénéfices revenant aux investisseurs"))
+    if project.is_mourabaha:
+        if project.margin_pct is None:
+            missing.append(_("marge convenue"))
+        if not project.repayment_mode:
+            missing.append(_("mode de remboursement"))
+    if not project.target_amount or project.target_amount <= 0:
+        missing.append(_("montant recherché"))
+    return missing
 
 
 @transaction.atomic
@@ -96,6 +87,10 @@ def submit_project(project, user):
 def approve_project(project, reviewer, risk_grade, public_notes=""):
     if project.status != Project.Status.SUBMITTED:
         raise ProjectError(_("Ce projet n'est pas en cours d'étude."))
+    missing = missing_terms(project)
+    if missing:
+        raise ProjectError(_("Avant de publier, complétez dans l'administration : %(m)s.") % {
+            "m": ", ".join(str(m) for m in missing)})
     policy = FeePolicy.for_project(project)
     s = PlatformSettings.get()
     project.success_fee_pct = policy.success_fee_pct

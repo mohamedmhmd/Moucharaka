@@ -61,7 +61,7 @@ class UserAdmin(BaseUserAdmin):
 class KYCProfileAdmin(admin.ModelAdmin):
     list_display = ("full_name", "nni", "user", "wilaya", "status", "risk_level", "submitted_at", "review_link")
     list_filter = ("status", "risk_level", "is_pep", "wilaya", "id_type")
-    search_fields = ("full_name", "nni", "id_number", "user__phone")
+    search_fields = ("full_name", "nni", "user__phone")
     readonly_fields = ("submitted_at", "reviewed_at", "reviewed_by", "terms_accepted_at", "documents")
     actions = ["approve", "request_corrections"]
     exclude = ("id_front", "id_back")

@@ -212,8 +212,7 @@ class Command(BaseCommand):
             from apps.core.factories import image_file
             from apps.core.models import Moughataa
             m = Moughataa.objects.filter(wilaya__code="NKO").first()
-            k = KYCProfile(user=pending, full_name="Hawa Sow", nni="2999000001", id_number="2999000001",
-                           id_issue_date=now.date() - timedelta(days=900), id_expiry_date=now.date() + timedelta(days=1200),
+            k = KYCProfile(user=pending, full_name="Hawa Sow", nni="2999000001",
                            date_of_birth=now.date().replace(year=now.year - 31), place_of_birth="Kaédi", gender="f",
                            wilaya=m.wilaya, moughataa=m, address="Ksar, îlot B", profession="Couturière",
                            monthly_income="20-50k", source_of_funds="business", experience="informal", status="submitted",

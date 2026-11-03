@@ -296,8 +296,9 @@ def report_attachment(request, pk):
 
 STEPS = {
     Kind.BOUTIQUE: ["basics", "terms", "details", "figures", "funds", "questions", "media", "submit"],
-    Kind.COMPANY: ["basics", "terms", "details", "figures", "funds", "questions", "media", "submit"],
-    Kind.DEAL: ["basics", "terms", "details", "figures", "funds", "questions", "media", "submit"],
+    # Launch period: no team / forecast / milestone tables for companies and operations (fewer steps).
+    Kind.COMPANY: ["basics", "terms", "details", "funds", "questions", "media", "submit"],
+    Kind.DEAL: ["basics", "terms", "details", "funds", "questions", "media", "submit"],
 }
 STEP_LABELS = {
     "basics": _lazy("Présentation"), "terms": _lazy("Conditions"), "details": _lazy("Fiche détaillée"),

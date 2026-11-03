@@ -4,7 +4,7 @@
     <div class="row between"><span class="model {{ p.financing_model }}">{% if p.is_moucharaka %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span>
       {% if p.risk_grade %}<span class="small muted">{% trans "Risque" %} <b>{{ p.risk_grade }}</b></span>{% endif %}</div>
     <h3>{{ p.title }}</h3>
-    <div class="where">{{ p.get_kind_display }} · {{ p.moughataa.name }}, {{ p.wilaya.name }}</div>
+    <div class="where">{{ p.get_kind_display }}{% if p.place %} · {{ p.place }}{% endif %}</div>
     <div class="progress" role="progressbar" aria-valuenow="{{ p.funding_pct }}" aria-valuemin="0" aria-valuemax="100"><i style="width:{{ p.funding_pct }}%"></i></div>
     <div class="row between small"><span><b class="num">{{ p.raised_amount|money }}</b> / {{ p.target_amount|money }} MRU</span>
       {% if p.status == "funding" and p.days_left is not None %}<span class="muted">{% blocktrans count d=p.days_left %}{{ d }} jour restant{% plural %}{{ d }} jours restants{% endblocktrans %}</span>{% endif %}</div>

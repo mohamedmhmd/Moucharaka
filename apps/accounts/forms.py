@@ -95,29 +95,27 @@ class KYCForm(forms.ModelForm):
     class Meta:
         model = KYCProfile
         fields = [
-            "full_name", "nni", "id_type", "id_number", "id_issue_date", "id_expiry_date",
+            "full_name", "nni", "id_type",
             "date_of_birth", "place_of_birth", "gender", "nationality",
             "wilaya", "moughataa", "address",
             "profession", "employer", "monthly_income", "source_of_funds", "experience", "purpose", "is_pep",
-            "id_front", "id_back",
+            "id_front",
         ]
         widgets = {
-            "id_issue_date": DateInput(), "id_expiry_date": DateInput(), "date_of_birth": DateInput(),
+            "date_of_birth": DateInput(),
             "moughataa": MoughataaSelect(attrs={"data-depends-on": "wilaya"}),
             "nni": forms.TextInput(attrs={"inputmode": "numeric", "dir": "ltr", "maxlength": 10}),
             "full_name": forms.TextInput(attrs={"dir": "auto"}),
             # No "capture" attribute: the phone offers the camera AND the gallery / files (photo or PDF).
             "id_front": forms.ClearableFileInput(attrs={"accept": "image/*,application/pdf"}),
-            "id_back": forms.ClearableFileInput(attrs={"accept": "image/*,application/pdf"}),
         }
 
     fieldsets = [
-        (_("Identité"), ["full_name", "nni", "id_type", "id_number", "id_issue_date",
-                         "id_expiry_date", "date_of_birth", "place_of_birth", "gender", "nationality"]),
+        (_("Identité"), ["full_name", "nni", "id_type", "date_of_birth", "place_of_birth", "gender", "nationality"]),
         (_("Adresse"), ["wilaya", "moughataa", "address"]),
         (_("Profil financier"), ["profession", "employer", "monthly_income", "source_of_funds", "experience",
                                  "purpose", "is_pep"]),
-        (_("Documents"), ["id_front", "id_back"]),
+        (_("Documents"), ["id_front"]),
         (_("Engagement"), ["confirm_truth"]),
     ]
 

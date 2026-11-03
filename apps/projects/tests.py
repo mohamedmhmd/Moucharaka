@@ -183,3 +183,53 @@ class LaunchSettingsTests(TestCase):
         self.assertRedirects(r, f"/fr/projects/{p.slug}/edit/media/")
         d = p.documents.get()
         self.assertEqual((d.kind, d.title), ("other", "devis-moutons"))
+
+
+class MinimalProjectTests(TestCase):
+    """Launch period: a project can be sent with just a name and an amount; staff complete terms before publishing."""
+
+    def setUp(self):
+        from django.utils import translation
+
+        translation.activate("fr")
+
+    def test_name_and_amount_are_enough(self):
+        from apps.projects.services import ProjectError, approve_project
+
+        owner = make_user("Porteur Minimal", balance=1_000)
+        c = self.client
+        c.force_login(owner)
+        r = c.post("/fr/projects/new/", {"kind": "deal", "financing_model": "mourabaha"})
+        self.assertRedirects(r, "/fr/projects/new/details/")
+        r = c.post("/fr/projects/new/details/", {"title": "Moutons de Tabaski"})
+        p = Project.objects.get(title="Moutons de Tabaski")
+        self.assertRedirects(r, f"/fr/projects/{p.slug}/edit/terms/")
+        self.assertIsNone(p.wilaya)
+        # Every step can be saved empty
+        r = c.post(f"/fr/projects/{p.slug}/edit/terms/", {"target_amount": "300000"})
+        self.assertEqual(r.status_code, 302, r.content[:3000] if r.status_code == 200 else "")
+        for step in ("details", "questions"):
+            r = c.post(f"/fr/projects/{p.slug}/edit/{step}/", {})
+            self.assertEqual(r.status_code, 302, f"{step}: {r.status_code}")
+        r = c.post(f"/fr/projects/{p.slug}/edit/funds/", {"uof-TOTAL_FORMS": "0", "uof-INITIAL_FORMS": "0"})
+        self.assertEqual(r.status_code, 302)
+        page = c.get(f"/fr/projects/{p.slug}/edit/submit/").content.decode()
+        self.assertNotIn("disabled", page.split("Envoyer pour étude")[0][-200:])
+        r = c.post(f"/fr/projects/{p.slug}/edit/submit/", {})
+        p.refresh_from_db()
+        self.assertEqual(p.status, "submitted")
+        self.assertEqual(p.review_fee_paid, Decimal("100"))
+        # Public pages cope with missing details
+        staff = make_user("Staff Review", staff=True)
+        c.force_login(staff)
+        page = c.get(f"/fr/staff/projects/{p.pk}/").content.decode()
+        self.assertIn("marge convenue", page)
+        with self.assertRaises(ProjectError):
+            approve_project(p, staff, "C")
+        p.margin_pct = Decimal("8")
+        p.save()
+        approve_project(p, staff, "C")
+        self.assertEqual(c.get(p.get_absolute_url()).status_code, 200)
+        self.assertEqual(c.get("/fr/projects/").status_code, 200)
+        self.assertEqual(c.get(f"/fr/projects/{p.slug}/poster/").status_code, 200)
+        self.assertEqual(c.get("/api/v1/projects").status_code, 200)

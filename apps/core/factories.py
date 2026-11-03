@@ -52,7 +52,6 @@ def make_user(full_name="Test User", approved=True, phone=None, staff=False, bal
         m = Moughataa.objects.filter(wilaya=w).first()
         kyc = KYCProfile(
             user=user, full_name=full_name, nni=str(_counter["nni"]), id_type="cni",
-            id_number=str(_counter["nni"]), id_issue_date=date(2021, 3, 1), id_expiry_date=date(2031, 3, 1),
             date_of_birth=date(1988, 6, 15), place_of_birth="Nouakchott", gender="m", wilaya=w, moughataa=m,
             address="Ilot K", profession="Commerçant", monthly_income="20-50k", source_of_funds="business",
             experience="informal", status=KYCProfile.Status.SUBMITTED, submitted_at=timezone.now())

@@ -34,10 +34,17 @@ class StartForm(forms.Form):
         return d
 
 
+def _all_optional(form, keep=()):
+    """Launch period: owners fill in only what they find relevant."""
+    for name, field in form.fields.items():
+        if name not in keep:
+            field.required = False
+
+
 class BasicsForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ["title", "tagline", "description", "sector", "wilaya", "moughataa", "neighborhood", "cover", "video_url"]
+        fields = ["title", "tagline", "description", "sector", "wilaya", "moughataa", "cover"]
         widgets = {
             "description": forms.Textarea(attrs={"rows": 8}),
             "moughataa": MoughataaSelect(attrs={"data-depends-on": "wilaya"}),
@@ -49,6 +56,7 @@ class BasicsForm(forms.ModelForm):
         self.fields["moughataa"].queryset = Moughataa.objects.select_related("wilaya")
         self.fields["description"].help_text = _(
             "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent.")
+        _all_optional(self, keep=("title",))
 
     def clean(self):
         d = super().clean()
@@ -61,14 +69,16 @@ class BasicsForm(forms.ModelForm):
 class TermsForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ["target_amount", "share_price", "min_shares", "min_funding_pct", "owner_contribution",
-                  "campaign_days", "duration_months",
-                  "investor_profit_share_pct", "projected_annual_return_pct", "distribution_frequency", "exit_mode",
-                  "margin_pct", "repayment_mode", "guarantee", "report_frequency"]
+        fields = ["target_amount", "share_price", "owner_contribution", "campaign_days", "duration_months",
+                  "investor_profit_share_pct", "projected_annual_return_pct", "exit_mode",
+                  "margin_pct", "repayment_mode", "guarantee"]
         widgets = {"target_amount": MoneyInput(), "share_price": MoneyInput(), "owner_contribution": MoneyInput(),
                    "guarantee": forms.Textarea(attrs={"rows": 3})}
 
-    MOUCHARAKA_FIELDS = ["investor_profit_share_pct", "projected_annual_return_pct", "distribution_frequency", "exit_mode"]
+    MOUCHARAKA_FIELDS = ["investor_profit_share_pct", "projected_annual_return_pct", "exit_mode"]
+    # Used when the owner leaves a field empty
+    DEFAULTS = {"share_price": Decimal("1000"), "owner_contribution": Decimal("0"), "campaign_days": 30,
+                "duration_months": 12}
     MOURABAHA_FIELDS = ["margin_pct", "repayment_mode", "guarantee"]
 
     def __init__(self, *args, **kwargs):
@@ -77,13 +87,20 @@ class TermsForm(forms.ModelForm):
         drop = self.MOURABAHA_FIELDS if p.is_moucharaka else self.MOUCHARAKA_FIELDS
         for f in drop:
             self.fields.pop(f, None)
-        for f in (self.MOUCHARAKA_FIELDS if p.is_moucharaka else self.MOURABAHA_FIELDS):
-            self.fields[f].required = True
+        _all_optional(self)
         self.fields["share_price"].help_text = _("Prix d'une part. Un prix bas permet à plus de personnes de participer.")
         self.fields["campaign_days"].widget.attrs["max"] = 60
 
     def clean(self):
         d = super().clean()
+        for name, value in self.DEFAULTS.items():
+            if d.get(name) in (None, ""):
+                d[name] = value
+        if d.get("target_amount") in (None, ""):
+            d["target_amount"] = self.instance.target_amount or Decimal("0")
+        for name in ("exit_mode", "repayment_mode"):
+            if name in self.fields and not d.get(name):
+                d[name] = getattr(self.instance, name) or ""
         target, price = d.get("target_amount"), d.get("share_price")
         if target and price:
             if price <= 0 or target % price:
@@ -153,20 +170,28 @@ class BoutiqueForm(forms.ModelForm):
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = CompanyPlan
-        exclude = ["project"]
-        widgets = {"planned_launch": DateInput(),
-                   **{f: forms.Textarea(attrs={"rows": 3}) for f in [
-                       "problem", "solution", "target_customers", "market_size", "competitors", "advantage",
-                       "revenue_model", "go_to_market", "licences_needed", "key_risks"]}}
+        fields = ["stage", "legal_form", "is_registered", "solution", "target_customers", "revenue_model",
+                  "investors_equity_pct"]
+        widgets = {f: forms.Textarea(attrs={"rows": 3}) for f in ["solution", "target_customers", "revenue_model"]}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["solution"].label = _("Activité, produit ou service")
+        _all_optional(self)
 
 
 class DealForm(forms.ModelForm):
     class Meta:
         model = DealPlan
-        exclude = ["project"]
+        fields = ["operation", "goods_description", "purchase_cost", "expected_sale_value", "cycle_days",
+                  "has_purchase_order", "buyer_details", "collateral"]
         widgets = {"goods_description": forms.Textarea(attrs={"rows": 3}),
                    "buyer_details": forms.Textarea(attrs={"rows": 2}), "collateral": forms.Textarea(attrs={"rows": 2}),
-                   **{f: MoneyInput() for f in ["purchase_cost", "other_costs", "expected_sale_value", "collateral_value"]}}
+                   **{f: MoneyInput() for f in ["purchase_cost", "expected_sale_value"]}}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _all_optional(self)
 
     def clean(self):
         d = super().clean()
@@ -211,7 +236,7 @@ class QuestionnaireForm(forms.Form):
                           if q.applies(project.kind)]
         for q in self.questions:
             name = f"q_{q.pk}"
-            kw = {"label": q.text, "help_text": q.help, "required": q.required, "initial": answers.get(q.pk)}
+            kw = {"label": q.text, "help_text": q.help, "required": False, "initial": answers.get(q.pk)}
             if q.type == "textarea":
                 f = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}), **kw)
             elif q.type == "number":

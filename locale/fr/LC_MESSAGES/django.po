@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-03 12:59+0100\n"
+"POT-Creation-Date: 2026-11-03 13:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -282,15 +282,6 @@ msgstr "Numéro national d'identification, 10 chiffres."
 msgid "pièce d'identité"
 msgstr "pièce d'identité"
 
-msgid "numéro de la pièce"
-msgstr "numéro de la pièce"
-
-msgid "date de délivrance"
-msgstr "date de délivrance"
-
-msgid "date d'expiration"
-msgstr "date d'expiration"
-
 msgid "date de naissance"
 msgstr "date de naissance"
 
@@ -333,8 +324,8 @@ msgstr "vous venez pour"
 msgid "je suis (ou un proche est) une personnalité politiquement exposée"
 msgstr "je suis (ou un proche est) une personnalité politiquement exposée"
 
-msgid "pièce d'identité — recto"
-msgstr "pièce d'identité — recto"
+msgid "Une photo ou un PDF. Si la pièce a deux faces, mettez-les dans le même PDF ou la même photo."
+msgstr "Une photo ou un PDF. Si la pièce a deux faces, mettez-les dans le même PDF ou la même photo."
 
 msgid "pièce d'identité — verso"
 msgstr "pièce d'identité — verso"
@@ -357,23 +348,11 @@ msgstr "dossiers KYC"
 msgid "Vous devez avoir au moins 18 ans."
 msgstr "Vous devez avoir au moins 18 ans."
 
-msgid "La pièce d'identité est expirée."
-msgstr "La pièce d'identité est expirée."
-
-msgid "La date d'expiration doit suivre la date de délivrance."
-msgstr "La date d'expiration doit suivre la date de délivrance."
-
 msgid "Cette moughataa n'appartient pas à la wilaya choisie."
 msgstr "Cette moughataa n'appartient pas à la wilaya choisie."
 
 msgid "Personne politiquement exposée : vigilance renforcée."
 msgstr "Personne politiquement exposée : vigilance renforcée."
-
-msgid "Le numéro de la CNI ne contient pas le NNI : vérifier."
-msgstr "Le numéro de la CNI ne contient pas le NNI : vérifier."
-
-msgid "La pièce expire dans moins de 3 mois."
-msgstr "La pièce expire dans moins de 3 mois."
 
 msgid "Un autre dossier porte le même nom et la même date de naissance."
 msgstr "Un autre dossier porte le même nom et la même date de naissance."
@@ -965,6 +944,9 @@ msgstr "Indiquez le loyer."
 
 msgid "Une hausse de plus de 100 % n'est pas crédible sans justification."
 msgstr "Une hausse de plus de 100 % n'est pas crédible sans justification."
+
+msgid "Activité, produit ou service"
+msgstr "Activité, produit ou service"
 
 msgid "La revente doit dépasser le coût d'achat."
 msgstr "La revente doit dépasser le coût d'achat."
@@ -1957,51 +1939,23 @@ msgstr "Payée"
 msgid "Impayée"
 msgstr "Impayée"
 
-msgid "Présentation du projet"
-msgstr "Présentation du projet"
+msgid "Nom du projet"
+msgstr "Nom du projet"
 
-msgid "Photo principale"
-msgstr "Photo principale"
+msgid "Montant recherché"
+msgstr "Montant recherché"
 
-msgid "Utilisation des fonds détaillée (total = montant recherché)"
-msgstr "Utilisation des fonds détaillée (total = montant recherché)"
+msgid "part des bénéfices revenant aux investisseurs"
+msgstr "part des bénéfices revenant aux investisseurs"
 
-msgid "Part des bénéfices, rendement potentiel et sortie définis"
-msgstr "Part des bénéfices, rendement potentiel et sortie définis"
+msgid "marge convenue"
+msgstr "marge convenue"
 
-msgid "Marge, échéancier et garanties définis"
-msgstr "Marge, échéancier et garanties définis"
+msgid "mode de remboursement"
+msgstr "mode de remboursement"
 
-msgid "Fiche boutique complète"
-msgstr "Fiche boutique complète"
-
-msgid "Ventes des 6 derniers mois au moins"
-msgstr "Ventes des 6 derniers mois au moins"
-
-msgid "Au moins 3 produits phares"
-msgstr "Au moins 3 produits phares"
-
-msgid "Au moins 3 photos de la boutique"
-msgstr "Au moins 3 photos de la boutique"
-
-msgid "Plan d'entreprise complet"
-msgstr "Plan d'entreprise complet"
-
-msgid "Équipe présentée"
-msgstr "Équipe présentée"
-
-msgid "Prévisions sur 3 ans"
-msgstr "Prévisions sur 3 ans"
-
-msgid "Au moins 2 étapes clés"
-msgstr "Au moins 2 étapes clés"
-
-msgid "Description de l'opération"
-msgstr "Description de l'opération"
-
-#, python-format
-msgid "Questions obligatoires du questionnaire (%(a)s / %(t)s)"
-msgstr "Questions obligatoires du questionnaire (%(a)s / %(t)s)"
+msgid "montant recherché"
+msgstr "montant recherché"
 
 msgid "Ce projet ne peut pas être soumis."
 msgstr "Ce projet ne peut pas être soumis."
@@ -2026,6 +1980,10 @@ msgstr "Projet à étudier"
 
 msgid "Ce projet n'est pas en cours d'étude."
 msgstr "Ce projet n'est pas en cours d'étude."
+
+#, python-format
+msgid "Avant de publier, complétez dans l'administration : %(m)s."
+msgstr "Avant de publier, complétez dans l'administration : %(m)s."
 
 msgid "Votre projet est en ligne"
 msgstr "Votre projet est en ligne"
@@ -2068,8 +2026,12 @@ msgid "rendement potentiel ~%(r)s %%"
 msgstr "rendement potentiel ~%(r)s %%"
 
 #, python-format
-msgid "%(t)s — %(tag)s. Parts dès %(p)s MRU, %(terms)s. Réf. %(ref)s : %(url)s"
-msgstr "%(t)s — %(tag)s. Parts dès %(p)s MRU, %(terms)s. Réf. %(ref)s : %(url)s"
+msgid "Parts dès %(p)s MRU"
+msgstr "Parts dès %(p)s MRU"
+
+#, python-format
+msgid "%(head)s. %(details)s. Réf. %(ref)s : %(url)s"
+msgstr "%(head)s. %(details)s. Réf. %(ref)s : %(url)s"
 
 msgid "Ce projet n'accepte plus d'intentions."
 msgstr "Ce projet n'accepte plus d'intentions."
@@ -4369,9 +4331,6 @@ msgstr "Imprimer l'affiche"
 msgid "Devenez associé de cette boutique"
 msgstr "Devenez associé de cette boutique"
 
-msgid "Montant recherché"
-msgstr "Montant recherché"
-
 msgid "Lieu"
 msgstr "Lieu"
 
@@ -4626,14 +4585,14 @@ msgstr "inscrit le %(d)s"
 msgid "Points d'attention"
 msgstr "Points d'attention"
 
+msgid "Ouvrir en grand"
+msgstr "Ouvrir en grand"
+
 msgid "Déclarations"
 msgstr "Déclarations"
 
 msgid "Pièce"
 msgstr "Pièce"
-
-msgid "Validité"
-msgstr "Validité"
 
 msgid "Naissance"
 msgstr "Naissance"
@@ -4679,6 +4638,12 @@ msgstr "public"
 
 msgid "Pour marquer un document comme vérifié, utilisez l'administration."
 msgstr "Pour marquer un document comme vérifié, utilisez l'administration."
+
+msgid "À compléter avant de publier :"
+msgstr "À compléter avant de publier :"
+
+msgid "Compléter dans l'administration"
+msgstr "Compléter dans l'administration"
 
 msgid "Libérer les fonds"
 msgstr "Libérer les fonds"

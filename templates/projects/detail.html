@@ -21,7 +21,7 @@
     </div>
     <h1>{{ project.title }}</h1>
     <p class="lead muted" style="font-size:1.1rem">{{ project.tagline }}</p>
-    <p class="small muted">{{ project.get_kind_display }} · {{ project.sector.name }} · {% if project.neighborhood %}{{ project.neighborhood }}, {% endif %}{{ project.moughataa.name }}, {{ project.wilaya.name }} · {% trans "Réf." %} <span class="ltr">{{ project.reference }}</span></p>
+    <p class="small muted">{{ project.get_kind_display }}{% if project.sector %} · {{ project.sector.name }}{% endif %}{% if project.place %} · {{ project.place }}{% endif %} · {% trans "Réf." %} <span class="ltr">{{ project.reference }}</span></p>
 </section>
 
 <aside class="p-aside"><div class="invest-box anchor" id="invest">

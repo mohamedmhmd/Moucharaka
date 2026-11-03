@@ -3,11 +3,10 @@
 {% block staff %}<h1 dir="auto">{{ kyc.full_name }}</h1>
 <p>{% badge kyc.status kyc.get_status_display %} · <span class="ltr">{{ kyc.user.phone|phone }}</span> · {% blocktrans with d=kyc.user.date_joined|date:"d/m/Y" %}inscrit le {{ d }}{% endblocktrans %}</p>
 {% if flags %}<div class="note warn"><b>{% trans "Points d'attention" %}</b><ul>{% for f in flags %}<li>{{ f }}</li>{% endfor %}</ul></div>{% endif %}
-<div class="doc-view" style="margin-top:16px">{% for key, label, f in docs %}{% if f %}<figure>{% if f.name|slice:"-4:" == ".pdf" %}<iframe src="{% url 'accounts:kyc_document' kyc.user_id key %}" title="{{ label }}"></iframe>{% else %}<a href="{% url 'accounts:kyc_document' kyc.user_id key %}" target="_blank"><img src="{% url 'accounts:kyc_document' kyc.user_id key %}" alt="{{ label }}"></a>{% endif %}<figcaption>{{ label }}</figcaption></figure>{% endif %}{% endfor %}</div>
+<div class="doc-view" style="margin-top:16px">{% for key, label, f in docs %}{% if f %}{% url 'accounts:kyc_document' kyc.user_id key as doc_url %}<figure>{% if f.name|lower|slice:"-4:" == ".pdf" %}<iframe src="{{ doc_url }}" title="{{ label }}"></iframe>{% else %}<a href="{{ doc_url }}" target="_blank" rel="noopener"><img src="{{ doc_url }}" alt="{{ label }}"></a>{% endif %}<figcaption>{{ label }} · <a href="{{ doc_url }}" target="_blank" rel="noopener">{% trans "Ouvrir en grand" %}</a></figcaption></figure>{% endif %}{% endfor %}</div>
 <div class="grid g2" style="margin-top:20px">
   <div class="panel"><h2>{% trans "Déclarations" %}</h2><dl class="kv">
-    <dt>NNI</dt><dd class="ltr">{{ kyc.nni }}</dd><dt>{% trans "Pièce" %}</dt><dd>{{ kyc.get_id_type_display }} <span class="ltr">{{ kyc.id_number }}</span></dd>
-    <dt>{% trans "Validité" %}</dt><dd>{{ kyc.id_issue_date|date:"d/m/Y" }} → {{ kyc.id_expiry_date|date:"d/m/Y" }}</dd>
+    <dt>NNI</dt><dd class="ltr">{{ kyc.nni }}</dd><dt>{% trans "Pièce" %}</dt><dd>{{ kyc.get_id_type_display }}</dd>
     <dt>{% trans "Naissance" %}</dt><dd>{{ kyc.date_of_birth|date:"d/m/Y" }} ({{ kyc.age }}), {{ kyc.place_of_birth }}</dd>
     <dt>{% trans "Adresse" %}</dt><dd>{{ kyc.address }}, {{ kyc.moughataa.name }}, {{ kyc.wilaya.name }}</dd>
     <dt>{% trans "Profession" %}</dt><dd>{{ kyc.profession }}{% if kyc.employer %} · {{ kyc.employer }}{% endif %}</dd>

@@ -150,8 +150,9 @@ class BoutiqueMoucharakaFlow(FlowBase):
         from apps.wallet.services import adjust
 
         adjust(poor, D("5000"))
-        with self.assertRaises(ProjectError):
-            submit_project(p, poor)  # missing photos
+        submit_project(p, poor)  # photos are optional during the launch period
+        p.refresh_from_db()
+        self.assertEqual(p.status, "submitted")
 
 
 class MourabahaFlow(FlowBase):

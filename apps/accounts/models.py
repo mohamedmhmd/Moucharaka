@@ -165,9 +165,6 @@ class KYCProfile(models.Model):
     nni = models.CharField(_("NNI"), max_length=10, unique=True, validators=[nni_validator],
                            help_text=_("Numéro national d'identification, 10 chiffres."))
     id_type = models.CharField(_("pièce d'identité"), max_length=12, choices=ID_TYPES, default="cni")
-    id_number = models.CharField(_("numéro de la pièce"), max_length=30)
-    id_issue_date = models.DateField(_("date de délivrance"))
-    id_expiry_date = models.DateField(_("date d'expiration"))
     date_of_birth = models.DateField(_("date de naissance"))
     place_of_birth = models.CharField(_("lieu de naissance"), max_length=100)
     gender = models.CharField(_("sexe"), max_length=1, choices=GENDERS)
@@ -185,8 +182,10 @@ class KYCProfile(models.Model):
     purpose = models.CharField(_("vous venez pour"), max_length=8, choices=PURPOSE, default="both")
     is_pep = models.BooleanField(_("je suis (ou un proche est) une personnalité politiquement exposée"), default=False)
     # Documents (private storage)
-    id_front = models.FileField(_("pièce d'identité — recto"), upload_to=kyc_upload_to, storage=private_storage,
-                                validators=[validate_document])
+    id_front = models.FileField(_("pièce d'identité"), upload_to=kyc_upload_to, storage=private_storage,
+                                validators=[validate_document],
+                                help_text=_("Une photo ou un PDF. Si la pièce a deux faces, mettez-les dans le même PDF ou la même photo."))
+    # No longer asked; kept so files sent before November 2026 stay visible to staff.
     id_back = models.FileField(_("pièce d'identité — verso"), upload_to=kyc_upload_to, storage=private_storage,
                                validators=[validate_document], blank=True)
     # Review
@@ -217,10 +216,6 @@ class KYCProfile(models.Model):
         errors = {}
         if self.date_of_birth and self.age < 18:
             errors["date_of_birth"] = _("Vous devez avoir au moins 18 ans.")
-        if self.id_expiry_date and self.id_expiry_date < date.today():
-            errors["id_expiry_date"] = _("La pièce d'identité est expirée.")
-        if self.id_issue_date and self.id_expiry_date and self.id_issue_date >= self.id_expiry_date:
-            errors["id_expiry_date"] = _("La date d'expiration doit suivre la date de délivrance.")
         if self.moughataa_id and self.wilaya_id and self.moughataa.wilaya_id != self.wilaya_id:
             errors["moughataa"] = _("Cette moughataa n'appartient pas à la wilaya choisie.")
         if errors:
@@ -231,10 +226,6 @@ class KYCProfile(models.Model):
         flags = []
         if self.is_pep:
             flags.append(_("Personne politiquement exposée : vigilance renforcée."))
-        if self.id_type == "cni" and self.id_number and self.nni and self.nni not in self.id_number and self.id_number not in self.nni:
-            flags.append(_("Le numéro de la CNI ne contient pas le NNI : vérifier."))
-        if self.id_expiry_date and (self.id_expiry_date - date.today()).days < 90:
-            flags.append(_("La pièce expire dans moins de 3 mois."))
         if KYCProfile.objects.filter(full_name__iexact=self.full_name, date_of_birth=self.date_of_birth).exclude(pk=self.pk).exists():
             flags.append(_("Un autre dossier porte le même nom et la même date de naissance."))
         if self.user.full_name and self.user.full_name.split()[0].lower() not in self.full_name.lower():
