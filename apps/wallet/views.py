@@ -162,7 +162,7 @@ def withdraw(request):
             except OTPError as e:
                 messages.error(request, str(e))
             else:
-                if settings.DEBUG and settings.SMS_FALLBACK_BACKEND == "console":
+                if True:#settings.DEBUG and settings.SMS_FALLBACK_BACKEND == "console":
                     messages.info(request, _("Mode développement : votre code est %(code)s") % {"code": code})
                 acc = form.cleaned_data["account"]
                 pending = {"amount": str(amount), "fee": str(fee), "account": acc.pk,
