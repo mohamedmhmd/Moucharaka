@@ -90,12 +90,12 @@ class RegistrationFlowTests(TestCase):
         m = Moughataa.objects.filter(wilaya__code="NKO").first()
         img = lambda n: SimpleUploadedFile(n, image_file(n).read(), content_type="image/jpeg")  # noqa: E731
         r = c.post("/fr/accounts/identity/", {
-            "full_name_fr": "Ahmed Salem", "full_name_ar": "أحمد سالم", "nni": "1234567890", "id_type": "cni",
+            "full_name": "Ahmed Salem", "nni": "1234567890", "id_type": "cni",
             "id_number": "1234567890", "id_issue_date": "2022-01-10", "id_expiry_date": "2032-01-10",
             "date_of_birth": "1990-05-05", "place_of_birth": "Atar", "gender": "m", "nationality": "Mauritanienne",
             "wilaya": m.wilaya_id, "moughataa": m.pk, "address": "Ilot C", "profession": "Enseignant",
             "monthly_income": "20-50k", "source_of_funds": "salary", "experience": "none", "purpose": "invest",
-            "id_front": img("f.jpg"), "selfie": img("s.jpg"), "confirm_truth": "on"})
+            "id_front": img("f.jpg"), "confirm_truth": "on"})
         self.assertRedirects(r, "/fr/accounts/identity/status/")
         user.refresh_from_db()
         self.assertEqual(user.status, "pending")
@@ -222,11 +222,11 @@ class PagesRenderTests(TestCase):
                     self.assertEqual(r.status_code, 200, f"{prefix}{u} → {r.status_code}")
         r = self.client.get("/")
         self.assertContains(r, 'dir="rtl"')
-        self.assertContains(r, "استثمر في متاجر حيّك")
+        self.assertContains(r, "استثمر في المشاريع والمؤسسات")
         r = self.client.get("/fr/")
         self.assertContains(r, 'dir="ltr"')
-        self.assertContains(r, "Investissez dans les boutiques de votre quartier")
-        self.assertNotContains(r, "استثمر في متاجر حيّك")
+        self.assertContains(r, "Investissez dans des projets et des entreprises")
+        self.assertNotContains(r, "استثمر في المشاريع والمؤسسات")
 
 
 class NotificationLanguageTests(TestCase):
@@ -395,3 +395,41 @@ class AdminCreatedUserLoginTests(TestCase):
         u.save()
         u.refresh_from_db()
         self.assertEqual(u.phone, "+22237000002")
+
+
+class SimplifiedKYCTests(TestCase):
+    """One name field (Arabic or Latin), ID as photo or PDF, no selfie, no proof of address."""
+
+    def test_arabic_name_and_pdf_id(self):
+        u = make_user("محمد", approved=False)
+        self.client.force_login(u)
+        page = self.client.get("/fr/accounts/identity/").content.decode()
+        self.assertNotIn("capture=", page)            # gallery / files allowed, not camera only
+        self.assertIn('accept="image/*,application/pdf"', page)
+        for gone in ('name="selfie"', 'name="proof_of_address"', 'name="full_name_ar"', 'name="full_name_fr"'):
+            self.assertNotIn(gone, page)
+        m = Moughataa.objects.filter(wilaya__code="NKO").first()
+        pdf = SimpleUploadedFile("cni.pdf", b"%PDF-1.4\n%test\n", content_type="application/pdf")
+        r = self.client.post("/fr/accounts/identity/", {
+            "full_name": "محمد ولد أحمد", "nni": "1234509876", "id_type": "cni",
+            "id_number": "1234509876", "id_issue_date": "2022-01-10", "id_expiry_date": "2032-01-10",
+            "date_of_birth": "1990-05-05", "place_of_birth": "Atar", "gender": "m", "nationality": "Mauritanienne",
+            "wilaya": m.wilaya_id, "moughataa": m.pk, "address": "Ilot C", "profession": "Commerçant",
+            "monthly_income": "20-50k", "source_of_funds": "salary", "experience": "none", "purpose": "raise",
+            "id_front": pdf, "confirm_truth": "on"})
+        self.assertRedirects(r, "/fr/accounts/identity/status/")
+        self.assertEqual(KYCProfile.objects.get(user=u).full_name, "محمد ولد أحمد")
+
+
+class CodeOnScreenTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def test_code_shown_only_when_enabled(self):
+        with self.settings(DEBUG=False, OTP_SHOW_ON_SCREEN=True):
+            r = self.client.post("/fr/accounts/register/", {"phone": "+222 46 55 44 33", "accept_terms": "on"}, follow=True)
+            self.assertContains(r, last_code())
+        cache.clear()
+        with self.settings(DEBUG=False, OTP_SHOW_ON_SCREEN=False):
+            r = self.client.post("/fr/accounts/register/", {"phone": "+222 46 55 44 22", "accept_terms": "on"}, follow=True)
+            self.assertNotContains(r, last_code())

@@ -59,17 +59,17 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(KYCProfile)
 class KYCProfileAdmin(admin.ModelAdmin):
-    list_display = ("full_name_fr", "nni", "user", "wilaya", "status", "risk_level", "submitted_at", "review_link")
+    list_display = ("full_name", "nni", "user", "wilaya", "status", "risk_level", "submitted_at", "review_link")
     list_filter = ("status", "risk_level", "is_pep", "wilaya", "id_type")
-    search_fields = ("full_name_fr", "full_name_ar", "nni", "id_number", "user__phone")
+    search_fields = ("full_name", "nni", "id_number", "user__phone")
     readonly_fields = ("submitted_at", "reviewed_at", "reviewed_by", "terms_accepted_at", "documents")
     actions = ["approve", "request_corrections"]
-    exclude = ("id_front", "id_back", "selfie", "proof_of_address")
+    exclude = ("id_front", "id_back")
 
     @admin.display(description=_("Documents"))
     def documents(self, obj):
         rows = [(reverse("accounts:kyc_document", args=[obj.user_id, f]), KYCProfile._meta.get_field(f).verbose_name)
-                for f in ("id_front", "id_back", "selfie", "proof_of_address") if getattr(obj, f)]
+                for f in ("id_front", "id_back") if getattr(obj, f)]
         if not rows:
             return "—"
         return format_html_join(mark_safe("<br>"), '<a href="{}" target="_blank" rel="noopener">{}</a>', rows)

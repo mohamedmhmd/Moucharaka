@@ -54,7 +54,7 @@ class BoutiqueMoucharakaFlow(FlowBase):
     def test_full_lifecycle(self):
         p = self.launch(kind="boutique", model="moucharaka", target=600_000)
         self.assertEqual(p.status, "funding")
-        self.assertEqual(p.review_fee_paid, D("1500"))
+        self.assertEqual(p.review_fee_paid, D("100"))
         self.assertEqual(p.total_shares, 600)
         self.assertEqual(p.success_fee_pct, D("5"))
 

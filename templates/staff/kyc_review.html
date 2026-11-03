@@ -1,6 +1,6 @@
 {% extends "staff/base_staff.html" %}{% load i18n mk %}
-{% block title %}KYC {{ kyc.full_name_fr }}{% endblock %}
-{% block staff %}<h1>{{ kyc.full_name_fr }} <span class="small muted" dir="rtl">{{ kyc.full_name_ar }}</span></h1>
+{% block title %}KYC {{ kyc.full_name }}{% endblock %}
+{% block staff %}<h1 dir="auto">{{ kyc.full_name }}</h1>
 <p>{% badge kyc.status kyc.get_status_display %} · <span class="ltr">{{ kyc.user.phone|phone }}</span> · {% blocktrans with d=kyc.user.date_joined|date:"d/m/Y" %}inscrit le {{ d }}{% endblocktrans %}</p>
 {% if flags %}<div class="note warn"><b>{% trans "Points d'attention" %}</b><ul>{% for f in flags %}<li>{{ f }}</li>{% endfor %}</ul></div>{% endif %}
 <div class="doc-view" style="margin-top:16px">{% for key, label, f in docs %}{% if f %}<figure>{% if f.name|slice:"-4:" == ".pdf" %}<iframe src="{% url 'accounts:kyc_document' kyc.user_id key %}" title="{{ label }}"></iframe>{% else %}<a href="{% url 'accounts:kyc_document' kyc.user_id key %}" target="_blank"><img src="{% url 'accounts:kyc_document' kyc.user_id key %}" alt="{{ label }}"></a>{% endif %}<figcaption>{{ label }}</figcaption></figure>{% endif %}{% endfor %}</div>

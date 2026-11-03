@@ -27,7 +27,7 @@ def _send_code(request, phone, purpose):
     except OTPError as e:
         messages.error(request, str(e))
         return False
-    if True:#settings.DEBUG and settings.SMS_FALLBACK_BACKEND == "console":
+    if settings.OTP_SHOW_ON_SCREEN or (settings.DEBUG and settings.SMS_FALLBACK_BACKEND == "console"):
         messages.info(request, _("Mode développement : votre code est %(code)s") % {"code": code})
     return True
 
@@ -118,7 +118,7 @@ def kyc(request):
     instance = KYCProfile.objects.filter(user=user).first()
     if instance and instance.status in (KYCProfile.Status.SUBMITTED, KYCProfile.Status.APPROVED):
         return redirect("accounts:kyc_status")
-    initial = {"full_name_fr": user.full_name} if not instance else None
+    initial = {"full_name": user.full_name} if not instance else None
     form = KYCForm(request.POST or None, request.FILES or None, instance=instance, initial=initial)
     if request.method == "POST" and form.is_valid():
         profile = form.save(commit=False)
@@ -131,7 +131,7 @@ def kyc(request):
         user.save(update_fields=["status"])
         audit("kyc.submitted", profile, actor=user, request=request)
         for staff in User.objects.filter(is_staff=True, is_active=True):
-            notify(staff, N_("Nouveau dossier KYC à vérifier"), profile.full_name_fr, url="/staff/kyc/")
+            notify(staff, N_("Nouveau dossier KYC à vérifier"), profile.full_name, url="/staff/kyc/")
         messages.success(request, _("Dossier envoyé. Notre équipe le vérifie, vous recevrez un message WhatsApp."))
         return redirect("accounts:kyc_status")
     return render(request, "accounts/kyc.html", {"form": form, "kyc": instance})
@@ -146,7 +146,7 @@ def kyc_status(request):
 @login_required
 def kyc_document(request, user_id, field):
     """Serve an identity document to its owner or to staff only."""
-    if field not in ("id_front", "id_back", "selfie", "proof_of_address"):
+    if field not in ("id_front", "id_back"):
         raise Http404
     if not (request.user.is_staff or request.user.pk == user_id):
         raise Http404

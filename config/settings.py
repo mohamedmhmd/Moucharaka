@@ -195,6 +195,9 @@ OTP_LENGTH = 6
 OTP_TTL_SECONDS = env.int("OTP_TTL_SECONDS", default=300)
 OTP_MAX_ATTEMPTS = 5
 OTP_MAX_PER_HOUR = env.int("OTP_MAX_PER_HOUR", default=5)
+# Testing without WhatsApp: show every code on the page (sign-up, login, password reset, withdrawals).
+# Anyone can then use a number that is not theirs, so set it back to False before the public launch.
+OTP_SHOW_ON_SCREEN = env.bool("OTP_SHOW_ON_SCREEN", default=False)
 # Phones: numbers typed without "+" are read as Mauritanian.
 PHONE_DEFAULT_REGION = env("PHONE_DEFAULT_REGION", default="MR")
 # Countries allowed to register (ISO codes, "*" = the whole world). WhatsApp codes

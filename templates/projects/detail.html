@@ -35,7 +35,7 @@
         <li><span>{% trans "Prix d'une part" %}</span><b class="num">{{ project.share_price|money }} MRU</b></li>
         {% if project.is_moucharaka %}
           <li><span>{% trans "Part du bénéfice net aux investisseurs" %}</span><b>{{ project.investor_profit_share_pct|floatformat:"-1" }} %</b></li>
-          <li><span>{% trans "Rendement annuel estimé" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %<br><small class="muted">{% trans "non garanti" %}</small></b></li>
+          <li><span>{% trans "Rendement potentiel" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %<br><small class="muted">{% trans "non garanti" %}</small></b></li>
           <li><span>{% trans "Distributions" %}</span><b>{{ project.get_distribution_frequency_display }}</b></li>
           <li><span>{% trans "Sortie" %}</span><b class="small">{{ project.get_exit_mode_display }}</b></li>
         {% else %}

@@ -5,7 +5,7 @@ Sharia-compliant crowdfunding and share-trading platform for Mauritania, in Arab
 - **Three project types**: an existing boutique, a one-off trade operation (Tabaski sheep, imports, purchase orders), or a future company.
 - **Two contracts, clearly labelled everywhere**: *Moucharaka* (share of real profits, with progressive buyback) and *Mourabaha* (fixed margin on goods, paid in installments).
 - **Boutique model**: 12-month sales history, top products and margins, balance sheet, rent and staff, shop on a map, six health ratios, three scenarios and an investor simulator. Monthly reports are charted against the declared history.
-- **WhatsApp login, worldwide**: members sign up and log in with their WhatsApp number from any country, confirmed by a code sent on WhatsApp. They then send their NNI, ID document, selfie and financial profile; staff approve the file, and documents are stored outside the public web root. SMS is kept only as an optional backup.
+- **WhatsApp login, worldwide**: members sign up and log in with their WhatsApp number from any country, confirmed by a code sent on WhatsApp. They then send their NNI, ID document (photo or PDF) and financial profile; staff approve the file, and documents are stored outside the public web root. SMS is kept only as an optional backup.
 - **Payment accounts separate from the login number**: each member adds one or more Bankily, Masrvi, Sedad or bank accounts and picks a default. Deposits come from them and withdrawals go to them, confirmed by a WhatsApp code. A new account must wait 24 h, or receive a confirmed deposit, before it can receive a withdrawal.
 - **Wallet with escrow**: funds stay held until a campaign succeeds and are refunded automatically if it fails.
 - **Distributions**: monthly profit shares, Mourabaha installments and buybacks, paid pro rata to every holder.
@@ -80,6 +80,15 @@ docker compose exec web python manage.py createsuperuser
 
 This runs PostgreSQL, the web app (gunicorn on port 8000, migrations at start-up) and a scheduler for the daily jobs. Put nginx or Caddy in front for HTTPS (`deploy/nginx.conf`).
 
+### Google Cloud, or any server with Docker (with HTTPS)
+
+`docker-compose.caddy.yml` adds Caddy in front of the app, and Caddy gets the HTTPS certificate by itself. In `.env`, set `DOMAIN` (your domain, or `<ip-with-dashes>.sslip.io` before you have one), `ALLOWED_HOSTS` to the same value, `CSRF_TRUSTED_ORIGINS=https://<domain>`, a strong `POSTGRES_PASSWORD` and `WEB_CONCURRENCY=3`, then:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d --build
+docker compose exec web python manage.py createsuperuser
+```
+
 ### Plain VPS (Ubuntu, Debian)
 
 In `.env`, set `DATABASE_URL=postgres://…` and `SERVE_MEDIA=False`. For the cron job, add the line from `deploy/crontab.txt`.
@@ -104,7 +113,19 @@ crontab -e
 4. Run `python manage.py migrate` and `python manage.py collectstatic --noinput` from the panel's terminal.
 5. Add a cron job: `python manage.py run_daily`, daily.
 
-### Render, Railway, Heroku-style PaaS
+### Render (one click with the Blueprint)
+
+`render.yaml` describes everything: a PostgreSQL database, the website (with a 1 GB disk for uploads) and the daily job, all in Frankfurt.
+
+1. Push the project to GitHub.
+2. In Render: **New › Blueprint**, pick the repository, and click **Apply**.
+3. When asked, fill `ALLOWED_HOSTS` (`moucharaka.mr,www.moucharaka.mr`) and `CSRF_TRUSTED_ORIGINS` (`https://moucharaka.mr,https://www.moucharaka.mr`). The `*.onrender.com` address is allowed automatically.
+4. Once deployed, open the web service's **Shell** and run `python manage.py createsuperuser`.
+5. Add your domain under **Settings › Custom Domains**.
+
+Cost: about $7 (web) + $6 (database) + $1 (cron) + $0.25 (disk) a month.
+
+### Railway, Heroku-style PaaS
 
 A `Procfile` is included (release: migrate; web: gunicorn). Add a PostgreSQL add-on (its `DATABASE_URL` is read automatically), set `SECRET_KEY`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` and `USE_X_FORWARDED_PROTO=True`, and use a persistent disk for `MEDIA_ROOT` and `PRIVATE_MEDIA_ROOT`. Schedule `python manage.py run_daily` with the platform's cron feature.
 
@@ -112,7 +133,7 @@ A `Procfile` is included (release: migrate; web: gunicorn). Add a PostgreSQL add
 
 ```
 apps/
-  accounts     phone + OTP auth, KYC (NNI, ID, selfie), approval, private documents
+  accounts     phone + OTP auth, KYC (NNI, ID), approval, private documents
   sms          messaging: WhatsApp (Meta Cloud API, Twilio) and SMS backends, channel order, failover, message log
   projects     projects, boutique/company/deal models, questionnaire, reports, installments, wizard, owner workspace,
                sharing (short links, QR, poster, private preview, interest) and search

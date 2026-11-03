@@ -14,10 +14,6 @@ SECTIONS = [
     ("Le porteur du projet", "صاحب المشروع", [
         ("owner_experience_years", "number", "Depuis combien d'années exercez-vous dans ce domaine ?",
          "منذ كم سنة تعمل في هذا المجال؟", ALL, True, True, [], "", ""),
-        ("owner_education", "choice", "Votre niveau d'études", "مستواك الدراسي", ALL, False, True, [
-            ("none", "Pas de scolarité", "بدون تعليم"), ("mahadra", "Mahadra", "المحظرة"),
-            ("primary", "Primaire", "ابتدائي"), ("secondary", "Collège / lycée", "إعدادي / ثانوي"),
-            ("vocational", "Formation professionnelle", "تكوين مهني"), ("university", "Université", "جامعي")], "", ""),
         ("owner_previous_business", "textarea", "Avez-vous déjà créé ou géré un commerce ? Racontez brièvement.",
          "هل سبق لك أن أنشأت أو أدرت تجارة؟ احكِ لنا باختصار.", ALL, True, True, [], "", ""),
         ("owner_other_income", "bool", "Avez-vous d'autres sources de revenus ?", "هل لديك مصادر دخل أخرى؟",
@@ -25,7 +21,7 @@ SECTIONS = [
         ("owner_previous_financing", "multi", "Avez-vous déjà été financé ? Par qui ?",
          "هل سبق أن حصلت على تمويل؟ من أي جهة؟", ALL, False, True, [
              ("never", "Jamais", "أبداً"), ("family", "Famille / amis", "العائلة / الأصدقاء"),
-             ("tontine", "Tontine / caisse d'entraide", "صندوق تضامني (تونتين)"),
+             ("tontine", "Caisse d'entraide", "صندوق تضامني"),
              ("microfinance", "Microfinance", "مؤسسة تمويل أصغر"), ("bank", "Banque classique", "بنك تقليدي"),
              ("islamic_bank", "Banque islamique", "بنك إسلامي"), ("supplier", "Crédit fournisseur", "دين من المورّد")],
          "", ""),
@@ -35,13 +31,6 @@ SECTIONS = [
              ("ongoing", "En cours de remboursement", "قيد السداد"), ("na", "Pas concerné", "لا ينطبق")], "", ""),
         ("owner_time_commitment", "choice", "Temps que vous consacrez au projet", "الوقت الذي تخصصه للمشروع",
          ALL, True, True, [("full", "Plein temps", "دوام كامل"), ("part", "Temps partiel", "دوام جزئي")], "", ""),
-        ("owner_dependents", "number", "Nombre de personnes à votre charge", "عدد الأشخاص الذين تعيلهم",
-         ALL, False, False, [], "Information confidentielle, non publiée.", "معلومة سرية، لا تُنشر."),
-        ("owner_references", "textarea",
-         "Personnes pouvant témoigner de votre sérieux (imam, chef de quartier, fournisseur, ancien associé)",
-         "أشخاص يمكنهم الشهادة على جديتك (إمام، شيخ الحي، مورّد، شريك سابق)", ALL, False, False, [],
-         "Nom et téléphone. Confidentiel : utilisé par l'équipe pour vérifier.",
-         "الاسم والهاتف. سري: يستخدمه الفريق للتحقق."),
     ]),
     ("Activité et marché", "النشاط والسوق", [
         ("main_customers", "textarea", "Qui sont vos clients ?", "من هم زبائنك؟", ALL, True, True, [],
@@ -87,22 +76,13 @@ SECTIONS = [
         ("accept_visits", "bool", "Acceptez-vous des visites annoncées de l'équipe Moucharaka ?",
          "هل تقبل زيارات معلنة من فريق مشاركة؟", ALL, True, True, [], "", ""),
     ]),
-    ("Finances et dettes", "المالية والديون", [
-        ("existing_debt", "money", "Total de vos dettes en cours (banque, microfinance, famille, fournisseurs)",
-         "مجموع ديونك الحالية (بنك، تمويل أصغر، عائلة، موردون)", ALL, True, True, [], "En MRU. Indiquez 0 si aucune.",
-         "بالأوقية الجديدة. اكتب 0 إن لم توجد."),
-        ("monthly_debt_payment", "money", "Montant que vous remboursez chaque mois", "المبلغ الذي تسدده شهرياً",
-         ALL, False, True, [], "", ""),
+    ("Finances", "المالية", [
         ("main_bank", "text", "Votre banque principale", "بنكك الرئيسي", ALL, False, False, [], "", ""),
         ("mobile_money", "multi", "Comptes mobile money utilisés", "حسابات الدفع عبر الهاتف المستخدمة", ALL, False, True, [
             ("bankily", "Bankily", "بنكيلي"), ("masrvi", "Masrvi", "مصرفي"), ("sedad", "Sedad", "سداد"),
             ("click", "Click", "كليك"), ("none", "Aucun", "لا شيء")], "", ""),
-        ("assets_owned", "textarea", "Biens que vous possédez (terrain, maison, voiture, bétail…)",
-         "الممتلكات التي تملكها (أرض، منزل، سيارة، مواشٍ…)", ALL, False, False, [], "Confidentiel.", "سري."),
         ("contribution_source", "text", "D'où vient votre apport personnel ?", "من أين تأتي مساهمتك الشخصية؟",
          ALL, False, True, [], "", ""),
-        ("stress_plan", "textarea", "Si vos ventes baissent de moitié pendant 3 mois, que faites-vous ?",
-         "إذا انخفضت مبيعاتك إلى النصف لمدة 3 أشهر، ماذا ستفعل؟", ALL, True, True, [], "", ""),
     ]),
     ("Risques et engagements", "المخاطر والالتزامات", [
         ("main_risks", "textarea", "Les 3 principaux risques de votre projet et comment vous les limitez",
@@ -153,12 +133,8 @@ SECTIONS = [
         ("deal_perishable", "bool", "La marchandise est-elle périssable ?", "هل البضاعة قابلة للتلف؟", D, True, True, [], "", ""),
         ("deal_customs", "bool", "Y a-t-il des droits de douane ou des autorisations à obtenir ?",
          "هل هناك رسوم جمركية أو تراخيص يجب الحصول عليها؟", D, False, True, [], "", ""),
-        ("deal_worst_case", "textarea", "Si la revente prend du retard, comment payez-vous l'échéance ?",
-         "إذا تأخر البيع، كيف ستسدد القسط؟", D, True, True, [], "", ""),
-        ("deal_history", "textarea", "Résultats de vos opérations similaires précédentes", "نتائج عملياتك المماثلة السابقة",
-         D, False, True, [], "", ""),
     ]),
-    ("La future entreprise", "المؤسسة المستقبلية", [
+    ("L'entreprise", "المؤسسة", [
         ("company_validation", "textarea", "Comment avez-vous vérifié que des clients achèteront ?",
          "كيف تأكدت من أن الزبائن سيشترون؟", C, True, True, [], "Pré-commandes, test, enquête, lettres d'intention…",
          "طلبات مسبقة، تجربة، استبيان، رسائل نوايا…"),
@@ -175,15 +151,6 @@ SECTIONS = [
          "متى تتوقع توزيع أول الأرباح؟", C, True, True, [], "", ""),
         ("company_governance", "textarea", "Comment les investisseurs seront-ils informés et consultés ?",
          "كيف سيتم إطلاع المستثمرين واستشارتهم؟", C, False, True, [], "", ""),
-    ]),
-    ("Impact", "الأثر", [
-        ("jobs_now", "number", "Emplois aujourd'hui (vous compris)", "عدد الوظائف حالياً (بما فيها أنت)", ALL, False, True, [], "", ""),
-        ("jobs_after", "number", "Emplois après le financement", "عدد الوظائف بعد التمويل", ALL, False, True, [], "", ""),
-        ("women_youth", "bool", "Le projet emploie-t-il des femmes ou des jeunes ?", "هل يشغّل المشروع نساء أو شباباً؟",
-         ALL, False, True, [], "", ""),
-        ("local_sourcing", "choice", "Origine des produits ou matières premières", "مصدر المنتجات أو المواد الأولية",
-         ALL, False, True, [("local", "Surtout mauritanienne", "موريتانية في الغالب"), ("mixed", "Mixte", "مختلطة"),
-                            ("imported", "Surtout importée", "مستوردة في الغالب")], "", ""),
     ]),
 ]
 
@@ -208,11 +175,11 @@ SECTORS = [
 # Business plan: commercial terms per use case (see docs/BUSINESS_PLAN.md)
 FEE_POLICIES = [
     # kind, model, review_fee, success%, management%, min, max
-    ("boutique", "moucharaka", 1500, 5, 10, 50_000, 3_000_000),
-    ("boutique", "mourabaha", 1000, 3, 12, 30_000, 2_000_000),
-    ("deal", "mourabaha", 1000, 2.5, 12, 30_000, 5_000_000),
-    ("deal", "moucharaka", 1000, 3, 10, 30_000, 5_000_000),
-    ("company", "moucharaka", 3000, 7, 8, 200_000, 10_000_000),
+    ("boutique", "moucharaka", 100, 5, 10, 50_000, 3_000_000),
+    ("boutique", "mourabaha", 100, 3, 12, 30_000, 2_000_000),
+    ("deal", "mourabaha", 100, 2.5, 12, 30_000, 5_000_000),
+    ("deal", "moucharaka", 100, 3, 10, 30_000, 5_000_000),
+    ("company", "moucharaka", 100, 7, 8, 200_000, 10_000_000),
 ]
 
 

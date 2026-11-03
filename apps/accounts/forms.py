@@ -95,30 +95,29 @@ class KYCForm(forms.ModelForm):
     class Meta:
         model = KYCProfile
         fields = [
-            "full_name_fr", "full_name_ar", "nni", "id_type", "id_number", "id_issue_date", "id_expiry_date",
+            "full_name", "nni", "id_type", "id_number", "id_issue_date", "id_expiry_date",
             "date_of_birth", "place_of_birth", "gender", "nationality",
             "wilaya", "moughataa", "address",
             "profession", "employer", "monthly_income", "source_of_funds", "experience", "purpose", "is_pep",
-            "id_front", "id_back", "selfie", "proof_of_address",
+            "id_front", "id_back",
         ]
         widgets = {
             "id_issue_date": DateInput(), "id_expiry_date": DateInput(), "date_of_birth": DateInput(),
             "moughataa": MoughataaSelect(attrs={"data-depends-on": "wilaya"}),
             "nni": forms.TextInput(attrs={"inputmode": "numeric", "dir": "ltr", "maxlength": 10}),
-            "full_name_ar": forms.TextInput(attrs={"dir": "rtl"}),
-            "full_name_fr": forms.TextInput(attrs={"dir": "ltr"}),
-            "id_front": forms.ClearableFileInput(attrs={"accept": "image/*,application/pdf", "capture": "environment"}),
-            "id_back": forms.ClearableFileInput(attrs={"accept": "image/*,application/pdf", "capture": "environment"}),
-            "selfie": forms.ClearableFileInput(attrs={"accept": "image/*", "capture": "user"}),
+            "full_name": forms.TextInput(attrs={"dir": "auto"}),
+            # No "capture" attribute: the phone offers the camera AND the gallery / files (photo or PDF).
+            "id_front": forms.ClearableFileInput(attrs={"accept": "image/*,application/pdf"}),
+            "id_back": forms.ClearableFileInput(attrs={"accept": "image/*,application/pdf"}),
         }
 
     fieldsets = [
-        (_("Identité"), ["full_name_fr", "full_name_ar", "nni", "id_type", "id_number", "id_issue_date",
+        (_("Identité"), ["full_name", "nni", "id_type", "id_number", "id_issue_date",
                          "id_expiry_date", "date_of_birth", "place_of_birth", "gender", "nationality"]),
         (_("Adresse"), ["wilaya", "moughataa", "address"]),
         (_("Profil financier"), ["profession", "employer", "monthly_income", "source_of_funds", "experience",
                                  "purpose", "is_pep"]),
-        (_("Documents"), ["id_front", "id_back", "selfie", "proof_of_address"]),
+        (_("Documents"), ["id_front", "id_back"]),
         (_("Engagement"), ["confirm_truth"]),
     ]
 

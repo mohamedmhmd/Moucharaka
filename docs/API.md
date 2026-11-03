@@ -11,7 +11,7 @@ Base URL: `/api/v1/`. JSON in and out. Authenticate with `Authorization: Token <
 | `POST auth/register` | `{"verification", "full_name", "password", "language": "ar"}` | `{"token", "user"}` |
 | `POST auth/reset` | `{"verification", "password"}` | `{"ok": true}` |
 | `POST auth/token` | `{"phone", "password"}` | `{"token", "user"}` |
-| `GET/POST auth/kyc` | multipart: KYC fields + `id_front`, `id_back`, `selfie`, `proof_of_address` | the KYC file and its status |
+| `GET/POST auth/kyc` | multipart: KYC fields (`full_name`, `nni`…) + `id_front`, `id_back` (photo or PDF) | the KYC file and its status |
 | `GET/PATCH me` | `{"email", "preferred_language"}` | the current user |
 
 Accounts are usable for investing only after the compliance team approves the KYC file (`status: "approved"`). Until then money endpoints return 403.

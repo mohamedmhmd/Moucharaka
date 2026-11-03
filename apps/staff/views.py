@@ -96,7 +96,7 @@ def kyc_review(request, pk):
         nxt = KYCProfile.objects.filter(status="submitted").order_by("submitted_at").first()
         return redirect("staff:kyc_review", pk=nxt.pk) if nxt else redirect("staff:kyc_list")
     docs = [(f, KYCProfile._meta.get_field(f).verbose_name, getattr(profile, f))
-            for f in ("id_front", "id_back", "selfie", "proof_of_address")]
+            for f in ("id_front", "id_back")]
     return render(request, "staff/kyc_review.html", {
         "kyc": profile, "form": form, "flags": profile.automated_checks(), "docs": docs})
 

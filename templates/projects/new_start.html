@@ -8,12 +8,12 @@
     <fieldset class="panel"><legend>{{ form.kind.label }}</legend>
       <div class="grid g3">{% for r in form.kind %}<label class="card" style="display:block;cursor:pointer">{{ r.tag }}
         <b style="display:block;margin-top:6px">{{ r.choice_label }}</b>
-        <span class="small muted">{% if r.data.value == "boutique" %}{% trans "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles." %}{% elif r.data.value == "deal" %}{% trans "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande." %}{% else %}{% trans "Une société à créer ou qui démarre. Les investisseurs deviennent associés." %}{% endif %}</span></label>{% endfor %}</div>
+        <span class="small muted">{% if r.data.value == "boutique" %}{% trans "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles. En Moucharaka, les investisseurs deviennent associés de votre commerce." %}{% elif r.data.value == "deal" %}{% trans "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande." %}{% else %}{% trans "Une entreprise qui existe déjà ou qui est en création. Les investisseurs deviennent associés." %}{% endif %}</span></label>{% endfor %}</div>
     </fieldset>
     <fieldset class="panel"><legend>{{ form.financing_model.label }}</legend>
       <div class="grid g2">{% for r in form.financing_model %}<label class="card" style="display:block;cursor:pointer">{{ r.tag }}
         <b style="display:block;margin-top:6px">{{ r.choice_label }}</b>
-        <span class="small muted">{% if r.data.value == "moucharaka" %}{% trans "Recommandé pour les boutiques et les entreprises. Vous partagez un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher." %}{% else %}{% trans "Recommandé pour les opérations ponctuelles. Vous rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non." %}{% endif %}</span></label>{% endfor %}</div>
+        <span class="small muted">{% if r.data.value == "moucharaka" %}{% trans "Recommandé pour les boutiques et les entreprises. Les investisseurs deviennent vos associés : vous partagez avec eux un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher." %}{% else %}{% trans "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non." %}{% endif %}</span></label>{% endfor %}</div>
     </fieldset>
     <button class="btn">{% trans "Continuer" %}</button>
   </form>

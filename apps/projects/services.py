@@ -26,14 +26,13 @@ def checklist(project):
     def add(label, ok):
         items.append({"label": label, "done": bool(ok)})
 
-    add(_("Présentation d'au moins 300 caractères"), len(project.description or "") >= 300)
+    add(_("Présentation du projet"), (project.description or "").strip())
     add(_("Photo principale"), project.cover)
     uses = project.uses_of_funds.aggregate(s=Sum("amount"))["s"] or Decimal("0")
     add(_("Utilisation des fonds détaillée (total = montant recherché)"),
         project.target_amount and abs(uses - project.target_amount) <= project.target_amount * Decimal("0.05"))
-    add(_("Au moins un justificatif"), project.documents.exists())
     if project.is_moucharaka:
-        add(_("Part des bénéfices, rendement estimé et sortie définis"),
+        add(_("Part des bénéfices, rendement potentiel et sortie définis"),
             project.investor_profit_share_pct and project.projected_annual_return_pct is not None and project.exit_mode)
     else:
         add(_("Marge, échéancier et garanties définis"), project.margin_pct and project.repayment_mode and project.guarantee)

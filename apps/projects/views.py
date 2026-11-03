@@ -451,6 +451,15 @@ def edit_project(request, slug, step):
     elif step == "media":
         doc_form = F_.DocumentForm(post if post and "doc" in post else None, files if post and "doc" in post else None)
         if post is not None:
+            # A chosen file is uploaded on its own (see data-autosubmit in app.js); a file still selected
+            # when "Continuer" is pressed is uploaded too.
+            if "doc" not in post and files and files.get("file"):
+                post = post.copy()
+                post["doc"] = "1"
+                doc_form = F_.DocumentForm(post, files)
+            if "photos" not in post and files and files.getlist("images"):
+                post = post.copy()
+                post["photos"] = "1"
             if "doc" in post:
                 if doc_form.is_valid():
                     d = doc_form.save(commit=False)

@@ -153,15 +153,15 @@ class KYCProfile(models.Model):
     FUNDS = [("salary", _("Salaire")), ("business", _("Activité commerciale")), ("savings", _("Épargne")),
              ("family", _("Famille / transferts")), ("livestock", _("Élevage / agriculture")),
              ("pension", _("Pension")), ("other", _("Autre"))]
-    EXPERIENCE = [("none", _("Aucune")), ("informal", _("Associations / tontines informelles")),
+    EXPERIENCE = [("none", _("Aucune")), ("informal", _("Associations / caisses d'entraide informelles")),
                   ("some", _("J'ai déjà investi dans des commerces")), ("pro", _("Investisseur expérimenté"))]
     PURPOSE = [("invest", _("Investir")), ("raise", _("Financer mon projet")), ("both", _("Les deux"))]
     RISK = [("low", _("Faible")), ("medium", _("Moyen")), ("high", _("Élevé"))]
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="kyc")
     # Identity
-    full_name_fr = models.CharField(_("nom complet (lettres latines)"), max_length=150)
-    full_name_ar = models.CharField(_("nom complet (en arabe)"), max_length=150)
+    full_name = models.CharField(_("nom complet"), max_length=150,
+                                 help_text=_("En lettres latines ou en arabe, comme sur votre pièce d'identité."))
     nni = models.CharField(_("NNI"), max_length=10, unique=True, validators=[nni_validator],
                            help_text=_("Numéro national d'identification, 10 chiffres."))
     id_type = models.CharField(_("pièce d'identité"), max_length=12, choices=ID_TYPES, default="cni")
@@ -189,10 +189,6 @@ class KYCProfile(models.Model):
                                 validators=[validate_document])
     id_back = models.FileField(_("pièce d'identité — verso"), upload_to=kyc_upload_to, storage=private_storage,
                                validators=[validate_document], blank=True)
-    selfie = models.FileField(_("selfie en tenant la pièce"), upload_to=kyc_upload_to, storage=private_storage,
-                              validators=[validate_document])
-    proof_of_address = models.FileField(_("justificatif de domicile (facture SOMELEC / SNDE)"), upload_to=kyc_upload_to,
-                                        storage=private_storage, validators=[validate_document], blank=True)
     # Review
     status = models.CharField(_("statut"), max_length=10, choices=Status.choices, default=Status.DRAFT, db_index=True)
     risk_level = models.CharField(_("niveau de risque"), max_length=8, choices=RISK, blank=True)
@@ -209,7 +205,7 @@ class KYCProfile(models.Model):
         verbose_name_plural = _("dossiers KYC")
 
     def __str__(self):
-        return f"KYC {self.full_name_fr} ({self.nni})"
+        return f"KYC {self.full_name} ({self.nni})"
 
     @property
     def age(self):
@@ -239,9 +235,9 @@ class KYCProfile(models.Model):
             flags.append(_("Le numéro de la CNI ne contient pas le NNI : vérifier."))
         if self.id_expiry_date and (self.id_expiry_date - date.today()).days < 90:
             flags.append(_("La pièce expire dans moins de 3 mois."))
-        if KYCProfile.objects.filter(full_name_fr__iexact=self.full_name_fr, date_of_birth=self.date_of_birth).exclude(pk=self.pk).exists():
+        if KYCProfile.objects.filter(full_name__iexact=self.full_name, date_of_birth=self.date_of_birth).exclude(pk=self.pk).exists():
             flags.append(_("Un autre dossier porte le même nom et la même date de naissance."))
-        if self.user.full_name and self.user.full_name.split()[0].lower() not in self.full_name_fr.lower():
+        if self.user.full_name and self.user.full_name.split()[0].lower() not in self.full_name.lower():
             flags.append(_("Le nom du compte diffère du nom sur la pièce."))
         return flags
 

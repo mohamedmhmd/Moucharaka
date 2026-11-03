@@ -176,6 +176,18 @@
     b.addEventListener("click", () => navigator.share({ title: b.dataset.title, text: b.dataset.text, url: b.dataset.url }).catch(() => {}));
   });
 
+  // Upload as soon as a file is chosen (no "Add" button): data-autosubmit="<name of the action>"
+  $$("input[type=file][data-autosubmit]").forEach((input) => input.addEventListener("change", () => {
+    if (!input.files || !input.files.length || !input.form) return;
+    const flag = document.createElement("input");
+    flag.type = "hidden";
+    flag.name = input.dataset.autosubmit;
+    flag.value = "1";
+    input.form.appendChild(flag);
+    input.form.noValidate = true;
+    input.form.submit();
+  }));
+
   // Confirm dangerous actions
   $$("[data-confirm]").forEach((el) => el.addEventListener("click", (e) => {
     if (!window.confirm(el.dataset.confirm)) e.preventDefault();

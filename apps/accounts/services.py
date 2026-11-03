@@ -18,7 +18,7 @@ def approve_kyc(profile: KYCProfile, reviewer, risk_level="low", notes="", reque
     user = profile.user
     user.status = User.Status.APPROVED
     user.approved_at = timezone.now()
-    user.full_name = profile.full_name_fr
+    user.full_name = profile.full_name
     user.save(update_fields=["status", "approved_at", "full_name"])
     from apps.trust.services import record_event
     from apps.wallet.models import Wallet

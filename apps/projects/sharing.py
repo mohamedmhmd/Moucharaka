@@ -43,7 +43,7 @@ def share_context(request, project):
     if project.is_mourabaha:
         terms = _("marge fixe de %(m)s %%") % {"m": f"{project.margin_pct:g}"}
     else:
-        terms = _("rendement estimé ~%(r)s %% par an") % {"r": f"{project.projected_annual_return_pct or 0:g}"}
+        terms = _("rendement potentiel ~%(r)s %%") % {"r": f"{project.projected_annual_return_pct or 0:g}"}
     text = _("%(t)s — %(tag)s. Parts dès %(p)s MRU, %(terms)s. Réf. %(ref)s : %(url)s") % {
         "t": project.title, "tag": project.tagline, "p": f"{project.share_price:,.0f}".replace(",", " "),
         "terms": terms, "ref": project.reference, "url": url}
@@ -140,7 +140,7 @@ def search_projects(q, user=None):
         qs = qs.filter(
             Q(title__icontains=w) | Q(tagline__icontains=w) | Q(reference__icontains=w)
             | Q(boutique__shop_name__icontains=w) | Q(neighborhood__icontains=w)
-            | Q(owner__full_name__icontains=w) | Q(owner__kyc__full_name_ar__icontains=w)
+            | Q(owner__full_name__icontains=w) | Q(owner__kyc__full_name__icontains=w)
             | Q(owner__public_id__iexact=w) | Q(sector__name_fr__icontains=w) | Q(sector__name_ar__icontains=w)
             | Q(moughataa__name_fr__icontains=w) | Q(moughataa__name_ar__icontains=w)
             | Q(wilaya__name_fr__icontains=w) | Q(wilaya__name_ar__icontains=w))
@@ -153,7 +153,7 @@ def search_members(q):
         return User.objects.none()
     qs = User.objects.filter(is_active=True, projects__status__in=Project.PUBLIC_STATUSES)
     for w in words:
-        qs = qs.filter(Q(full_name__icontains=w) | Q(kyc__full_name_ar__icontains=w) | Q(public_id__iexact=w))
+        qs = qs.filter(Q(full_name__icontains=w) | Q(kyc__full_name__icontains=w) | Q(public_id__iexact=w))
     return qs.annotate(n_projects=Count("projects", distinct=True)).select_related("trust").distinct()[:12]
 
 

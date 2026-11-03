@@ -17,11 +17,20 @@ class StartForm(forms.Form):
     financing_model = forms.ChoiceField(label=_("Comment rémunérer les investisseurs ?"),
                                         choices=FinancingModel.choices, widget=forms.RadioSelect)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Only project types with at least one open fee grid are offered. To pause or reopen a type
+        # (e.g. boutiques), tick "ouvert aux nouvelles demandes" in Administration › Grilles tarifaires.
+        from .models import FeePolicy
+
+        open_kinds = set(FeePolicy.objects.filter(is_enabled=True).values_list("kind", flat=True))
+        self.fields["kind"].choices = [(k, label) for k, label in Kind.choices if k in open_kinds]
+
     def clean(self):
         d = super().clean()
         if d.get("kind") == Kind.COMPANY and d.get("financing_model") == FinancingModel.MOURABAHA:
             raise forms.ValidationError(_(
-                "Une entreprise qui n'a pas encore de revenus ne peut pas s'engager sur une marge fixe : choisissez la Moucharaka."))
+                "Une entreprise se finance en Moucharaka (partage des bénéfices) : choisissez la Moucharaka."))
         return d
 
 
@@ -39,7 +48,7 @@ class BasicsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["moughataa"].queryset = Moughataa.objects.select_related("wilaya")
         self.fields["description"].help_text = _(
-            "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent. 300 caractères minimum.")
+            "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent.")
 
     def clean(self):
         d = super().clean()
@@ -70,7 +79,7 @@ class TermsForm(forms.ModelForm):
             self.fields.pop(f, None)
         for f in (self.MOUCHARAKA_FIELDS if p.is_moucharaka else self.MOURABAHA_FIELDS):
             self.fields[f].required = True
-        self.fields["share_price"].help_text = _("Prix d'une part. 1 000 MRU permet à chacun de participer.")
+        self.fields["share_price"].help_text = _("Prix d'une part. Un prix bas permet à plus de personnes de participer.")
         self.fields["campaign_days"].widget.attrs["max"] = 60
 
     def clean(self):
@@ -249,9 +258,30 @@ class ImagesForm(forms.Form):
 
 
 class DocumentForm(forms.ModelForm):
+    """Optional supporting documents. Type and title are optional: the upload starts as soon as a file is chosen."""
+
     class Meta:
         model = ProjectDocument
-        fields = ["kind", "title", "file", "visible_to_investors"]
+        fields = ["kind", "title", "visible_to_investors", "file"]
+        widgets = {"file": forms.ClearableFileInput(attrs={"accept": "image/*,application/pdf",
+                                                            "data-autosubmit": "doc"})}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["kind"].required = False
+        self.fields["title"].required = False
+        self.fields["file"].help_text = _("Le fichier est ajouté dès que vous le choisissez.")
+
+    def clean(self):
+        d = super().clean()
+        if not d.get("kind"):
+            d["kind"] = "other"
+            self.instance.kind = "other"
+        if not d.get("title") and d.get("file"):
+            name = d["file"].name.rsplit("/", 1)[-1]
+            d["title"] = (name.rsplit(".", 1)[0] or name)[:140]
+            self.instance.title = d["title"]
+        return d
 
 
 class InvestForm(forms.Form):

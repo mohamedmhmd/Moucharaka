@@ -10,7 +10,8 @@ from django.utils import timezone
 from apps.accounts.models import KYCProfile, User
 from apps.accounts.services import approve_kyc
 from apps.core.models import Moughataa, Wilaya
-from apps.projects.models import (BoutiqueMonth, BoutiqueProduct, BoutiqueProfile, CompanyPlan, DealPlan, Milestone,
+from apps.projects.models import (BoutiqueMonth, BoutiqueProduct, BoutiqueProfile, CompanyPlan, DealPlan, FeePolicy,
+                                  Milestone,
                                   Project, ProjectAnswer, ProjectDocument, ProjectImage, ProjectionYear, Question,
                                   Sector, TeamMember, UseOfFunds)
 from apps.wallet.services import adjust
@@ -50,13 +51,12 @@ def make_user(full_name="Test User", approved=True, phone=None, staff=False, bal
         w = Wilaya.objects.get(code=wilaya_code)
         m = Moughataa.objects.filter(wilaya=w).first()
         kyc = KYCProfile(
-            user=user, full_name_fr=full_name, full_name_ar=full_name, nni=str(_counter["nni"]), id_type="cni",
+            user=user, full_name=full_name, nni=str(_counter["nni"]), id_type="cni",
             id_number=str(_counter["nni"]), id_issue_date=date(2021, 3, 1), id_expiry_date=date(2031, 3, 1),
             date_of_birth=date(1988, 6, 15), place_of_birth="Nouakchott", gender="m", wilaya=w, moughataa=m,
             address="Ilot K", profession="Commerçant", monthly_income="20-50k", source_of_funds="business",
             experience="informal", status=KYCProfile.Status.SUBMITTED, submitted_at=timezone.now())
         kyc.id_front.save("front.jpg", image_file("front.jpg"), save=False)
-        kyc.selfie.save("selfie.jpg", image_file("selfie.jpg"), save=False)
         kyc.save()
         user.status = User.Status.PENDING
         user.save(update_fields=["status"])
@@ -96,6 +96,8 @@ DEMO_ANSWERS = {
 
 
 def make_project(owner, kind="boutique", model="moucharaka", target=600_000, title=None, status=None, **extra):
+    # Tests and demo data may use a project type that is paused for new applications (e.g. boutiques).
+    FeePolicy.objects.filter(kind=kind, financing_model=model).update(is_enabled=True)
     wilaya = Wilaya.objects.get(code=extra.pop("wilaya_code", "NKS"))
     moughataa = Moughataa.objects.filter(wilaya=wilaya).first()
     sector = Sector.objects.get(slug={"boutique": "commerce", "deal": "livestock", "company": "food"}[kind])

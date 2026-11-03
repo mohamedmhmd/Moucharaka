@@ -2,7 +2,7 @@
 
 Five components, each with a ceiling, so no single factor dominates:
 
-    identity            150  KYC approved, proof of address, account age
+    identity            150  KYC approved, account age
     repayment           350  share of installments / distributions paid on time; defaults
     reporting           200  share of financial reports delivered on time
     investor feedback   200  Bayesian average of investor reviews
@@ -54,12 +54,10 @@ def compute_score(user):
     kyc = getattr(user, "kyc", None)
     if user.is_approved:
         identity += 100
-    if kyc and kyc.proof_of_address:
-        identity += 25
     from django.utils import timezone
 
     months = (timezone.now() - user.date_joined).days / 30
-    identity += min(25, int(months * 25 / 12))
+    identity += min(50, int(months * 50 / 12))
     comp["identity"] = identity
 
     # Repayment (installments + timely distributions)

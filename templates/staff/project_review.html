@@ -23,7 +23,7 @@
     {% if other_projects %}<h4 style="margin-top:16px">{% trans "Autres projets" %}</h4>{% for o in other_projects %}<div class="small"><a href="{% url 'staff:project_review' o.pk %}">{{ o.title }}</a> {% badge o.status o.get_status_display %}</div>{% endfor %}{% endif %}</div>
   <div class="panel"><h3>{% trans "Conditions" %}</h3><ul class="terms-list small">
     <li><span>{% trans "Parts" %}</span><b>{{ project.total_shares }} × {{ project.share_price|money }}</b></li>
-    {% if project.is_moucharaka %}<li><span>{% trans "Part investisseurs" %}</span><b>{{ project.investor_profit_share_pct }} %</b></li><li><span>{% trans "Rendement annoncé" %}</span><b>{{ project.projected_annual_return_pct }} %</b></li>
+    {% if project.is_moucharaka %}<li><span>{% trans "Part investisseurs" %}</span><b>{{ project.investor_profit_share_pct }} %</b></li><li><span>{% trans "Rendement potentiel" %}</span><b>{{ project.projected_annual_return_pct }} %</b></li>
     {% else %}<li><span>{% trans "Marge" %}</span><b>{{ project.margin_pct }} % ({{ project.mourabaha_annualized_pct }} %/an)</b></li>{% endif %}
     <li><span>{% trans "Durée" %}</span><b>{{ project.duration_months }} {% trans "mois" %}</b></li><li><span>{% trans "Apport" %}</span><b>{{ project.owner_contribution|money }}</b></li>
     <li><span>{% trans "Frais d'étude payés" %}</span><b>{{ project.review_fee_paid|money }}</b></li></ul></div>

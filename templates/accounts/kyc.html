@@ -8,7 +8,7 @@
   <form method="post" enctype="multipart/form-data" class="form" novalidate>{% csrf_token %}
     {% if form.non_field_errors %}<div class="note bad">{{ form.non_field_errors }}</div>{% endif %}
     {% for title, fields in form.iter_fieldsets %}<fieldset class="panel"><legend>{{ title }}</legend>
-      {% if forloop.counter == 4 %}<p class="small muted">{% trans "Photos nettes, les quatre coins de la pièce visibles. Sur téléphone, l'appareil photo s'ouvre directement." %}</p>{% endif %}
+      {% if forloop.counter == 4 %}<p class="small muted">{% trans "Photo nette ou PDF, les quatre coins de la pièce visibles. Vous pouvez prendre une photo ou choisir un fichier déjà enregistré sur votre téléphone ou votre ordinateur." %}</p>{% endif %}
       <div class="form-grid">{% for field in fields %}{% include "includes/field.html" %}{% endfor %}</div></fieldset>{% endfor %}
     <button class="btn">{% trans "Envoyer mon dossier" %}</button>
   </form>

@@ -4,7 +4,7 @@ from decimal import Decimal
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from apps.core.factories import image_file, make_user, pdf_file
+from apps.core.factories import image_file, make_project, make_user, pdf_file
 from apps.core.models import Moughataa
 from apps.projects.models import Project, Question, Sector
 
@@ -17,6 +17,9 @@ class WizardTests(TestCase):
     """An owner builds a boutique project through every wizard step and submits it."""
 
     def test_full_wizard(self):
+        from apps.projects.models import FeePolicy
+
+        FeePolicy.objects.filter(kind="boutique").update(is_enabled=True)  # boutiques are paused by default
         owner = make_user("Owner Wizard", balance=5_000)
         c = self.client
         c.force_login(owner)
@@ -113,7 +116,70 @@ class WizardTests(TestCase):
         self.assertRedirects(r, "/fr/dashboard/")
         p.refresh_from_db()
         self.assertEqual(p.status, "submitted")
-        self.assertEqual(p.review_fee_paid, Decimal("1500"))
+        self.assertEqual(p.review_fee_paid, Decimal("100"))
         # Preview of the draft page works for the owner and the detail renders the boutique model
         self.assertEqual(c.get(p.get_absolute_url()).status_code, 200)
         self.assertEqual(self.client_class().get(p.get_absolute_url()).status_code, 404)  # not public yet
+
+
+class LaunchSettingsTests(TestCase):
+    """Boutiques paused, shorter questionnaire, optional documents uploaded on selection, 100 MRU fees."""
+
+    def setUp(self):
+        from django.utils import translation
+
+        translation.activate("fr")
+
+    def test_project_types_and_fees(self):
+        from apps.core.models import PlatformSettings
+        from apps.projects.models import FeePolicy
+
+        owner = make_user("Porteur", balance=1_000)
+        self.client.force_login(owner)
+        page = self.client.get("/fr/projects/new/").content.decode()
+        self.assertNotIn('value="boutique"', page)
+        self.assertIn('value="deal"', page)
+        self.assertIn("Entreprise existante ou en création", page)
+        r = self.client.post("/fr/projects/new/", {"kind": "boutique", "financing_model": "moucharaka"})
+        self.assertEqual(r.status_code, 200)  # refused while paused
+        self.assertEqual(set(FeePolicy.objects.values_list("review_fee", flat=True)), {Decimal("100")})
+        s = PlatformSettings.get()
+        self.assertEqual((s.merchant_bankily, s.merchant_masrvi, s.merchant_sedad), ("33132023",) * 3)
+        self.assertEqual(s.featured_fee, Decimal("100"))
+        home = self.client.get("/fr/").content.decode()
+        self.assertIn("Investissez dans des projets et des entreprises", home)
+        self.assertIn("Financez vos opérations ponctuelles ou votre entreprise", home)
+        self.assertNotIn("1 000 MRU", home)
+
+    def test_questionnaire_trimmed(self):
+        from apps.projects.models import Question
+
+        active = set(Question.objects.filter(active=True).values_list("code", flat=True))
+        for code in ("owner_education", "owner_dependents", "owner_references", "existing_debt",
+                     "monthly_debt_payment", "assets_owned", "stress_plan", "deal_worst_case", "deal_history",
+                     "jobs_now", "jobs_after", "women_youth", "local_sourcing"):
+            self.assertNotIn(code, active)
+        choices = Question.objects.get(code="owner_previous_financing").choices
+        self.assertFalse(any("ontine" in c["fr"] or "تونتين" in c["ar"] for c in choices))
+
+    def test_documents_optional_and_uploaded_on_selection(self):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+
+        from apps.projects.services import checklist
+
+        owner = make_user("Porteur Docs", balance=1_000)
+        p = make_project(owner, kind="deal", model="mourabaha", margin=8)
+        p.documents.all().delete()
+        labels = [str(i["label"]) for i in checklist(p)]
+        self.assertFalse(any("justificatif" in lbl.lower() for lbl in labels))
+        self.assertFalse(any("300" in lbl for lbl in labels))
+        self.client.force_login(owner)
+        page = self.client.get(f"/fr/projects/{p.slug}/edit/media/").content.decode()
+        self.assertIn('data-autosubmit="doc"', page)
+        self.assertNotIn('name="doc"', page)  # no "add" button
+        # The browser script adds doc=1; without it (no JS), a chosen file is still uploaded
+        f = SimpleUploadedFile("devis-moutons.pdf", b"%PDF-1.4\n", content_type="application/pdf")
+        r = self.client.post(f"/fr/projects/{p.slug}/edit/media/", {"file": f, "visible_to_investors": "on"})
+        self.assertRedirects(r, f"/fr/projects/{p.slug}/edit/media/")
+        d = p.documents.get()
+        self.assertEqual((d.kind, d.title), ("other", "devis-moutons"))

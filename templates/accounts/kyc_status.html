@@ -8,5 +8,5 @@
   {% elif kyc.status == "approved" %}<p>{% trans "Votre identité est vérifiée." %}</p><a class="btn" href="{% url 'core:dashboard' %}">{% trans "Aller à mon espace" %}</a>
   {% elif kyc.status == "resubmit" %}<div class="note warn">{{ kyc.rejection_reason }}</div><a class="btn" style="margin-top:12px" href="{% url 'accounts:kyc' %}">{% trans "Corriger mon dossier" %}</a>
   {% else %}<div class="note bad">{{ kyc.rejection_reason }}</div>{% endif %}
-  <dl class="kv" style="margin-top:18px"><dt>{% trans "NNI" %}</dt><dd class="ltr">{{ kyc.nni }}</dd><dt>{% trans "Nom" %}</dt><dd>{{ kyc.full_name_fr }}</dd></dl>
+  <dl class="kv" style="margin-top:18px"><dt>{% trans "NNI" %}</dt><dd class="ltr">{{ kyc.nni }}</dd><dt>{% trans "Nom" %}</dt><dd dir="auto">{{ kyc.full_name }}</dd></dl>
 {% endif %}{% endblock %}

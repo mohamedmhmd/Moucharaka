@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-30 11:54+0100\n"
+"POT-Creation-Date: 2026-11-03 12:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -18,6 +18,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
+
+msgid "Un compte existe déjà avec ce numéro."
+msgstr "Un compte existe déjà avec ce numéro."
 
 msgid "Profil"
 msgstr "Profil"
@@ -240,8 +243,8 @@ msgstr "Autre"
 msgid "Aucune"
 msgstr "Aucune"
 
-msgid "Associations / tontines informelles"
-msgstr "Associations / tontines informelles"
+msgid "Associations / caisses d'entraide informelles"
+msgstr "Associations / caisses d'entraide informelles"
 
 msgid "J'ai déjà investi dans des commerces"
 msgstr "J'ai déjà investi dans des commerces"
@@ -267,11 +270,8 @@ msgstr "Moyen"
 msgid "Élevé"
 msgstr "Élevé"
 
-msgid "nom complet (lettres latines)"
-msgstr "nom complet (lettres latines)"
-
-msgid "nom complet (en arabe)"
-msgstr "nom complet (en arabe)"
+msgid "En lettres latines ou en arabe, comme sur votre pièce d'identité."
+msgstr "En lettres latines ou en arabe, comme sur votre pièce d'identité."
 
 msgid "NNI"
 msgstr "NNI"
@@ -338,12 +338,6 @@ msgstr "pièce d'identité — recto"
 
 msgid "pièce d'identité — verso"
 msgstr "pièce d'identité — verso"
-
-msgid "selfie en tenant la pièce"
-msgstr "selfie en tenant la pièce"
-
-msgid "justificatif de domicile (facture SOMELEC / SNDE)"
-msgstr "justificatif de domicile (facture SOMELEC / SNDE)"
 
 msgid "niveau de risque"
 msgstr "niveau de risque"
@@ -917,14 +911,14 @@ msgstr "Que voulez-vous financer ?"
 msgid "Comment rémunérer les investisseurs ?"
 msgstr "Comment rémunérer les investisseurs ?"
 
-msgid "Une entreprise qui n'a pas encore de revenus ne peut pas s'engager sur une marge fixe : choisissez la Moucharaka."
-msgstr "Une entreprise qui n'a pas encore de revenus ne peut pas s'engager sur une marge fixe : choisissez la Moucharaka."
+msgid "Une entreprise se finance en Moucharaka (partage des bénéfices) : choisissez la Moucharaka."
+msgstr "Une entreprise se finance en Moucharaka (partage des bénéfices) : choisissez la Moucharaka."
 
-msgid "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent. 300 caractères minimum."
-msgstr "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent. 300 caractères minimum."
+msgid "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent."
+msgstr "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent."
 
-msgid "Prix d'une part. 1 000 MRU permet à chacun de participer."
-msgstr "Prix d'une part. 1 000 MRU permet à chacun de participer."
+msgid "Prix d'une part. Un prix bas permet à plus de personnes de participer."
+msgstr "Prix d'une part. Un prix bas permet à plus de personnes de participer."
 
 msgid "Le montant doit être un multiple de la valeur d'une part."
 msgstr "Le montant doit être un multiple de la valeur d'une part."
@@ -986,6 +980,9 @@ msgstr "Non"
 
 msgid "Photos (boutique, stock, devanture…)"
 msgstr "Photos (boutique, stock, devanture…)"
+
+msgid "Le fichier est ajouté dès que vous le choisissez."
+msgstr "Le fichier est ajouté dès que vous le choisissez."
 
 msgid "Nombre de parts"
 msgstr "Nombre de parts"
@@ -1078,8 +1075,8 @@ msgstr "Boutique / commerce en activité"
 msgid "Opération ponctuelle"
 msgstr "Opération ponctuelle"
 
-msgid "Future entreprise"
-msgstr "Future entreprise"
+msgid "Entreprise existante ou en création"
+msgstr "Entreprise existante ou en création"
 
 msgid "Moucharaka — partage des bénéfices"
 msgstr "Moucharaka — partage des bénéfices"
@@ -1222,8 +1219,8 @@ msgstr "durée du financement (mois)"
 msgid "part des bénéfices revenant aux investisseurs (%)"
 msgstr "part des bénéfices revenant aux investisseurs (%)"
 
-msgid "rendement annuel estimé (%), non garanti"
-msgstr "rendement annuel estimé (%), non garanti"
+msgid "rendement potentiel (%), non garanti"
+msgstr "rendement potentiel (%), non garanti"
 
 msgid "fréquence des distributions"
 msgstr "fréquence des distributions"
@@ -1960,8 +1957,8 @@ msgstr "Payée"
 msgid "Impayée"
 msgstr "Impayée"
 
-msgid "Présentation d'au moins 300 caractères"
-msgstr "Présentation d'au moins 300 caractères"
+msgid "Présentation du projet"
+msgstr "Présentation du projet"
 
 msgid "Photo principale"
 msgstr "Photo principale"
@@ -1969,11 +1966,8 @@ msgstr "Photo principale"
 msgid "Utilisation des fonds détaillée (total = montant recherché)"
 msgstr "Utilisation des fonds détaillée (total = montant recherché)"
 
-msgid "Au moins un justificatif"
-msgstr "Au moins un justificatif"
-
-msgid "Part des bénéfices, rendement estimé et sortie définis"
-msgstr "Part des bénéfices, rendement estimé et sortie définis"
+msgid "Part des bénéfices, rendement potentiel et sortie définis"
+msgstr "Part des bénéfices, rendement potentiel et sortie définis"
 
 msgid "Marge, échéancier et garanties définis"
 msgstr "Marge, échéancier et garanties définis"
@@ -2070,8 +2064,8 @@ msgid "marge fixe de %(m)s %%"
 msgstr "marge fixe de %(m)s %%"
 
 #, python-format
-msgid "rendement estimé ~%(r)s %% par an"
-msgstr "rendement estimé ~%(r)s %% par an"
+msgid "rendement potentiel ~%(r)s %%"
+msgstr "rendement potentiel ~%(r)s %%"
 
 #, python-format
 msgid "%(t)s — %(tag)s. Parts dès %(p)s MRU, %(terms)s. Réf. %(ref)s : %(url)s"
@@ -2821,8 +2815,8 @@ msgstr "La loi et la sécurité de tous exigent de savoir qui investit et qui em
 msgid "Corrections demandées :"
 msgstr "Corrections demandées :"
 
-msgid "Photos nettes, les quatre coins de la pièce visibles. Sur téléphone, l'appareil photo s'ouvre directement."
-msgstr "Photos nettes, les quatre coins de la pièce visibles. Sur téléphone, l'appareil photo s'ouvre directement."
+msgid "Photo nette ou PDF, les quatre coins de la pièce visibles. Vous pouvez prendre une photo ou choisir un fichier déjà enregistré sur votre téléphone ou votre ordinateur."
+msgstr "Photo nette ou PDF, les quatre coins de la pièce visibles. Vous pouvez prendre une photo ou choisir un fichier déjà enregistré sur votre téléphone ou votre ordinateur."
 
 msgid "Envoyer mon dossier"
 msgstr "Envoyer mon dossier"
@@ -3104,8 +3098,8 @@ msgstr "Rien de nouveau."
 msgid "Combien faut-il pour investir ?"
 msgstr "Combien faut-il pour investir ?"
 
-msgid "Le prix d'une part, généralement 1 000 MRU."
-msgstr "Le prix d'une part, généralement 1 000 MRU."
+msgid "Le prix d'une part, fixé par chaque projet."
+msgstr "Le prix d'une part, fixé par chaque projet."
 
 msgid "Mon argent est-il garanti ?"
 msgstr "Mon argent est-il garanti ?"
@@ -3199,17 +3193,20 @@ msgstr "Vente de parts sur le marché"
 msgid "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
 msgstr "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
 
-msgid "Investissez dans les boutiques de votre quartier."
-msgstr "Investissez dans les boutiques de votre quartier."
+msgid "Investissez dans des projets et des entreprises."
+msgstr "Investissez dans des projets et des entreprises."
 
-msgid "Achetez des parts d'un commerce vérifié à partir de 1 000 MRU et recevez votre part de ses bénéfices. Sans intérêt, avec ses chiffres publiés chaque mois."
-msgstr "Achetez des parts d'un commerce vérifié à partir de 1 000 MRU et recevez votre part de ses bénéfices. Sans intérêt, avec ses chiffres publiés chaque mois."
+msgid "Achetez des parts de projets vérifiés et recevez votre part de leurs bénéfices. Sans intérêt, avec des chiffres publiés régulièrement."
+msgstr "Achetez des parts de projets vérifiés et recevez votre part de leurs bénéfices. Sans intérêt, avec des chiffres publiés régulièrement."
 
 msgid "Voir les projets ouverts"
 msgstr "Voir les projets ouverts"
 
-msgid "Financer mon commerce"
-msgstr "Financer mon commerce"
+msgid "Financez vos opérations ponctuelles ou votre entreprise, existante ou en création."
+msgstr "Financez vos opérations ponctuelles ou votre entreprise, existante ou en création."
+
+msgid "Présentez votre projet, fixez vos conditions et réunissez des investisseurs, sans intérêt."
+msgstr "Présentez votre projet, fixez vos conditions et réunissez des investisseurs, sans intérêt."
 
 #, python-format
 msgid "%(shop)s : un mois de ventes"
@@ -3261,8 +3258,8 @@ msgstr "Vous devenez associé"
 msgid "Vous recevez un pourcentage convenu des bénéfices réels du commerce. Si le mois est mauvais, vous recevez moins ; s'il y a une perte, elle est partagée. Le rendement affiché est une estimation."
 msgstr "Vous recevez un pourcentage convenu des bénéfices réels du commerce. Si le mois est mauvais, vous recevez moins ; s'il y a une perte, elle est partagée. Le rendement affiché est une estimation."
 
-msgid "Pour : boutiques en activité, futures entreprises."
-msgstr "Pour : boutiques en activité, futures entreprises."
+msgid "Pour : entreprises existantes ou en création."
+msgstr "Pour : entreprises existantes ou en création."
 
 msgid "Vous financez un achat de marchandises"
 msgstr "Vous financez un achat de marchandises"
@@ -3297,11 +3294,11 @@ msgstr "Recevez vos versements"
 msgid "Bénéfices ou échéances arrivent dans votre portefeuille. Vous pouvez revendre vos parts sur le marché."
 msgstr "Bénéfices ou échéances arrivent dans votre portefeuille. Vous pouvez revendre vos parts sur le marché."
 
-msgid "Vous tenez un commerce ?"
-msgstr "Vous tenez un commerce ?"
+msgid "Vous avez un projet ou une entreprise ?"
+msgstr "Vous avez un projet ou une entreprise ?"
 
-msgid "Décrivez votre boutique, vos ventes et votre projet. Les habitants de votre ville peuvent devenir vos associés."
-msgstr "Décrivez votre boutique, vos ventes et votre projet. Les habitants de votre ville peuvent devenir vos associés."
+msgid "Décrivez votre opération ou votre entreprise, existante ou en création, et trouvez des investisseurs."
+msgstr "Décrivez votre opération ou votre entreprise, existante ou en création, et trouvez des investisseurs."
 
 msgid "Moucharaka met en relation des Mauritaniens qui ont un projet et des Mauritaniens qui veulent faire travailler leur épargne. La plateforme vérifie, encaisse, verse et publie."
 msgstr "Moucharaka met en relation des Mauritaniens qui ont un projet et des Mauritaniens qui veulent faire travailler leur épargne. La plateforme vérifie, encaisse, verse et publie."
@@ -3309,8 +3306,8 @@ msgstr "Moucharaka met en relation des Mauritaniens qui ont un projet et des Mau
 msgid "Inscription vérifiée."
 msgstr "Inscription vérifiée."
 
-msgid "Votre numéro WhatsApp est confirmé par un code, puis vous envoyez votre NNI, votre pièce d'identité et un selfie. Un membre de l'équipe valide le dossier."
-msgstr "Votre numéro WhatsApp est confirmé par un code, puis vous envoyez votre NNI, votre pièce d'identité et un selfie. Un membre de l'équipe valide le dossier."
+msgid "Votre numéro WhatsApp est confirmé par un code, puis vous envoyez votre NNI et votre pièce d'identité. Un membre de l'équipe valide le dossier."
+msgstr "Votre numéro WhatsApp est confirmé par un code, puis vous envoyez votre NNI et votre pièce d'identité. Un membre de l'équipe valide le dossier."
 
 msgid "Portefeuille."
 msgstr "Portefeuille."
@@ -3345,8 +3342,8 @@ msgstr "Besoin de récupérer votre argent ? Mettez vos parts en vente au prix d
 msgid "Choisissez le type de projet."
 msgstr "Choisissez le type de projet."
 
-msgid "Boutique en activité, opération ponctuelle (stock, bétail, importation) ou future entreprise."
-msgstr "Boutique en activité, opération ponctuelle (stock, bétail, importation) ou future entreprise."
+msgid "Opération ponctuelle (stock, bétail, importation) ou entreprise existante ou en création."
+msgstr "Opération ponctuelle (stock, bétail, importation) ou entreprise existante ou en création."
 
 msgid "Décrivez tout."
 msgstr "Décrivez tout."
@@ -3435,8 +3432,8 @@ msgstr "Versements reçus"
 msgid "Les bénéfices et échéances apparaîtront ici."
 msgstr "Les bénéfices et échéances apparaîtront ici."
 
-msgid "Vos pièces d'identité, votre selfie et votre NNI sont stockés hors de l'espace public du site et ne sont consultables que par vous et l'équipe de conformité. Chaque consultation par l'équipe est journalisée."
-msgstr "Vos pièces d'identité, votre selfie et votre NNI sont stockés hors de l'espace public du site et ne sont consultables que par vous et l'équipe de conformité. Chaque consultation par l'équipe est journalisée."
+msgid "Vos pièces d'identité et votre NNI sont stockés hors de l'espace public du site et ne sont consultables que par vous et l'équipe de conformité. Chaque consultation par l'équipe est journalisée."
+msgstr "Vos pièces d'identité et votre NNI sont stockés hors de l'espace public du site et ne sont consultables que par vous et l'équipe de conformité. Chaque consultation par l'équipe est journalisée."
 
 msgid "Votre profil public affiche votre prénom, l'initiale de votre nom, votre wilaya, vos projets, vos versements et votre score de confiance. Votre numéro de téléphone n'est jamais affiché."
 msgstr "Votre profil public affiche votre prénom, l'initiale de votre nom, votre wilaya, vos projets, vos versements et votre score de confiance. Votre numéro de téléphone n'est jamais affiché."
@@ -3535,8 +3532,8 @@ msgstr[1] "%(d)s jours restants"
 msgid "marge fixe sur %(m)s mois"
 msgstr "marge fixe sur %(m)s mois"
 
-msgid "par an, estimé"
-msgstr "par an, estimé"
+msgid "rendement potentiel"
+msgstr "rendement potentiel"
 
 msgid "Mis en avant"
 msgstr "Mis en avant"
@@ -3724,8 +3721,8 @@ msgstr "Prix d'une part"
 msgid "Part du bénéfice net aux investisseurs"
 msgstr "Part du bénéfice net aux investisseurs"
 
-msgid "Rendement annuel estimé"
-msgstr "Rendement annuel estimé"
+msgid "Rendement potentiel"
+msgstr "Rendement potentiel"
 
 msgid "non garanti"
 msgstr "non garanti"
@@ -4348,20 +4345,20 @@ msgstr "Pas encore d'investisseur."
 msgid "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
 msgstr "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
 
-msgid "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles."
-msgstr "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles."
+msgid "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles. En Moucharaka, les investisseurs deviennent associés de votre commerce."
+msgstr "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles. En Moucharaka, les investisseurs deviennent associés de votre commerce."
 
 msgid "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande."
 msgstr "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande."
 
-msgid "Une société à créer ou qui démarre. Les investisseurs deviennent associés."
-msgstr "Une société à créer ou qui démarre. Les investisseurs deviennent associés."
+msgid "Une entreprise qui existe déjà ou qui est en création. Les investisseurs deviennent associés."
+msgstr "Une entreprise qui existe déjà ou qui est en création. Les investisseurs deviennent associés."
 
-msgid "Recommandé pour les boutiques et les entreprises. Vous partagez un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
-msgstr "Recommandé pour les boutiques et les entreprises. Vous partagez un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
+msgid "Recommandé pour les boutiques et les entreprises. Les investisseurs deviennent vos associés : vous partagez avec eux un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
+msgstr "Recommandé pour les boutiques et les entreprises. Les investisseurs deviennent vos associés : vous partagez avec eux un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
 
-msgid "Recommandé pour les opérations ponctuelles. Vous rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non."
-msgstr "Recommandé pour les opérations ponctuelles. Vous rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non."
+msgid "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non."
+msgstr "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non."
 
 msgid "Continuer"
 msgstr "Continuer"
@@ -4497,17 +4494,17 @@ msgstr "Photos"
 msgid "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos."
 msgstr "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos."
 
-msgid "Ajouter les photos"
-msgstr "Ajouter les photos"
+msgid "Les photos sont ajoutées dès que vous les choisissez."
+msgstr "Les photos sont ajoutées dès que vous les choisissez."
+
+msgid "Justificatifs (facultatif)"
+msgstr "Justificatifs (facultatif)"
 
 msgid "Visible des investisseurs"
 msgstr "Visible des investisseurs"
 
 msgid "Réservé à l'équipe"
 msgstr "Réservé à l'équipe"
-
-msgid "Ajouter le justificatif"
-msgstr "Ajouter le justificatif"
 
 #, python-format
 msgid "L'envoi déclenche les frais d'étude de %(f)s MRU, prélevés sur votre portefeuille (solde : %(b)s MRU)."
@@ -4725,9 +4722,6 @@ msgstr "risque"
 msgid "Autres projets"
 msgstr "Autres projets"
 
-msgid "Rendement annoncé"
-msgstr "Rendement annoncé"
-
 msgid "Apport"
 msgstr "Apport"
 
@@ -4782,8 +4776,8 @@ msgstr "Maximum"
 msgid "Ce qui compte"
 msgstr "Ce qui compte"
 
-msgid "Dossier KYC approuvé, justificatif de domicile, ancienneté du compte."
-msgstr "Dossier KYC approuvé, justificatif de domicile, ancienneté du compte."
+msgid "Dossier KYC approuvé, ancienneté du compte."
+msgstr "Dossier KYC approuvé, ancienneté du compte."
 
 msgid "Paiements"
 msgstr "Paiements"

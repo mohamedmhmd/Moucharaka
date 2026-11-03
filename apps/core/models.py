@@ -79,7 +79,7 @@ class PlatformSettings(models.Model):
     report_grace_days = models.PositiveSmallIntegerField(_("délai de remise des rapports (jours après la période)"), default=10)
     installment_grace_days = models.PositiveSmallIntegerField(_("délai de grâce des échéances (jours)"), default=5)
     max_campaign_days = models.PositiveSmallIntegerField(_("durée max. d'une campagne (jours)"), default=60)
-    featured_fee = models.DecimalField(_("mise en avant d'un projet (MRU / 7 jours)"), max_digits=10, decimal_places=2, default=Decimal("1500.00"))
+    featured_fee = models.DecimalField(_("mise en avant d'un projet (MRU / 7 jours)"), max_digits=10, decimal_places=2, default=Decimal("100.00"))
     # Payment instructions shown to users for manual mobile-money deposits
     merchant_bankily = models.CharField(_("numéro marchand Bankily"), max_length=40, blank=True)
     merchant_masrvi = models.CharField(_("numéro marchand Masrvi"), max_length=40, blank=True)

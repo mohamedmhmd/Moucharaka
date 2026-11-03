@@ -33,7 +33,7 @@ class Sector(Bilingual):
 class Kind(models.TextChoices):
     BOUTIQUE = "boutique", _("Boutique / commerce en activité")
     DEAL = "deal", _("Opération ponctuelle")
-    COMPANY = "company", _("Future entreprise")
+    COMPANY = "company", _("Entreprise existante ou en création")
 
 
 class FinancingModel(models.TextChoices):
@@ -50,7 +50,7 @@ class FeePolicy(models.Model):
 
     kind = models.CharField(_("type de projet"), max_length=10, choices=Kind.choices)
     financing_model = models.CharField(_("mode de financement"), max_length=12, choices=FinancingModel.choices)
-    review_fee = models.DecimalField(_("frais d'étude du dossier (MRU)"), **MONEY, default=Decimal("1000"))
+    review_fee = models.DecimalField(_("frais d'étude du dossier (MRU)"), **MONEY, default=Decimal("100"))
     success_fee_pct = models.DecimalField(_("commission de succès (% des fonds levés)"), **PCT, default=Decimal("5"))
     management_fee_pct = models.DecimalField(
         _("commission de gestion (% des bénéfices / marges distribués)"), **PCT, default=Decimal("8"))
@@ -142,7 +142,7 @@ class Project(TimeStamped):
     investor_profit_share_pct = models.DecimalField(
         _("part des bénéfices revenant aux investisseurs (%)"), **PCT, null=True, blank=True)
     projected_annual_return_pct = models.DecimalField(
-        _("rendement annuel estimé (%), non garanti"), **PCT, null=True, blank=True)
+        _("rendement potentiel (%), non garanti"), **PCT, null=True, blank=True)
     distribution_frequency = models.CharField(_("fréquence des distributions"), max_length=12,
                                               choices=Frequency.choices, default=Frequency.QUARTERLY)
     exit_mode = models.CharField(_("sortie des investisseurs"), max_length=12, choices=Exit.choices, blank=True)

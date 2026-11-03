@@ -70,12 +70,12 @@
       <div class="panel"><h2>{% trans "Photos" %}</h2>
         <p class="small muted">{% trans "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos." %}</p>
         {% if images %}<div class="gallery" style="margin-bottom:12px">{% for im in images %}<div><img src="{{ im.image.url }}" alt=""><button class="btn ghost small" name="delete_image" value="{{ im.pk }}">{% trans "Retirer" %}</button></div>{% endfor %}</div>{% endif %}
-        <input type="file" name="images" accept="image/*" multiple> <button class="btn secondary small" name="photos" value="1">{% trans "Ajouter les photos" %}</button>
+        <input type="file" name="images" accept="image/*" multiple data-autosubmit="photos">
+        <p class="small muted">{% trans "Les photos sont ajoutées dès que vous les choisissez." %}</p>
       </div>
-      <div class="panel"><h2>{% trans "Justificatifs" %}</h2>
+      <div class="panel"><h2>{% trans "Justificatifs (facultatif)" %}</h2>
         {% if documents %}<table class="table"><tbody>{% for d in documents %}<tr><td>{{ d.title }}<div class="small muted">{{ d.get_kind_display }}</div></td><td>{% if d.visible_to_investors %}{% trans "Visible des investisseurs" %}{% else %}{% trans "Réservé à l'équipe" %}{% endif %}</td><td class="n"><button class="btn ghost small" name="delete_doc" value="{{ d.pk }}">{% trans "Retirer" %}</button></td></tr>{% endfor %}</tbody></table>{% endif %}
         <div class="form-grid" style="margin-top:12px">{% for field in doc_form.visible_fields %}{% include "includes/field.html" %}{% endfor %}</div>
-        <button class="btn secondary small" name="doc" value="1">{% trans "Ajouter le justificatif" %}</button>
       </div>
 
     {% elif step == "submit" %}
