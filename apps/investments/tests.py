@@ -235,3 +235,50 @@ class ReportingDiscipline(FlowBase):
         check_reports()
         self.assertEqual(TrustEvent.objects.filter(user=self.owner, kind="report_missed").count(),
                          len([x for x in report_periods(p) if x[2] < timezone.now().date()]))
+
+
+class DeleteTestUserCommand(FlowBase):
+    """manage.py delete_user removes a test member and everything attached, and the books still balance."""
+
+    def test_delete_investor_then_owner(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+        from django.core.management.base import CommandError
+
+        from apps.accounts.models import User
+        from apps.wallet.services import request_withdrawal
+
+        p = self.launch(kind="deal", model="mourabaha", target=300_000, margin=10, duration_months=3)
+        invest(self.inv1, p, 120, True)
+        invest(self.inv2, p, 120, True)
+        inv3 = make_user("Test Diaspora", balance=200_000)
+        invest(inv3, p, 60, True)
+        p.refresh_from_db()
+        release_funds(p, by=self.staff)
+        acc = self.inv1.payment_accounts.create(method="bankily", number="36112233", holder_name="Mariem",
+                                                verified_at=timezone.now())
+        request_withdrawal(self.inv1, D("10000"), acc)
+        self.assertLedgerBalanced()
+
+        out = StringIO()
+        call_command("delete_user", self.owner.phone, stdout=out)  # dry run
+        self.assertIn("Nothing deleted", out.getvalue())
+        with self.assertRaises(CommandError):  # others invested in the owner's project
+            call_command("delete_user", self.owner.phone, "--yes", stdout=out)
+        boss = User.objects.create_superuser(phone="+22220009999", password="x", full_name="Boss")
+        with self.assertRaises(CommandError):  # owner accounts are protected
+            call_command("delete_user", boss.phone, "--yes", stdout=out)
+
+        with self.assertRaises(CommandError):  # an investor goes after the project owner
+            call_command("delete_user", self.inv2.phone, "--yes", stdout=out)
+        before = Wallet.for_user(self.inv2).balance
+        call_command("delete_user", self.owner.phone, "--yes", "--force", stdout=out)
+        self.assertFalse(Project.objects.filter(pk=p.pk).exists())
+        self.assertFalse(User.objects.filter(pk=self.owner.pk).exists())
+        self.assertEqual(Wallet.for_user(self.inv2).balance, before + D("120000"))  # money back
+        self.assertLedgerBalanced()
+        for u in (self.inv1, self.inv2, inv3):
+            call_command("delete_user", u.phone, "--yes", stdout=out)
+            self.assertFalse(User.objects.filter(pk=u.pk).exists())
+            self.assertLedgerBalanced()
