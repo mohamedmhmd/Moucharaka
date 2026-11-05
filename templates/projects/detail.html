@@ -40,7 +40,7 @@
           {% if project.guarantee %}<li><span>{% trans "Garanties" %}</span><b class="small">{{ project.guarantee|truncatechars:80 }}</b></li>{% endif %}
         {% elif project.is_company %}
           <li><span>{% trans "Prix d'une part" %}</span><b class="num">{{ project.share_price|money }} MRU</b></li>
-          <li><span>{% trans "Parts mises en vente" %}</span><b class="num">{{ project.total_shares }}</b></li>
+          <li><span>{% trans "Parts émises" %}</span><b class="num">{{ project.total_shares }}</b></li>
           {% if project.projected_annual_return_pct is not None %}<li><span>{% trans "Rendement potentiel" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %<br><small class="muted">{% trans "non garanti" %}</small></b></li>{% endif %}
           <li><span>{% trans "Vos droits" %}</span><b class="small">{% trans "Actionnaire pour toujours : dividendes selon vos parts, quand l'entreprise en verse" %}</b></li>
           <li><span>{% trans "Sortie" %}</span><b class="small">{% trans "Revente sur le marché des parts, ou rachat par l'entreprise" %}</b></li>

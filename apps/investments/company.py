@@ -23,7 +23,7 @@ from apps.trust.services import record_event
 from apps.wallet.models import Transaction, Wallet, new_reference
 from apps.wallet.services import WalletError, collect_fee, post
 
-from .models import BuybackOffer, Distribution, Holding, Investment, Payout
+from .models import BuybackOffer, Distribution, Holding, Investment, Payout, ShareIssue
 from .services import InvestmentError, _distribute, _refresh_counters, complete_project, fmt, max_shares_for
 
 ZERO = Decimal("0")
@@ -93,9 +93,100 @@ def close_offering(project, user):
     if project.owner_id != user.pk or not project.is_company:
         raise InvestmentError(_("Action impossible pour ce projet."))
     project.offering_open = False
-    project.save(update_fields=["offering_open", "updated_at"])
+    # Unsold parts are cancelled: they never existed for anyone
+    project.shares_issued = project.shares_sold
+    project.target_amount = project.raised_amount
+    project.save(update_fields=["offering_open", "shares_issued", "target_amount", "updated_at"])
     audit("shares.offering_closed", project, actor=user)
+    if outstanding_shares(project) == 0 and project.shares_sold:
+        complete_project(project)
     return project
+
+
+# ------------------------------------------------------------------ new parts (same project page, same shareholders)
+
+
+@transaction.atomic
+def request_issue(project, user, shares, price, reason=""):
+    from apps.accounts.models import User
+
+    project = Project.objects.select_for_update().get(pk=project.pk)
+    shares, price = int(shares), q2(price)
+    if project.owner_id != user.pk or not project.is_company or project.status != Project.Status.ACTIVE:
+        raise InvestmentError(_("Impossible d'émettre des parts pour ce projet."))
+    if project.is_share_offering:
+        raise InvestmentError(_("Des parts sont encore en vente : attendez qu'elles soient vendues ou arrêtez la vente."))
+    if project.share_issues.filter(status=ShareIssue.Status.PENDING).exists():
+        raise InvestmentError(_("Une demande d'émission est déjà en attente de validation."))
+    if shares < 1 or price < 1 or price != int(price):
+        raise InvestmentError(_("Indiquez un nombre de parts et un prix entier."))
+    issue = ShareIssue.objects.create(project=project, shares=shares, price=price, reason=reason.strip()[:2000])
+    audit("shares.issue_requested", issue, actor=user, shares=shares, price=str(price))
+    for staff in User.objects.filter(is_staff=True, is_active=True):
+        notify(staff, N_("Émission de parts à valider"),
+               N_("« %(p)s » : %(n)s nouvelles parts à %(x)s MRU.") % {"p": project.title, "n": shares, "x": fmt(price)},
+               url="/staff/issues/")
+    return issue
+
+
+@transaction.atomic
+def cancel_issue(issue, user):
+    issue = ShareIssue.objects.select_for_update().select_related("project").get(pk=issue.pk)
+    if issue.project.owner_id != user.pk or issue.status != ShareIssue.Status.PENDING:
+        raise InvestmentError(_("Cette demande ne peut plus être annulée."))
+    issue.status, issue.decided_at = ShareIssue.Status.CANCELLED, timezone.now()
+    issue.save(update_fields=["status", "decided_at"])
+    return issue
+
+
+@transaction.atomic
+def reject_issue(issue, by, reason):
+    issue = ShareIssue.objects.select_for_update().select_related("project__owner").get(pk=issue.pk)
+    if issue.status != ShareIssue.Status.PENDING:
+        raise InvestmentError(_("Cette demande a déjà été traitée."))
+    issue.status, issue.staff_reason, issue.decided_by, issue.decided_at = (
+        ShareIssue.Status.REJECTED, reason[:255], by, timezone.now())
+    issue.save()
+    notify(issue.project.owner, N_("Émission de parts refusée"), reason,
+           url=f"/projects/{issue.project.slug}/manage/#issue", whatsapp=True)
+    audit("shares.issue_rejected", issue, actor=by, reason=reason)
+    return issue
+
+
+@transaction.atomic
+def approve_issue(issue, by):
+    """New parts go on sale on the same project page at the new price."""
+    from apps.projects.sharing import notify_interested
+
+    issue = ShareIssue.objects.select_for_update().get(pk=issue.pk)
+    if issue.status != ShareIssue.Status.PENDING:
+        raise InvestmentError(_("Cette demande a déjà été traitée."))
+    project = Project.objects.select_for_update().get(pk=issue.project_id)
+    if project.status != Project.Status.ACTIVE or project.is_share_offering:
+        raise InvestmentError(_("Le projet n'est pas en état de vendre de nouvelles parts."))
+    before = outstanding_shares(project)
+    project.shares_issued = project.shares_sold + issue.shares
+    project.share_price = issue.price
+    project.target_amount = project.raised_amount + issue.total
+    project.offering_open = True
+    project.save(update_fields=["shares_issued", "share_price", "target_amount", "offering_open", "updated_at"])
+    issue.status, issue.decided_by, issue.decided_at = ShareIssue.Status.APPROVED, by, timezone.now()
+    issue.save()
+    after = before + issue.shares
+    for h in Holding.objects.filter(project=project, shares__gt=0).select_related("user"):
+        notify(h.user, N_("Nouvelles parts émises"),
+               N_("« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% "
+                  "aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter.") % {
+                   "p": project.title, "n": issue.shares, "x": fmt(issue.price), "m": h.shares,
+                   "a": f"{h.shares * 100 / before:.1f}" if before else "0", "b": f"{h.shares * 100 / after:.1f}"},
+               url=project.get_absolute_url(), whatsapp=True)
+    notify(project.owner, N_("Nouvelles parts en vente"),
+           N_("%(n)s nouvelles parts de « %(p)s » sont en vente à %(x)s MRU.") % {
+               "n": issue.shares, "p": project.title, "x": fmt(issue.price)},
+           url=project.get_absolute_url(), whatsapp=True)
+    notify_interested(project)
+    audit("shares.issue_approved", issue, actor=by)
+    return issue
 
 
 # ------------------------------------------------------------------ dividends
@@ -119,7 +210,7 @@ def pay_dividend(project, user, amount, note=""):
     if amount <= 0:
         raise InvestmentError(_("Indiquez le montant du dividende."))
     dist = _distribute(project, Distribution.Kind.DIVIDEND, amount, amount, Transaction.Kind.DIVIDEND_OUT,
-                       Transaction.Kind.DIVIDEND_IN, note=note or _("Dividende"))
+                       Transaction.Kind.DIVIDEND_IN, note=note.strip())
     return dist
 
 
@@ -195,7 +286,7 @@ def answer_buyback(offer, user, action, shares=None, price=None, message=""):
         offer.status = BuybackOffer.Status.REFUSED if side == offer.waiting_on else BuybackOffer.Status.CANCELLED
         offer.save()
         other = offer.holder if side == BuybackOffer.OWNER else project.owner
-        url = "/portfolio/#offers" if side == BuybackOffer.OWNER else f"/projects/{project.slug}/manage/#shareholders"
+        url = "/portfolio/#offers" if side == BuybackOffer.OWNER else f"/projects/{project.slug}/manage/#buyback"
         notify(other, N_("Offre de rachat close"), project.title, url=url)
         audit("buyback.closed", offer, actor=user, status=offer.status)
         return offer
@@ -221,7 +312,7 @@ def answer_buyback(offer, user, action, shares=None, price=None, message=""):
         notify(project.owner, N_("Contre-proposition d'un actionnaire"),
                N_("%(u)s propose %(n)s part(s) à %(x)s MRU l'une.") % {
                    "u": offer.holder.display_name, "n": shares, "x": fmt(price)},
-               url=f"/projects/{project.slug}/manage/#shareholders", whatsapp=True)
+               url=f"/projects/{project.slug}/manage/#buyback", whatsapp=True)
     offer.save()
     audit("buyback.countered", offer, actor=user, shares=shares, price=str(price))
     return offer
@@ -274,7 +365,7 @@ def _execute(offer, user):
                                  _("Rachat de %(n)s part(s) à %(x)s MRU") % {"n": offer.shares, "x": fmt(offer.price)})
     offer.status = BuybackOffer.Status.ACCEPTED
     offer.save()
-    for who, url in ((offer.holder, "/portfolio/"), (project.owner, f"/projects/{project.slug}/manage/#shareholders")):
+    for who, url in ((offer.holder, "/portfolio/"), (project.owner, f"/projects/{project.slug}/manage/#buyback")):
         notify(who, N_("Rachat conclu"),
                N_("%(n)s part(s) de « %(p)s » rachetée(s) à %(x)s MRU l'une.") % {
                    "n": offer.shares, "p": project.title, "x": fmt(offer.price)}, url=url, whatsapp=True)

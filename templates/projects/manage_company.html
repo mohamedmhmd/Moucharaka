@@ -1,0 +1,147 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Gérer" %} · {{ project.title }}{% endblock %}
+{% block content %}<div class="wrap section">
+  <div class="section-head"><div><h1 style="margin:0">{{ project.title }}</h1>
+    <div class="row" style="margin-top:8px">{% if project.is_share_offering %}<span class="badge tone-go">{% trans "Parts en vente" %}</span>{% else %}{% badge project.status project.get_status_display %}{% endif %}
+      <span class="small muted">{{ project.get_kind_display }}</span><a class="small" href="{{ project.get_absolute_url }}">{% trans "Page publique" %}</a></div></div>
+    <div class="row"><span class="muted small">{% trans "Mon portefeuille" %}</span><b class="num">{{ wallet.balance|money }} MRU</b><a class="btn small secondary" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a></div></div>
+
+  <nav class="tabs" aria-label="{% trans 'Gestion du projet' %}">
+    <a href="#overview">{% trans "Aperçu" %}</a>
+    <a href="#shareholders">{% trans "Actionnaires" %} ({{ holdings|length }})</a>
+    <a href="#dividend">{% trans "Dividendes" %}</a>
+    <a href="#buyback">{% trans "Rachats" %}{% if offers_for_me %} <span class="badge tone-warn">{{ offers_for_me|length }}</span>{% endif %}</a>
+    <a href="#issue">{% trans "Nouvelles parts" %}</a>
+    <a href="#questions">{% trans "Questions" %}{% if open_questions %} <span class="badge tone-warn">{{ open_questions|length }}</span>{% endif %}</a>
+    <a href="#updates">{% trans "Nouvelles" %}</a>
+  </nav>
+
+  {# ------------------------------------------------------------ overview #}
+  <section id="overview" class="anchor">
+    {% if offers_for_me %}<div class="note warn" style="margin-bottom:16px">{% blocktrans count n=offers_for_me|length %}Un actionnaire attend votre réponse à une offre de rachat.{% plural %}{{ n }} actionnaires attendent votre réponse à une offre de rachat.{% endblocktrans %} <a href="#buyback">{% trans "Répondre" %}</a></div>{% endif %}
+    {% if open_questions %}<div class="note" style="margin-bottom:16px">{% blocktrans count n=open_questions|length %}Une question attend votre réponse.{% plural %}{{ n }} questions attendent votre réponse.{% endblocktrans %} <a href="#questions">{% trans "Répondre" %}</a></div>{% endif %}
+    <div class="stats three">
+      <div class="stat"><b class="num">{{ project.total_shares }}</b><span>{% trans "parts émises" %}</span></div>
+      <div class="stat"><b class="num">{{ outstanding }}</b><span>{% trans "parts détenues par vos actionnaires" %}</span></div>
+      <div class="stat"><b class="num">{% if project.is_share_offering %}{{ project.shares_available }}{% else %}0{% endif %}</b><span>{% trans "parts encore en vente" %}</span></div>
+      <div class="stat"><b class="num">{{ holdings|length }}</b><span>{% trans "actionnaires" %}</span></div>
+      <div class="stat"><b class="num">{{ project.raised_amount|money }}</b><span>{% trans "MRU levés" %}</span></div>
+      <div class="stat"><b class="num">{{ dividends_total|money }}</b><span>{% trans "MRU de dividendes versés" %}</span></div>
+    </div>
+
+    <div class="grid g2" style="margin-top:20px">
+      <div class="panel"><h2>{% trans "Vente des parts" %}</h2>
+        {% if project.is_share_offering %}
+          <p>{% blocktrans with s=project.shares_sold t=project.total_shares r=project.shares_available x=project.share_price|money %}{{ s }} parts vendues sur {{ t }}. Il reste {{ r }} parts en vente à {{ x }} MRU : chaque acheteur devient actionnaire tout de suite et l'argent arrive dans votre portefeuille.{% endblocktrans %}</p>
+          <div class="progress" style="margin:8px 0 14px"><i style="width:{{ project.funding_pct }}%"></i></div>
+          <div class="row">
+            <form method="post" action="{% url 'projects:feature' project.slug %}">{% csrf_token %}<button class="btn secondary small" data-confirm="{% blocktrans with f=settings.featured_fee|money %}Payer {{ f }} MRU pour 7 jours de mise en avant ?{% endblocktrans %}">{% blocktrans with f=settings.featured_fee|money %}Mettre en avant 7 jours ({{ f }} MRU){% endblocktrans %}</button></form>
+            <form method="post" action="{% url 'projects:close_offering' project.slug %}">{% csrf_token %}<button class="btn ghost small" data-confirm="{% trans 'Arrêter la vente ? Les parts non vendues sont annulées. Vous pourrez plus tard demander une nouvelle émission.' %}">{% trans "Arrêter la vente" %}</button></form>
+          </div>
+        {% elif project.status == "active" %}
+          <p class="muted">{% blocktrans with s=project.total_shares %}Pas de parts en vente actuellement ({{ s }} parts émises). Vos actionnaires peuvent revendre leurs parts sur le marché.{% endblocktrans %}</p>
+          <a class="btn secondary small" href="#issue">{% trans "Émettre de nouvelles parts" %}</a>
+        {% else %}<p class="muted">{% trans "Ce projet est terminé." %}</p>{% endif %}
+      </div>
+      <div class="panel">{% include "includes/share.html" %}
+        <p class="small muted" style="margin:10px 0 0">{% blocktrans with n=project.shares_count %}Lien ouvert {{ n }} fois.{% endblocktrans %} · {% trans "mon score de confiance" %} <b>{{ score.score }}</b> ({% grade_label score.grade %})</p></div>
+    </div>
+  </section>
+
+  {# ------------------------------------------------------------ shareholders #}
+  <section class="panel anchor" id="shareholders" style="margin-top:20px">
+    <div class="section-head"><h2 style="margin:0">{% trans "Actionnaires" %}</h2>
+      {% if holdings %}<a class="btn small ghost" href="{% url 'projects:shareholders_csv' project.slug %}">{% trans "Télécharger la liste (Excel)" %}</a>{% endif %}</div>
+    {% if holdings %}<table class="table cards">
+      <thead><tr><th>{% trans "Nom" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Part du capital" %}</th><th class="n">{% trans "Sur le marché" %}</th><th class="n">{% trans "Reçu" %}</th><th></th></tr></thead>
+      <tbody>{% for h in holdings %}<tr>
+        <td class="cell-title"><b>{{ h.user.full_name }}</b></td>
+        <td class="n" data-label="{% trans 'Parts' %}">{{ h.shares }}</td>
+        <td class="n" data-label="{% trans 'Part du capital' %}">{{ h.pct|floatformat:1 }} %</td>
+        <td class="n" data-label="{% trans 'Sur le marché' %}">{% if h.locked_shares %}{{ h.locked_shares }}{% else %}—{% endif %}</td>
+        <td class="n" data-label="{% trans 'Reçu' %}">{{ h.received_total|money }} MRU</td>
+        <td class="n cell-action">{% if h.offer %}<a class="badge {% if h.offer.waiting_on == 'owner' %}tone-warn{% else %}tone-info{% endif %}" href="#buyback">{% if h.offer.waiting_on == "owner" %}{% trans "à vous de répondre" %}{% else %}{% trans "offre envoyée" %}{% endif %}</a>
+          {% elif project.status == "active" and h.free_shares %}<a class="btn small secondary" href="?to={{ h.user_id }}#buyback">{% trans "Racheter" %}</a>{% endif %}</td>
+      </tr>{% endfor %}</tbody></table>
+    {% else %}<p class="muted">{% trans "Pas encore d'actionnaire." %}</p>{% endif %}
+  </section>
+
+  {# ------------------------------------------------------------ dividends #}
+  <section class="panel anchor" id="dividend" style="margin-top:20px"><h2>{% trans "Verser un dividende" %}</h2>
+    {% if outstanding and project.status == "active" %}
+    <p>{% blocktrans with n=outstanding %}Indiquez le montant total : chaque actionnaire reçoit sa part selon le nombre de parts qu'il détient ({{ n }} parts au total).{% endblocktrans %}</p>
+    <form method="post" action="{% url 'projects:pay_dividend' project.slug %}" class="form" id="dividend-form" data-shares="{{ outstanding }}" data-fee="{{ dividend_fee_pct|stringformat:'s' }}">{% csrf_token %}
+      {% include "includes/form.html" with form=dividend_form grid="stack" %}
+      <p class="small" id="dividend-preview" hidden>{% blocktrans %}Commission de la plateforme : <b data-k="fee"></b> MRU · les actionnaires reçoivent <b data-k="net"></b> MRU, soit <b data-k="per"></b> MRU par part.{% endblocktrans %}</p>
+      <button class="btn" data-confirm="{% trans 'Verser ce dividende maintenant ? Le montant sera prélevé sur votre portefeuille.' %}">{% trans "Verser le dividende" %}</button></form>
+    {% else %}<p class="muted">{% trans "Pas encore d'actionnaire." %}</p>{% endif %}
+    {% if dividends %}<h3 style="margin-top:18px">{% trans "Dividendes versés" %}</h3><div class="table-wrap"><table class="table"><tbody>{% for d in dividends %}<tr><td>{{ d.paid_at|date:"d/m/Y" }}{% if d.note %}<div class="small muted">{{ d.note }}</div>{% endif %}</td><td class="n">{{ d.net_amount|money }} MRU<div class="small muted">{% blocktrans with x=d.per_share|money:2 %}{{ x }} MRU / part{% endblocktrans %}</div></td></tr>{% endfor %}</tbody></table></div>{% endif %}
+  </section>
+
+  {# ------------------------------------------------------------ buybacks #}
+  <section class="panel anchor" id="buyback" style="margin-top:20px"><h2>{% trans "Racheter des parts" %}</h2>
+    <p class="small muted">{% trans "Faites une offre à un actionnaire : il peut accepter, refuser ou proposer d'autres conditions. Le montant est réservé sur votre portefeuille pendant qu'il réfléchit. Vous pouvez aussi racheter les parts que vos actionnaires mettent en vente sur le marché. Les parts rachetées sont annulées : les dividendes suivants sont partagés entre les autres actionnaires." %}</p>
+
+    {% for o in offers_for_me %}<div class="card" style="margin-top:12px;border-color:var(--sun, #e8b33c)"><p style="margin:0 0 6px"><b>{{ o.holder.full_name }}</b> <span class="badge tone-warn">{% trans "à vous de répondre" %}</span></p>
+      {% include "includes/buyback_offer.html" with offer=o side="owner" %}</div>{% endfor %}
+    {% for o in offers_waiting %}<div class="card" style="margin-top:12px"><p style="margin:0 0 6px"><b>{{ o.holder.full_name }}</b></p>
+      {% include "includes/buyback_offer.html" with offer=o side="owner" %}</div>{% endfor %}
+
+    {% if project.status == "active" and holdings %}
+    <h3 style="margin-top:20px">{% trans "Faire une offre de rachat" %}</h3>
+    <form method="post" action="{% url 'projects:propose_buyback' project.slug %}" class="form">{% csrf_token %}
+      <div class="form-grid">
+        <div class="field wide"><label for="offer-holder">{% trans "Actionnaire" %}</label>
+          <select name="holder" id="offer-holder" required><option value="">—</option>
+            {% for h in holdings %}<option value="{{ h.user_id }}" {% if h.user_id == offer_to %}selected{% endif %} {% if h.offer or not h.free_shares %}disabled{% endif %}>{{ h.user.full_name }} — {% blocktrans with n=h.free_shares %}{{ n }} parts{% endblocktrans %}{% if h.offer %} ({% trans "offre en cours" %}){% endif %}</option>{% endfor %}</select></div>
+        <div class="field"><label for="offer-shares">{% trans "Parts à racheter" %}</label><input type="number" name="shares" id="offer-shares" min="1" required></div>
+        <div class="field"><label for="offer-price">{% trans "Prix par part (MRU)" %}</label><input type="number" name="price" id="offer-price" min="1" step="1" value="{{ project.share_price|floatformat:'0' }}" required>
+          <div class="help">{% blocktrans with x=project.share_price|money %}Dernier prix d'émission : {{ x }} MRU.{% endblocktrans %}{% if project.last_trade_price %} {% blocktrans with x=project.last_trade_price|money %}Dernier échange sur le marché : {{ x }} MRU.{% endblocktrans %}{% endif %}</div></div>
+        <div class="field wide"><label for="offer-message">{% trans "Message (facultatif)" %}</label><input type="text" name="message" id="offer-message" maxlength="255"></div>
+      </div>
+      <button class="btn" data-confirm="{% trans 'Envoyer cette offre ? Le montant sera réservé sur votre portefeuille jusqu’à la réponse.' %}">{% trans "Envoyer l'offre" %}</button></form>
+    {% endif %}
+
+    <h3 style="margin-top:24px">{% trans "Parts de vos actionnaires en vente sur le marché" %}</h3>
+    {% if market_listings %}<table class="table cards"><tbody>{% for l in market_listings %}<tr>
+      <td class="cell-title"><b>{{ l.seller.full_name }}</b> <span class="small muted">{{ l.created_at|date:"d/m/Y" }}</span></td><td class="n" data-label="{% trans 'Parts' %}">{{ l.remaining }}</td><td class="n" data-label="{% trans 'Prix par part (MRU)' %}"><b>{{ l.price_per_share|money }}</b></td>
+      <td class="n cell-action"><a class="btn small" href="{% url 'market:buy' l.pk %}">{% trans "Racheter" %}</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="muted small">{% trans "Aucune part en vente sur le marché pour le moment." %}</p>{% endif %}
+
+    {% if buybacks_done or closed_offers %}<h3 style="margin-top:24px">{% trans "Historique des rachats" %}</h3>
+    <div class="table-wrap"><table class="table"><tbody>
+      {% for b in buybacks_done %}<tr><td>{{ b.date|date:"d/m/Y" }}</td><td>{{ b.who.full_name }}</td><td class="n">{{ b.shares }} × {{ b.price|money }}</td><td><span class="badge tone-good">{% if b.how == "market" %}{% trans "racheté sur le marché" %}{% else %}{% trans "offre acceptée" %}{% endif %}</span></td></tr>{% endfor %}
+      {% for o in closed_offers %}<tr><td>{{ o.updated_at|date:"d/m/Y" }}</td><td>{{ o.holder.full_name }}</td><td class="n">{{ o.shares }} × {{ o.price|money }}</td><td>{% badge o.status o.get_status_display %}</td></tr>{% endfor %}
+    </tbody></table></div>{% endif %}
+  </section>
+
+  {# ------------------------------------------------------------ new parts #}
+  <section class="panel anchor" id="issue" style="margin-top:20px"><h2>{% trans "Émettre de nouvelles parts" %}</h2>
+    <p class="small muted">{% trans "Pour lever plus d'argent, mettez de nouvelles parts en vente sur cette même page. Vos actionnaires actuels restent actionnaires ; leur pourcentage baisse quand les nouvelles parts sont vendues, et ils sont prévenus. Notre équipe valide chaque émission." %}</p>
+    {% if pending_issue %}
+      <div class="note warn">{% blocktrans with n=pending_issue.shares x=pending_issue.price|money d=pending_issue.created_at|date:"d/m/Y" %}Demande du {{ d }} : {{ n }} nouvelles parts à {{ x }} MRU, en attente de validation.{% endblocktrans %}</div>
+      <form method="post" action="{% url 'projects:cancel_issue' project.slug pending_issue.pk %}" style="margin-top:10px">{% csrf_token %}<button class="btn small ghost">{% trans "Annuler la demande" %}</button></form>
+    {% elif project.is_share_offering %}
+      <p>{% blocktrans with r=project.shares_available %}Il reste {{ r }} parts en vente. Vous pourrez demander une nouvelle émission quand elles seront vendues, ou après avoir arrêté la vente.{% endblocktrans %}</p>
+    {% elif project.status == "active" %}
+      <form method="post" action="{% url 'projects:request_issue' project.slug %}" class="form">{% csrf_token %}{% include "includes/form.html" with form=issue_form %}
+        <button class="btn secondary" data-confirm="{% trans 'Envoyer cette demande à notre équipe ?' %}">{% trans "Demander l'émission" %}</button></form>
+    {% endif %}
+    {% if issues %}<h3 style="margin-top:18px">{% trans "Émissions" %}</h3><div class="table-wrap"><table class="table"><tbody>{% for it in issues %}<tr><td>{{ it.created_at|date:"d/m/Y" }}</td><td class="n">{{ it.shares }} × {{ it.price|money }} MRU</td><td>{% badge it.status it.get_status_display %}{% if it.staff_reason %}<div class="small muted">{{ it.staff_reason }}</div>{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+  </section>
+
+  {# ------------------------------------------------------------ questions & news #}
+  <div class="grid g2" style="margin-top:20px">
+    <section class="panel anchor" id="questions"><h2>{% trans "Questions des investisseurs" %}</h2>
+      {% for q in open_questions %}<form method="post" action="{% url 'projects:answer' project.slug q.pk %}" class="qa-item">{% csrf_token %}<p><b>{{ q.asker.full_name }}</b> : {{ q.question }}</p><textarea name="answer" rows="2" required></textarea><button class="btn small" style="margin-top:6px">{% trans "Répondre publiquement" %}</button></form>
+      {% empty %}<p class="muted">{% trans "Aucune question en attente." %}</p>{% endfor %}
+      {% if answered_questions %}<p class="small muted"><a href="{{ project.get_absolute_url }}#qa">{% blocktrans count n=answered_questions %}{{ n }} question déjà répondue{% plural %}{{ n }} questions déjà répondues{% endblocktrans %}</a></p>{% endif %}</section>
+    <section class="panel anchor" id="updates"><h2>{% trans "Donner des nouvelles" %}</h2>
+      <p class="small muted">{% trans "Vos actionnaires reçoivent une notification. Ventes du mois, ouverture, nouveau client : la confiance se construit ainsi." %}</p>
+      <form method="post" enctype="multipart/form-data" action="{% url 'projects:post_update' project.slug %}" class="form">{% csrf_token %}{% include "includes/form.html" with form=update_form grid="stack" %}<button class="btn secondary">{% trans "Publier" %}</button></form>
+      {% if updates %}<h3 style="margin-top:18px">{% trans "Déjà publiées" %}</h3>{% for u in updates %}<p class="small"><b>{{ u.title }}</b> <span class="muted">{{ u.created_at|date:"d/m/Y" }}</span></p>{% endfor %}{% endif %}</section>
+  </div>
+
+  {% if interests %}<section class="panel anchor" id="interests" style="margin-top:20px"><h2>{% trans "Intentions d'investissement" %}</h2>
+    <div class="table-wrap"><table class="table"><tbody>{% for it in interests %}<tr><td>{{ it.user.full_name }}</td><td class="n">{% if it.amount %}{{ it.amount|money }} MRU{% else %}—{% endif %}</td><td class="small muted">{{ it.created_at|date:"d/m/Y" }}</td></tr>{% endfor %}</tbody></table></div></section>{% endif %}
+</div>{% endblock %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-05 16:51+0100\n"
+"POT-Creation-Date: 2026-11-05 17:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -617,14 +617,56 @@ msgstr "Toutes vos parts sont vendues"
 msgid "Action impossible pour ce projet."
 msgstr "Action impossible pour ce projet."
 
+msgid "Impossible d'émettre des parts pour ce projet."
+msgstr "Impossible d'émettre des parts pour ce projet."
+
+msgid "Des parts sont encore en vente : attendez qu'elles soient vendues ou arrêtez la vente."
+msgstr "Des parts sont encore en vente : attendez qu'elles soient vendues ou arrêtez la vente."
+
+msgid "Une demande d'émission est déjà en attente de validation."
+msgstr "Une demande d'émission est déjà en attente de validation."
+
+msgid "Indiquez un nombre de parts et un prix entier."
+msgstr "Indiquez un nombre de parts et un prix entier."
+
+msgid "Émission de parts à valider"
+msgstr "Émission de parts à valider"
+
+#, python-format
+msgid "« %(p)s » : %(n)s nouvelles parts à %(x)s MRU."
+msgstr "« %(p)s » : %(n)s nouvelles parts à %(x)s MRU."
+
+msgid "Cette demande ne peut plus être annulée."
+msgstr "Cette demande ne peut plus être annulée."
+
+msgid "Cette demande a déjà été traitée."
+msgstr "Cette demande a déjà été traitée."
+
+msgid "Émission de parts refusée"
+msgstr "Émission de parts refusée"
+
+msgid "Le projet n'est pas en état de vendre de nouvelles parts."
+msgstr "Le projet n'est pas en état de vendre de nouvelles parts."
+
+msgid "Nouvelles parts émises"
+msgstr "Nouvelles parts émises"
+
+#, python-format
+msgid "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
+msgstr "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
+
+msgid "Nouvelles parts en vente"
+msgstr "Nouvelles parts en vente"
+
+#, python-format
+msgid "%(n)s nouvelles parts de « %(p)s » sont en vente à %(x)s MRU."
+msgstr "%(n)s nouvelles parts de « %(p)s » sont en vente à %(x)s MRU."
+
 msgid "Ce projet ne peut pas verser de dividende."
 msgstr "Ce projet ne peut pas verser de dividende."
 
 msgid "Indiquez le montant du dividende."
 msgstr "Indiquez le montant du dividende."
-
-msgid "Dividende"
-msgstr "Dividende"
 
 msgid "Indiquez un nombre de parts et un prix."
 msgstr "Indiquez un nombre de parts et un prix."
@@ -743,6 +785,9 @@ msgstr "Produit de liquidation"
 msgid "Remboursement final (capital et bénéfice)"
 msgstr "Remboursement final (capital et bénéfice)"
 
+msgid "Dividende"
+msgstr "Dividende"
+
 msgid "montant versé par le porteur"
 msgstr "montant versé par le porteur"
 
@@ -820,6 +865,30 @@ msgstr "offre de rachat"
 
 msgid "offres de rachat"
 msgstr "offres de rachat"
+
+msgid "Validée : parts en vente"
+msgstr "Validée : parts en vente"
+
+msgid "Refusée"
+msgstr "Refusée"
+
+msgid "Annulée par le porteur"
+msgstr "Annulée par le porteur"
+
+msgid "nouvelles parts"
+msgstr "nouvelles parts"
+
+msgid "prix d'une part (MRU)"
+msgstr "prix d'une part (MRU)"
+
+msgid "à quoi servira l'argent"
+msgstr "à quoi servira l'argent"
+
+msgid "émission de parts"
+msgstr "émission de parts"
+
+msgid "émissions de parts"
+msgstr "émissions de parts"
 
 msgid "La collecte de ce projet n'est pas ouverte."
 msgstr "La collecte de ce projet n'est pas ouverte."
@@ -1240,6 +1309,15 @@ msgstr "Montant total du dividende (MRU)"
 msgid "Message aux actionnaires (facultatif)"
 msgstr "Message aux actionnaires (facultatif)"
 
+msgid "Nombre de nouvelles parts"
+msgstr "Nombre de nouvelles parts"
+
+msgid "À quoi servira l'argent ?"
+msgstr "À quoi servira l'argent ?"
+
+msgid "Vos actionnaires recevront ce message avec l'annonce."
+msgstr "Vos actionnaires recevront ce message avec l'annonce."
+
 msgid "Parts"
 msgstr "Parts"
 
@@ -1507,6 +1585,12 @@ msgstr "corrections demandées"
 
 msgid "revente des parts autorisée"
 msgstr "revente des parts autorisée"
+
+msgid "parts émises"
+msgstr "parts émises"
+
+msgid "Entreprise : nombre total de parts émises (première vente et émissions suivantes)."
+msgstr "Entreprise : nombre total de parts émises (première vente et émissions suivantes)."
 
 msgid "parts encore en vente"
 msgstr "parts encore en vente"
@@ -2474,8 +2558,29 @@ msgstr "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez."
 msgid "Dividende versé : %(a)s MRU partagés entre les actionnaires, soit %(x)s MRU par part."
 msgstr "Dividende versé : %(a)s MRU partagés entre les actionnaires, soit %(x)s MRU par part."
 
+msgid "Demande envoyée. Notre équipe la vérifie, puis les nouvelles parts seront mises en vente."
+msgstr "Demande envoyée. Notre équipe la vérifie, puis les nouvelles parts seront mises en vente."
+
+msgid "Demande annulée."
+msgstr "Demande annulée."
+
+msgid "Nom"
+msgstr "Nom"
+
+msgid "Part du capital (%)"
+msgstr "Part du capital (%)"
+
+msgid "Parts en vente sur le marché"
+msgstr "Parts en vente sur le marché"
+
+msgid "Total reçu (MRU)"
+msgstr "Total reçu (MRU)"
+
 msgid "Vente arrêtée : les parts non vendues ne sont plus proposées."
 msgstr "Vente arrêtée : les parts non vendues ne sont plus proposées."
+
+msgid "Choisissez un actionnaire."
+msgstr "Choisissez un actionnaire."
 
 msgid "Offre envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."
 msgstr "Offre envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."
@@ -2657,6 +2762,12 @@ msgstr "Indiquez le motif du refus."
 
 msgid "Remboursement refusé : le montant est rendu au porteur."
 msgstr "Remboursement refusé : le montant est rendu au porteur."
+
+msgid "Émission validée : les nouvelles parts sont en vente."
+msgstr "Émission validée : les nouvelles parts sont en vente."
+
+msgid "Émission refusée."
+msgstr "Émission refusée."
 
 msgid "Recalculer"
 msgstr "Recalculer"
@@ -3185,9 +3296,6 @@ msgstr "Aller à mon espace"
 
 msgid "Corriger mon dossier"
 msgstr "Corriger mon dossier"
-
-msgid "Nom"
-msgstr "Nom"
 
 msgid "Se connecter"
 msgstr "Se connecter"
@@ -4132,8 +4240,8 @@ msgstr "Garanties"
 msgid "Prix d'une part"
 msgstr "Prix d'une part"
 
-msgid "Parts mises en vente"
-msgstr "Parts mises en vente"
+msgid "Parts émises"
+msgstr "Parts émises"
 
 msgid "Vos droits"
 msgstr "Vos droits"
@@ -4660,9 +4768,6 @@ msgstr "Lien ouvert %(n)s fois."
 msgid "MRU collectés"
 msgstr "MRU collectés"
 
-msgid "actionnaires"
-msgstr "actionnaires"
-
 msgid "MRU de capital à rendre"
 msgstr "MRU de capital à rendre"
 
@@ -4686,49 +4791,6 @@ msgstr "Mettre en avant 7 jours (%(f)s MRU)"
 
 msgid "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; les fonds seront ensuite versés dans votre portefeuille."
 msgstr "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; les fonds seront ensuite versés dans votre portefeuille."
-
-msgid "Vente des parts"
-msgstr "Vente des parts"
-
-#, python-format
-msgid "%(s)s parts vendues sur %(t)s. Les %(r)s parts restantes restent en vente : chaque acheteur devient actionnaire tout de suite et l'argent arrive dans votre portefeuille."
-msgstr "%(s)s parts vendues sur %(t)s. Les %(r)s parts restantes restent en vente : chaque acheteur devient actionnaire tout de suite et l'argent arrive dans votre portefeuille."
-
-msgid "Arrêter la vente des parts restantes ? Ce choix est définitif."
-msgstr "Arrêter la vente des parts restantes ? Ce choix est définitif."
-
-msgid "Arrêter la vente"
-msgstr "Arrêter la vente"
-
-#, python-format
-msgid "La vente est terminée (%(s)s parts vendues). Vos actionnaires peuvent revendre leurs parts sur le marché."
-msgstr "La vente est terminée (%(s)s parts vendues). Vos actionnaires peuvent revendre leurs parts sur le marché."
-
-msgid "Verser un dividende"
-msgstr "Verser un dividende"
-
-#, python-format
-msgid "Indiquez le montant total : chaque actionnaire reçoit sa part selon le nombre de parts qu'il détient (%(n)s parts au total)."
-msgstr "Indiquez le montant total : chaque actionnaire reçoit sa part selon le nombre de parts qu'il détient (%(n)s parts au total)."
-
-msgid "Commission de la plateforme : <b data-k=\"fee\"></b> MRU · les actionnaires reçoivent <b data-k=\"net\"></b> MRU, soit <b data-k=\"per\"></b> MRU par part."
-msgstr "Commission de la plateforme : <b data-k=\"fee\"></b> MRU · les actionnaires reçoivent <b data-k=\"net\"></b> MRU, soit <b data-k=\"per\"></b> MRU par part."
-
-msgid "Verser ce dividende maintenant ? Le montant sera prélevé sur votre portefeuille."
-msgstr "Verser ce dividende maintenant ? Le montant sera prélevé sur votre portefeuille."
-
-msgid "Verser le dividende"
-msgstr "Verser le dividende"
-
-msgid "Pas encore d'actionnaire."
-msgstr "Pas encore d'actionnaire."
-
-msgid "Dividendes versés"
-msgstr "Dividendes versés"
-
-#, python-format
-msgid "%(x)s MRU / part"
-msgstr "%(x)s MRU / part"
 
 msgid "Rapports à publier"
 msgstr "Rapports à publier"
@@ -4839,28 +4901,6 @@ msgstr "Intentions d'investissement"
 msgid "prévenu"
 msgstr "prévenu"
 
-msgid "Actionnaires"
-msgstr "Actionnaires"
-
-msgid "Pour racheter des parts, faites une offre à un actionnaire : il peut accepter, refuser ou proposer d'autres conditions. Vous pouvez aussi acheter les parts mises en vente sur le marché. Les parts rachetées sont annulées."
-msgstr "Pour racheter des parts, faites une offre à un actionnaire : il peut accepter, refuser ou proposer d'autres conditions. Vous pouvez aussi acheter les parts mises en vente sur le marché. Les parts rachetées sont annulées."
-
-#, python-format
-msgid "%(n)s parts · %(p)s %%"
-msgstr "%(n)s parts · %(p)s %%"
-
-msgid "Proposer un rachat"
-msgstr "Proposer un rachat"
-
-msgid "Envoyer cette offre ? Le montant sera réservé sur votre portefeuille jusqu’à la réponse."
-msgstr "Envoyer cette offre ? Le montant sera réservé sur votre portefeuille jusqu’à la réponse."
-
-msgid "Envoyer l'offre"
-msgstr "Envoyer l'offre"
-
-msgid "Offres de rachat passées"
-msgstr "Offres de rachat passées"
-
 msgid "Associés"
 msgstr "Associés"
 
@@ -4869,6 +4909,195 @@ msgstr "Pas encore d'investisseur."
 
 msgid "Part du capital"
 msgstr "Part du capital"
+
+msgid "Gestion du projet"
+msgstr "Gestion du projet"
+
+msgid "Aperçu"
+msgstr "Aperçu"
+
+msgid "Actionnaires"
+msgstr "Actionnaires"
+
+msgid "Dividendes"
+msgstr "Dividendes"
+
+msgid "Rachats"
+msgstr "Rachats"
+
+msgid "Nouvelles parts"
+msgstr "Nouvelles parts"
+
+msgid "Nouvelles"
+msgstr "Nouvelles"
+
+#, python-format
+msgid "Un actionnaire attend votre réponse à une offre de rachat."
+msgid_plural "%(n)s actionnaires attendent votre réponse à une offre de rachat."
+msgstr[0] "Un actionnaire attend votre réponse à une offre de rachat."
+msgstr[1] "%(n)s actionnaires attendent votre réponse à une offre de rachat."
+
+msgid "Répondre"
+msgstr "Répondre"
+
+#, python-format
+msgid "Une question attend votre réponse."
+msgid_plural "%(n)s questions attendent votre réponse."
+msgstr[0] "Une question attend votre réponse."
+msgstr[1] "%(n)s questions attendent votre réponse."
+
+msgid "parts détenues par vos actionnaires"
+msgstr "parts détenues par vos actionnaires"
+
+msgid "actionnaires"
+msgstr "actionnaires"
+
+msgid "MRU levés"
+msgstr "MRU levés"
+
+msgid "MRU de dividendes versés"
+msgstr "MRU de dividendes versés"
+
+msgid "Vente des parts"
+msgstr "Vente des parts"
+
+#, python-format
+msgid "%(s)s parts vendues sur %(t)s. Il reste %(r)s parts en vente à %(x)s MRU : chaque acheteur devient actionnaire tout de suite et l'argent arrive dans votre portefeuille."
+msgstr "%(s)s parts vendues sur %(t)s. Il reste %(r)s parts en vente à %(x)s MRU : chaque acheteur devient actionnaire tout de suite et l'argent arrive dans votre portefeuille."
+
+msgid "Arrêter la vente ? Les parts non vendues sont annulées. Vous pourrez plus tard demander une nouvelle émission."
+msgstr "Arrêter la vente ? Les parts non vendues sont annulées. Vous pourrez plus tard demander une nouvelle émission."
+
+msgid "Arrêter la vente"
+msgstr "Arrêter la vente"
+
+#, python-format
+msgid "Pas de parts en vente actuellement (%(s)s parts émises). Vos actionnaires peuvent revendre leurs parts sur le marché."
+msgstr "Pas de parts en vente actuellement (%(s)s parts émises). Vos actionnaires peuvent revendre leurs parts sur le marché."
+
+msgid "Émettre de nouvelles parts"
+msgstr "Émettre de nouvelles parts"
+
+msgid "Ce projet est terminé."
+msgstr "Ce projet est terminé."
+
+msgid "Télécharger la liste (Excel)"
+msgstr "Télécharger la liste (Excel)"
+
+msgid "Sur le marché"
+msgstr "Sur le marché"
+
+msgid "à vous de répondre"
+msgstr "à vous de répondre"
+
+msgid "offre envoyée"
+msgstr "offre envoyée"
+
+msgid "Pas encore d'actionnaire."
+msgstr "Pas encore d'actionnaire."
+
+msgid "Verser un dividende"
+msgstr "Verser un dividende"
+
+#, python-format
+msgid "Indiquez le montant total : chaque actionnaire reçoit sa part selon le nombre de parts qu'il détient (%(n)s parts au total)."
+msgstr "Indiquez le montant total : chaque actionnaire reçoit sa part selon le nombre de parts qu'il détient (%(n)s parts au total)."
+
+msgid "Commission de la plateforme : <b data-k=\"fee\"></b> MRU · les actionnaires reçoivent <b data-k=\"net\"></b> MRU, soit <b data-k=\"per\"></b> MRU par part."
+msgstr "Commission de la plateforme : <b data-k=\"fee\"></b> MRU · les actionnaires reçoivent <b data-k=\"net\"></b> MRU, soit <b data-k=\"per\"></b> MRU par part."
+
+msgid "Verser ce dividende maintenant ? Le montant sera prélevé sur votre portefeuille."
+msgstr "Verser ce dividende maintenant ? Le montant sera prélevé sur votre portefeuille."
+
+msgid "Verser le dividende"
+msgstr "Verser le dividende"
+
+msgid "Dividendes versés"
+msgstr "Dividendes versés"
+
+#, python-format
+msgid "%(x)s MRU / part"
+msgstr "%(x)s MRU / part"
+
+msgid "Faites une offre à un actionnaire : il peut accepter, refuser ou proposer d'autres conditions. Le montant est réservé sur votre portefeuille pendant qu'il réfléchit. Vous pouvez aussi racheter les parts que vos actionnaires mettent en vente sur le marché. Les parts rachetées sont annulées : les dividendes suivants sont partagés entre les autres actionnaires."
+msgstr "Faites une offre à un actionnaire : il peut accepter, refuser ou proposer d'autres conditions. Le montant est réservé sur votre portefeuille pendant qu'il réfléchit. Vous pouvez aussi racheter les parts que vos actionnaires mettent en vente sur le marché. Les parts rachetées sont annulées : les dividendes suivants sont partagés entre les autres actionnaires."
+
+msgid "Faire une offre de rachat"
+msgstr "Faire une offre de rachat"
+
+msgid "Actionnaire"
+msgstr "Actionnaire"
+
+#, python-format
+msgid "%(n)s parts"
+msgstr "%(n)s parts"
+
+msgid "offre en cours"
+msgstr "offre en cours"
+
+#, python-format
+msgid "Dernier prix d'émission : %(x)s MRU."
+msgstr "Dernier prix d'émission : %(x)s MRU."
+
+#, python-format
+msgid "Dernier échange sur le marché : %(x)s MRU."
+msgstr "Dernier échange sur le marché : %(x)s MRU."
+
+msgid "Envoyer cette offre ? Le montant sera réservé sur votre portefeuille jusqu’à la réponse."
+msgstr "Envoyer cette offre ? Le montant sera réservé sur votre portefeuille jusqu’à la réponse."
+
+msgid "Envoyer l'offre"
+msgstr "Envoyer l'offre"
+
+msgid "Parts de vos actionnaires en vente sur le marché"
+msgstr "Parts de vos actionnaires en vente sur le marché"
+
+msgid "Aucune part en vente sur le marché pour le moment."
+msgstr "Aucune part en vente sur le marché pour le moment."
+
+msgid "Historique des rachats"
+msgstr "Historique des rachats"
+
+msgid "racheté sur le marché"
+msgstr "racheté sur le marché"
+
+msgid "offre acceptée"
+msgstr "offre acceptée"
+
+msgid "Pour lever plus d'argent, mettez de nouvelles parts en vente sur cette même page. Vos actionnaires actuels restent actionnaires ; leur pourcentage baisse quand les nouvelles parts sont vendues, et ils sont prévenus. Notre équipe valide chaque émission."
+msgstr "Pour lever plus d'argent, mettez de nouvelles parts en vente sur cette même page. Vos actionnaires actuels restent actionnaires ; leur pourcentage baisse quand les nouvelles parts sont vendues, et ils sont prévenus. Notre équipe valide chaque émission."
+
+#, python-format
+msgid "Demande du %(d)s : %(n)s nouvelles parts à %(x)s MRU, en attente de validation."
+msgstr "Demande du %(d)s : %(n)s nouvelles parts à %(x)s MRU, en attente de validation."
+
+msgid "Annuler la demande"
+msgstr "Annuler la demande"
+
+#, python-format
+msgid "Il reste %(r)s parts en vente. Vous pourrez demander une nouvelle émission quand elles seront vendues, ou après avoir arrêté la vente."
+msgstr "Il reste %(r)s parts en vente. Vous pourrez demander une nouvelle émission quand elles seront vendues, ou après avoir arrêté la vente."
+
+msgid "Envoyer cette demande à notre équipe ?"
+msgstr "Envoyer cette demande à notre équipe ?"
+
+msgid "Demander l'émission"
+msgstr "Demander l'émission"
+
+msgid "Émissions"
+msgstr "Émissions"
+
+#, python-format
+msgid "%(n)s question déjà répondue"
+msgid_plural "%(n)s questions déjà répondues"
+msgstr[0] "%(n)s question déjà répondue"
+msgstr[1] "%(n)s questions déjà répondues"
+
+msgid "Vos actionnaires reçoivent une notification. Ventes du mois, ouverture, nouveau client : la confiance se construit ainsi."
+msgstr "Vos actionnaires reçoivent une notification. Ventes du mois, ouverture, nouveau client : la confiance se construit ainsi."
+
+msgid "Déjà publiées"
+msgstr "Déjà publiées"
 
 msgid "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
 msgstr "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
@@ -5093,6 +5322,9 @@ msgstr "rapports à vérifier"
 msgid "remboursements à valider"
 msgstr "remboursements à valider"
 
+msgid "émissions de parts à valider"
+msgstr "émissions de parts à valider"
+
 msgid "Revenus du mois"
 msgstr "Revenus du mois"
 
@@ -5144,6 +5376,30 @@ msgstr "motif du refus"
 
 msgid "File vide."
 msgstr "File vide."
+
+msgid "Émissions de parts à valider"
+msgstr "Émissions de parts à valider"
+
+msgid "Une entreprise demande à mettre de nouvelles parts en vente sur la même page projet. Une fois validées, elles sont en vente tout de suite et les actionnaires actuels sont prévenus."
+msgstr "Une entreprise demande à mettre de nouvelles parts en vente sur la même page projet. Une fois validées, elles sont en vente tout de suite et les actionnaires actuels sont prévenus."
+
+msgid "Prix de la dernière émission"
+msgstr "Prix de la dernière émission"
+
+msgid "Parts détenues aujourd'hui"
+msgstr "Parts détenues aujourd'hui"
+
+msgid "Après la vente de toutes les nouvelles parts"
+msgstr "Après la vente de toutes les nouvelles parts"
+
+msgid "Mettre ces parts en vente maintenant ?"
+msgstr "Mettre ces parts en vente maintenant ?"
+
+msgid "Valider et mettre en vente"
+msgstr "Valider et mettre en vente"
+
+msgid "Déjà traitées"
+msgstr "Déjà traitées"
 
 msgid "Dossiers KYC"
 msgstr "Dossiers KYC"
@@ -5398,9 +5654,6 @@ msgstr "membre depuis %(d)s"
 
 msgid "projets publiés"
 msgstr "projets publiés"
-
-msgid "MRU levés"
-msgstr "MRU levés"
 
 msgid "versements à l'heure"
 msgstr "versements à l'heure"

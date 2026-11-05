@@ -14,7 +14,7 @@ from django.views.decorators.http import require_POST
 from apps.accounts.decorators import staff_required
 from apps.accounts.models import KYCProfile, User
 from apps.accounts.services import approve_kyc, reject_kyc
-from apps.investments.models import DealSettlement
+from apps.investments.models import DealSettlement, ShareIssue
 from apps.investments.services import (InvestmentError, deal_split, mark_default, refund_campaign, reject_settlement,
                                        release_funds, validate_settlement)
 from apps.projects.models import FinancialReport, Installment, Project
@@ -67,6 +67,7 @@ def dashboard(request):
         "withdrawals_pending": WithdrawalRequest.objects.filter(status="pending").count(),
         "reports_pending": FinancialReport.objects.filter(status="submitted").count(),
         "settlements_pending": DealSettlement.objects.filter(status="pending").count(),
+        "issues_pending": ShareIssue.objects.filter(status="pending").count(),
         "late_installments": Installment.objects.filter(status__in=["late", "defaulted"]).select_related("project")[:20],
         "platform": platform, "revenue": revenue,
         "revenue_total": sum((r["total"] for r in revenue), 0),
@@ -236,3 +237,32 @@ def settlements(request):
         st.split = deal_split(st.project, st.amount)
     done = DealSettlement.objects.exclude(status="pending").select_related("project", "decided_by")[:30]
     return render(request, "staff/settlements.html", {"items": items, "done": done})
+
+
+@staff_required
+def issues(request):
+    """Companies asking to put new parts on sale on the same project page."""
+    from apps.investments import company as C
+
+    if request.method == "POST":
+        issue = get_object_or_404(ShareIssue, pk=request.POST.get("id"))
+        try:
+            if request.POST.get("action") == "approve":
+                C.approve_issue(issue, request.user)
+                messages.success(request, _("Émission validée : les nouvelles parts sont en vente."))
+            else:
+                reason = request.POST.get("reason", "").strip()
+                if not reason:
+                    messages.error(request, _("Indiquez le motif du refus."))
+                    return redirect("staff:issues")
+                C.reject_issue(issue, request.user, reason)
+                messages.success(request, _("Émission refusée."))
+        except InvestmentError as e:
+            messages.error(request, str(e))
+        return redirect("staff:issues")
+    items = list(ShareIssue.objects.filter(status="pending").select_related("project__owner").order_by("created_at"))
+    for it in items:
+        it.outstanding = C.outstanding_shares(it.project)
+        it.after = it.outstanding + it.shares
+    done = ShareIssue.objects.exclude(status="pending").select_related("project", "decided_by")[:30]
+    return render(request, "staff/issues.html", {"items": items, "done": done})

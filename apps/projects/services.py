@@ -110,6 +110,7 @@ def approve_project(project, reviewer, risk_grade, public_notes=""):
         # Parts go on sale at once: each buyer becomes a shareholder, unsold parts stay on sale.
         project.status = Project.Status.ACTIVE
         project.offering_open = True
+        project.shares_issued = int(project.target_amount // project.share_price) if project.share_price else 0
         project.released_at = timezone.now()
         project.campaign_end = None
         project.min_shares = 1

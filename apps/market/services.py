@@ -128,6 +128,7 @@ def buy(buyer, listing, shares):
         from apps.trust.services import record_event
 
         record_event(project.owner, "buyback", project=project)
+        _close_if_no_shareholders(project)
     else:
         bh, _c = Holding.objects.select_for_update().get_or_create(user=buyer, project=project)
         bh.shares += shares
@@ -145,6 +146,16 @@ def buy(buyer, listing, shares):
            N_("%(n)s part(s) de « %(p)s » vendue(s), %(a)s MRU crédités.") % {
                "n": shares, "p": project.title, "a": f"{q['seller_net']:,.0f}".replace(",", " ")}, url="/wallet/")
     return trade
+
+
+def _close_if_no_shareholders(project):
+    """The company bought back every part: nothing left to share, the project is finished."""
+    from apps.investments.services import complete_project
+
+    if not Holding.objects.filter(project=project, shares__gt=0).exists():
+        project.refresh_from_db()
+        if not project.is_share_offering:
+            complete_project(project)
 
 
 def expire_listings():

@@ -14,7 +14,7 @@
       <form method="post" action="{% url 'projects:answer_buyback' offer.pk %}" class="row" style="margin-top:8px;align-items:flex-end">{% csrf_token %}<input type="hidden" name="action" value="counter">
         <div class="field" style="margin:0"><label>{% trans "Parts" %}</label><input type="number" name="shares" min="1" value="{{ offer.shares }}" required style="width:90px"></div>
         <div class="field" style="margin:0"><label>{% trans "Prix par part (MRU)" %}</label><input type="number" name="price" min="1" step="1" value="{{ offer.price|floatformat:'0' }}" required style="width:120px"></div>
-        <div class="field" style="margin:0;flex:1;min-width:140px"><label>{% trans "Message (facultatif)" %}</label><input name="message" maxlength="255"></div>
+        <div class="field" style="margin:0;flex:1;min-width:140px"><label>{% trans "Message (facultatif)" %}</label><input type="text" name="message" maxlength="255"></div>
         <button class="btn small secondary">{% trans "Envoyer" %}</button></form></details>
   {% else %}
     <p class="small muted" style="margin:6px 0 0">{% if side == "owner" %}{% trans "En attente de la réponse de l'actionnaire. Le montant est réservé sur votre portefeuille." %}{% else %}{% trans "En attente de la réponse de l'entreprise." %}{% endif %}</p>

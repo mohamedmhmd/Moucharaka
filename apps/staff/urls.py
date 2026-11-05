@@ -15,4 +15,5 @@ urlpatterns = [
     path("withdrawals/", views.withdrawals, name="withdrawals"),
     path("reports/", views.reports, name="reports"),
     path("settlements/", views.settlements, name="settlements"),
+    path("issues/", views.issues, name="issues"),
 ]

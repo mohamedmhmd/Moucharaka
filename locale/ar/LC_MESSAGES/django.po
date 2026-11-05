@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-05 16:51+0100\n"
+"POT-Creation-Date: 2026-11-05 17:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -170,7 +170,7 @@ msgstr "الهوية غير مكتملة"
 msgid "En cours de vérification"
 msgstr "قيد التحقق"
 
-#: apps/accounts/models.py:73 apps/projects/models.py:846
+#: apps/accounts/models.py:73 apps/projects/models.py:851
 #: templates/wallet/accounts.html:11
 msgid "Vérifié"
 msgstr "موثّق"
@@ -241,7 +241,7 @@ msgstr "المستخدمون"
 msgid "Brouillon"
 msgstr "مسودة"
 
-#: apps/accounts/models.py:143 apps/projects/models.py:845
+#: apps/accounts/models.py:143 apps/projects/models.py:850
 msgid "Soumis"
 msgstr "مُرسَل"
 
@@ -313,8 +313,8 @@ msgstr "تنمية حيوانية / زراعة"
 msgid "Pension"
 msgstr "معاش"
 
-#: apps/accounts/models.py:155 apps/projects/models.py:345
-#: apps/projects/models.py:371
+#: apps/accounts/models.py:155 apps/projects/models.py:350
+#: apps/projects/models.py:376
 msgid "Autre"
 msgstr "أخرى"
 
@@ -824,97 +824,152 @@ msgstr "بيعت جميع حصصك"
 msgid "Action impossible pour ce projet."
 msgstr "هذا الإجراء غير ممكن لهذا المشروع."
 
+#: apps/investments/company.py:116
+msgid "Impossible d'émettre des parts pour ce projet."
+msgstr "لا يمكن إصدار حصص لهذا المشروع."
+
 #: apps/investments/company.py:118
+msgid "Des parts sont encore en vente : attendez qu'elles soient vendues ou arrêtez la vente."
+msgstr "لا تزال هناك حصص معروضة للبيع: انتظر حتى تُباع أو أوقف البيع."
+
+#: apps/investments/company.py:120
+msgid "Une demande d'émission est déjà en attente de validation."
+msgstr "هناك طلب إصدار في انتظار المصادقة بالفعل."
+
+#: apps/investments/company.py:122 apps/projects/views.py:745
+msgid "Indiquez un nombre de parts et un prix entier."
+msgstr "أدخل عدد الحصص وسعراً بدون كسور."
+
+#: apps/investments/company.py:126
+msgid "Émission de parts à valider"
+msgstr "إصدار حصص في انتظار المصادقة"
+
+#: apps/investments/company.py:127
+#, python-format
+msgid "« %(p)s » : %(n)s nouvelles parts à %(x)s MRU."
+msgstr "«%(p)s»: %(n)s حصة جديدة بسعر %(x)s أوقية."
+
+#: apps/investments/company.py:136
+msgid "Cette demande ne peut plus être annulée."
+msgstr "لم يعد بالإمكان إلغاء هذا الطلب."
+
+#: apps/investments/company.py:146 apps/investments/company.py:163
+msgid "Cette demande a déjà été traitée."
+msgstr "تمت معالجة هذا الطلب بالفعل."
+
+#: apps/investments/company.py:150
+msgid "Émission de parts refusée"
+msgstr "تم رفض إصدار الحصص"
+
+#: apps/investments/company.py:166
+msgid "Le projet n'est pas en état de vendre de nouvelles parts."
+msgstr "المشروع ليس في وضع يسمح ببيع حصص جديدة."
+
+#: apps/investments/company.py:177
+msgid "Nouvelles parts émises"
+msgstr "إصدار حصص جديدة"
+
+#: apps/investments/company.py:178
+#, python-format
+msgid "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
+msgstr "تعرض «%(p)s» %(n)s حصة جديدة للبيع بسعر %(x)s أوقية. حصصك (%(m)s) تمثل %(a)s %% اليوم و%(b)s %% عندما تُباع كل الحصص الجديدة. يمكنك شراء المزيد."
+
+#: apps/investments/company.py:183
+msgid "Nouvelles parts en vente"
+msgstr "حصص جديدة معروضة للبيع"
+
+#: apps/investments/company.py:184
+#, python-format
+msgid "%(n)s nouvelles parts de « %(p)s » sont en vente à %(x)s MRU."
+msgstr "%(n)s حصة جديدة من «%(p)s» معروضة للبيع بسعر %(x)s أوقية."
+
+#: apps/investments/company.py:209
 msgid "Ce projet ne peut pas verser de dividende."
 msgstr "لا يمكن لهذا المشروع توزيع أرباح."
 
-#: apps/investments/company.py:120 apps/projects/views.py:690
+#: apps/investments/company.py:211 apps/projects/views.py:720
 msgid "Indiquez le montant du dividende."
 msgstr "أدخل مبلغ الأرباح الموزعة."
 
-#: apps/investments/company.py:122 apps/investments/models.py:88
-msgid "Dividende"
-msgstr "أرباح موزعة"
-
-#: apps/investments/company.py:148 apps/projects/views.py:728
-#: apps/projects/views.py:751
+#: apps/investments/company.py:239 apps/projects/views.py:818
+#: apps/projects/views.py:841
 msgid "Indiquez un nombre de parts et un prix."
 msgstr "أدخل عدد الحصص والسعر."
 
-#: apps/investments/company.py:152
+#: apps/investments/company.py:243
 #, python-format
 msgid "Cet actionnaire n'a que %(n)s part(s) disponibles."
 msgstr "لا يملك هذا المساهم سوى %(n)s حصة متاحة."
 
-#: apps/investments/company.py:160 apps/investments/services.py:337
+#: apps/investments/company.py:251 apps/investments/services.py:337
 msgid "Rachat impossible pour ce projet."
 msgstr "إعادة الشراء غير ممكنة لهذا المشروع."
 
-#: apps/investments/company.py:162
+#: apps/investments/company.py:253
 msgid "Une offre est déjà en discussion avec cet actionnaire."
 msgstr "هناك عرض قيد النقاش مع هذا المساهم بالفعل."
 
-#: apps/investments/company.py:171
+#: apps/investments/company.py:262
 msgid "Offre de rachat de vos parts"
 msgstr "عرض لإعادة شراء حصصك"
 
-#: apps/investments/company.py:172
+#: apps/investments/company.py:263
 #, python-format
 msgid "« %(p)s » propose de racheter %(n)s part(s) à %(x)s MRU l'une."
 msgstr "تعرض «%(p)s» إعادة شراء %(n)s حصة بسعر %(x)s أوقية للحصة."
 
-#: apps/investments/company.py:182
+#: apps/investments/company.py:273
 msgid "Cette offre ne vous concerne pas."
 msgstr "هذا العرض لا يخصك."
 
-#: apps/investments/company.py:190
+#: apps/investments/company.py:281
 msgid "Cette offre est déjà close."
 msgstr "هذا العرض مغلق بالفعل."
 
-#: apps/investments/company.py:199
+#: apps/investments/company.py:290
 msgid "Offre de rachat close"
 msgstr "أُغلق عرض إعادة الشراء"
 
-#: apps/investments/company.py:203
+#: apps/investments/company.py:294
 msgid "C'est à l'autre partie de répondre."
 msgstr "الرد الآن على الطرف الآخر."
 
-#: apps/investments/company.py:207
+#: apps/investments/company.py:298
 msgid "Action inconnue."
 msgstr "إجراء غير معروف."
 
-#: apps/investments/company.py:216
+#: apps/investments/company.py:307
 msgid "Nouvelle offre de rachat"
 msgstr "عرض جديد لإعادة الشراء"
 
-#: apps/investments/company.py:217
+#: apps/investments/company.py:308
 #, python-format
 msgid "« %(p)s » propose %(n)s part(s) à %(x)s MRU l'une."
 msgstr "تعرض «%(p)s» %(n)s حصة بسعر %(x)s أوقية للحصة."
 
-#: apps/investments/company.py:221
+#: apps/investments/company.py:312
 msgid "Contre-proposition d'un actionnaire"
 msgstr "عرض مقابل من مساهم"
 
-#: apps/investments/company.py:222
+#: apps/investments/company.py:313
 #, python-format
 msgid "%(u)s propose %(n)s part(s) à %(x)s MRU l'une."
 msgstr "يقترح %(u)s %(n)s حصة بسعر %(x)s أوقية للحصة."
 
-#: apps/investments/company.py:252
+#: apps/investments/company.py:343
 msgid "L'actionnaire n'a plus assez de parts disponibles."
 msgstr "لم يعد لدى المساهم ما يكفي من الحصص المتاحة."
 
-#: apps/investments/company.py:274
+#: apps/investments/company.py:365
 #, python-format
 msgid "Rachat de %(n)s part(s) à %(x)s MRU"
 msgstr "إعادة شراء %(n)s حصة بسعر %(x)s أوقية"
 
-#: apps/investments/company.py:278
+#: apps/investments/company.py:369
 msgid "Rachat conclu"
 msgstr "تمت إعادة الشراء"
 
-#: apps/investments/company.py:279
+#: apps/investments/company.py:370
 #, python-format
 msgid "%(n)s part(s) de « %(p)s » rachetée(s) à %(x)s MRU l'une."
 msgstr "تمت إعادة شراء %(n)s حصة من «%(p)s» بسعر %(x)s أوقية للحصة."
@@ -992,6 +1047,10 @@ msgstr "عائد التصفية"
 msgid "Remboursement final (capital et bénéfice)"
 msgstr "السداد النهائي (رأس المال والربح)"
 
+#: apps/investments/models.py:88
+msgid "Dividende"
+msgstr "أرباح موزعة"
+
 #: apps/investments/models.py:96
 msgid "montant versé par le porteur"
 msgstr "المبلغ الذي دفعه صاحب المشروع"
@@ -1020,7 +1079,7 @@ msgstr "توزيع"
 msgid "distributions"
 msgstr "التوزيعات"
 
-#: apps/investments/models.py:135
+#: apps/investments/models.py:135 apps/investments/models.py:214
 msgid "En attente de validation"
 msgstr "في انتظار المصادقة"
 
@@ -1044,7 +1103,7 @@ msgstr "رأس مال المستثمرين"
 msgid "message du porteur"
 msgstr "رسالة صاحب المشروع"
 
-#: apps/investments/models.py:145
+#: apps/investments/models.py:145 apps/investments/models.py:224
 msgid "motif"
 msgstr "السبب"
 
@@ -1080,7 +1139,7 @@ msgstr "المساهم"
 msgid "prix par part (MRU)"
 msgstr "سعر الحصة (أوقية)"
 
-#: apps/investments/models.py:185 apps/projects/models.py:797
+#: apps/investments/models.py:185 apps/projects/models.py:802
 msgid "message"
 msgstr "الرسالة"
 
@@ -1095,6 +1154,38 @@ msgstr "عرض إعادة شراء"
 #: apps/investments/models.py:199
 msgid "offres de rachat"
 msgstr "عروض إعادة الشراء"
+
+#: apps/investments/models.py:215
+msgid "Validée : parts en vente"
+msgstr "مصادق عليه: الحصص معروضة للبيع"
+
+#: apps/investments/models.py:216
+msgid "Refusée"
+msgstr "مرفوض"
+
+#: apps/investments/models.py:217
+msgid "Annulée par le porteur"
+msgstr "ألغاه صاحب المشروع"
+
+#: apps/investments/models.py:220
+msgid "nouvelles parts"
+msgstr "حصص جديدة"
+
+#: apps/investments/models.py:221
+msgid "prix d'une part (MRU)"
+msgstr "سعر الحصة (أوقية)"
+
+#: apps/investments/models.py:222
+msgid "à quoi servira l'argent"
+msgstr "فيمَ سيُستخدم المال"
+
+#: apps/investments/models.py:232
+msgid "émission de parts"
+msgstr "إصدار حصص"
+
+#: apps/investments/models.py:233
+msgid "émissions de parts"
+msgstr "إصدارات الحصص"
 
 #: apps/investments/services.py:58
 msgid "La collecte de ce projet n'est pas ouverte."
@@ -1418,11 +1509,11 @@ msgstr "الكمية غير متوفرة (الحد الأقصى %(n)s)."
 msgid "Le vendeur vend ce lot en entier uniquement."
 msgstr "البائع يبيع هذه الدفعة كاملة فقط."
 
-#: apps/market/services.py:144
+#: apps/market/services.py:145
 msgid "Parts vendues"
 msgstr "تم بيع الحصص"
 
-#: apps/market/services.py:145
+#: apps/market/services.py:146
 #, python-format
 msgid "%(n)s part(s) de « %(p)s » vendue(s), %(a)s MRU crédités."
 msgstr "بيعت %(n)s حصة من «%(p)s»، وأضيفت %(a)s أوقية إلى رصيدك."
@@ -1431,8 +1522,8 @@ msgstr "بيعت %(n)s حصة من «%(p)s»، وأضيفت %(a)s أوقية إ�
 msgid "Parts à vendre"
 msgstr "الحصص المعروضة للبيع"
 
-#: apps/market/views.py:21 apps/projects/forms.py:404
-#: apps/projects/forms.py:410
+#: apps/market/views.py:21 apps/projects/forms.py:412
+#: apps/projects/forms.py:418
 msgid "Prix par part (MRU)"
 msgstr "سعر الحصة (أوقية)"
 
@@ -1440,7 +1531,7 @@ msgstr "سعر الحصة (أوقية)"
 msgid "Accepter la vente d'une partie du lot"
 msgstr "قبول بيع جزء من الدفعة"
 
-#: apps/market/views.py:24 apps/projects/forms.py:405
+#: apps/market/views.py:24 apps/projects/forms.py:413
 #: templates/includes/buyback_offer.html:17
 msgid "Message (facultatif)"
 msgstr "رسالة (اختياري)"
@@ -1503,7 +1594,7 @@ msgstr "عدد الحصص المعروضة للبيع"
 msgid "Chaque acheteur devient actionnaire pour toujours et reçoit les dividendes selon ses parts."
 msgstr "كل مشترٍ يصبح مساهماً بشكل دائم ويحصل على الأرباح الموزعة حسب حصصه."
 
-#: apps/projects/forms.py:111
+#: apps/projects/forms.py:111 apps/projects/forms.py:404
 msgid "Prix d'une part (MRU)"
 msgstr "سعر الحصة (أوقية)"
 
@@ -1592,17 +1683,17 @@ msgstr "النشاط أو المنتج أو الخدمة"
 msgid "La revente doit dépasser le coût d'achat."
 msgstr "يجب أن يتجاوز سعر إعادة البيع تكلفة الشراء."
 
-#: apps/projects/forms.py:267 apps/projects/models.py:551
+#: apps/projects/forms.py:267 apps/projects/models.py:556
 #: templates/staff/project_review.html:32
 msgid "mois"
 msgstr "شهر"
 
-#: apps/projects/forms.py:292 apps/projects/models.py:778
+#: apps/projects/forms.py:292 apps/projects/models.py:783
 #: templates/projects/detail.html:248
 msgid "Oui"
 msgstr "نعم"
 
-#: apps/projects/forms.py:292 apps/projects/models.py:778
+#: apps/projects/forms.py:292 apps/projects/models.py:783
 #: templates/projects/detail.html:248
 msgid "Non"
 msgstr "لا"
@@ -1652,70 +1743,82 @@ msgstr "المبلغ الإجمالي للأرباح الموزعة (أوقية)
 msgid "Message aux actionnaires (facultatif)"
 msgstr "رسالة إلى المساهمين (اختياري)"
 
-#: apps/projects/forms.py:403 templates/core/portfolio.html:16
-#: templates/includes/buyback_offer.html:15
+#: apps/projects/forms.py:403
+msgid "Nombre de nouvelles parts"
+msgstr "عدد الحصص الجديدة"
+
+#: apps/projects/forms.py:405
+msgid "À quoi servira l'argent ?"
+msgstr "فيمَ سيُستخدم المال؟"
+
+#: apps/projects/forms.py:407
+msgid "Vos actionnaires recevront ce message avec l'annonce."
+msgstr "سيستلم مساهموك هذه الرسالة مع الإعلان."
+
+#: apps/projects/forms.py:411 apps/projects/views.py:783
+#: templates/core/portfolio.html:16
 msgid "Parts"
 msgstr "الحصص"
 
-#: apps/projects/forms.py:409
+#: apps/projects/forms.py:417 templates/projects/manage_company.html:97
 msgid "Parts à racheter"
 msgstr "الحصص المراد إعادة شرائها"
 
-#: apps/projects/forms.py:414 templates/projects/explore.html:7
+#: apps/projects/forms.py:422 templates/projects/explore.html:7
 #: templates/projects/search.html:7
 msgid "Rechercher"
 msgstr "بحث"
 
-#: apps/projects/forms.py:415
+#: apps/projects/forms.py:423
 msgid "Tous les types"
 msgstr "كل الأنواع"
 
-#: apps/projects/forms.py:416
+#: apps/projects/forms.py:424
 msgid "Tous les modes"
 msgstr "كل الصيغ"
 
-#: apps/projects/forms.py:418
+#: apps/projects/forms.py:426
 msgid "Ouverts et en activité"
 msgstr "المفتوحة والنشطة"
 
-#: apps/projects/forms.py:418 apps/projects/models.py:81
+#: apps/projects/forms.py:426 apps/projects/models.py:81
 #: templates/projects/manage.html:18
 msgid "Collecte en cours"
 msgstr "الحملة جارية"
 
-#: apps/projects/forms.py:418 apps/projects/models.py:83
+#: apps/projects/forms.py:426 apps/projects/models.py:83
 msgid "En activité"
 msgstr "نشط"
 
-#: apps/projects/forms.py:419
+#: apps/projects/forms.py:427
 msgid "Terminés"
 msgstr "المنتهية"
 
-#: apps/projects/forms.py:419
+#: apps/projects/forms.py:427
 msgid "Tous"
 msgstr "الكل"
 
-#: apps/projects/forms.py:420
+#: apps/projects/forms.py:428
 msgid "Toutes les wilayas"
 msgstr "كل الولايات"
 
-#: apps/projects/forms.py:421
+#: apps/projects/forms.py:429
 msgid "Tous les secteurs"
 msgstr "كل القطاعات"
 
-#: apps/projects/forms.py:423
+#: apps/projects/forms.py:431
 msgid "Plus récents"
 msgstr "الأحدث"
 
-#: apps/projects/forms.py:423
+#: apps/projects/forms.py:431
 msgid "Se terminent bientôt"
 msgstr "تنتهي قريباً"
 
-#: apps/projects/forms.py:423
+#: apps/projects/forms.py:431
 msgid "Presque financés"
 msgstr "شبه مموَّلة"
 
-#: apps/projects/forms.py:424
+#: apps/projects/forms.py:432
 msgid "Rendement estimé"
 msgstr "العائد التقديري"
 
@@ -2011,947 +2114,955 @@ msgstr "التصحيحات المطلوبة"
 msgid "revente des parts autorisée"
 msgstr "إعادة بيع الحصص مسموحة"
 
-#: apps/projects/models.py:184
+#: apps/projects/models.py:184 templates/projects/manage_company.html:24
+msgid "parts émises"
+msgstr "حصص مُصدَرة"
+
+#: apps/projects/models.py:185
+msgid "Entreprise : nombre total de parts émises (première vente et émissions suivantes)."
+msgstr "المؤسسة: العدد الإجمالي للحصص المُصدَرة (البيع الأول والإصدارات اللاحقة)."
+
+#: apps/projects/models.py:187 templates/projects/manage_company.html:26
 msgid "parts encore en vente"
 msgstr "حصص لا تزال معروضة للبيع"
 
-#: apps/projects/models.py:185
+#: apps/projects/models.py:188
 msgid "Entreprise : les parts non vendues restent en vente jusqu'à ce qu'elles soient achetées."
 msgstr "المؤسسة: تبقى الحصص غير المبيعة معروضة حتى يتم شراؤها."
 
-#: apps/projects/models.py:187
+#: apps/projects/models.py:190
 msgid "Clé du lien d'aperçu privé (projet pas encore publié)."
 msgstr "مفتاح رابط المعاينة الخاص (مشروع لم يُنشر بعد)."
 
-#: apps/projects/models.py:188
+#: apps/projects/models.py:191
 msgid "Ouvertures du lien partagé."
 msgstr "عدد مرات فتح الرابط المشترك."
 
-#: apps/projects/models.py:193
+#: apps/projects/models.py:196
 msgid "projet"
 msgstr "مشروع"
 
-#: apps/projects/models.py:194
+#: apps/projects/models.py:197
 msgid "projets"
 msgstr "المشاريع"
 
-#: apps/projects/models.py:325 apps/projects/models.py:798
+#: apps/projects/models.py:330 apps/projects/models.py:803
 msgid "photo"
 msgstr "صورة"
 
-#: apps/projects/models.py:326
+#: apps/projects/models.py:331
 msgid "légende"
 msgstr "تعليق"
 
-#: apps/projects/models.py:335
+#: apps/projects/models.py:340
 msgid "Registre du commerce / patente"
 msgstr "السجل التجاري / الباتانتا"
 
-#: apps/projects/models.py:336
+#: apps/projects/models.py:341
 msgid "Numéro d'identification fiscale"
 msgstr "رقم التعريف الضريبي"
 
-#: apps/projects/models.py:337
+#: apps/projects/models.py:342
 msgid "Contrat de bail"
 msgstr "عقد الإيجار"
 
-#: apps/projects/models.py:338
+#: apps/projects/models.py:343
 msgid "Titre de propriété / attestation"
 msgstr "سند الملكية / شهادة"
 
-#: apps/projects/models.py:339
+#: apps/projects/models.py:344
 msgid "Facture pro forma / devis"
 msgstr "فاتورة أولية / عرض سعر"
 
-#: apps/projects/models.py:340
+#: apps/projects/models.py:345
 msgid "Bon de commande client"
 msgstr "طلب شراء من زبون"
 
-#: apps/projects/models.py:341
+#: apps/projects/models.py:346
 msgid "Relevé bancaire / mobile money"
 msgstr "كشف حساب بنكي / دفع عبر الهاتف"
 
-#: apps/projects/models.py:342
+#: apps/projects/models.py:347
 msgid "Cahier de comptes / états financiers"
 msgstr "دفتر الحسابات / القوائم المالية"
 
-#: apps/projects/models.py:343
+#: apps/projects/models.py:348
 msgid "Acte de garantie / caution"
 msgstr "عقد ضمان / كفالة"
 
-#: apps/projects/models.py:344
+#: apps/projects/models.py:349
 msgid "Autorisation / licence"
 msgstr "ترخيص / رخصة"
 
-#: apps/projects/models.py:348 apps/sms/models.py:26
+#: apps/projects/models.py:353 apps/sms/models.py:26
 msgid "type"
 msgstr "النوع"
 
-#: apps/projects/models.py:349
+#: apps/projects/models.py:354
 msgid "intitulé"
 msgstr "العنوان"
 
-#: apps/projects/models.py:350
+#: apps/projects/models.py:355
 msgid "fichier"
 msgstr "الملف"
 
-#: apps/projects/models.py:352
+#: apps/projects/models.py:357
 msgid "visible par les investisseurs vérifiés"
 msgstr "مرئي للمستثمرين الموثَّقين"
 
-#: apps/projects/models.py:353
+#: apps/projects/models.py:358
 msgid "vérifié par l'équipe"
 msgstr "تحقق منه الفريق"
 
-#: apps/projects/models.py:362
+#: apps/projects/models.py:367
 msgid "Achat de marchandises"
 msgstr "شراء البضائع"
 
-#: apps/projects/models.py:363
+#: apps/projects/models.py:368
 msgid "Équipement (frigo, étagères, balance…)"
 msgstr "معدات (ثلاجة، رفوف، ميزان…)"
 
-#: apps/projects/models.py:364
+#: apps/projects/models.py:369
 msgid "Aménagement / travaux"
 msgstr "تهيئة / أشغال"
 
-#: apps/projects/models.py:365
+#: apps/projects/models.py:370
 msgid "Énergie (solaire, groupe)"
 msgstr "طاقة (شمسية، مولّد)"
 
-#: apps/projects/models.py:366
+#: apps/projects/models.py:371
 msgid "Transport / véhicule"
 msgstr "نقل / مركبة"
 
-#: apps/projects/models.py:367
+#: apps/projects/models.py:372
 msgid "Fonds de roulement"
 msgstr "رأس المال العامل"
 
-#: apps/projects/models.py:368
+#: apps/projects/models.py:373
 msgid "Loyer / caution"
 msgstr "إيجار / ضمان"
 
-#: apps/projects/models.py:369
+#: apps/projects/models.py:374
 msgid "Formalités, licences"
 msgstr "إجراءات، تراخيص"
 
-#: apps/projects/models.py:370
+#: apps/projects/models.py:375
 msgid "Marketing"
 msgstr "تسويق"
 
-#: apps/projects/models.py:374
+#: apps/projects/models.py:379
 msgid "catégorie"
 msgstr "الفئة"
 
-#: apps/projects/models.py:375
+#: apps/projects/models.py:380
 msgid "détail"
 msgstr "التفاصيل"
 
-#: apps/projects/models.py:376 apps/wallet/models.py:197
+#: apps/projects/models.py:381 apps/wallet/models.py:197
 #: apps/wallet/models.py:239
 msgid "montant (MRU)"
 msgstr "المبلغ (أوقية)"
 
-#: apps/projects/models.py:387
+#: apps/projects/models.py:392
 msgid "Alimentation générale (boutique de quartier)"
 msgstr "مواد غذائية عامة (متجر الحي)"
 
-#: apps/projects/models.py:388
+#: apps/projects/models.py:393
 msgid "Demi-gros / grossiste"
 msgstr "نصف الجملة / جملة"
 
-#: apps/projects/models.py:389
+#: apps/projects/models.py:394
 msgid "Quincaillerie"
 msgstr "خردوات"
 
-#: apps/projects/models.py:390
+#: apps/projects/models.py:395
 msgid "Matériaux de construction"
 msgstr "مواد البناء"
 
-#: apps/projects/models.py:391
+#: apps/projects/models.py:396
 msgid "Téléphones, accessoires, transfert d'argent"
 msgstr "هواتف، إكسسوارات، تحويل الأموال"
 
-#: apps/projects/models.py:392
+#: apps/projects/models.py:397
 msgid "Tissus, melhfa, voiles, habillement"
 msgstr "أقمشة، ملاحف، أثواب، ملابس"
 
-#: apps/projects/models.py:393
+#: apps/projects/models.py:398
 msgid "Cosmétiques, parfums, encens"
 msgstr "مستحضرات تجميل، عطور، بخور"
 
-#: apps/projects/models.py:394
+#: apps/projects/models.py:399
 msgid "Boucherie"
 msgstr "ملحمة"
 
-#: apps/projects/models.py:395
+#: apps/projects/models.py:400
 msgid "Boulangerie / pâtisserie"
 msgstr "مخبزة / حلويات"
 
-#: apps/projects/models.py:396
+#: apps/projects/models.py:401
 msgid "Restaurant / fast-food"
 msgstr "مطعم / وجبات سريعة"
 
-#: apps/projects/models.py:397
+#: apps/projects/models.py:402
 msgid "Électroménager / électronique"
 msgstr "أجهزة منزلية / إلكترونيات"
 
-#: apps/projects/models.py:398
+#: apps/projects/models.py:403
 msgid "Pièces auto"
 msgstr "قطع غيار السيارات"
 
-#: apps/projects/models.py:399
+#: apps/projects/models.py:404
 msgid "Librairie / fournitures scolaires"
 msgstr "مكتبة / أدوات مدرسية"
 
-#: apps/projects/models.py:400
+#: apps/projects/models.py:405
 msgid "Gaz, charbon, eau"
 msgstr "غاز، فحم، ماء"
 
-#: apps/projects/models.py:401
+#: apps/projects/models.py:406
 msgid "Autre commerce"
 msgstr "تجارة أخرى"
 
-#: apps/projects/models.py:403
+#: apps/projects/models.py:408
 msgid "Loué"
 msgstr "مستأجر"
 
-#: apps/projects/models.py:403
+#: apps/projects/models.py:408
 msgid "Propriété"
 msgstr "ملك"
 
-#: apps/projects/models.py:403
+#: apps/projects/models.py:408
 msgid "Local familial (sans loyer)"
 msgstr "محل عائلي (بلا إيجار)"
 
-#: apps/projects/models.py:404
+#: apps/projects/models.py:409
 msgid "Sur une grande route"
 msgstr "على طريق رئيسي"
 
-#: apps/projects/models.py:404
+#: apps/projects/models.py:409
 msgid "Dans un marché"
 msgstr "داخل سوق"
 
-#: apps/projects/models.py:405
+#: apps/projects/models.py:410
 msgid "Rue de quartier résidentiel"
 msgstr "شارع في حي سكني"
 
-#: apps/projects/models.py:405
+#: apps/projects/models.py:410
 msgid "Centre commercial"
 msgstr "مركز تجاري"
 
-#: apps/projects/models.py:406
+#: apps/projects/models.py:411
 msgid "Réseau SOMELEC"
 msgstr "شبكة صوملك"
 
-#: apps/projects/models.py:406
+#: apps/projects/models.py:411
 msgid "Solaire"
 msgstr "شمسية"
 
-#: apps/projects/models.py:406
+#: apps/projects/models.py:411
 msgid "Groupe électrogène"
 msgstr "مولّد كهربائي"
 
-#: apps/projects/models.py:407
+#: apps/projects/models.py:412
 msgid "Mixte"
 msgstr "مختلط"
 
-#: apps/projects/models.py:407
+#: apps/projects/models.py:412
 msgid "Pas d'électricité"
 msgstr "لا كهرباء"
 
-#: apps/projects/models.py:410
+#: apps/projects/models.py:415
 msgid "enseigne / nom de la boutique"
 msgstr "اللافتة / اسم المتجر"
 
-#: apps/projects/models.py:411
+#: apps/projects/models.py:416
 msgid "activité"
 msgstr "النشاط"
 
-#: apps/projects/models.py:412
+#: apps/projects/models.py:417
 msgid "date d'ouverture"
 msgstr "تاريخ الافتتاح"
 
-#: apps/projects/models.py:414
+#: apps/projects/models.py:419
 msgid "local"
 msgstr "المحل"
 
-#: apps/projects/models.py:415
+#: apps/projects/models.py:420
 msgid "loyer mensuel (MRU)"
 msgstr "الإيجار الشهري (أوقية)"
 
-#: apps/projects/models.py:416
+#: apps/projects/models.py:421
 msgid "fin du bail"
 msgstr "نهاية عقد الإيجار"
 
-#: apps/projects/models.py:417
+#: apps/projects/models.py:422
 msgid "surface de vente (m²)"
 msgstr "مساحة البيع (م²)"
 
-#: apps/projects/models.py:418
+#: apps/projects/models.py:423
 msgid "surface de stockage (m²)"
 msgstr "مساحة التخزين (م²)"
 
-#: apps/projects/models.py:419
+#: apps/projects/models.py:424
 msgid "emplacement"
 msgstr "الموقع"
 
-#: apps/projects/models.py:420
+#: apps/projects/models.py:425
 msgid "repère"
 msgstr "معلم قريب"
 
-#: apps/projects/models.py:420
+#: apps/projects/models.py:425
 msgid "Ex : en face de la mosquée, carrefour Madrid…"
 msgstr "مثال: مقابل المسجد، ملتقى طرق مدريد…"
 
-#: apps/projects/models.py:423
+#: apps/projects/models.py:428
 msgid "boutiques similaires à moins de 500 m"
 msgstr "متاجر مماثلة على بعد أقل من 500 م"
 
-#: apps/projects/models.py:425
+#: apps/projects/models.py:430
 msgid "ouverture"
 msgstr "الفتح"
 
-#: apps/projects/models.py:426
+#: apps/projects/models.py:431
 msgid "fermeture"
 msgstr "الإغلاق"
 
-#: apps/projects/models.py:427
+#: apps/projects/models.py:432
 msgid "jours d'ouverture par semaine"
 msgstr "أيام العمل في الأسبوع"
 
-#: apps/projects/models.py:429
+#: apps/projects/models.py:434
 msgid "employés (hors gérant)"
 msgstr "العمال (دون المسيّر)"
 
-#: apps/projects/models.py:430
+#: apps/projects/models.py:435
 msgid "le porteur tient lui-même la boutique"
 msgstr "صاحب المشروع يدير المتجر بنفسه"
 
-#: apps/projects/models.py:431
+#: apps/projects/models.py:436
 msgid "clients par jour (moyenne)"
 msgstr "عدد الزبائن يومياً (متوسط)"
 
-#: apps/projects/models.py:432
+#: apps/projects/models.py:437
 msgid "panier moyen (MRU)"
 msgstr "متوسط سلة الشراء (أوقية)"
 
-#: apps/projects/models.py:434
+#: apps/projects/models.py:439
 msgid "marge brute moyenne (%)"
 msgstr "متوسط الهامش الإجمالي (%)"
 
-#: apps/projects/models.py:435
+#: apps/projects/models.py:440
 msgid "(Prix de vente − prix d'achat) ÷ prix de vente."
 msgstr "(سعر البيع − سعر الشراء) ÷ سعر البيع."
 
-#: apps/projects/models.py:436
+#: apps/projects/models.py:441
 msgid "salaires mensuels (MRU)"
 msgstr "الرواتب الشهرية (أوقية)"
 
-#: apps/projects/models.py:437
+#: apps/projects/models.py:442
 msgid "rémunération du gérant (MRU / mois)"
 msgstr "أجرة المسيّر (أوقية / شهر)"
 
-#: apps/projects/models.py:438
+#: apps/projects/models.py:443
 msgid "électricité, eau, téléphone (MRU / mois)"
 msgstr "كهرباء، ماء، هاتف (أوقية / شهر)"
 
-#: apps/projects/models.py:439
+#: apps/projects/models.py:444
 msgid "transport, approvisionnement (MRU / mois)"
 msgstr "نقل، تموين (أوقية / شهر)"
 
-#: apps/projects/models.py:440
+#: apps/projects/models.py:445
 msgid "patente, taxes communales (MRU / mois)"
 msgstr "الباتانتا، الرسوم البلدية (أوقية / شهر)"
 
-#: apps/projects/models.py:441
+#: apps/projects/models.py:446
 msgid "autres charges (MRU / mois)"
 msgstr "مصاريف أخرى (أوقية / شهر)"
 
-#: apps/projects/models.py:443
+#: apps/projects/models.py:448
 msgid "valeur du stock actuel (MRU)"
 msgstr "قيمة المخزون الحالي (أوقية)"
 
-#: apps/projects/models.py:444
+#: apps/projects/models.py:449
 msgid "valeur des équipements (MRU)"
 msgstr "قيمة المعدات (أوقية)"
 
-#: apps/projects/models.py:445
+#: apps/projects/models.py:450
 msgid "trésorerie disponible (MRU)"
 msgstr "السيولة المتوفرة (أوقية)"
 
-#: apps/projects/models.py:446
+#: apps/projects/models.py:451
 msgid "crédits accordés aux clients (MRU)"
 msgstr "الديون الممنوحة للزبائن (أوقية)"
 
-#: apps/projects/models.py:447
+#: apps/projects/models.py:452
 msgid "Ventes à crédit non encore payées (le « carnet »)."
 msgstr "مبيعات بالدين لم تُسدَّد بعد («الدفتر»)."
 
-#: apps/projects/models.py:448
+#: apps/projects/models.py:453
 msgid "dettes fournisseurs (MRU)"
 msgstr "ديون الموردين (أوقية)"
 
-#: apps/projects/models.py:449
+#: apps/projects/models.py:454
 msgid "autres dettes / prêts (MRU)"
 msgstr "ديون / قروض أخرى (أوقية)"
 
-#: apps/projects/models.py:451
+#: apps/projects/models.py:456
 msgid "ventes en espèces (%)"
 msgstr "المبيعات نقداً (%)"
 
-#: apps/projects/models.py:452
+#: apps/projects/models.py:457
 msgid "ventes par Bankily / Masrvi / Sedad (%)"
 msgstr "المبيعات عبر بنكيلي / مصرفي / سداد (%)"
 
-#: apps/projects/models.py:453
+#: apps/projects/models.py:458
 msgid "ventes à crédit (%)"
 msgstr "المبيعات بالدين (%)"
 
-#: apps/projects/models.py:455
+#: apps/projects/models.py:460
 msgid "principaux fournisseurs"
 msgstr "أهم الموردين"
 
-#: apps/projects/models.py:456
+#: apps/projects/models.py:461
 msgid "origine des marchandises"
 msgstr "مصدر البضائع"
 
-#: apps/projects/models.py:457
+#: apps/projects/models.py:462
 msgid "Ex : grossistes de Nouakchott, Dakar, Las Palmas, Dubaï, Chine…"
 msgstr "مثال: تجار جملة في نواكشوط، داكار، لاس بالماس، دبي، الصين…"
 
-#: apps/projects/models.py:458
+#: apps/projects/models.py:463
 msgid "réapprovisionnement tous les (jours)"
 msgstr "التموين كل (أيام)"
 
-#: apps/projects/models.py:460
+#: apps/projects/models.py:465
 msgid "inscrite au registre du commerce / patente"
 msgstr "مسجّل في السجل التجاري / الباتانتا"
 
-#: apps/projects/models.py:461
+#: apps/projects/models.py:466
 msgid "tient un cahier ou un logiciel de caisse"
 msgstr "يمسك دفتراً أو برنامج صندوق"
 
-#: apps/projects/models.py:462
+#: apps/projects/models.py:467
 msgid "compte bancaire professionnel"
 msgstr "حساب بنكي مهني"
 
-#: apps/projects/models.py:463
+#: apps/projects/models.py:468
 msgid "électricité"
 msgstr "الكهرباء"
 
-#: apps/projects/models.py:464
+#: apps/projects/models.py:469
 msgid "réfrigérateur / congélateur"
 msgstr "ثلاجة / مجمّد"
 
-#: apps/projects/models.py:465
+#: apps/projects/models.py:470
 msgid "assurance (incendie, vol)"
 msgstr "تأمين (حريق، سرقة)"
 
-#: apps/projects/models.py:467
+#: apps/projects/models.py:472
 msgid "saisonnalité"
 msgstr "الموسمية"
 
-#: apps/projects/models.py:468
+#: apps/projects/models.py:473
 msgid "Ramadan, Tabaski, rentrée scolaire, saison des pluies, hivernage…"
 msgstr "رمضان، عيد الأضحى، الدخول المدرسي، موسم الأمطار، الخريف…"
 
-#: apps/projects/models.py:469
+#: apps/projects/models.py:474
 msgid "que changera le financement ?"
 msgstr "ما الذي سيغيّره التمويل؟"
 
-#: apps/projects/models.py:471
+#: apps/projects/models.py:476
 msgid "hausse attendue du chiffre d'affaires (%)"
 msgstr "الزيادة المتوقعة في رقم الأعمال (%)"
 
-#: apps/projects/models.py:532
+#: apps/projects/models.py:537
 msgid "Chiffre d'affaires d'équilibre"
 msgstr "رقم أعمال التوازن"
 
-#: apps/projects/models.py:533
+#: apps/projects/models.py:538
 msgid "Ventes mensuelles nécessaires pour couvrir toutes les charges."
 msgstr "المبيعات الشهرية اللازمة لتغطية كل المصاريف."
 
-#: apps/projects/models.py:534
+#: apps/projects/models.py:539
 msgid "Marge de sécurité"
 msgstr "هامش الأمان"
 
-#: apps/projects/models.py:535
+#: apps/projects/models.py:540
 msgid "De combien les ventes peuvent baisser avant de perdre de l'argent."
 msgstr "كم يمكن أن تنخفض المبيعات قبل تحقيق خسارة."
 
-#: apps/projects/models.py:536
+#: apps/projects/models.py:541
 msgid "Poids du loyer"
 msgstr "ثقل الإيجار"
 
-#: apps/projects/models.py:537
+#: apps/projects/models.py:542
 msgid "Loyer ÷ ventes. Au-delà de 10 %, le loyer pèse lourd."
 msgstr "الإيجار ÷ المبيعات. فوق 10 % يصبح الإيجار عبئاً ثقيلاً."
 
-#: apps/projects/models.py:538
+#: apps/projects/models.py:543
 msgid "Couverture du stock"
 msgstr "تغطية المخزون"
 
-#: apps/projects/models.py:538
+#: apps/projects/models.py:543
 msgid "jours"
 msgstr "أيام"
 
-#: apps/projects/models.py:539
+#: apps/projects/models.py:544
 msgid "Nombre de jours de ventes couverts par le stock actuel."
 msgstr "عدد أيام المبيعات التي يغطيها المخزون الحالي."
 
-#: apps/projects/models.py:540
+#: apps/projects/models.py:545
 msgid "Crédit clients"
 msgstr "ديون الزبائن"
 
-#: apps/projects/models.py:541
+#: apps/projects/models.py:546
 msgid "Ventes à crédit non payées ÷ ventes du mois."
 msgstr "المبيعات بالدين غير المسددة ÷ مبيعات الشهر."
 
-#: apps/projects/models.py:542
+#: apps/projects/models.py:547
 msgid "Cohérence fréquentation / ventes"
 msgstr "اتساق الإقبال مع المبيعات"
 
-#: apps/projects/models.py:543
+#: apps/projects/models.py:548
 msgid "Écart entre ventes déclarées et clients × panier moyen."
 msgstr "الفرق بين المبيعات المصرّح بها و(الزبائن × متوسط السلة)."
 
-#: apps/projects/models.py:552
+#: apps/projects/models.py:557
 msgid "ventes (MRU)"
 msgstr "المبيعات (أوقية)"
 
-#: apps/projects/models.py:553
+#: apps/projects/models.py:558
 msgid "achats de marchandises (MRU)"
 msgstr "مشتريات البضائع (أوقية)"
 
-#: apps/projects/models.py:562
+#: apps/projects/models.py:567
 msgid "produit"
 msgstr "المنتج"
 
-#: apps/projects/models.py:563
+#: apps/projects/models.py:568
 msgid "unité"
 msgstr "الوحدة"
 
-#: apps/projects/models.py:563
+#: apps/projects/models.py:568
 msgid "sac de 50 kg, carton, litre…"
 msgstr "كيس 50 كغ، كرتونة، لتر…"
 
-#: apps/projects/models.py:564
+#: apps/projects/models.py:569
 msgid "prix d'achat"
 msgstr "سعر الشراء"
 
-#: apps/projects/models.py:565
+#: apps/projects/models.py:570
 msgid "prix de vente"
 msgstr "سعر البيع"
 
-#: apps/projects/models.py:566
+#: apps/projects/models.py:571
 msgid "quantité vendue / mois"
 msgstr "الكمية المباعة / شهر"
 
-#: apps/projects/models.py:590
+#: apps/projects/models.py:595
 msgid "Entreprise individuelle"
 msgstr "مؤسسة فردية"
 
-#: apps/projects/models.py:591
+#: apps/projects/models.py:596
 msgid "Coopérative"
 msgstr "تعاونية"
 
-#: apps/projects/models.py:591
+#: apps/projects/models.py:596
 msgid "À définir"
 msgstr "يُحدَّد لاحقاً"
 
-#: apps/projects/models.py:592
+#: apps/projects/models.py:597
 msgid "Idée"
 msgstr "فكرة"
 
-#: apps/projects/models.py:592
+#: apps/projects/models.py:597
 msgid "Prototype / test"
 msgstr "نموذج أولي / تجربة"
 
-#: apps/projects/models.py:592
+#: apps/projects/models.py:597
 msgid "Premières ventes"
 msgstr "أولى المبيعات"
 
-#: apps/projects/models.py:593
+#: apps/projects/models.py:598
 msgid "Prêt à lancer"
 msgstr "جاهز للانطلاق"
 
-#: apps/projects/models.py:595
+#: apps/projects/models.py:600
 msgid "forme juridique"
 msgstr "الشكل القانوني"
 
-#: apps/projects/models.py:596
+#: apps/projects/models.py:601
 msgid "stade d'avancement"
 msgstr "مرحلة التقدم"
 
-#: apps/projects/models.py:597
+#: apps/projects/models.py:602
 msgid "société déjà immatriculée"
 msgstr "شركة مسجلة مسبقاً"
 
-#: apps/projects/models.py:598
+#: apps/projects/models.py:603
 msgid "numéro RCCM"
 msgstr "رقم السجل التجاري"
 
-#: apps/projects/models.py:599
+#: apps/projects/models.py:604
 msgid "NIF"
 msgstr "الرقم الضريبي"
 
-#: apps/projects/models.py:600
+#: apps/projects/models.py:605
 msgid "date de lancement prévue"
 msgstr "تاريخ الانطلاق المتوقع"
 
-#: apps/projects/models.py:601
+#: apps/projects/models.py:606
 msgid "problème résolu"
 msgstr "المشكلة التي يحلها"
 
-#: apps/projects/models.py:602
+#: apps/projects/models.py:607
 msgid "solution / produit"
 msgstr "الحل / المنتج"
 
-#: apps/projects/models.py:603
+#: apps/projects/models.py:608
 msgid "clients visés"
 msgstr "الزبائن المستهدفون"
 
-#: apps/projects/models.py:604
+#: apps/projects/models.py:609
 msgid "taille du marché"
 msgstr "حجم السوق"
 
-#: apps/projects/models.py:605
+#: apps/projects/models.py:610
 msgid "concurrents"
 msgstr "المنافسون"
 
-#: apps/projects/models.py:606
+#: apps/projects/models.py:611
 msgid "avantage concurrentiel"
 msgstr "الميزة التنافسية"
 
-#: apps/projects/models.py:607
+#: apps/projects/models.py:612
 msgid "comment l'entreprise gagne de l'argent"
 msgstr "كيف تربح المؤسسة المال"
 
-#: apps/projects/models.py:608
+#: apps/projects/models.py:613
 msgid "plan commercial"
 msgstr "الخطة التجارية"
 
-#: apps/projects/models.py:609
+#: apps/projects/models.py:614
 msgid "autorisations nécessaires"
 msgstr "التراخيص اللازمة"
 
-#: apps/projects/models.py:610
+#: apps/projects/models.py:615
 msgid "principaux risques et parades"
 msgstr "أهم المخاطر وسبل مواجهتها"
 
-#: apps/projects/models.py:611
+#: apps/projects/models.py:616
 msgid "mois d'atteinte de l'équilibre"
 msgstr "شهر بلوغ التوازن"
 
-#: apps/projects/models.py:612
+#: apps/projects/models.py:617
 msgid "emplois créés"
 msgstr "فرص العمل المستحدثة"
 
-#: apps/projects/models.py:613
+#: apps/projects/models.py:618
 msgid "part du capital offerte aux investisseurs (%)"
 msgstr "حصة رأس المال المعروضة على المستثمرين (%)"
 
-#: apps/projects/models.py:619 apps/sms/models.py:24
+#: apps/projects/models.py:624 apps/sms/models.py:24
 msgid "nom"
 msgstr "الاسم"
 
-#: apps/projects/models.py:620
+#: apps/projects/models.py:625
 msgid "rôle"
 msgstr "الدور"
 
-#: apps/projects/models.py:621
+#: apps/projects/models.py:626
 msgid "années d'expérience"
 msgstr "سنوات الخبرة"
 
-#: apps/projects/models.py:622
+#: apps/projects/models.py:627
 msgid "parcours"
 msgstr "المسار المهني"
 
-#: apps/projects/models.py:623
+#: apps/projects/models.py:628
 msgid "à plein temps"
 msgstr "بدوام كامل"
 
-#: apps/projects/models.py:628
+#: apps/projects/models.py:633
 msgid "année"
 msgstr "السنة"
 
-#: apps/projects/models.py:629
+#: apps/projects/models.py:634
 msgid "chiffre d'affaires"
 msgstr "رقم الأعمال"
 
-#: apps/projects/models.py:630
+#: apps/projects/models.py:635
 msgid "charges"
 msgstr "المصاريف"
 
-#: apps/projects/models.py:631
+#: apps/projects/models.py:636
 msgid "investissements"
 msgstr "الاستثمارات"
 
-#: apps/projects/models.py:643 templates/projects/detail.html:152
+#: apps/projects/models.py:648 templates/projects/detail.html:152
 #: templates/projects/detail.html:163
 msgid "Prévu"
 msgstr "مُتوقَّع"
 
-#: apps/projects/models.py:643
+#: apps/projects/models.py:648
 msgid "Réalisé"
 msgstr "مُنجَز"
 
-#: apps/projects/models.py:643 apps/projects/models.py:903
+#: apps/projects/models.py:648 apps/projects/models.py:908
 msgid "En retard"
 msgstr "متأخر"
 
-#: apps/projects/models.py:645
+#: apps/projects/models.py:650
 msgid "étape"
 msgstr "المرحلة"
 
-#: apps/projects/models.py:646
+#: apps/projects/models.py:651
 msgid "échéance"
 msgstr "الأجل"
 
-#: apps/projects/models.py:647
+#: apps/projects/models.py:652
 msgid "budget"
 msgstr "الميزانية"
 
-#: apps/projects/models.py:660
+#: apps/projects/models.py:665
 msgid "Achat de stock pour revente"
 msgstr "شراء مخزون لإعادة البيع"
 
-#: apps/projects/models.py:661
+#: apps/projects/models.py:666
 msgid "Importation de marchandises"
 msgstr "استيراد بضائع"
 
-#: apps/projects/models.py:662
+#: apps/projects/models.py:667
 msgid "Bétail (moutons de Tabaski, embouche)"
 msgstr "مواشٍ (أضاحي العيد، تسمين)"
 
-#: apps/projects/models.py:663
+#: apps/projects/models.py:668
 msgid "Récolte de dattes (guetna)"
 msgstr "جني التمور (الكيطنة)"
 
-#: apps/projects/models.py:664
+#: apps/projects/models.py:669
 msgid "Campagne de pêche"
 msgstr "حملة صيد"
 
-#: apps/projects/models.py:665
+#: apps/projects/models.py:670
 msgid "Campagne agricole"
 msgstr "حملة زراعية"
 
-#: apps/projects/models.py:666
+#: apps/projects/models.py:671
 msgid "Exécution d'un marché / bon de commande"
 msgstr "تنفيذ صفقة / طلب شراء"
 
-#: apps/projects/models.py:667
+#: apps/projects/models.py:672
 msgid "Achat d'équipement productif"
 msgstr "شراء معدات إنتاجية"
 
-#: apps/projects/models.py:668
+#: apps/projects/models.py:673
 msgid "Autre opération"
 msgstr "عملية أخرى"
 
-#: apps/projects/models.py:671
+#: apps/projects/models.py:676
 msgid "nature de l'opération"
 msgstr "طبيعة العملية"
 
-#: apps/projects/models.py:672
+#: apps/projects/models.py:677
 msgid "biens achetés (quantité, qualité)"
 msgstr "السلع المشتراة (الكمية، الجودة)"
 
-#: apps/projects/models.py:673
+#: apps/projects/models.py:678
 msgid "fournisseur"
 msgstr "المورّد"
 
-#: apps/projects/models.py:674
+#: apps/projects/models.py:679
 msgid "coût d'achat total (MRU)"
 msgstr "التكلفة الإجمالية للشراء (أوقية)"
 
-#: apps/projects/models.py:675
+#: apps/projects/models.py:680
 msgid "frais annexes : transport, douane, stockage (MRU)"
 msgstr "مصاريف إضافية: نقل، جمارك، تخزين (أوقية)"
 
-#: apps/projects/models.py:676
+#: apps/projects/models.py:681
 msgid "valeur de revente attendue (MRU)"
 msgstr "قيمة إعادة البيع المتوقعة (أوقية)"
 
-#: apps/projects/models.py:677
+#: apps/projects/models.py:682
 msgid "durée du cycle (jours)"
 msgstr "مدة الدورة (أيام)"
 
-#: apps/projects/models.py:678
+#: apps/projects/models.py:683
 msgid "acheteur déjà identifié"
 msgstr "المشتري محدد مسبقاً"
 
-#: apps/projects/models.py:679
+#: apps/projects/models.py:684
 msgid "acheteur / débouchés"
 msgstr "المشتري / منافذ البيع"
 
-#: apps/projects/models.py:680
+#: apps/projects/models.py:685
 msgid "bon de commande ou contrat signé"
 msgstr "طلب شراء أو عقد موقّع"
 
-#: apps/projects/models.py:681
+#: apps/projects/models.py:686
 msgid "sûretés"
 msgstr "الضمانات العينية"
 
-#: apps/projects/models.py:682
+#: apps/projects/models.py:687
 msgid "valeur des sûretés (MRU)"
 msgstr "قيمة الضمانات (أوقية)"
 
-#: apps/projects/models.py:683
+#: apps/projects/models.py:688
 msgid "opérations similaires déjà réalisées"
 msgstr "عمليات مماثلة سبق إنجازها"
 
-#: apps/projects/models.py:710
+#: apps/projects/models.py:715
 msgid "section du questionnaire"
 msgstr "قسم الاستبيان"
 
-#: apps/projects/models.py:721
+#: apps/projects/models.py:726
 msgid "Texte court"
 msgstr "نص قصير"
 
-#: apps/projects/models.py:721
+#: apps/projects/models.py:726
 msgid "Texte long"
 msgstr "نص طويل"
 
-#: apps/projects/models.py:721
+#: apps/projects/models.py:726
 msgid "Nombre"
 msgstr "رقم"
 
-#: apps/projects/models.py:722 templates/projects/manage.html:63
-#: templates/projects/manage.html:117
+#: apps/projects/models.py:727 templates/projects/manage.html:39
+#: templates/projects/manage.html:77
 msgid "Montant"
 msgstr "مبلغ"
 
-#: apps/projects/models.py:722
+#: apps/projects/models.py:727
 msgid "Choix unique"
 msgstr "اختيار واحد"
 
-#: apps/projects/models.py:722
+#: apps/projects/models.py:727
 msgid "Choix multiple"
 msgstr "اختيار متعدد"
 
-#: apps/projects/models.py:723
+#: apps/projects/models.py:728
 msgid "Oui / non"
 msgstr "نعم / لا"
 
-#: apps/projects/models.py:723 templates/projects/detail.html:282
+#: apps/projects/models.py:728 templates/projects/detail.html:282
 #: templates/trust/profile.html:22
 msgid "Date"
 msgstr "تاريخ"
 
-#: apps/projects/models.py:733
+#: apps/projects/models.py:738
 msgid "Types de projet concernés, séparés par des virgules."
 msgstr "أنواع المشاريع المعنية، مفصولة بفواصل."
 
-#: apps/projects/models.py:735
+#: apps/projects/models.py:740
 msgid "réponse visible des investisseurs"
 msgstr "إجابة مرئية للمستثمرين"
 
-#: apps/projects/models.py:741
+#: apps/projects/models.py:746
 msgid "question"
 msgstr "سؤال"
 
-#: apps/projects/models.py:796
+#: apps/projects/models.py:801
 msgid "titre"
 msgstr "العنوان"
 
-#: apps/projects/models.py:808
+#: apps/projects/models.py:813
 msgid "votre question"
 msgstr "سؤالك"
 
-#: apps/projects/models.py:809
+#: apps/projects/models.py:814
 msgid "réponse"
 msgstr "الإجابة"
 
-#: apps/projects/models.py:822
+#: apps/projects/models.py:827
 msgid "montant envisagé (MRU)"
 msgstr "المبلغ المتوقع (أوقية)"
 
-#: apps/projects/models.py:823
+#: apps/projects/models.py:828
 msgid "message au porteur (facultatif)"
 msgstr "رسالة إلى صاحب المشروع (اختياري)"
 
-#: apps/projects/models.py:830
+#: apps/projects/models.py:835
 msgid "intention d'investissement"
 msgstr "نية استثمار"
 
-#: apps/projects/models.py:831
+#: apps/projects/models.py:836
 msgid "intentions d'investissement"
 msgstr "نوايا الاستثمار"
 
-#: apps/projects/models.py:847
+#: apps/projects/models.py:852
 msgid "À clarifier"
 msgstr "بحاجة إلى توضيح"
 
-#: apps/projects/models.py:850
+#: apps/projects/models.py:855
 msgid "début de la période"
 msgstr "بداية الفترة"
 
-#: apps/projects/models.py:851
+#: apps/projects/models.py:856
 msgid "fin de la période"
 msgstr "نهاية الفترة"
 
-#: apps/projects/models.py:852
+#: apps/projects/models.py:857
 msgid "à remettre avant le"
 msgstr "يُسلَّم قبل"
 
-#: apps/projects/models.py:853
+#: apps/projects/models.py:858
 msgid "ventes / chiffre d'affaires"
 msgstr "المبيعات / رقم الأعمال"
 
-#: apps/projects/models.py:854
+#: apps/projects/models.py:859
 msgid "coût des marchandises vendues"
 msgstr "تكلفة البضائع المباعة"
 
-#: apps/projects/models.py:855
+#: apps/projects/models.py:860
 msgid "charges d'exploitation"
 msgstr "مصاريف التشغيل"
 
-#: apps/projects/models.py:856
+#: apps/projects/models.py:861
 msgid "bénéfice net"
 msgstr "الربح الصافي"
 
-#: apps/projects/models.py:857
+#: apps/projects/models.py:862
 msgid "valeur du stock en fin de période"
 msgstr "قيمة المخزون في نهاية الفترة"
 
-#: apps/projects/models.py:858
+#: apps/projects/models.py:863
 msgid "trésorerie en fin de période"
 msgstr "السيولة في نهاية الفترة"
 
-#: apps/projects/models.py:859
+#: apps/projects/models.py:864
 msgid "crédit clients en fin de période"
 msgstr "ديون الزبائن في نهاية الفترة"
 
-#: apps/projects/models.py:860
+#: apps/projects/models.py:865
 msgid "commentaires"
 msgstr "تعليقات"
 
-#: apps/projects/models.py:861
+#: apps/projects/models.py:866
 msgid "justificatif (photo du cahier, relevé…)"
 msgstr "مستند داعم (صورة الدفتر، كشف حساب…)"
 
-#: apps/projects/models.py:864
+#: apps/projects/models.py:869
 msgid "commentaire de l'équipe"
 msgstr "تعليق الفريق"
 
-#: apps/projects/models.py:872
+#: apps/projects/models.py:877
 msgid "rapport financier"
 msgstr "تقرير مالي"
 
-#: apps/projects/models.py:873
+#: apps/projects/models.py:878
 msgid "rapports financiers"
 msgstr "التقارير المالية"
 
-#: apps/projects/models.py:901
+#: apps/projects/models.py:906
 msgid "À venir"
 msgstr "قادم"
 
-#: apps/projects/models.py:902
+#: apps/projects/models.py:907
 msgid "Payée"
 msgstr "مدفوع"
 
-#: apps/projects/models.py:904
+#: apps/projects/models.py:909
 msgid "Impayée"
 msgstr "غير مدفوع"
 
@@ -3016,54 +3127,54 @@ msgstr "هذا المشروع ليس قيد الدراسة."
 msgid "Avant de publier, complétez dans l'administration : %(m)s."
 msgstr "قبل النشر، أكمل في لوحة الإدارة: %(m)s."
 
-#: apps/projects/services.py:121
+#: apps/projects/services.py:122
 msgid "Vos parts sont en vente"
 msgstr "حصصك معروضة للبيع"
 
-#: apps/projects/services.py:122
+#: apps/projects/services.py:123
 #, python-format
 msgid "Les parts de « %(p)s » sont en vente. Partagez le lien du projet."
 msgstr "حصص «%(p)s» معروضة للبيع. شارك رابط المشروع."
 
-#: apps/projects/services.py:132
+#: apps/projects/services.py:133
 msgid "Votre projet est en ligne"
 msgstr "مشروعك منشور الآن"
 
-#: apps/projects/services.py:133
+#: apps/projects/services.py:134
 #, python-format
 msgid "La collecte de « %(p)s » est ouverte jusqu'au %(d)s."
 msgstr "حملة تمويل «%(p)s» مفتوحة حتى %(d)s."
 
-#: apps/projects/services.py:145
+#: apps/projects/services.py:146
 msgid "Corrections demandées sur votre projet"
 msgstr "طُلبت تصحيحات على مشروعك"
 
-#: apps/projects/services.py:155
+#: apps/projects/services.py:156
 msgid "Projet refusé"
 msgstr "تم رفض المشروع"
 
-#: apps/projects/services.py:190
+#: apps/projects/services.py:191
 msgid "Rapport impossible pour ce projet."
 msgstr "لا يمكن تقديم تقرير لهذا المشروع."
 
-#: apps/projects/services.py:193 apps/projects/views.py:591
+#: apps/projects/services.py:194 apps/projects/views.py:621
 msgid "Période invalide."
 msgstr "فترة غير صالحة."
 
-#: apps/projects/services.py:195
+#: apps/projects/services.py:196
 msgid "Ce rapport a déjà été envoyé."
 msgstr "تم إرسال هذا التقرير مسبقاً."
 
-#: apps/projects/services.py:206
+#: apps/projects/services.py:207
 msgid "Nouveau rapport financier"
 msgstr "تقرير مالي جديد"
 
-#: apps/projects/services.py:207
+#: apps/projects/services.py:208
 #, python-format
 msgid "« %(p)s » a publié ses chiffres de %(m)s."
 msgstr "نشر «%(p)s» أرقام %(m)s."
 
-#: apps/projects/services.py:219
+#: apps/projects/services.py:220
 msgid "Rapport à clarifier"
 msgstr "تقرير بحاجة إلى توضيح"
 
@@ -3250,96 +3361,125 @@ msgstr "تم إرسال المشروع! يدرسه فريقنا عادة خلا�
 msgid "Brouillon supprimé."
 msgstr "تم حذف المسودة."
 
-#: apps/projects/views.py:597
+#: apps/projects/views.py:627
 msgid "Rapport publié."
 msgstr "تم نشر التقرير."
 
-#: apps/projects/views.py:601
+#: apps/projects/views.py:631
 msgid "Rapport incomplet : vérifiez les montants."
 msgstr "تقرير ناقص: تحقق من المبالغ."
 
-#: apps/projects/views.py:612
+#: apps/projects/views.py:642
 #, python-format
 msgid "%(a)s MRU distribués aux investisseurs."
 msgstr "تم توزيع %(a)s أوقية على المستثمرين."
 
-#: apps/projects/views.py:625
+#: apps/projects/views.py:655
 msgid "Échéance payée. Merci !"
 msgstr "تم دفع القسط. شكراً!"
 
-#: apps/projects/views.py:639
+#: apps/projects/views.py:669
 msgid "Rachat effectué."
 msgstr "تمت إعادة الشراء."
 
-#: apps/projects/views.py:653
+#: apps/projects/views.py:683
 msgid "Indiquez le montant total à rendre."
 msgstr "أدخل المبلغ الإجمالي الذي ستعيده."
 
-#: apps/projects/views.py:659
+#: apps/projects/views.py:689
 #, python-format
 msgid "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez rembourser."
 msgstr "ينقصك %(m)s أوقية. اشحن محفظتك ثم عد للسداد."
 
-#: apps/projects/views.py:664
+#: apps/projects/views.py:694
 msgid "Montant envoyé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
 msgstr "تم إرسال المبلغ. يتحقق فريقنا من التقسيم ثم يدفع لكل مستثمر نصيبه."
 
-#: apps/projects/views.py:677
+#: apps/projects/views.py:707
 msgid "Remboursement annulé : le montant est de nouveau disponible."
 msgstr "تم إلغاء السداد: المبلغ متاح من جديد."
 
-#: apps/projects/views.py:696
+#: apps/projects/views.py:726
 #, python-format
 msgid "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez."
 msgstr "ينقصك %(m)s أوقية. اشحن محفظتك ثم عد."
 
-#: apps/projects/views.py:701
+#: apps/projects/views.py:731
 #, python-format
 msgid "Dividende versé : %(a)s MRU partagés entre les actionnaires, soit %(x)s MRU par part."
 msgstr "تم توزيع الأرباح: %(a)s أوقية قُسّمت بين المساهمين، أي %(x)s أوقية للحصة."
 
-#: apps/projects/views.py:714
+#: apps/projects/views.py:750
+msgid "Demande envoyée. Notre équipe la vérifie, puis les nouvelles parts seront mises en vente."
+msgstr "تم إرسال الطلب. يتحقق منه فريقنا، ثم تُعرض الحصص الجديدة للبيع."
+
+#: apps/projects/views.py:763
+msgid "Demande annulée."
+msgstr "تم إلغاء الطلب."
+
+#: apps/projects/views.py:783 templates/accounts/kyc_status.html:11
+#: templates/projects/manage_company.html:56
+msgid "Nom"
+msgstr "الاسم"
+
+#: apps/projects/views.py:783
+msgid "Part du capital (%)"
+msgstr "الحصة من رأس المال (%)"
+
+#: apps/projects/views.py:783
+msgid "Parts en vente sur le marché"
+msgstr "حصص معروضة في السوق"
+
+#: apps/projects/views.py:784
+msgid "Total reçu (MRU)"
+msgstr "إجمالي المبالغ المستلمة (أوقية)"
+
+#: apps/projects/views.py:797
 msgid "Vente arrêtée : les parts non vendues ne sont plus proposées."
 msgstr "تم إيقاف البيع: لم تعد الحصص غير المبيعة معروضة."
 
-#: apps/projects/views.py:733
+#: apps/projects/views.py:814
+msgid "Choisissez un actionnaire."
+msgstr "اختر مساهماً."
+
+#: apps/projects/views.py:823
 msgid "Offre envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."
 msgstr "تم إرسال العرض. المبلغ محجوز في محفظتك حتى يصل الرد."
 
-#: apps/projects/views.py:756
+#: apps/projects/views.py:846
 msgid "Rachat conclu."
 msgstr "تمت إعادة الشراء."
 
-#: apps/projects/views.py:756
+#: apps/projects/views.py:846
 msgid "Votre proposition a été envoyée."
 msgstr "تم إرسال اقتراحك."
 
-#: apps/projects/views.py:757
+#: apps/projects/views.py:847
 msgid "Offre close."
 msgstr "أُغلق العرض."
 
-#: apps/projects/views.py:757
+#: apps/projects/views.py:847
 msgid "C'est noté."
 msgstr "تم التسجيل."
 
-#: apps/projects/views.py:774 apps/projects/views.py:776
+#: apps/projects/views.py:864 apps/projects/views.py:866
 #, python-format
 msgid "Nouvelles de « %(p)s »"
 msgstr "أخبار «%(p)s»"
 
-#: apps/projects/views.py:777
+#: apps/projects/views.py:867
 msgid "Message publié."
 msgstr "تم نشر الرسالة."
 
-#: apps/projects/views.py:790
+#: apps/projects/views.py:880
 msgid "Le porteur a répondu à votre question"
 msgstr "ردّ صاحب المشروع على سؤالك"
 
-#: apps/projects/views.py:800
+#: apps/projects/views.py:890
 msgid "Seule une collecte en cours peut être mise en avant."
 msgstr "لا يمكن إبراز إلا حملة جارية."
 
-#: apps/projects/views.py:811
+#: apps/projects/views.py:901
 msgid "Projet mis en avant pendant 7 jours."
 msgstr "تم إبراز المشروع لمدة 7 أيام."
 
@@ -3473,75 +3613,83 @@ msgstr "رأي الفريق العلني (يظهر للمستثمرين)"
 msgid "Message au porteur"
 msgstr "رسالة إلى صاحب المشروع"
 
-#: apps/staff/views.py:96
+#: apps/staff/views.py:97
 msgid "Dossier approuvé, l'utilisateur est prévenu sur WhatsApp."
 msgstr "تم اعتماد الملف، وأُبلغ المستخدم على واتساب."
 
-#: apps/staff/views.py:99
+#: apps/staff/views.py:100
 msgid "Décision enregistrée et envoyée à l'utilisateur."
 msgstr "تم حفظ القرار وإرساله إلى المستخدم."
 
-#: apps/staff/views.py:126
+#: apps/staff/views.py:127
 msgid "Attribuez une note de risque."
 msgstr "حدد درجة المخاطر."
 
-#: apps/staff/views.py:128
+#: apps/staff/views.py:129
 msgid "Collecte publiée."
 msgstr "تم نشر الحملة."
 
-#: apps/staff/views.py:130
+#: apps/staff/views.py:131
 msgid "Merci de compléter votre dossier."
 msgstr "يرجى إكمال ملفك."
 
-#: apps/staff/views.py:131
+#: apps/staff/views.py:132
 msgid "Corrections demandées."
 msgstr "تم طلب التصحيحات."
 
-#: apps/staff/views.py:133
+#: apps/staff/views.py:134
 msgid "Projet non retenu."
 msgstr "لم يُقبل المشروع."
 
-#: apps/staff/views.py:134
+#: apps/staff/views.py:135
 msgid "Projet refusé."
 msgstr "تم رفض المشروع."
 
-#: apps/staff/views.py:156
+#: apps/staff/views.py:157
 msgid "Fonds libérés vers le porteur."
 msgstr "تم تحرير الأموال لصاحب المشروع."
 
-#: apps/staff/views.py:159
+#: apps/staff/views.py:160
 msgid "Collecte annulée, investisseurs remboursés."
 msgstr "أُلغيت الحملة وأعيدت الأموال للمستثمرين."
 
-#: apps/staff/views.py:162
+#: apps/staff/views.py:163
 msgid "Projet passé en défaut."
 msgstr "تم تصنيف المشروع متعثراً."
 
-#: apps/staff/views.py:178
+#: apps/staff/views.py:179
 #, python-format
 msgid "Dépôt %(r)s confirmé."
 msgstr "تم تأكيد الإيداع %(r)s."
 
-#: apps/staff/views.py:180
+#: apps/staff/views.py:181
 msgid "Paiement introuvable."
 msgstr "الدفع غير موجود."
 
-#: apps/staff/views.py:195
+#: apps/staff/views.py:196
 #, python-format
 msgid "Retrait %(r)s marqué payé."
 msgstr "تم تسجيل السحب %(r)s مدفوعاً."
 
-#: apps/staff/views.py:223
+#: apps/staff/views.py:224
 msgid "Remboursement validé : chaque investisseur a reçu sa part."
 msgstr "تمت المصادقة على السداد: استلم كل مستثمر نصيبه."
 
-#: apps/staff/views.py:227
+#: apps/staff/views.py:228 apps/staff/views.py:256
 msgid "Indiquez le motif du refus."
 msgstr "اذكر سبب الرفض."
 
-#: apps/staff/views.py:230
+#: apps/staff/views.py:231
 msgid "Remboursement refusé : le montant est rendu au porteur."
 msgstr "تم رفض السداد: أُعيد المبلغ إلى صاحب المشروع."
+
+#: apps/staff/views.py:252
+msgid "Émission validée : les nouvelles parts sont en vente."
+msgstr "تمت المصادقة على الإصدار: الحصص الجديدة معروضة للبيع."
+
+#: apps/staff/views.py:259
+msgid "Émission refusée."
+msgstr "تم رفض الإصدار."
 
 #: apps/trust/admin.py:16 templates/market/buy.html:8
 msgid "Recalculer"
@@ -4243,10 +4391,6 @@ msgstr "الذهاب إلى فضائي"
 msgid "Corriger mon dossier"
 msgstr "تصحيح ملفي"
 
-#: templates/accounts/kyc_status.html:11 templates/staff/kyc_list.html:5
-msgid "Nom"
-msgstr "الاسم"
-
 #: templates/accounts/login.html:7
 msgid "Se connecter"
 msgstr "دخول"
@@ -4519,7 +4663,7 @@ msgid "MRU déjà reçus"
 msgstr "أوقية مستلمة حتى الآن"
 
 #: templates/core/dashboard.html:14 templates/projects/manage.html:6
-#: templates/wallet/deposit.html:2
+#: templates/projects/manage_company.html:7
 msgid "Déposer"
 msgstr "إيداع"
 
@@ -4567,6 +4711,7 @@ msgid "Compléter"
 msgstr "إكمال"
 
 #: templates/core/dashboard.html:31 templates/projects/manage.html:2
+#: templates/projects/manage_company.html:2
 msgid "Gérer"
 msgstr "إدارة"
 
@@ -5005,7 +5150,8 @@ msgstr "العقد"
 msgid "Montant investi"
 msgstr "المبلغ المستثمر"
 
-#: templates/core/portfolio.html:16
+#: templates/core/portfolio.html:16 templates/projects/manage_company.html:56
+#: templates/projects/manage_company.html:62
 msgid "Reçu"
 msgstr "المستلم"
 
@@ -5033,7 +5179,7 @@ msgstr "الاكتتابات"
 msgid "Annuler cette souscription ?"
 msgstr "إلغاء هذا الاكتتاب؟"
 
-#: templates/core/portfolio.html:31 templates/projects/manage.html:74
+#: templates/core/portfolio.html:31 templates/projects/manage.html:50
 #: templates/wallet/home.html:18
 msgid "Annuler"
 msgstr "إلغاء"
@@ -5211,6 +5357,7 @@ msgid "Suivant"
 msgstr "التالي"
 
 #: templates/includes/project_card.html:2 templates/projects/detail.html:33
+#: templates/projects/manage_company.html:5
 msgid "Parts en vente"
 msgstr "حصص معروضة للبيع"
 
@@ -5395,7 +5542,7 @@ msgid "Acheter"
 msgstr "شراء"
 
 #: templates/market/index.html:19 templates/projects/detail.html:294
-#: templates/projects/manage.html:88
+#: templates/projects/manage.html:64
 msgid "Racheter"
 msgstr "إعادة الشراء"
 
@@ -5540,8 +5687,8 @@ msgid "Prix d'une part"
 msgstr "سعر الحصة"
 
 #: templates/projects/detail.html:43
-msgid "Parts mises en vente"
-msgstr "الحصص المعروضة للبيع"
+msgid "Parts émises"
+msgstr "الحصص المُصدَرة"
 
 #: templates/projects/detail.html:45
 msgid "Vos droits"
@@ -5600,7 +5747,7 @@ msgstr "من %(a)s إلى %(b)s أوقية."
 msgid "Maximum %(m)s parts pour vous dans ce projet."
 msgstr "الحد الأقصى لك %(m)s حصة في هذا المشروع."
 
-#: templates/projects/detail.html:72 templates/staff/dashboard.html:14
+#: templates/projects/detail.html:72 templates/staff/dashboard.html:15
 msgid "Total"
 msgstr "المجموع"
 
@@ -5727,7 +5874,7 @@ msgstr "المتابعة والعوائد"
 msgid "Revente"
 msgstr "إعادة البيع"
 
-#: templates/projects/detail.html:126
+#: templates/projects/detail.html:126 templates/projects/manage_company.html:15
 msgid "Questions"
 msgstr "الأسئلة"
 
@@ -5743,7 +5890,7 @@ msgstr "مشاهدة فيديو التقديم"
 msgid "Avis de l'équipe Moucharaka"
 msgstr "رأي فريق مشاركة"
 
-#: templates/projects/detail.html:136
+#: templates/projects/detail.html:136 templates/staff/issues.html:14
 msgid "À quoi servira l'argent"
 msgstr "فيمَ سيُستخدم المال"
 
@@ -6113,7 +6260,7 @@ msgstr "المستندات مرئية للأعضاء الموثَّقين."
 msgid "Rapports publiés"
 msgstr "التقارير المنشورة"
 
-#: templates/projects/detail.html:276 templates/projects/manage.html:56
+#: templates/projects/detail.html:276 templates/projects/manage.html:32
 #: templates/staff/reports.html:4
 msgid "Période"
 msgstr "الفترة"
@@ -6139,7 +6286,7 @@ msgstr "متأخر"
 msgid "Échéancier Mourabaha"
 msgstr "جدول أقساط المرابحة"
 
-#: templates/projects/detail.html:279 templates/projects/manage.html:63
+#: templates/projects/detail.html:279 templates/projects/manage.html:39
 msgid "Échéance"
 msgstr "الأجل"
 
@@ -6171,7 +6318,7 @@ msgstr "لا توجد دفعات حالياً."
 msgid "Nouvelles du porteur"
 msgstr "أخبار صاحب المشروع"
 
-#: templates/projects/detail.html:291 templates/projects/manage.html:102
+#: templates/projects/detail.html:291
 msgid "Voir sur le marché"
 msgstr "عرض في السوق"
 
@@ -6232,15 +6379,15 @@ msgstr "لا يوجد مشروع يطابق هذه المعايير."
 msgid "Effacer les filtres"
 msgstr "مسح عوامل التصفية"
 
-#: templates/projects/manage.html:5
+#: templates/projects/manage.html:5 templates/projects/manage_company.html:6
 msgid "Page publique"
 msgstr "الصفحة العامة"
 
-#: templates/projects/manage.html:6
+#: templates/projects/manage.html:6 templates/projects/manage_company.html:7
 msgid "Mon portefeuille"
 msgstr "محفظتي"
 
-#: templates/projects/manage.html:9
+#: templates/projects/manage.html:9 templates/projects/manage_company.html:47
 #, python-format
 msgid "Lien ouvert %(n)s fois."
 msgstr "فُتح الرابط %(n)s مرة."
@@ -6248,10 +6395,6 @@ msgstr "فُتح الرابط %(n)s مرة."
 #: templates/projects/manage.html:11
 msgid "MRU collectés"
 msgstr "أوقية مجمَّعة"
-
-#: templates/projects/manage.html:12
-msgid "actionnaires"
-msgstr "مساهمون"
 
 #: templates/projects/manage.html:13
 msgid "MRU de capital à rendre"
@@ -6261,7 +6404,7 @@ msgstr "أوقية من رأس المال يجب إعادتها"
 msgid "parts en circulation"
 msgstr "حصص متداولة"
 
-#: templates/projects/manage.html:15
+#: templates/projects/manage.html:15 templates/projects/manage_company.html:47
 msgid "mon score de confiance"
 msgstr "درجة ثقتي"
 
@@ -6270,12 +6413,12 @@ msgstr "درجة ثقتي"
 msgid "Clôture le %(d)s. Partagez la page du projet dans vos groupes WhatsApp : la confiance de votre entourage attire les autres investisseurs."
 msgstr "يُغلق في %(d)s. شارك صفحة المشروع في مجموعات واتساب: ثقة محيطك تجذب المستثمرين الآخرين."
 
-#: templates/projects/manage.html:20 templates/projects/manage.html:28
+#: templates/projects/manage.html:20 templates/projects/manage_company.html:38
 #, python-format
 msgid "Payer %(f)s MRU pour 7 jours de mise en avant ?"
 msgstr "دفع %(f)s أوقية لإبراز المشروع 7 أيام؟"
 
-#: templates/projects/manage.html:20 templates/projects/manage.html:28
+#: templates/projects/manage.html:20 templates/projects/manage_company.html:38
 #, python-format
 msgid "Mettre en avant 7 jours (%(f)s MRU)"
 msgstr "الإبراز 7 أيام (%(f)s أوقية)"
@@ -6285,246 +6428,427 @@ msgid "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; le
 msgstr "تم بلوغ الهدف. سيتصل بك فريقنا لتوقيع العقد، ثم تُحوَّل الأموال إلى محفظتك."
 
 #: templates/projects/manage.html:24
-msgid "Vente des parts"
-msgstr "بيع الحصص"
-
-#: templates/projects/manage.html:26
-#, python-format
-msgid "%(s)s parts vendues sur %(t)s. Les %(r)s parts restantes restent en vente : chaque acheteur devient actionnaire tout de suite et l'argent arrive dans votre portefeuille."
-msgstr "بيعت %(s)s حصة من أصل %(t)s. تبقى الحصص المتبقية (%(r)s) معروضة للبيع: كل مشترٍ يصبح مساهماً فوراً ويصل المال إلى محفظتك."
-
-#: templates/projects/manage.html:29
-msgid "Arrêter la vente des parts restantes ? Ce choix est définitif."
-msgstr "إيقاف بيع الحصص المتبقية؟ هذا القرار نهائي."
-
-#: templates/projects/manage.html:29
-msgid "Arrêter la vente"
-msgstr "إيقاف البيع"
-
-#: templates/projects/manage.html:32
-#, python-format
-msgid "La vente est terminée (%(s)s parts vendues). Vos actionnaires peuvent revendre leurs parts sur le marché."
-msgstr "انتهى البيع (%(s)s حصة مبيعة). يمكن لمساهميك إعادة بيع حصصهم في السوق."
-
-#: templates/projects/manage.html:36
-msgid "Verser un dividende"
-msgstr "توزيع أرباح"
-
-#: templates/projects/manage.html:38
-#, python-format
-msgid "Indiquez le montant total : chaque actionnaire reçoit sa part selon le nombre de parts qu'il détient (%(n)s parts au total)."
-msgstr "أدخل المبلغ الإجمالي: يحصل كل مساهم على نصيبه حسب عدد حصصه (%(n)s حصة إجمالاً)."
-
-#: templates/projects/manage.html:41
-msgid "Commission de la plateforme : <b data-k=\"fee\"></b> MRU · les actionnaires reçoivent <b data-k=\"net\"></b> MRU, soit <b data-k=\"per\"></b> MRU par part."
-msgstr "عمولة المنصة: <b data-k=\"fee\"></b> أوقية · يحصل المساهمون على <b data-k=\"net\"></b> أوقية، أي <b data-k=\"per\"></b> أوقية للحصة."
-
-#: templates/projects/manage.html:42
-msgid "Verser ce dividende maintenant ? Le montant sera prélevé sur votre portefeuille."
-msgstr "توزيع هذه الأرباح الآن؟ سيُخصم المبلغ من محفظتك."
-
-#: templates/projects/manage.html:42
-msgid "Verser le dividende"
-msgstr "توزيع الأرباح"
-
-#: templates/projects/manage.html:43 templates/projects/manage.html:112
-msgid "Pas encore d'actionnaire."
-msgstr "لا يوجد مساهمون بعد."
-
-#: templates/projects/manage.html:44
-msgid "Dividendes versés"
-msgstr "الأرباح الموزعة"
-
-#: templates/projects/manage.html:44
-#, python-format
-msgid "%(x)s MRU / part"
-msgstr "%(x)s أوقية / حصة"
-
-#: templates/projects/manage.html:48
 msgid "Rapports à publier"
 msgstr "تقارير يجب نشرها"
 
-#: templates/projects/manage.html:49
+#: templates/projects/manage.html:25
 msgid "Chaque rapport à l'heure fait monter votre score. Joignez une photo de votre cahier ou un relevé."
 msgstr "كل تقرير في وقته يرفع درجتك. أرفق صورة من دفترك أو كشف حساب."
 
-#: templates/projects/manage.html:50
+#: templates/projects/manage.html:26
 #, python-format
 msgid "à remettre avant le %(d)s"
 msgstr "يُسلَّم قبل %(d)s"
 
-#: templates/projects/manage.html:52
+#: templates/projects/manage.html:28
 msgid "Publier le rapport"
 msgstr "نشر التقرير"
 
-#: templates/projects/manage.html:55
+#: templates/projects/manage.html:31
 msgid "Rapports et distributions"
 msgstr "التقارير والتوزيعات"
 
-#: templates/projects/manage.html:56 templates/staff/project_review.html:30
+#: templates/projects/manage.html:32 templates/staff/project_review.html:30
 msgid "Part investisseurs"
 msgstr "نصيب المستثمرين"
 
-#: templates/projects/manage.html:58
+#: templates/projects/manage.html:34
 msgid "Distribué"
 msgstr "موزَّع"
 
-#: templates/projects/manage.html:59
+#: templates/projects/manage.html:35
 #, python-format
 msgid "Verser %(a)s MRU aux investisseurs ?"
 msgstr "دفع %(a)s أوقية للمستثمرين؟"
 
-#: templates/projects/manage.html:59
+#: templates/projects/manage.html:35
 msgid "Verser aux investisseurs"
 msgstr "الدفع للمستثمرين"
 
-#: templates/projects/manage.html:62
+#: templates/projects/manage.html:38
 msgid "Échéancier"
 msgstr "جدول الأقساط"
 
-#: templates/projects/manage.html:65
+#: templates/projects/manage.html:41
 #, python-format
 msgid "Payer %(a)s MRU maintenant ?"
 msgstr "دفع %(a)s أوقية الآن؟"
 
-#: templates/projects/manage.html:65
+#: templates/projects/manage.html:41
 msgid "Payer"
 msgstr "دفع"
 
-#: templates/projects/manage.html:67
+#: templates/projects/manage.html:43
 msgid "Rembourser les investisseurs"
 msgstr "سداد المستثمرين"
 
-#: templates/projects/manage.html:69
+#: templates/projects/manage.html:45
 #, python-format
 msgid "Vous avez envoyé %(a)s MRU le %(d)s. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
 msgstr "أرسلت %(a)s أوقية بتاريخ %(d)s. يتحقق فريقنا من التقسيم ثم يدفع لكل مستثمر نصيبه."
 
-#: templates/projects/manage.html:70 templates/projects/manage.html:117
-#: templates/projects/manage.html:119
+#: templates/projects/manage.html:46 templates/projects/manage.html:77
+#: templates/projects/manage.html:79
 msgid "Investisseur"
 msgstr "المستثمر"
 
-#: templates/projects/manage.html:70 templates/staff/settlements.html:17
+#: templates/projects/manage.html:46 templates/staff/settlements.html:17
 msgid "A investi"
 msgstr "استثمر"
 
-#: templates/projects/manage.html:70 templates/staff/settlements.html:17
+#: templates/projects/manage.html:46 templates/staff/settlements.html:17
 msgid "Recevra"
 msgstr "سيستلم"
 
-#: templates/projects/manage.html:72
+#: templates/projects/manage.html:48
 msgid "Commission de la plateforme (sur le bénéfice)"
 msgstr "عمولة المنصة (على الربح)"
 
-#: templates/projects/manage.html:74
+#: templates/projects/manage.html:50
 msgid "Annuler ce remboursement ? Le montant redevient disponible dans votre portefeuille."
 msgstr "إلغاء هذا السداد؟ سيعود المبلغ متاحاً في محفظتك."
 
-#: templates/projects/manage.html:76
+#: templates/projects/manage.html:52
 msgid "Quand l'opération est terminée, indiquez le montant total que vous rendez : le capital des investisseurs plus le bénéfice. La plateforme calcule la part de chacun et notre équipe la valide."
 msgstr "عند انتهاء العملية، أدخل المبلغ الإجمالي الذي تعيده: رأس مال المستثمرين زائد الربح. تحسب المنصة نصيب كل واحد ويصادق عليه فريقنا."
 
-#: templates/projects/manage.html:77 templates/staff/settlements.html:10
+#: templates/projects/manage.html:53 templates/staff/settlements.html:10
 msgid "Capital des investisseurs"
 msgstr "رأس مال المستثمرين"
 
-#: templates/projects/manage.html:78
+#: templates/projects/manage.html:54
 msgid "Montant prévu (meilleur cas)"
 msgstr "المبلغ المتوقع (أفضل الحالات)"
 
-#: templates/projects/manage.html:80
+#: templates/projects/manage.html:56
 msgid "Envoyer ce montant ? Il sera prélevé sur votre portefeuille et partagé entre les investisseurs après validation."
 msgstr "إرسال هذا المبلغ؟ سيُخصم من محفظتك ويُقسَّم بين المستثمرين بعد المصادقة."
 
-#: templates/projects/manage.html:80
+#: templates/projects/manage.html:56
 msgid "Rembourser"
 msgstr "سداد"
 
-#: templates/projects/manage.html:83
+#: templates/projects/manage.html:59
 msgid "Historique des remboursements"
 msgstr "سجل عمليات السداد"
 
-#: templates/projects/manage.html:86
+#: templates/projects/manage.html:62 templates/projects/manage_company.html:82
 msgid "Racheter des parts"
 msgstr "إعادة شراء الحصص"
 
-#: templates/projects/manage.html:87
+#: templates/projects/manage.html:63
 msgid "Les parts sont rachetées à tous les investisseurs au prorata. Quand vous avez tout racheté, le projet est terminé et vous redevenez seul propriétaire."
 msgstr "تُعاد شراء الحصص من كل المستثمرين بالتناسب. حين تعيد شراء الكل، ينتهي المشروع وتصبح المالك الوحيد من جديد."
 
-#: templates/projects/manage.html:88
+#: templates/projects/manage.html:64
 msgid "Confirmer le rachat ? Le montant sera prélevé sur votre portefeuille."
 msgstr "تأكيد إعادة الشراء؟ سيُخصم المبلغ من محفظتك."
 
-#: templates/projects/manage.html:91
+#: templates/projects/manage.html:67 templates/projects/manage_company.html:135
 msgid "Questions des investisseurs"
 msgstr "أسئلة المستثمرين"
 
-#: templates/projects/manage.html:92
+#: templates/projects/manage.html:68 templates/projects/manage_company.html:136
 msgid "Répondre publiquement"
 msgstr "الرد علناً"
 
-#: templates/projects/manage.html:93
+#: templates/projects/manage.html:69 templates/projects/manage_company.html:137
 msgid "Aucune question en attente."
 msgstr "لا توجد أسئلة معلقة."
 
-#: templates/projects/manage.html:94
+#: templates/projects/manage.html:70 templates/projects/manage_company.html:139
 msgid "Donner des nouvelles"
 msgstr "نشر أخبار"
 
-#: templates/projects/manage.html:95
+#: templates/projects/manage.html:71 templates/projects/manage_company.html:141
 msgid "Publier"
 msgstr "نشر"
 
-#: templates/projects/manage.html:98
+#: templates/projects/manage.html:74 templates/projects/manage_company.html:145
 msgid "Intentions d'investissement"
 msgstr "نوايا الاستثمار"
 
-#: templates/projects/manage.html:99
+#: templates/projects/manage.html:75
 msgid "prévenu"
 msgstr "تم الإبلاغ"
 
-#: templates/projects/manage.html:101
-msgid "Actionnaires"
-msgstr "المساهمون"
-
-#: templates/projects/manage.html:102
-msgid "Pour racheter des parts, faites une offre à un actionnaire : il peut accepter, refuser ou proposer d'autres conditions. Vous pouvez aussi acheter les parts mises en vente sur le marché. Les parts rachetées sont annulées."
-msgstr "لإعادة شراء حصص، قدّم عرضاً لمساهم: يمكنه القبول أو الرفض أو اقتراح شروط أخرى. يمكنك أيضاً شراء الحصص المعروضة في السوق. تُلغى الحصص المعاد شراؤها."
-
-#: templates/projects/manage.html:104
-#, python-format
-msgid "%(n)s parts · %(p)s %%"
-msgstr "%(n)s حصة · %(p)s %%"
-
-#: templates/projects/manage.html:106
-msgid "Proposer un rachat"
-msgstr "اقتراح إعادة شراء"
-
-#: templates/projects/manage.html:111
-msgid "Envoyer cette offre ? Le montant sera réservé sur votre portefeuille jusqu’à la réponse."
-msgstr "إرسال هذا العرض؟ سيُحجز المبلغ في محفظتك حتى يصل الرد."
-
-#: templates/projects/manage.html:111
-msgid "Envoyer l'offre"
-msgstr "إرسال العرض"
-
-#: templates/projects/manage.html:113
-msgid "Offres de rachat passées"
-msgstr "عروض إعادة الشراء السابقة"
-
-#: templates/projects/manage.html:116
+#: templates/projects/manage.html:76
 msgid "Associés"
 msgstr "الشركاء"
 
-#: templates/projects/manage.html:118 templates/projects/manage.html:121
+#: templates/projects/manage.html:78 templates/projects/manage.html:81
 msgid "Pas encore d'investisseur."
 msgstr "لا يوجد مستثمر بعد."
 
-#: templates/projects/manage.html:119
+#: templates/projects/manage.html:79 templates/projects/manage_company.html:56
+#: templates/projects/manage_company.html:60
 msgid "Part du capital"
 msgstr "حصة رأس المال"
+
+#: templates/projects/manage_company.html:9
+msgid "Gestion du projet"
+msgstr "إدارة المشروع"
+
+#: templates/projects/manage_company.html:10
+msgid "Aperçu"
+msgstr "نظرة عامة"
+
+#: templates/projects/manage_company.html:11
+#: templates/projects/manage_company.html:53
+msgid "Actionnaires"
+msgstr "المساهمون"
+
+#: templates/projects/manage_company.html:12
+msgid "Dividendes"
+msgstr "الأرباح الموزعة"
+
+#: templates/projects/manage_company.html:13
+msgid "Rachats"
+msgstr "إعادة الشراء"
+
+#: templates/projects/manage_company.html:14 templates/staff/issues.html:9
+msgid "Nouvelles parts"
+msgstr "حصص جديدة"
+
+#: templates/projects/manage_company.html:16
+msgid "Nouvelles"
+msgstr "الأخبار"
+
+#: templates/projects/manage_company.html:21
+#, python-format
+msgid "Un actionnaire attend votre réponse à une offre de rachat."
+msgid_plural "%(n)s actionnaires attendent votre réponse à une offre de rachat."
+msgstr[0] "لا أحد ينتظر ردك"
+msgstr[1] "مساهم واحد ينتظر ردك على عرض إعادة شراء."
+msgstr[2] "مساهمان ينتظران ردك على عرض إعادة شراء."
+msgstr[3] "%(n)s مساهمين ينتظرون ردك على عرض إعادة شراء."
+msgstr[4] "%(n)s مساهماً ينتظرون ردك على عرض إعادة شراء."
+msgstr[5] "%(n)s مساهم ينتظرون ردك على عرض إعادة شراء."
+
+#: templates/projects/manage_company.html:21
+#: templates/projects/manage_company.html:22
+msgid "Répondre"
+msgstr "الرد"
+
+#: templates/projects/manage_company.html:22
+#, python-format
+msgid "Une question attend votre réponse."
+msgid_plural "%(n)s questions attendent votre réponse."
+msgstr[0] "لا أسئلة"
+msgstr[1] "سؤال واحد ينتظر ردك."
+msgstr[2] "سؤالان ينتظران ردك."
+msgstr[3] "%(n)s أسئلة تنتظر ردك."
+msgstr[4] "%(n)s سؤالاً ينتظر ردك."
+msgstr[5] "%(n)s سؤال ينتظر ردك."
+
+#: templates/projects/manage_company.html:25
+msgid "parts détenues par vos actionnaires"
+msgstr "حصص يملكها مساهموك"
+
+#: templates/projects/manage_company.html:27
+msgid "actionnaires"
+msgstr "مساهمون"
+
+#: templates/projects/manage_company.html:28 templates/trust/profile.html:11
+msgid "MRU levés"
+msgstr "أوقية مجمَّعة"
+
+#: templates/projects/manage_company.html:29
+msgid "MRU de dividendes versés"
+msgstr "أوقية من الأرباح الموزعة"
+
+#: templates/projects/manage_company.html:33
+msgid "Vente des parts"
+msgstr "بيع الحصص"
+
+#: templates/projects/manage_company.html:35
+#, python-format
+msgid "%(s)s parts vendues sur %(t)s. Il reste %(r)s parts en vente à %(x)s MRU : chaque acheteur devient actionnaire tout de suite et l'argent arrive dans votre portefeuille."
+msgstr "بيعت %(s)s حصة من أصل %(t)s. تبقى %(r)s حصة معروضة بسعر %(x)s أوقية: كل مشترٍ يصبح مساهماً فوراً ويصل المال إلى محفظتك."
+
+#: templates/projects/manage_company.html:39
+msgid "Arrêter la vente ? Les parts non vendues sont annulées. Vous pourrez plus tard demander une nouvelle émission."
+msgstr "إيقاف البيع؟ تُلغى الحصص غير المبيعة. يمكنك لاحقاً طلب إصدار جديد."
+
+#: templates/projects/manage_company.html:39
+msgid "Arrêter la vente"
+msgstr "إيقاف البيع"
+
+#: templates/projects/manage_company.html:42
+#, python-format
+msgid "Pas de parts en vente actuellement (%(s)s parts émises). Vos actionnaires peuvent revendre leurs parts sur le marché."
+msgstr "لا توجد حصص معروضة للبيع حالياً (%(s)s حصة مُصدَرة). يمكن لمساهميك إعادة بيع حصصهم في السوق."
+
+#: templates/projects/manage_company.html:43
+#: templates/projects/manage_company.html:119
+msgid "Émettre de nouvelles parts"
+msgstr "إصدار حصص جديدة"
+
+#: templates/projects/manage_company.html:44
+msgid "Ce projet est terminé."
+msgstr "هذا المشروع منتهٍ."
+
+#: templates/projects/manage_company.html:54
+msgid "Télécharger la liste (Excel)"
+msgstr "تحميل القائمة (Excel)"
+
+#: templates/projects/manage_company.html:56
+#: templates/projects/manage_company.html:61
+msgid "Sur le marché"
+msgstr "في السوق"
+
+#: templates/projects/manage_company.html:63
+#: templates/projects/manage_company.html:85
+msgid "à vous de répondre"
+msgstr "بانتظار ردك"
+
+#: templates/projects/manage_company.html:63
+msgid "offre envoyée"
+msgstr "عرض مُرسَل"
+
+#: templates/projects/manage_company.html:66
+#: templates/projects/manage_company.html:77
+msgid "Pas encore d'actionnaire."
+msgstr "لا يوجد مساهمون بعد."
+
+#: templates/projects/manage_company.html:70
+msgid "Verser un dividende"
+msgstr "توزيع أرباح"
+
+#: templates/projects/manage_company.html:72
+#, python-format
+msgid "Indiquez le montant total : chaque actionnaire reçoit sa part selon le nombre de parts qu'il détient (%(n)s parts au total)."
+msgstr "أدخل المبلغ الإجمالي: يحصل كل مساهم على نصيبه حسب عدد حصصه (%(n)s حصة إجمالاً)."
+
+#: templates/projects/manage_company.html:75
+msgid "Commission de la plateforme : <b data-k=\"fee\"></b> MRU · les actionnaires reçoivent <b data-k=\"net\"></b> MRU, soit <b data-k=\"per\"></b> MRU par part."
+msgstr "عمولة المنصة: <b data-k=\"fee\"></b> أوقية · يحصل المساهمون على <b data-k=\"net\"></b> أوقية، أي <b data-k=\"per\"></b> أوقية للحصة."
+
+#: templates/projects/manage_company.html:76
+msgid "Verser ce dividende maintenant ? Le montant sera prélevé sur votre portefeuille."
+msgstr "توزيع هذه الأرباح الآن؟ سيُخصم المبلغ من محفظتك."
+
+#: templates/projects/manage_company.html:76
+msgid "Verser le dividende"
+msgstr "توزيع الأرباح"
+
+#: templates/projects/manage_company.html:78
+msgid "Dividendes versés"
+msgstr "الأرباح الموزعة"
+
+#: templates/projects/manage_company.html:78
+#, python-format
+msgid "%(x)s MRU / part"
+msgstr "%(x)s أوقية / حصة"
+
+#: templates/projects/manage_company.html:83
+msgid "Faites une offre à un actionnaire : il peut accepter, refuser ou proposer d'autres conditions. Le montant est réservé sur votre portefeuille pendant qu'il réfléchit. Vous pouvez aussi racheter les parts que vos actionnaires mettent en vente sur le marché. Les parts rachetées sont annulées : les dividendes suivants sont partagés entre les autres actionnaires."
+msgstr "قدّم عرضاً لمساهم: يمكنه القبول أو الرفض أو اقتراح شروط أخرى. يُحجز المبلغ في محفظتك أثناء تفكيره. يمكنك أيضاً إعادة شراء الحصص التي يعرضها مساهموك في السوق. تُلغى الحصص المعاد شراؤها، وتُقسَّم الأرباح اللاحقة بين باقي المساهمين."
+
+#: templates/projects/manage_company.html:91
+msgid "Faire une offre de rachat"
+msgstr "تقديم عرض إعادة شراء"
+
+#: templates/projects/manage_company.html:94
+msgid "Actionnaire"
+msgstr "المساهم"
+
+#: templates/projects/manage_company.html:96
+#, python-format
+msgid "%(n)s parts"
+msgstr "%(n)s حصة"
+
+#: templates/projects/manage_company.html:96
+msgid "offre en cours"
+msgstr "عرض جارٍ"
+
+#: templates/projects/manage_company.html:99
+#, python-format
+msgid "Dernier prix d'émission : %(x)s MRU."
+msgstr "سعر آخر إصدار: %(x)s أوقية."
+
+#: templates/projects/manage_company.html:99
+#, python-format
+msgid "Dernier échange sur le marché : %(x)s MRU."
+msgstr "آخر صفقة في السوق: %(x)s أوقية."
+
+#: templates/projects/manage_company.html:102
+msgid "Envoyer cette offre ? Le montant sera réservé sur votre portefeuille jusqu’à la réponse."
+msgstr "إرسال هذا العرض؟ سيُحجز المبلغ في محفظتك حتى يصل الرد."
+
+#: templates/projects/manage_company.html:102
+msgid "Envoyer l'offre"
+msgstr "إرسال العرض"
+
+#: templates/projects/manage_company.html:105
+msgid "Parts de vos actionnaires en vente sur le marché"
+msgstr "حصص مساهميك المعروضة في السوق"
+
+#: templates/projects/manage_company.html:109
+msgid "Aucune part en vente sur le marché pour le moment."
+msgstr "لا توجد حصص معروضة في السوق حالياً."
+
+#: templates/projects/manage_company.html:111
+msgid "Historique des rachats"
+msgstr "سجل إعادة الشراء"
+
+#: templates/projects/manage_company.html:113
+msgid "racheté sur le marché"
+msgstr "أعيد شراؤها من السوق"
+
+#: templates/projects/manage_company.html:113
+msgid "offre acceptée"
+msgstr "عرض مقبول"
+
+#: templates/projects/manage_company.html:120
+msgid "Pour lever plus d'argent, mettez de nouvelles parts en vente sur cette même page. Vos actionnaires actuels restent actionnaires ; leur pourcentage baisse quand les nouvelles parts sont vendues, et ils sont prévenus. Notre équipe valide chaque émission."
+msgstr "لجمع مزيد من المال، اعرض حصصاً جديدة للبيع في هذه الصفحة نفسها. يبقى مساهموك الحاليون مساهمين، وتنخفض نسبتهم عند بيع الحصص الجديدة، ويتم إعلامهم بذلك. يصادق فريقنا على كل إصدار."
+
+#: templates/projects/manage_company.html:122
+#, python-format
+msgid "Demande du %(d)s : %(n)s nouvelles parts à %(x)s MRU, en attente de validation."
+msgstr "طلب بتاريخ %(d)s: %(n)s حصة جديدة بسعر %(x)s أوقية، في انتظار المصادقة."
+
+#: templates/projects/manage_company.html:123
+msgid "Annuler la demande"
+msgstr "إلغاء الطلب"
+
+#: templates/projects/manage_company.html:125
+#, python-format
+msgid "Il reste %(r)s parts en vente. Vous pourrez demander une nouvelle émission quand elles seront vendues, ou après avoir arrêté la vente."
+msgstr "تبقى %(r)s حصة معروضة للبيع. يمكنك طلب إصدار جديد عندما تُباع، أو بعد إيقاف البيع."
+
+#: templates/projects/manage_company.html:128
+msgid "Envoyer cette demande à notre équipe ?"
+msgstr "إرسال هذا الطلب إلى فريقنا؟"
+
+#: templates/projects/manage_company.html:128
+msgid "Demander l'émission"
+msgstr "طلب الإصدار"
+
+#: templates/projects/manage_company.html:130 templates/staff/base_staff.html:3
+#: templates/staff/issues.html:2
+msgid "Émissions"
+msgstr "الإصدارات"
+
+#: templates/projects/manage_company.html:138
+#, python-format
+msgid "%(n)s question déjà répondue"
+msgid_plural "%(n)s questions déjà répondues"
+msgstr[0] "لا أسئلة مُجاب عنها"
+msgstr[1] "سؤال واحد تمت الإجابة عنه"
+msgstr[2] "سؤالان تمت الإجابة عنهما"
+msgstr[3] "%(n)s أسئلة تمت الإجابة عنها"
+msgstr[4] "%(n)s سؤالاً تمت الإجابة عنه"
+msgstr[5] "%(n)s سؤال تمت الإجابة عنه"
+
+#: templates/projects/manage_company.html:140
+msgid "Vos actionnaires reçoivent une notification. Ventes du mois, ouverture, nouveau client : la confiance se construit ainsi."
+msgstr "يستلم مساهموك إشعاراً. مبيعات الشهر، افتتاح، زبون جديد: هكذا تُبنى الثقة."
+
+#: templates/projects/manage_company.html:142
+msgid "Déjà publiées"
+msgstr "منشورة سابقاً"
 
 #: templates/projects/new_start.html:5
 msgid "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
@@ -6830,36 +7154,40 @@ msgstr "تقارير للتحقق"
 msgid "remboursements à valider"
 msgstr "عمليات سداد للمصادقة"
 
-#: templates/staff/dashboard.html:14
+#: templates/staff/dashboard.html:12
+msgid "émissions de parts à valider"
+msgstr "إصدارات حصص للمصادقة"
+
+#: templates/staff/dashboard.html:15
 msgid "Revenus du mois"
 msgstr "إيرادات الشهر"
 
-#: templates/staff/dashboard.html:15
+#: templates/staff/dashboard.html:16
 #, python-format
 msgid "Solde du compte plateforme : %(b)s MRU"
 msgstr "رصيد حساب المنصة: %(b)s أوقية"
 
-#: templates/staff/dashboard.html:16
+#: templates/staff/dashboard.html:17
 msgid "Fonds des clients"
 msgstr "أموال العملاء"
 
-#: templates/staff/dashboard.html:16
+#: templates/staff/dashboard.html:17
 msgid "Disponibles"
 msgstr "المتاح"
 
-#: templates/staff/dashboard.html:16
+#: templates/staff/dashboard.html:17
 msgid "En séquestre"
 msgstr "في الضمان"
 
-#: templates/staff/dashboard.html:16
+#: templates/staff/dashboard.html:17
 msgid "Utilisateurs (vérifiés)"
 msgstr "المستخدمون (الموثَّقون)"
 
-#: templates/staff/dashboard.html:17
+#: templates/staff/dashboard.html:18
 msgid "Le total doit correspondre au solde des comptes de cantonnement à la banque."
 msgstr "يجب أن يطابق المجموع رصيد الحسابات المخصصة لدى البنك."
 
-#: templates/staff/dashboard.html:19
+#: templates/staff/dashboard.html:20
 msgid "Échéances en retard"
 msgstr "أقساط متأخرة"
 
@@ -6891,15 +7219,47 @@ msgstr "هل يظهر الدفع فعلاً في حساب التاجر؟"
 msgid "Confirmer"
 msgstr "تأكيد"
 
-#: templates/staff/deposits.html:7 templates/staff/settlements.html:22
-#: templates/staff/withdrawals.html:6
+#: templates/staff/deposits.html:7 templates/staff/issues.html:17
+#: templates/staff/settlements.html:22
 msgid "motif du refus"
 msgstr "سبب الرفض"
 
-#: templates/staff/deposits.html:8 templates/staff/kyc_list.html:7
-#: templates/staff/project_list.html:7
+#: templates/staff/deposits.html:8 templates/staff/issues.html:18
+#: templates/staff/kyc_list.html:7
 msgid "File vide."
 msgstr "القائمة فارغة."
+
+#: templates/staff/issues.html:3
+msgid "Émissions de parts à valider"
+msgstr "إصدارات حصص للمصادقة"
+
+#: templates/staff/issues.html:4
+msgid "Une entreprise demande à mettre de nouvelles parts en vente sur la même page projet. Une fois validées, elles sont en vente tout de suite et les actionnaires actuels sont prévenus."
+msgstr "تطلب مؤسسة عرض حصص جديدة للبيع في صفحة المشروع نفسها. بعد المصادقة تُعرض للبيع فوراً ويتم إعلام المساهمين الحاليين."
+
+#: templates/staff/issues.html:10
+msgid "Prix de la dernière émission"
+msgstr "سعر آخر إصدار"
+
+#: templates/staff/issues.html:11
+msgid "Parts détenues aujourd'hui"
+msgstr "الحصص المملوكة اليوم"
+
+#: templates/staff/issues.html:12
+msgid "Après la vente de toutes les nouvelles parts"
+msgstr "بعد بيع كل الحصص الجديدة"
+
+#: templates/staff/issues.html:16
+msgid "Mettre ces parts en vente maintenant ?"
+msgstr "عرض هذه الحصص للبيع الآن؟"
+
+#: templates/staff/issues.html:16
+msgid "Valider et mettre en vente"
+msgstr "مصادقة وعرض للبيع"
+
+#: templates/staff/issues.html:19
+msgid "Déjà traitées"
+msgstr "تمت معالجتها"
 
 #: templates/staff/kyc_list.html:3
 msgid "Dossiers KYC"
@@ -7238,10 +7598,6 @@ msgstr "عضو منذ %(d)s"
 #: templates/trust/profile.html:10
 msgid "projets publiés"
 msgstr "مشاريع منشورة"
-
-#: templates/trust/profile.html:11
-msgid "MRU levés"
-msgstr "أوقية مجمَّعة"
 
 #: templates/trust/profile.html:13
 msgid "versements à l'heure"

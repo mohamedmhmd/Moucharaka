@@ -218,7 +218,18 @@ table.table { width: 100%; border-collapse: collapse; font-size: .95rem; }
 .stat { background: var(--card); padding: 18px 20px; }
 .stat b { display: block; font-family: var(--display); font-size: 1.6rem; color: var(--ink); line-height: 1.2; }
 .stat span { color: var(--muted); font-size: .88rem; }
-@media (max-width: 760px) { .stats { grid-template-columns: 1fr 1fr; } }
+.stats.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 760px) { .stats, .stats.three { grid-template-columns: 1fr 1fr; } }
+/* Tables that become stacked cards on phones: each cell shows its column name (data-label) */
+@media (max-width: 640px) {
+  .table.cards thead { display: none; }
+  .table.cards, .table.cards tbody, .table.cards tr, .table.cards td { display: block; width: 100%; }
+  .table.cards tr { border-block-end: 1px solid var(--line); padding: 10px 0; }
+  .table.cards td { display: flex; justify-content: space-between; gap: 12px; border: 0; padding: 3px 0; text-align: start; }
+  .table.cards td[data-label]::before { content: attr(data-label); color: var(--muted); font-size: .85rem; }
+  .table.cards td.cell-title { font-size: 1.02rem; }
+  .table.cards td.cell-action { justify-content: flex-end; padding-top: 6px; }
+}
 
 /* ---------------------------------------------------------- progress */
 .progress { height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; }

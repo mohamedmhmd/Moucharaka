@@ -180,6 +180,9 @@ class Project(TimeStamped):
     released_at = models.DateTimeField(null=True, blank=True)
     closed_at = models.DateTimeField(null=True, blank=True)
     trading_enabled = models.BooleanField(_("revente des parts autorisée"), default=True)
+    shares_issued = models.PositiveIntegerField(
+        _("parts émises"), null=True, blank=True,
+        help_text=_("Entreprise : nombre total de parts émises (première vente et émissions suivantes)."))
     offering_open = models.BooleanField(
         _("parts encore en vente"), default=False,
         help_text=_("Entreprise : les parts non vendues restent en vente jusqu'à ce qu'elles soient achetées."))
@@ -227,6 +230,8 @@ class Project(TimeStamped):
 
     @property
     def total_shares(self):
+        if self.shares_issued is not None:  # company: counted explicitly, issues can have different prices
+            return self.shares_issued
         if not self.share_price:
             return 0
         return int(self.target_amount // self.share_price)

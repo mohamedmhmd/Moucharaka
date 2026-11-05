@@ -1,0 +1,22 @@
+{% extends "staff/base_staff.html" %}{% load i18n mk %}
+{% block title %}{% trans "Émissions" %}{% endblock %}
+{% block staff %}<h1>{% trans "Émissions de parts à valider" %}</h1>
+<p class="muted">{% trans "Une entreprise demande à mettre de nouvelles parts en vente sur la même page projet. Une fois validées, elles sont en vente tout de suite et les actionnaires actuels sont prévenus." %}</p>
+{% for it in items %}<div class="panel" style="margin-bottom:16px">
+  <h2 style="margin:0"><a href="{% url 'staff:project_review' it.project.pk %}">{{ it.project.title }}</a></h2>
+  <p class="small muted" style="margin:4px 0 12px">{{ it.project.owner.full_name }} · <span class="ltr">{{ it.project.owner.phone|phone }}</span> · {{ it.created_at|date:"d/m/Y H:i" }}</p>
+  <dl class="kv">
+    <dt>{% trans "Nouvelles parts" %}</dt><dd><b>{{ it.shares }}</b> × {{ it.price|money }} MRU = <b>{{ it.total|money }} MRU</b></dd>
+    <dt>{% trans "Prix de la dernière émission" %}</dt><dd>{{ it.project.share_price|money }} MRU</dd>
+    <dt>{% trans "Parts détenues aujourd'hui" %}</dt><dd>{{ it.outstanding }}</dd>
+    <dt>{% trans "Après la vente de toutes les nouvelles parts" %}</dt><dd>{{ it.after }}</dd>
+  </dl>
+  {% if it.reason %}<div class="note small" style="margin-top:10px"><b>{% trans "À quoi servira l'argent" %} :</b> {{ it.reason|linebreaksbr }}</div>{% endif %}
+  <form method="post" class="row" style="margin-top:12px">{% csrf_token %}<input type="hidden" name="id" value="{{ it.pk }}">
+    <button class="btn" name="action" value="approve" data-confirm="{% trans 'Mettre ces parts en vente maintenant ?' %}">{% trans "Valider et mettre en vente" %}</button>
+    <input name="reason" placeholder="{% trans 'motif du refus' %}" style="width:200px;min-height:34px"><button class="btn ghost" name="action" value="reject">{% trans "Refuser" %}</button></form>
+</div>{% empty %}<div class="panel"><div class="empty">{% trans "File vide." %}</div></div>{% endfor %}
+{% if done %}<div class="panel" style="margin-top:20px"><h2>{% trans "Déjà traitées" %}</h2><div class="table-wrap"><table class="table"><tbody>
+{% for it in done %}<tr><td><a href="{% url 'staff:project_review' it.project.pk %}">{{ it.project.title }}</a></td><td class="n">{{ it.shares }} × {{ it.price|money }}</td><td>{% badge it.status it.get_status_display %}</td><td class="small muted">{{ it.decided_at|date:"d/m/Y" }}{% if it.decided_by %} · {{ it.decided_by.full_name }}{% endif %}{% if it.staff_reason %} · {{ it.staff_reason }}{% endif %}</td></tr>{% endfor %}
+</tbody></table></div></div>{% endif %}
+{% endblock %}

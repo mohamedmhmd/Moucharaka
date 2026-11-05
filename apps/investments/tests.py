@@ -610,12 +610,14 @@ class CompanySharesFlow(FlowBase):
         owner = Client()
         owner.force_login(self.owner)
         page = owner.get(f"/fr/projects/{p.slug}/manage/").content.decode()
-        for anchor in ('id="offering"', 'id="dividend"', 'id="shareholders"'):
+        for anchor in ('id="overview"', 'id="dividend"', 'id="shareholders"', 'id="buyback"', 'id="issue"'):
             self.assertIn(anchor, page)
-        self.assertNotIn('id="buyback"', page)
+        self.assertNotIn("/manage/buyback/", page)  # the old pro-rata form is not offered to companies
         owner.post(f"/fr/projects/{p.slug}/manage/dividend/", {"amount": "3000"})
         self.assertTrue(p.distributions.filter(kind="dividend").exists())
-        owner.post(f"/fr/projects/{p.slug}/manage/buyback/{self.inv1.pk}/", {"shares": "10", "price": "1200"})
+        self.assertIn(self.inv1.full_name, page)  # the owner sees full names
+        owner.post(f"/fr/projects/{p.slug}/manage/buyback-offer/",
+                   {"holder": self.inv1.pk, "shares": "10", "price": "1200"})
         offer = BuybackOffer.objects.get(project=p)
         page = c.get("/fr/portfolio/").content.decode()
         self.assertIn('id="offers"', page)
@@ -643,3 +645,98 @@ class CompanySharesFlow(FlowBase):
         form.save()
         p.refresh_from_db()
         self.assertEqual((p.total_shares, p.target_amount), (500, D("1000000")))
+
+
+
+class CompanyIssuesAndOwnerPage(FlowBase):
+    def company(self, n=500, price=1000):
+        p = self.launch(kind="company", model="moucharaka", target=n * price, share_price=price)
+        self.assertEqual(p.shares_issued, n)
+        return p
+
+    def test_close_cancels_unsold_then_new_issue_on_same_page(self):
+        from apps.investments.company import approve_issue, close_offering, request_issue
+        from apps.investments.models import ShareIssue
+
+        p = self.company()
+        invest(self.inv1, p, 150, True)
+        invest(self.inv2, p, 50, True)
+        with self.assertRaises(InvestmentError):  # parts still on sale
+            request_issue(p, self.owner, 100, 1500)
+        close_offering(p, self.owner)
+        p.refresh_from_db()
+        self.assertEqual((p.total_shares, p.shares_available), (200, 0))
+        issue = request_issue(p, self.owner, 100, 1500, "Deuxième four")
+        with self.assertRaises(InvestmentError):  # one request at a time
+            request_issue(p, self.owner, 10, 1500)
+        approve_issue(issue, self.staff)
+        p.refresh_from_db()
+        issue.refresh_from_db()
+        self.assertEqual(issue.status, ShareIssue.Status.APPROVED)
+        self.assertTrue(p.is_share_offering)
+        self.assertEqual((p.total_shares, p.shares_available, p.share_price), (300, 100, D("1500")))
+        # shareholders are told about the dilution: 75 % now, 50 % once the new parts are sold
+        from apps.core.models import Notification
+
+        n = Notification.objects.filter(user=self.inv1, title="Nouvelles parts émises").get()
+        self.assertIn("75.0", n.body)
+        self.assertIn("50.0", n.body)
+        before = Wallet.for_user(self.owner).balance
+        invest(make_user("New", balance=500_000), p, 100, True)
+        p.refresh_from_db()
+        self.assertFalse(p.offering_open)
+        self.assertEqual(Wallet.for_user(self.owner).balance - before, D("139500"))  # 150 000 − 7 %
+        self.assertLedgerBalanced()
+
+    def test_rejected_or_cancelled_issue(self):
+        from apps.investments.company import cancel_issue, close_offering, reject_issue, request_issue
+
+        p = self.company()
+        invest(self.inv1, p, 100, True)
+        close_offering(p, self.owner)
+        i1 = request_issue(p, self.owner, 50, 1000)
+        reject_issue(i1, self.staff, "Expliquez l'usage des fonds")
+        i2 = request_issue(p, self.owner, 50, 1000)
+        cancel_issue(i2, self.owner)
+        p.refresh_from_db()
+        self.assertFalse(p.is_share_offering)
+        self.assertEqual(p.total_shares, 100)
+
+    def test_company_buying_last_parts_on_market_finishes_the_project(self):
+        from apps.investments.company import close_offering
+
+        p = self.company()
+        invest(self.inv1, p, 100, True)
+        close_offering(p, self.owner)
+        listing = create_listing(self.inv1, p, 100, D("1000"))
+        buy(self.owner, listing, 100)
+        p.refresh_from_db()
+        self.assertEqual(p.status, "completed")
+
+    def test_owner_page_csv_and_staff_queue(self):
+        from django.test import Client
+
+        p = self.company()
+        invest(self.inv1, p, 100, True)
+        invest(self.inv2, p, 60, True)
+        owner = Client()
+        owner.force_login(self.owner)
+        csv = owner.get(f"/fr/projects/{p.slug}/manage/shareholders.csv").content.decode("utf-8-sig")
+        self.assertIn("Mariem Ahmed;100;62.50", csv)
+        self.assertIn("Cheikh Ould Brahim;60;37.50", csv)
+        stranger = Client()
+        stranger.force_login(self.inv1)
+        self.assertEqual(stranger.get(f"/fr/projects/{p.slug}/manage/shareholders.csv").status_code, 404)
+        owner.post(f"/fr/projects/{p.slug}/manage/close-offering/")
+        owner.post(f"/fr/projects/{p.slug}/manage/issue/", {"shares": "40", "price": "1200", "reason": "Camion"})
+        staff = Client()
+        staff.force_login(self.staff)
+        page = staff.get("/fr/staff/issues/").content.decode()
+        self.assertIn("Camion", page)
+        from apps.investments.models import ShareIssue
+
+        staff.post("/fr/staff/issues/", {"id": ShareIssue.objects.get().pk, "action": "approve"})
+        p.refresh_from_db()
+        self.assertTrue(p.is_share_offering)
+        page = owner.get(f"/fr/projects/{p.slug}/manage/").content.decode()
+        self.assertIn("Il reste 40 parts en vente", page)

@@ -399,6 +399,14 @@ class DividendForm(forms.Form):
     note = forms.CharField(label=_("Message aux actionnaires (facultatif)"), required=False, max_length=200)
 
 
+class ShareIssueForm(forms.Form):
+    shares = forms.IntegerField(label=_("Nombre de nouvelles parts"), min_value=1)
+    price = forms.IntegerField(label=_("Prix d'une part (MRU)"), min_value=1)
+    reason = forms.CharField(label=_("À quoi servira l'argent ?"), required=False,
+                             widget=forms.Textarea(attrs={"rows": 2}),
+                             help_text=_("Vos actionnaires recevront ce message avec l'annonce."))
+
+
 class BuybackOfferForm(forms.Form):
     shares = forms.IntegerField(label=_("Parts"), min_value=1)
     price = forms.DecimalField(label=_("Prix par part (MRU)"), min_value=1, decimal_places=2, widget=MoneyInput())

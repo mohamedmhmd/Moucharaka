@@ -204,3 +204,37 @@ class BuybackOffer(models.Model):
     @property
     def total(self):
         return self.shares * self.price
+
+
+class ShareIssue(models.Model):
+    """A company asks to put new parts on sale (same project page, same shareholders).
+    The team approves it; existing shareholders are told how much they are diluted."""
+
+    class Status(models.TextChoices):
+        PENDING = "pending", _("En attente de validation")
+        APPROVED = "approved", _("Validée : parts en vente")
+        REJECTED = "rejected", _("Refusée")
+        CANCELLED = "cancelled", _("Annulée par le porteur")
+
+    project = models.ForeignKey("projects.Project", on_delete=models.PROTECT, related_name="share_issues")
+    shares = models.PositiveIntegerField(_("nouvelles parts"))
+    price = models.DecimalField(_("prix d'une part (MRU)"), **MONEY)
+    reason = models.TextField(_("à quoi servira l'argent"), blank=True)
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING, db_index=True)
+    staff_reason = models.CharField(_("motif"), max_length=255, blank=True)
+    decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL,
+                                   related_name="+")
+    decided_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = _("émission de parts")
+        verbose_name_plural = _("émissions de parts")
+
+    def __str__(self):
+        return f"{self.project} +{self.shares} × {self.price}"
+
+    @property
+    def total(self):
+        return self.shares * self.price

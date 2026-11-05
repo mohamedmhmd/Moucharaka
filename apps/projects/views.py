@@ -19,7 +19,7 @@ from apps.accounts.decorators import approved_required
 from apps.core.models import PlatformSettings
 from apps.core.utils import N_, notify
 from apps.investments import company as C
-from apps.investments.models import BuybackOffer, DealSettlement, Holding, Investment
+from apps.investments.models import BuybackOffer, DealSettlement, Holding, Investment, ShareIssue
 from apps.investments.services import (InvestmentError, buyback, cancel_investment, cancel_settlement, deal_capital,
                                        deal_expected, deal_split, invest, max_shares_for, pay_installment,
                                        pay_profit_distribution, submit_settlement)
@@ -551,16 +551,10 @@ def manage(request, slug):
         "score": get_score(request.user),
         "interests": project.interests.select_related("user"),
     }
-    if project.is_company:
-        ctx["dividend_form"] = F_.DividendForm()
-        ctx["offer_form"] = F_.BuybackOfferForm()
-        offers = {o.holder_id: o for o in project.buyback_offers.filter(status="pending")}
-        holdings = ctx["holdings"] = list(holdings)
-        for h in holdings:
-            h.offer = offers.get(h.user_id)
-        ctx["closed_offers"] = project.buyback_offers.exclude(status="pending").select_related("holder")[:20]
-        ctx["dividends"] = project.distributions.filter(kind="dividend")
-        ctx["dividend_fee_pct"] = project.management_fee_pct
+    template = "projects/manage.html"
+    if project.is_company and project.status in ("active", "completed", "defaulted"):
+        template = "projects/manage_company.html"
+        ctx.update(_company_context(request, project, list(holdings)))
     if project.is_deal:
         ctx["capital"] = deal_capital(project)
         ctx["expected"] = deal_expected(project)
@@ -573,7 +567,43 @@ def manage(request, slug):
     from .sharing import share_context
 
     ctx.update(share_context(request, project))
-    return render(request, "projects/manage.html", ctx)
+    return render(request, template, ctx)
+
+
+def _company_context(request, project, holdings):
+    """Everything the owner of a company needs on one page."""
+    pending = list(project.buyback_offers.filter(status="pending").select_related("holder"))
+    by_holder = {o.holder_id: o for o in pending}
+    outstanding = sum(h.shares for h in holdings)
+    for h in holdings:
+        h.offer = by_holder.get(h.user_id)
+        h.pct = (h.shares * 100 / outstanding) if outstanding else 0
+    try:
+        offer_to = int(request.GET.get("to", 0))
+    except ValueError:
+        offer_to = 0
+    dividends = project.distributions.filter(kind="dividend")
+    # Every buyback already done: accepted offers and parts bought on the market
+    done = [{"date": o.updated_at, "who": o.holder, "shares": o.shares, "price": o.price, "how": "offer"}
+            for o in project.buyback_offers.filter(status="accepted").select_related("holder")]
+    done += [{"date": t.created_at, "who": t.seller, "shares": t.shares, "price": t.price_per_share, "how": "market"}
+             for t in Trade.objects.filter(project=project, buyer=project.owner).select_related("seller")]
+    done.sort(key=lambda x: x["date"], reverse=True)
+    return {
+        "holdings": holdings, "outstanding": outstanding, "offer_to": offer_to,
+        "offers_for_me": [o for o in pending if o.waiting_on == BuybackOffer.OWNER],
+        "offers_waiting": [o for o in pending if o.waiting_on == BuybackOffer.HOLDER],
+        "closed_offers": project.buyback_offers.exclude(status__in=["pending", "accepted"]).select_related("holder")[:20],
+        "buybacks_done": done[:30],
+        "market_listings": Listing.objects.filter(project=project, status="active").select_related("seller")
+                           .order_by("price_per_share"),
+        "dividends": dividends, "dividends_total": dividends.aggregate(s=Sum("net_amount"))["s"] or 0,
+        "dividend_form": F_.DividendForm(), "dividend_fee_pct": project.management_fee_pct,
+        "issues": project.share_issues.all(), "pending_issue": project.share_issues.filter(status="pending").first(),
+        "issue_form": F_.ShareIssueForm(initial={"price": int(project.share_price)}),
+        "answered_questions": project.questions.exclude(answer="").count(),
+        "updates": project.updates.all()[:5],
+    }
 
 
 def _owner_project(request, slug):
@@ -707,6 +737,59 @@ def pay_dividend_view(request, slug):
 
 @require_POST
 @approved_required
+def request_issue_view(request, slug):
+    project = _owner_project(request, slug)
+    form = F_.ShareIssueForm(request.POST)
+    back = reverse("projects:manage", args=[slug]) + "#issue"
+    if not form.is_valid():
+        messages.error(request, _("Indiquez un nombre de parts et un prix entier."))
+        return redirect(back)
+    d = form.cleaned_data
+    try:
+        C.request_issue(project, request.user, d["shares"], d["price"], d.get("reason") or "")
+        messages.success(request, _("Demande envoyée. Notre équipe la vérifie, puis les nouvelles parts seront mises en vente."))
+    except InvestmentError as e:
+        messages.error(request, str(e))
+    return redirect(back)
+
+
+@require_POST
+@approved_required
+def cancel_issue_view(request, slug, pk):
+    project = _owner_project(request, slug)
+    issue = get_object_or_404(ShareIssue, pk=pk, project=project)
+    try:
+        C.cancel_issue(issue, request.user)
+        messages.success(request, _("Demande annulée."))
+    except InvestmentError as e:
+        messages.error(request, str(e))
+    return redirect(reverse("projects:manage", args=[slug]) + "#issue")
+
+
+@approved_required
+def shareholders_csv(request, slug):
+    """The owner's register of shareholders, for their own records."""
+    import csv
+
+    from django.http import HttpResponse
+
+    project = _owner_project(request, slug)
+    holdings = project.holdings.filter(shares__gt=0).select_related("user").order_by("-shares")
+    total = sum(h.shares for h in holdings) or 1
+    resp = HttpResponse(content_type="text/csv; charset=utf-8")
+    resp["Content-Disposition"] = f'attachment; filename="actionnaires-{project.reference}.csv"'
+    resp.write("\ufeff")  # so Excel opens accents and Arabic correctly
+    w = csv.writer(resp, delimiter=";")
+    w.writerow([_("Nom"), _("Parts"), _("Part du capital (%)"), _("Parts en vente sur le marché"),
+                _("Total reçu (MRU)")])
+    for h in holdings:
+        w.writerow([h.user.full_name, h.shares, f"{h.shares * 100 / total:.2f}", h.locked_shares,
+                    f"{h.received_total:.0f}"])
+    return resp
+
+
+@require_POST
+@approved_required
 def close_offering_view(request, slug):
     project = _owner_project(request, slug)
     try:
@@ -719,11 +802,18 @@ def close_offering_view(request, slug):
 
 @require_POST
 @approved_required
-def propose_buyback_view(request, slug, user_id):
+def propose_buyback_view(request, slug):
     project = _owner_project(request, slug)
-    holding = get_object_or_404(Holding, project=project, user_id=user_id, shares__gt=0)
+    back = reverse("projects:manage", args=[slug]) + "#buyback"
+    try:
+        holder_id = int(request.POST.get("holder", 0))
+    except ValueError:
+        holder_id = 0
+    holding = Holding.objects.filter(project=project, user_id=holder_id, shares__gt=0).select_related("user").first()
+    if not holding:
+        messages.error(request, _("Choisissez un actionnaire."))
+        return redirect(back)
     form = F_.BuybackOfferForm(request.POST)
-    back = reverse("projects:manage", args=[slug]) + "#shareholders"
     if not form.is_valid():
         messages.error(request, _("Indiquez un nombre de parts et un prix."))
         return redirect(back)
@@ -741,7 +831,7 @@ def propose_buyback_view(request, slug, user_id):
 def answer_buyback_view(request, pk):
     offer = get_object_or_404(BuybackOffer.objects.select_related("project"), pk=pk)
     is_owner = offer.project.owner_id == request.user.pk
-    back = (reverse("projects:manage", args=[offer.project.slug]) + "#shareholders") if is_owner \
+    back = (reverse("projects:manage", args=[offer.project.slug]) + "#buyback") if is_owner \
         else reverse("core:portfolio") + "#offers"
     action = request.POST.get("action", "")
     shares = price = None

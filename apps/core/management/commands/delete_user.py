@@ -23,7 +23,7 @@ from django.db.models import Q, Sum
 
 from apps.accounts.models import PhoneOTP, User
 from apps.accounts.phones import normalize_phone
-from apps.investments.models import BuybackOffer, DealSettlement, Distribution, Holding, Investment, Payout
+from apps.investments.models import BuybackOffer, DealSettlement, ShareIssue, Distribution, Holding, Investment, Payout
 from apps.market.models import Listing, Trade
 from apps.projects.models import Project
 from apps.sms.models import SMSMessage
@@ -119,6 +119,7 @@ class Command(BaseCommand):
             Listing.objects.filter(Q(seller=user) | Q(project__in=projects)).delete()
             DealSettlement.objects.filter(project__in=projects).delete()
             BuybackOffer.objects.filter(Q(holder=user) | Q(project__in=projects)).delete()
+            ShareIssue.objects.filter(project__in=projects).delete()
             Payout.objects.filter(Q(user=user) | Q(distribution__project__in=projects)).delete()
             Distribution.objects.filter(project__in=projects).delete()
             Holding.objects.filter(Q(user=user) | Q(project__in=projects)).delete()

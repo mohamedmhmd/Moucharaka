@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import BuybackOffer, DealSettlement, Distribution, Holding, Investment, Payout
+from .models import BuybackOffer, DealSettlement, ShareIssue, Distribution, Holding, Investment, Payout
 
 
 @admin.register(Investment)
@@ -48,6 +48,18 @@ class BuybackOfferAdmin(admin.ModelAdmin):
     list_filter = ("status",)
     search_fields = ("project__title", "holder__phone", "reference")
     readonly_fields = [f.name for f in BuybackOffer._meta.fields]
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(ShareIssue)
+class ShareIssueAdmin(admin.ModelAdmin):
+    """Read-only: approve or refuse from the back-office page /staff/issues/."""
+    list_display = ("created_at", "project", "shares", "price", "status", "decided_by")
+    list_filter = ("status",)
+    search_fields = ("project__title",)
+    readonly_fields = [f.name for f in ShareIssue._meta.fields]
 
     def has_add_permission(self, request):
         return False
