@@ -80,6 +80,10 @@ class Transaction(models.Model):
         WITHDRAWAL_FEE = "withdrawal_fee", _("Frais de retrait")
         FEATURED_FEE = "featured_fee", _("Mise en avant")
         ADJUSTMENT = "adjustment", _("Régularisation")
+        SETTLEMENT_HOLD = "settlement_hold", _("Remboursement envoyé (en attente de validation)")
+        SETTLEMENT_RELEASE = "settlement_release", _("Remboursement refusé : montant rendu")
+        SETTLEMENT_OUT = "settlement_out", _("Remboursement versé aux investisseurs")
+        SETTLEMENT_IN = "settlement_in", _("Remboursement reçu (capital et bénéfice)")
 
     wallet = models.ForeignKey(Wallet, on_delete=models.PROTECT, related_name="transactions")
     kind = models.CharField(max_length=20, choices=Kind.choices, db_index=True)

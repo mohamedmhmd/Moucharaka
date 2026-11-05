@@ -10,7 +10,8 @@
   <div class="stats">
     <div class="stat"><b class="num">{{ project.raised_amount|money }}</b><span>{% trans "MRU collectés" %}</span></div>
     <div class="stat"><b class="num">{{ project.investors_count }}</b><span>{% trans "investisseurs" %}</span></div>
-    <div class="stat"><b class="num">{{ outstanding }}</b><span>{% trans "parts en circulation" %}</span></div>
+    {% if project.is_deal %}<div class="stat"><b class="num">{{ capital|money }}</b><span>{% trans "MRU de capital à rendre" %}</span></div>
+    {% else %}<div class="stat"><b class="num">{{ outstanding }}</b><span>{% trans "parts en circulation" %}</span></div>{% endif %}
     <div class="stat"><b class="num">{{ score.score }}</b><span>{% trans "mon score de confiance" %} ({% grade_label score.grade %})</span></div>
   </div>
 
@@ -38,7 +39,26 @@
     {% for i in installments %}<tr><td>{{ i.number }}</td><td>{{ i.due_date|date:"d/m/Y" }}</td><td class="n">{{ i.amount|money }}</td><td>{% badge i.status i.get_status_display %}</td>
       <td class="n">{% if i.status != "paid" %}<form method="post" action="{% url 'projects:pay_installment' project.slug i.pk %}">{% csrf_token %}<button class="btn small" data-confirm="{% blocktrans with a=i.amount|money %}Payer {{ a }} MRU maintenant ?{% endblocktrans %}">{% trans "Payer" %}</button></form>{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
 
-  {% if project.status == "active" and project.is_moucharaka %}<div class="panel anchor" id="buyback" style="margin-top:20px"><h2>{% trans "Racheter des parts" %}</h2>
+  {% if project.is_deal and project.status in "active defaulted" %}<div class="panel anchor" id="settle" style="margin-top:20px"><h2>{% trans "Rembourser les investisseurs" %}</h2>
+    {% if pending_settlement %}
+      <div class="note warn">{% blocktrans with a=pending_settlement.amount|money d=pending_settlement.created_at|date:"d/m/Y" %}Vous avez envoyé {{ a }} MRU le {{ d }}. Notre équipe vérifie le partage puis verse à chaque investisseur sa part.{% endblocktrans %}</div>
+      <div class="table-wrap"><table class="table" style="margin-top:12px"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "A investi" %}</th><th class="n">{% trans "Recevra" %}</th></tr></thead><tbody>
+        {% for l in split.lines %}<tr><td>{{ l.user.display_name }}</td><td class="n">{{ l.invested|money }}</td><td class="n"><b>{{ l.amount|money }}</b></td></tr>{% endfor %}
+        {% if split.fee %}<tr><td class="muted">{% trans "Commission de la plateforme (sur le bénéfice)" %}</td><td></td><td class="n muted">{{ split.fee|money }}</td></tr>{% endif %}
+      </tbody></table></div>
+      <form method="post" action="{% url 'projects:cancel_settlement' project.slug pending_settlement.pk %}" style="margin-top:12px">{% csrf_token %}<button class="btn small ghost" data-confirm="{% trans 'Annuler ce remboursement ? Le montant redevient disponible dans votre portefeuille.' %}">{% trans "Annuler" %}</button></form>
+    {% else %}
+      <p>{% trans "Quand l'opération est terminée, indiquez le montant total que vous rendez : le capital des investisseurs plus le bénéfice. La plateforme calcule la part de chacun et notre équipe la valide." %}</p>
+      <dl class="kv"><dt>{% trans "Capital des investisseurs" %}</dt><dd><b>{{ capital|money }} MRU</b></dd>
+        {% if expected %}<dt>{% trans "Montant prévu (meilleur cas)" %}</dt><dd><b>{{ expected|money }} MRU</b></dd>{% endif %}</dl>
+      <form method="post" action="{% url 'projects:settle' project.slug %}" class="form" style="margin-top:12px">{% csrf_token %}{% include "includes/form.html" with form=settlement_form grid="stack" %}
+        <button class="btn" data-confirm="{% trans 'Envoyer ce montant ? Il sera prélevé sur votre portefeuille et partagé entre les investisseurs après validation.' %}">{% trans "Rembourser" %}</button></form>
+    {% endif %}
+  </div>{% endif %}
+  {% if project.is_deal and settlements %}<div class="panel" style="margin-top:20px"><h2>{% trans "Historique des remboursements" %}</h2>
+    <div class="table-wrap"><table class="table"><tbody>{% for st in settlements %}<tr><td>{{ st.created_at|date:"d/m/Y" }}{% if st.staff_reason %}<div class="small muted">{{ st.staff_reason }}</div>{% endif %}</td><td class="n">{{ st.amount|money }} MRU</td><td>{% badge st.status st.get_status_display %}</td></tr>{% endfor %}</tbody></table></div></div>{% endif %}
+
+  {% if project.status == "active" and project.is_moucharaka and not project.is_deal %}<div class="panel anchor" id="buyback" style="margin-top:20px"><h2>{% trans "Racheter des parts" %}</h2>
     <p class="small muted">{% trans "Les parts sont rachetées à tous les investisseurs au prorata. Quand vous avez tout racheté, le projet est terminé et vous redevenez seul propriétaire." %}</p>
     <form method="post" action="{% url 'projects:buyback' project.slug %}" class="form">{% csrf_token %}{% include "includes/form.html" with form=buyback_form %}<button class="btn secondary" data-confirm="{% trans 'Confirmer le rachat ? Le montant sera prélevé sur votre portefeuille.' %}">{% trans "Racheter" %}</button></form></div>{% endif %}
 
@@ -53,7 +73,9 @@
   {% if interests %}<div class="panel anchor" id="interests" style="margin-top:20px"><h2>{% trans "Intentions d'investissement" %}</h2>
     <table class="table"><tbody>{% for it in interests %}<tr><td>{{ it.user.display_name }}</td><td class="n">{% if it.amount %}{{ it.amount|money }} MRU{% else %}—{% endif %}</td><td class="small muted">{{ it.created_at|date:"d/m/Y" }}</td><td>{% if it.notified_at %}<span class="badge tone-good">{% trans "prévenu" %}</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
   <div class="panel" style="margin-top:20px"><h2>{% trans "Associés" %}</h2>
-    {% if holdings %}<table class="table"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Part du capital" %}</th></tr></thead><tbody>
+    {% if project.is_deal %}<table class="table"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "Montant" %}</th><th>{% trans "Statut" %}</th></tr></thead><tbody>
+      {% for i in investments %}<tr><td>{{ i.investor.display_name }}</td><td class="n">{{ i.amount|money }} MRU</td><td>{% badge i.status i.get_status_display %}</td></tr>{% empty %}<tr><td class="muted">{% trans "Pas encore d'investisseur." %}</td></tr>{% endfor %}</tbody></table>
+    {% elif holdings %}<table class="table"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Part du capital" %}</th></tr></thead><tbody>
       {% for h in holdings %}<tr><td>{{ h.user.display_name }}</td><td class="n">{{ h.shares }}</td><td class="n">{{ h.shares|pct_of:outstanding }} %</td></tr>{% endfor %}</tbody></table>
     {% else %}<table class="table"><tbody>{% for i in investments %}<tr><td>{{ i.investor.display_name }}</td><td class="n">{{ i.shares }}</td><td>{% badge i.status i.get_status_display %}</td></tr>{% empty %}<tr><td class="muted">{% trans "Pas encore d'investisseur." %}</td></tr>{% endfor %}</tbody></table>{% endif %}
   </div>

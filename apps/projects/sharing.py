@@ -47,7 +47,10 @@ def share_context(request, project):
         terms = _("rendement potentiel ~%(r)s %%") % {"r": f"{project.projected_annual_return_pct:g}"}
     # Optional details are left out when the owner has not filled them in
     head = f"{project.title} — {project.tagline}" if project.tagline else project.title
-    details = [_("Parts dès %(p)s MRU") % {"p": f"{project.share_price:,.0f}".replace(",", " ")}]
+    if project.is_deal:
+        details = [_("objectif %(t)s MRU") % {"t": f"{project.target_amount or 0:,.0f}".replace(",", " ")}]
+    else:
+        details = [_("Parts dès %(p)s MRU") % {"p": f"{project.share_price:,.0f}".replace(",", " ")}]
     if terms:
         details.append(terms)
     text = _("%(head)s. %(details)s. Réf. %(ref)s : %(url)s") % {

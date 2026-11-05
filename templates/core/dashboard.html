@@ -33,7 +33,7 @@
         {% else %}<div class="empty">{% trans "Vous n'avez pas encore proposé de projet." %}<br>{% if user.is_approved %}<a class="btn" href="{% url 'projects:new' %}">{% trans "Proposer un projet" %}</a>{% endif %}</div>{% endif %}
       </div>
       {% if held_investments %}<div class="panel"><h2>{% trans "Collectes auxquelles vous participez" %}</h2>
-        <table class="table"><tbody>{% for i in held_investments %}<tr><td><a href="{{ i.project.get_absolute_url }}">{{ i.project.title }}</a></td><td class="n">{{ i.shares }} {% trans "parts" %}</td><td class="n">{{ i.amount|money }} MRU</td><td>{% badge i.project.status i.project.get_status_display %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+        <table class="table"><tbody>{% for i in held_investments %}<tr><td><a href="{{ i.project.get_absolute_url }}">{{ i.project.title }}</a></td><td class="n">{% if not i.project.is_deal %}{{ i.shares }} {% trans "parts" %}{% endif %}</td><td class="n">{{ i.amount|money }} MRU</td><td>{% badge i.project.status i.project.get_status_display %}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
       {% if followed %}<div class="panel"><h2>{% trans "Projets que je suis" %}</h2><div class="grid g3">{% for p in followed %}{% include "includes/project_card.html" %}{% endfor %}</div></div>{% endif %}
       {% if recommended %}<div class="panel"><h2>{% trans "Collectes qui se terminent bientôt" %}</h2><div class="grid g3">{% for p in recommended %}{% include "includes/project_card.html" %}{% endfor %}</div></div>{% endif %}
     </div>

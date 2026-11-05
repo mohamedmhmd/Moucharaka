@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-05 14:29+0100\n"
+"POT-Creation-Date: 2026-11-05 15:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -635,6 +635,9 @@ msgstr "Rachat de parts"
 msgid "Produit de liquidation"
 msgstr "Produit de liquidation"
 
+msgid "Remboursement final (capital et bénéfice)"
+msgstr "Remboursement final (capital et bénéfice)"
+
 msgid "montant versé par le porteur"
 msgstr "montant versé par le porteur"
 
@@ -656,6 +659,33 @@ msgstr "distribution"
 msgid "distributions"
 msgstr "distributions"
 
+msgid "En attente de validation"
+msgstr "En attente de validation"
+
+msgid "Validé et versé"
+msgstr "Validé et versé"
+
+msgid "Annulé par le porteur"
+msgstr "Annulé par le porteur"
+
+msgid "montant rendu aux investisseurs"
+msgstr "montant rendu aux investisseurs"
+
+msgid "capital des investisseurs"
+msgstr "capital des investisseurs"
+
+msgid "message du porteur"
+msgstr "message du porteur"
+
+msgid "motif"
+msgstr "motif"
+
+msgid "remboursement final"
+msgstr "remboursement final"
+
+msgid "remboursements finaux"
+msgstr "remboursements finaux"
+
 msgid "Votre compte doit être vérifié pour investir."
 msgstr "Votre compte doit être vérifié pour investir."
 
@@ -669,8 +699,16 @@ msgid "Vous devez confirmer avoir compris les risques."
 msgstr "Vous devez confirmer avoir compris les risques."
 
 #, python-format
+msgid "Minimum %(n)s MRU."
+msgstr "Minimum %(n)s MRU."
+
+#, python-format
 msgid "Minimum %(n)s part(s)."
 msgstr "Minimum %(n)s part(s)."
+
+#, python-format
+msgid "Vous pouvez investir au maximum %(n)s MRU dans ce projet."
+msgstr "Vous pouvez investir au maximum %(n)s MRU dans ce projet."
 
 #, python-format
 msgid "Vous pouvez souscrire au maximum %(n)s part(s) dans ce projet."
@@ -678,6 +716,10 @@ msgstr "Vous pouvez souscrire au maximum %(n)s part(s) dans ce projet."
 
 msgid "Nouvel investissement"
 msgstr "Nouvel investissement"
+
+#, python-format
+msgid "%(a)s MRU investis dans « %(p)s »."
+msgstr "%(a)s MRU investis dans « %(p)s »."
 
 #, python-format
 msgid "%(n)s part(s) souscrite(s) dans « %(p)s »."
@@ -773,6 +815,61 @@ msgstr "Rachat à %(p)s MRU / part"
 #, python-format
 msgid "%(n)s part(s) de « %(p)s » rachetée(s) : %(a)s MRU reçus."
 msgstr "%(n)s part(s) de « %(p)s » rachetée(s) : %(a)s MRU reçus."
+
+msgid "Remboursement impossible pour ce projet."
+msgstr "Remboursement impossible pour ce projet."
+
+msgid "Le remboursement est possible une fois les fonds reçus."
+msgstr "Le remboursement est possible une fois les fonds reçus."
+
+msgid "Un remboursement est déjà en attente de validation."
+msgstr "Un remboursement est déjà en attente de validation."
+
+msgid "Indiquez le montant à rendre."
+msgstr "Indiquez le montant à rendre."
+
+msgid "Aucun investisseur à rembourser."
+msgstr "Aucun investisseur à rembourser."
+
+msgid "Le montant est inférieur au capital investi : expliquez la perte dans le message."
+msgstr "Le montant est inférieur au capital investi : expliquez la perte dans le message."
+
+msgid "Remboursement à valider"
+msgstr "Remboursement à valider"
+
+#, python-format
+msgid "%(a)s MRU pour « %(p)s »."
+msgstr "%(a)s MRU pour « %(p)s »."
+
+msgid "Ce remboursement ne peut plus être annulé."
+msgstr "Ce remboursement ne peut plus être annulé."
+
+msgid "Ce remboursement a déjà été traité."
+msgstr "Ce remboursement a déjà été traité."
+
+msgid "Remboursement refusé"
+msgstr "Remboursement refusé"
+
+#, python-format
+msgid "%(a)s MRU sont de nouveau disponibles. Motif : %(r)s"
+msgstr "%(a)s MRU sont de nouveau disponibles. Motif : %(r)s"
+
+msgid "Remboursement final"
+msgstr "Remboursement final"
+
+msgid "Vous avez été remboursé"
+msgstr "Vous avez été remboursé"
+
+#, python-format
+msgid "%(a)s MRU de « %(p)s » (vous aviez investi %(i)s MRU)."
+msgstr "%(a)s MRU de « %(p)s » (vous aviez investi %(i)s MRU)."
+
+msgid "Remboursement validé"
+msgstr "Remboursement validé"
+
+#, python-format
+msgid "« %(p)s » est terminé : les investisseurs ont reçu leur part. Merci !"
+msgstr "« %(p)s » est terminé : les investisseurs ont reçu leur part. Merci !"
 
 msgid "Projet terminé"
 msgstr "Projet terminé"
@@ -916,6 +1013,12 @@ msgstr "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investi
 msgid "Prix d'une part. Un prix bas permet à plus de personnes de participer."
 msgstr "Prix d'une part. Un prix bas permet à plus de personnes de participer."
 
+msgid "Bénéfice que vous pensez rendre en plus du capital à la fin de l'opération, dans le meilleur cas."
+msgstr "Bénéfice que vous pensez rendre en plus du capital à la fin de l'opération, dans le meilleur cas."
+
+msgid "Indiquez un montant entier."
+msgstr "Indiquez un montant entier."
+
 msgid "Le montant doit être un multiple de la valeur d'une part."
 msgstr "Le montant doit être un multiple de la valeur d'une part."
 
@@ -988,6 +1091,21 @@ msgstr "Nombre de parts"
 
 msgid "J'ai compris que mon capital n'est pas garanti, que les rendements sont estimés et que je peux perdre tout ou partie de ma mise."
 msgstr "J'ai compris que mon capital n'est pas garanti, que les rendements sont estimés et que je peux perdre tout ou partie de ma mise."
+
+msgid "Montant (MRU)"
+msgstr "Montant (MRU)"
+
+msgid "Montant total rendu aux investisseurs (MRU)"
+msgstr "Montant total rendu aux investisseurs (MRU)"
+
+msgid "Capital + bénéfice. La plateforme calcule la part de chacun."
+msgstr "Capital + bénéfice. La plateforme calcule la part de chacun."
+
+msgid "Message aux investisseurs (facultatif)"
+msgstr "Message aux investisseurs (facultatif)"
+
+msgid "Obligatoire si vous rendez moins que le capital : expliquez ce qui s'est passé."
+msgstr "Obligatoire si vous rendez moins que le capital : expliquez ce qui s'est passé."
 
 msgid "Parts à racheter"
 msgstr "Parts à racheter"
@@ -2043,6 +2161,10 @@ msgid "rendement potentiel ~%(r)s %%"
 msgstr "rendement potentiel ~%(r)s %%"
 
 #, python-format
+msgid "objectif %(t)s MRU"
+msgstr "objectif %(t)s MRU"
+
+#, python-format
 msgid "Parts dès %(p)s MRU"
 msgstr "Parts dès %(p)s MRU"
 
@@ -2073,12 +2195,23 @@ msgstr "La collecte est ouverte"
 msgid "« %(p)s », que vous suivez, accepte maintenant les investissements."
 msgstr "« %(p)s », que vous suivez, accepte maintenant les investissements."
 
+msgid "Indiquez le montant et confirmez avoir compris les risques."
+msgstr "Indiquez le montant et confirmez avoir compris les risques."
+
+#, python-format
+msgid "Le montant doit être un multiple de %(p)s MRU."
+msgstr "Le montant doit être un multiple de %(p)s MRU."
+
 msgid "Indiquez le nombre de parts et confirmez avoir compris les risques."
 msgstr "Indiquez le nombre de parts et confirmez avoir compris les risques."
 
 #, python-format
 msgid "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez investir."
 msgstr "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez investir."
+
+#, python-format
+msgid "Merci ! %(a)s MRU investis. Vos fonds restent bloqués jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h."
+msgstr "Merci ! %(a)s MRU investis. Vos fonds restent bloqués jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h."
 
 #, python-format
 msgid "Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h."
@@ -2169,6 +2302,19 @@ msgstr "Échéance payée. Merci !"
 
 msgid "Rachat effectué."
 msgstr "Rachat effectué."
+
+msgid "Indiquez le montant total à rendre."
+msgstr "Indiquez le montant total à rendre."
+
+#, python-format
+msgid "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez rembourser."
+msgstr "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez rembourser."
+
+msgid "Montant envoyé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
+msgstr "Montant envoyé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
+
+msgid "Remboursement annulé : le montant est de nouveau disponible."
+msgstr "Remboursement annulé : le montant est de nouveau disponible."
 
 #, python-format
 msgid "Nouvelles de « %(p)s »"
@@ -2326,6 +2472,15 @@ msgstr "Paiement introuvable."
 #, python-format
 msgid "Retrait %(r)s marqué payé."
 msgstr "Retrait %(r)s marqué payé."
+
+msgid "Remboursement validé : chaque investisseur a reçu sa part."
+msgstr "Remboursement validé : chaque investisseur a reçu sa part."
+
+msgid "Indiquez le motif du refus."
+msgstr "Indiquez le motif du refus."
+
+msgid "Remboursement refusé : le montant est rendu au porteur."
+msgstr "Remboursement refusé : le montant est rendu au porteur."
 
 msgid "Recalculer"
 msgstr "Recalculer"
@@ -2577,6 +2732,18 @@ msgstr "Mise en avant"
 
 msgid "Régularisation"
 msgstr "Régularisation"
+
+msgid "Remboursement envoyé (en attente de validation)"
+msgstr "Remboursement envoyé (en attente de validation)"
+
+msgid "Remboursement refusé : montant rendu"
+msgstr "Remboursement refusé : montant rendu"
+
+msgid "Remboursement versé aux investisseurs"
+msgstr "Remboursement versé aux investisseurs"
+
+msgid "Remboursement reçu (capital et bénéfice)"
+msgstr "Remboursement reçu (capital et bénéfice)"
 
 msgid "Variation du solde disponible."
 msgstr "Variation du solde disponible."
@@ -2944,6 +3111,9 @@ msgstr "Mon espace"
 msgid "Back-office"
 msgstr "Back-office"
 
+msgid "Déconnexion"
+msgstr "Déconnexion"
+
 msgid "Rechercher un projet, un ID ou un porteur"
 msgstr "Rechercher un projet, un ID ou un porteur"
 
@@ -2952,9 +3122,6 @@ msgstr "Projet, ID (MP-…), porteur…"
 
 msgid "Notifications"
 msgstr "Notifications"
-
-msgid "Déconnexion"
-msgstr "Déconnexion"
 
 msgid "Menu"
 msgstr "Menu"
@@ -3348,14 +3515,14 @@ msgstr "Jusqu'à 60 jours. Les fonds sont versés quand l'objectif est atteint e
 msgid "Engagements."
 msgstr "Engagements."
 
-msgid "Rapports mensuels, versements à l'heure, réponses aux questions. Ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
-msgstr "Rapports mensuels, versements à l'heure, réponses aux questions. Ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
+msgid "Opération ponctuelle : un seul remboursement à la fin (capital et bénéfice), partagé par la plateforme. Entreprise : rapports mensuels et versements à l'heure. Avec vos réponses aux questions, ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
+msgstr "Opération ponctuelle : un seul remboursement à la fin (capital et bénéfice), partagé par la plateforme. Entreprise : rapports mensuels et versements à l'heure. Avec vos réponses aux questions, ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
 
 msgid "Aucune notification pour l'instant."
 msgstr "Aucune notification pour l'instant."
 
-msgid "Mes parts"
-msgstr "Mes parts"
+msgid "Mes investissements"
+msgstr "Mes investissements"
 
 msgid "MRU investis (prix de revient)"
 msgstr "MRU investis (prix de revient)"
@@ -3369,8 +3536,8 @@ msgstr "MRU reçus (bénéfices, échéances, rachats)"
 msgid "déjà récupéré"
 msgstr "déjà récupéré"
 
-msgid "Parts détenues"
-msgstr "Parts détenues"
+msgid "Investissements en cours"
+msgstr "Investissements en cours"
 
 msgid "Contrat"
 msgstr "Contrat"
@@ -3378,8 +3545,8 @@ msgstr "Contrat"
 msgid "Parts"
 msgstr "Parts"
 
-msgid "Prix de revient"
-msgstr "Prix de revient"
+msgid "Montant investi"
+msgstr "Montant investi"
 
 msgid "Reçu"
 msgstr "Reçu"
@@ -3697,17 +3864,29 @@ msgstr[1] "%(n)s investisseurs"
 msgid "Clôture le %(d)s (%(n)s j)."
 msgstr "Clôture le %(d)s (%(n)s j)."
 
-msgid "Prix d'une part"
-msgstr "Prix d'une part"
-
-msgid "Part du bénéfice net aux investisseurs"
-msgstr "Part du bénéfice net aux investisseurs"
-
 msgid "Rendement potentiel"
 msgstr "Rendement potentiel"
 
 msgid "non garanti"
 msgstr "non garanti"
+
+msgid "Marge convenue"
+msgstr "Marge convenue"
+
+msgid "Remboursement"
+msgstr "Remboursement"
+
+msgid "En une fois à la fin : capital + bénéfice, partagés au prorata de la mise"
+msgstr "En une fois à la fin : capital + bénéfice, partagés au prorata de la mise"
+
+msgid "Garanties"
+msgstr "Garanties"
+
+msgid "Prix d'une part"
+msgstr "Prix d'une part"
+
+msgid "Part du bénéfice net aux investisseurs"
+msgstr "Part du bénéfice net aux investisseurs"
 
 msgid "Distributions"
 msgstr "Distributions"
@@ -3715,18 +3894,9 @@ msgstr "Distributions"
 msgid "Sortie"
 msgstr "Sortie"
 
-msgid "Marge convenue"
-msgstr "Marge convenue"
-
 #, python-format
 msgid "soit %(a)s %% par an"
 msgstr "soit %(a)s %% par an"
-
-msgid "Remboursement"
-msgstr "Remboursement"
-
-msgid "Garanties"
-msgstr "Garanties"
 
 msgid "Durée"
 msgstr "Durée"
@@ -3737,6 +3907,13 @@ msgstr "%(m)s mois"
 
 msgid "Apport du porteur"
 msgstr "Apport du porteur"
+
+msgid "Montant à investir (MRU)"
+msgstr "Montant à investir (MRU)"
+
+#, python-format
+msgid "De %(a)s à %(b)s MRU."
+msgstr "De %(a)s à %(b)s MRU."
 
 #, python-format
 msgid "Maximum %(m)s parts pour vous dans ce projet."
@@ -3763,6 +3940,14 @@ msgstr "Votre identité doit être vérifiée avant d'investir."
 
 msgid "Gérer mon projet"
 msgstr "Gérer mon projet"
+
+#, python-format
+msgid "Vous avez investi %(a)s MRU dans cette opération."
+msgstr "Vous avez investi %(a)s MRU dans cette opération."
+
+#, python-format
+msgid "Opération terminée : vous avez reçu %(r)s MRU."
+msgstr "Opération terminée : vous avez reçu %(r)s MRU."
 
 #, python-format
 msgid "Vous détenez %(n)s parts · %(r)s MRU reçus."
@@ -3872,9 +4057,6 @@ msgstr "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement,
 
 msgid "Simulez votre investissement"
 msgstr "Simulez votre investissement"
-
-msgid "Montant investi"
-msgstr "Montant investi"
 
 msgid "Scénario"
 msgstr "Scénario"
@@ -4219,6 +4401,9 @@ msgstr "Lien ouvert %(n)s fois."
 msgid "MRU collectés"
 msgstr "MRU collectés"
 
+msgid "MRU de capital à rendre"
+msgstr "MRU de capital à rendre"
+
 msgid "parts en circulation"
 msgstr "parts en circulation"
 
@@ -4279,6 +4464,46 @@ msgstr "Payer %(a)s MRU maintenant ?"
 msgid "Payer"
 msgstr "Payer"
 
+msgid "Rembourser les investisseurs"
+msgstr "Rembourser les investisseurs"
+
+#, python-format
+msgid "Vous avez envoyé %(a)s MRU le %(d)s. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
+msgstr "Vous avez envoyé %(a)s MRU le %(d)s. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
+
+msgid "Investisseur"
+msgstr "Investisseur"
+
+msgid "A investi"
+msgstr "A investi"
+
+msgid "Recevra"
+msgstr "Recevra"
+
+msgid "Commission de la plateforme (sur le bénéfice)"
+msgstr "Commission de la plateforme (sur le bénéfice)"
+
+msgid "Annuler ce remboursement ? Le montant redevient disponible dans votre portefeuille."
+msgstr "Annuler ce remboursement ? Le montant redevient disponible dans votre portefeuille."
+
+msgid "Quand l'opération est terminée, indiquez le montant total que vous rendez : le capital des investisseurs plus le bénéfice. La plateforme calcule la part de chacun et notre équipe la valide."
+msgstr "Quand l'opération est terminée, indiquez le montant total que vous rendez : le capital des investisseurs plus le bénéfice. La plateforme calcule la part de chacun et notre équipe la valide."
+
+msgid "Capital des investisseurs"
+msgstr "Capital des investisseurs"
+
+msgid "Montant prévu (meilleur cas)"
+msgstr "Montant prévu (meilleur cas)"
+
+msgid "Envoyer ce montant ? Il sera prélevé sur votre portefeuille et partagé entre les investisseurs après validation."
+msgstr "Envoyer ce montant ? Il sera prélevé sur votre portefeuille et partagé entre les investisseurs après validation."
+
+msgid "Rembourser"
+msgstr "Rembourser"
+
+msgid "Historique des remboursements"
+msgstr "Historique des remboursements"
+
 msgid "Racheter des parts"
 msgstr "Racheter des parts"
 
@@ -4315,14 +4540,11 @@ msgstr "prévenu"
 msgid "Associés"
 msgstr "Associés"
 
-msgid "Investisseur"
-msgstr "Investisseur"
+msgid "Pas encore d'investisseur."
+msgstr "Pas encore d'investisseur."
 
 msgid "Part du capital"
 msgstr "Part du capital"
-
-msgid "Pas encore d'investisseur."
-msgstr "Pas encore d'investisseur."
 
 msgid "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
 msgstr "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
@@ -4330,8 +4552,8 @@ msgstr "Deux questions pour adapter le dossier. Vous pourrez enregistrer et reve
 msgid "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles. En Moucharaka, les investisseurs deviennent associés de votre commerce."
 msgstr "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles. En Moucharaka, les investisseurs deviennent associés de votre commerce."
 
-msgid "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande."
-msgstr "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande."
+msgid "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande. Les investisseurs placent un montant ; à la fin, vous rendez en une fois le capital et le bénéfice, et la plateforme fait le partage."
+msgstr "Un achat-revente précis : moutons de Tabaski, stock de rentrée, importation, bon de commande. Les investisseurs placent un montant ; à la fin, vous rendez en une fois le capital et le bénéfice, et la plateforme fait le partage."
 
 msgid "Une entreprise qui existe déjà ou qui est en création. Les investisseurs deviennent associés."
 msgstr "Une entreprise qui existe déjà ou qui est en création. Les investisseurs deviennent associés."
@@ -4339,8 +4561,8 @@ msgstr "Une entreprise qui existe déjà ou qui est en création. Les investisse
 msgid "Recommandé pour les boutiques et les entreprises. Les investisseurs deviennent vos associés : vous partagez avec eux un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
 msgstr "Recommandé pour les boutiques et les entreprises. Les investisseurs deviennent vos associés : vous partagez avec eux un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
 
-msgid "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non."
-msgstr "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rachetez la marchandise avec une marge fixe, payée par échéances, que les ventes soient bonnes ou non."
+msgid "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rendez le capital avec une marge fixe convenue à l'avance, que les ventes soient bonnes ou non."
+msgstr "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rendez le capital avec une marge fixe convenue à l'avance, que les ventes soient bonnes ou non."
 
 msgid "Continuer"
 msgstr "Continuer"
@@ -4513,6 +4735,9 @@ msgstr "Retraits"
 msgid "Rapports"
 msgstr "Rapports"
 
+msgid "Remboursements"
+msgstr "Remboursements"
+
 msgid "Administration"
 msgstr "Administration"
 
@@ -4533,6 +4758,9 @@ msgstr "retraits à payer"
 
 msgid "rapports à vérifier"
 msgstr "rapports à vérifier"
+
+msgid "remboursements à valider"
+msgstr "remboursements à valider"
 
 msgid "Revenus du mois"
 msgstr "Revenus du mois"
@@ -4665,8 +4893,18 @@ msgstr "À compléter avant de publier :"
 msgid "Compléter dans l'administration"
 msgstr "Compléter dans l'administration"
 
+#, python-format
+msgid "Le porteur a rendu %(a)s MRU : remboursement à valider."
+msgstr "Le porteur a rendu %(a)s MRU : remboursement à valider."
+
+msgid "Voir le partage"
+msgstr "Voir le partage"
+
 msgid "Libérer les fonds"
 msgstr "Libérer les fonds"
+
+msgid "Après signature du contrat avec le porteur : le porteur reçoit les fonds nets de la commission de succès. À la fin de l'opération, il rend le capital et le bénéfice depuis sa page de gestion."
+msgstr "Après signature du contrat avec le porteur : le porteur reçoit les fonds nets de la commission de succès. À la fin de l'opération, il rend le capital et le bénéfice depuis sa page de gestion."
 
 msgid "Après signature du contrat avec le porteur : les investisseurs reçoivent leurs parts, le porteur reçoit les fonds nets de la commission de succès."
 msgstr "Après signature du contrat avec le porteur : les investisseurs reçoivent leurs parts, le porteur reçoit les fonds nets de la commission de succès."
@@ -4727,6 +4965,40 @@ msgstr "question au porteur"
 
 msgid "Contester"
 msgstr "Contester"
+
+msgid "Remboursements à valider"
+msgstr "Remboursements à valider"
+
+msgid "Opérations ponctuelles : le porteur a rendu un montant total. Vérifiez qu'il correspond à ce qui a été convenu, puis validez : chaque investisseur reçoit sa part dans son portefeuille."
+msgstr "Opérations ponctuelles : le porteur a rendu un montant total. Vérifiez qu'il correspond à ce qui a été convenu, puis validez : chaque investisseur reçoit sa part dans son portefeuille."
+
+msgid "Montant rendu par le porteur"
+msgstr "Montant rendu par le porteur"
+
+msgid "Perte"
+msgstr "Perte"
+
+msgid "Bénéfice"
+msgstr "Bénéfice"
+
+#, python-format
+msgid "Commission plateforme (%(p)s %% du bénéfice)"
+msgstr "Commission plateforme (%(p)s %% du bénéfice)"
+
+msgid "Partagé entre les investisseurs"
+msgstr "Partagé entre les investisseurs"
+
+msgid "Message du porteur"
+msgstr "Message du porteur"
+
+msgid "Valider et verser à chaque investisseur sa part ?"
+msgstr "Valider et verser à chaque investisseur sa part ?"
+
+msgid "Valider et verser"
+msgstr "Valider et verser"
+
+msgid "Déjà traités"
+msgstr "Déjà traités"
 
 msgid "Retraits à payer"
 msgstr "Retraits à payer"

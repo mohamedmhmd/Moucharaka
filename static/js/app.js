@@ -35,14 +35,15 @@
   // Live total on the invest form
   const inv = $("#invest-form");
   if (inv) {
-    const price = parseFloat(inv.dataset.sharePrice);
+    const amountInput = inv.querySelector("[name=amount]");  // one-off operation: an amount, no parts
+    const input = amountInput || inv.querySelector("[name=shares]");
+    const price = amountInput ? 1 : parseFloat(inv.dataset.sharePrice);
     const balance = parseFloat(inv.dataset.balance || "0");
-    const input = inv.querySelector("[name=shares]");
     const out = $("#invest-total");
     const warn = $("#invest-warn");
     const upd = () => {
       const total = (parseInt(input.value || "0", 10) || 0) * price;
-      out.textContent = fmt(total);
+      if (out) out.textContent = fmt(total);
       if (warn) warn.hidden = total <= balance;
     };
     input.addEventListener("input", upd);

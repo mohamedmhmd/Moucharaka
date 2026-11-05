@@ -108,7 +108,12 @@ small, .small { font-size: .86rem; }
   .nav.open { display: flex; }
   .menu-toggle { display: inline-grid; }
   .wallet-chip span { display: none; }
+  .header-logout { display: none; }
 }
+.nav-only-mobile { display: none; }
+.nav-logout { background: none; border: 0; font: inherit; font-weight: 500; color: var(--clay); padding: 8px 12px; cursor: pointer;
+  text-align: start; width: 100%; }
+@media (max-width: 900px) { .nav a.nav-only-mobile, .nav form.nav-only-mobile { display: block; } }
 
 /* ---------------------------------------------------------- buttons & badges */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 18px; border-radius: 10px;

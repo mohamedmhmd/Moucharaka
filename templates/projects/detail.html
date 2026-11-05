@@ -32,6 +32,12 @@
         <span>{% blocktrans count n=project.investors_count %}{{ n }} investisseur{% plural %}{{ n }} investisseurs{% endblocktrans %}</span></div>
       {% if project.status == "funding" %}<p class="small" style="margin:8px 0 0">{% blocktrans with d=project.campaign_end|date:"d/m/Y" n=project.days_left %}Clôture le {{ d }} ({{ n }} j).{% endblocktrans %}</p>{% endif %}
       <ul class="terms-list" style="margin-top:14px">
+        {% if project.is_deal %}
+          {% if project.is_moucharaka %}<li><span>{% trans "Rendement potentiel" %}</span><b>{% if project.projected_annual_return_pct is not None %}~{{ project.projected_annual_return_pct|floatformat:"-1" }} %{% else %}—{% endif %}<br><small class="muted">{% trans "non garanti" %}</small></b></li>
+          {% else %}<li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %</b></li>{% endif %}
+          <li><span>{% trans "Remboursement" %}</span><b class="small">{% trans "En une fois à la fin : capital + bénéfice, partagés au prorata de la mise" %}</b></li>
+          {% if project.guarantee %}<li><span>{% trans "Garanties" %}</span><b class="small">{{ project.guarantee|truncatechars:80 }}</b></li>{% endif %}
+        {% else %}
         <li><span>{% trans "Prix d'une part" %}</span><b class="num">{{ project.share_price|money }} MRU</b></li>
         {% if project.is_moucharaka %}
           <li><span>{% trans "Part du bénéfice net aux investisseurs" %}</span><b>{{ project.investor_profit_share_pct|floatformat:"-1" }} %</b></li>
@@ -42,16 +48,22 @@
           <li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %<br><small class="muted">{% blocktrans with a=project.mourabaha_annualized_pct %}soit {{ a }} % par an{% endblocktrans %}</small></b></li>
           <li><span>{% trans "Remboursement" %}</span><b>{{ project.get_repayment_mode_display }}</b></li>
           <li><span>{% trans "Garanties" %}</span><b class="small">{{ project.guarantee|truncatechars:80 }}</b></li>
-        {% endif %}
+        {% endif %}{% endif %}
         <li><span>{% trans "Durée" %}</span><b>{% blocktrans with m=project.duration_months %}{{ m }} mois{% endblocktrans %}</b></li>
         <li><span>{% trans "Apport du porteur" %}</span><b class="num">{{ project.owner_contribution|money }} MRU</b></li>
       </ul>
       {% if invest_form %}
         <form method="post" action="{% url 'projects:invest' project.slug %}" id="invest-form" data-share-price="{{ project.share_price|stringformat:'s' }}" data-balance="{{ wallet.balance|stringformat:'s' }}" style="margin-top:14px">{% csrf_token %}
+          {% if project.is_deal %}
+          <div class="field"><label for="id_amount">{% trans "Montant à investir (MRU)" %}</label>
+            <input type="number" name="amount" id="id_amount" inputmode="numeric" min="{{ min_shares }}" max="{{ max_shares }}" step="1" value="{{ min_shares }}" required>
+            <div class="help">{% blocktrans with a=min_shares|money b=max_shares|money %}De {{ a }} à {{ b }} MRU.{% endblocktrans %}</div></div>
+          {% else %}
           <div class="field"><label for="id_shares">{% trans "Nombre de parts" %}</label>
-            <input type="number" name="shares" id="id_shares" min="{{ project.min_shares }}" max="{{ max_shares }}" value="{{ project.min_shares }}" required>
+            <input type="number" name="shares" id="id_shares" min="{{ min_shares }}" max="{{ max_shares }}" value="{{ min_shares }}" required>
             <div class="help">{% blocktrans with m=max_shares %}Maximum {{ m }} parts pour vous dans ce projet.{% endblocktrans %}</div></div>
           <p class="row between"><span>{% trans "Total" %}</span><b><span id="invest-total" class="num">—</span> MRU</b></p>
+          {% endif %}
           <p class="small note warn" id="invest-warn" hidden>{% blocktrans with b=wallet.balance|money %}Votre solde est de {{ b }} MRU : vous serez invité à déposer la différence.{% endblocktrans %}</p>
           <label class="check small"><input type="checkbox" name="risk" required> <span>{% trans "J'ai compris que mon capital n'est pas garanti et que je peux perdre tout ou partie de ma mise." %}</span></label>
           <button class="btn block" style="margin-top:12px">{% trans "Investir" %}</button>
@@ -62,7 +74,9 @@
       {% elif project.status == "funding" and user.is_authenticated and not user.is_approved %}
         <p class="note warn small" style="margin-top:14px">{% trans "Votre identité doit être vérifiée avant d'investir." %}</p>
       {% elif is_owner %}<a class="btn block secondary" style="margin-top:14px" href="{% url 'projects:manage' project.slug %}">{% trans "Gérer mon projet" %}</a>{% endif %}
-      {% if holding and holding.shares %}<p class="note good small" style="margin-top:12px">{% blocktrans with n=holding.shares r=holding.received_total|money %}Vous détenez {{ n }} parts · {{ r }} MRU reçus.{% endblocktrans %}{% if project.is_tradable and holding.free_shares %} <a href="{% url 'market:sell' project.slug %}">{% trans "Vendre" %}</a>{% endif %}</p>{% endif %}
+      {% if holding and project.is_deal and holding.shares %}<p class="note good small" style="margin-top:12px">{% blocktrans with a=holding.cost_basis|money %}Vous avez investi {{ a }} MRU dans cette opération.{% endblocktrans %}</p>
+      {% elif holding and project.is_deal and holding.received_total %}<p class="note good small" style="margin-top:12px">{% blocktrans with r=holding.received_total|money %}Opération terminée : vous avez reçu {{ r }} MRU.{% endblocktrans %}</p>
+      {% elif holding and holding.shares %}<p class="note good small" style="margin-top:12px">{% blocktrans with n=holding.shares r=holding.received_total|money %}Vous détenez {{ n }} parts · {{ r }} MRU reçus.{% endblocktrans %}{% if project.is_tradable and holding.free_shares %} <a href="{% url 'market:sell' project.slug %}">{% trans "Vendre" %}</a>{% endif %}</p>{% endif %}
       {% if user.is_authenticated and user.is_approved %}
         <form method="post" action="{% url 'projects:favorite' project.slug %}" data-fav style="margin-top:10px">{% csrf_token %}
           <button class="btn ghost small" aria-pressed="{% if is_favorite %}true{% else %}false{% endif %}" data-on="{% trans 'Suivi' %}" data-off="{% trans 'Suivre ce projet' %}">★ <span>{% if is_favorite %}{% trans "Suivi" %}{% else %}{% trans "Suivre ce projet" %}{% endif %}</span></button></form>
@@ -260,7 +274,7 @@
 </section>
 {% endif %}
 
-{% if project.status == "active" %}
+{% if project.status == "active" and not project.is_deal %}
 <section id="market" class="anchor panel">
   <div class="section-head"><h2>{% trans "Parts à vendre" %}</h2><a href="{% url 'market:index' %}?project={{ project.slug }}">{% trans "Voir sur le marché" %}</a></div>
   <div class="chart-box" style="height:200px"><canvas id="price-chart" data-chart="{{ price_history }}" data-l-price="{% trans 'Prix des échanges' %}" data-l-nominal="{% trans 'Valeur nominale' %}"></canvas></div>

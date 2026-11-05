@@ -245,6 +245,11 @@ class Project(TimeStamped):
         return max((self.campaign_end - timezone.now()).days, 0)
 
     @property
+    def is_deal(self):
+        """Opération ponctuelle: investors put in an amount, the owner pays everything back once."""
+        return self.kind == Kind.DEAL
+
+    @property
     def is_moucharaka(self):
         return self.financing_model == FinancingModel.MOUCHARAKA
 
@@ -262,7 +267,7 @@ class Project(TimeStamped):
 
     @property
     def is_tradable(self):
-        return self.trading_enabled and self.status == self.Status.ACTIVE
+        return self.trading_enabled and self.status == self.Status.ACTIVE and not self.is_deal
 
     @property
     def funded_base(self):

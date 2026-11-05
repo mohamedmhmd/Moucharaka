@@ -84,25 +84,42 @@ class TermsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         p = self.instance
-        drop = self.MOURABAHA_FIELDS if p.is_moucharaka else self.MOUCHARAKA_FIELDS
+        drop = list(self.MOURABAHA_FIELDS if p.is_moucharaka else self.MOUCHARAKA_FIELDS)
+        if p.is_deal:
+            # One-off operation: investors give an amount, the owner pays everything back once.
+            drop += ["share_price", "exit_mode", "repayment_mode"]
         for f in drop:
             self.fields.pop(f, None)
         _all_optional(self)
-        self.fields["share_price"].help_text = _("Prix d'une part. Un prix bas permet à plus de personnes de participer.")
+        if "share_price" in self.fields:
+            self.fields["share_price"].help_text = _(
+                "Prix d'une part. Un prix bas permet à plus de personnes de participer.")
+        if p.is_deal and "projected_annual_return_pct" in self.fields:
+            self.fields["projected_annual_return_pct"].help_text = _(
+                "Bénéfice que vous pensez rendre en plus du capital à la fin de l'opération, dans le meilleur cas.")
+        if p.is_deal and "investor_profit_share_pct" in self.fields:
+            self.fields.pop("investor_profit_share_pct")
         self.fields["campaign_days"].widget.attrs["max"] = 60
 
     def clean(self):
         d = super().clean()
         for name, value in self.DEFAULTS.items():
-            if d.get(name) in (None, ""):
+            if name in self.fields and d.get(name) in (None, ""):
                 d[name] = value
         if d.get("target_amount") in (None, ""):
             d["target_amount"] = self.instance.target_amount or Decimal("0")
         for name in ("exit_mode", "repayment_mode"):
             if name in self.fields and not d.get(name):
                 d[name] = getattr(self.instance, name) or ""
+        if self.instance.is_deal:
+            self.instance.share_price = Decimal("1")
+            self.instance.min_shares = 100
+            self.instance.trading_enabled = False
+            self.instance.repayment_mode = Project.Repayment.BULLET
+            if d.get("target_amount") and d["target_amount"] != int(d["target_amount"]):
+                self.add_error("target_amount", _("Indiquez un montant entier."))
         target, price = d.get("target_amount"), d.get("share_price")
-        if target and price:
+        if target and price and "share_price" in self.fields:
             if price <= 0 or target % price:
                 self.add_error("target_amount", _("Le montant doit être un multiple de la valeur d'une part."))
             if target / price < 10:
@@ -335,6 +352,22 @@ class QuestionForm(forms.ModelForm):
         model = ProjectQuestion
         fields = ["question"]
         widgets = {"question": forms.Textarea(attrs={"rows": 2})}
+
+
+class DealInvestForm(forms.Form):
+    """One-off operation: the investor gives an amount, no parts."""
+    amount = forms.IntegerField(label=_("Montant (MRU)"), min_value=1)
+    risk = forms.BooleanField(label=_(
+        "J'ai compris que mon capital n'est pas garanti, que les rendements sont estimés et que je peux perdre tout ou partie de ma mise."))
+
+
+class SettlementForm(forms.Form):
+    amount = forms.DecimalField(label=_("Montant total rendu aux investisseurs (MRU)"), min_value=1,
+                                decimal_places=2, widget=MoneyInput(),
+                                help_text=_("Capital + bénéfice. La plateforme calcule la part de chacun."))
+    note = forms.CharField(label=_("Message aux investisseurs (facultatif)"), required=False,
+                           widget=forms.Textarea(attrs={"rows": 2}),
+                           help_text=_("Obligatoire si vous rendez moins que le capital : expliquez ce qui s'est passé."))
 
 
 class BuybackForm(forms.Form):

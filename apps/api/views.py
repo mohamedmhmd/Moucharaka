@@ -9,6 +9,8 @@ Existing user:
     POST /api/v1/auth/token         {"phone": ..., "password": ...} → {"token": ...}
 Send `Authorization: Token <token>` on every call.
 """
+from decimal import Decimal
+
 from django.contrib.auth import authenticate, password_validation
 from django.core import signing
 from django.core.exceptions import ValidationError
@@ -217,9 +219,12 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
     def invest(self, request, slug=None):
         project = self.get_object()
         try:
-            inv = invest(request.user, project, int(request.data.get("shares", 0)),
-                         bool(request.data.get("risk_acknowledged")))
-        except (InvestmentError, ValueError) as e:
+            if project.is_deal and "amount" in request.data:  # one-off operation: 1 part = 1 MRU
+                shares = int(Decimal(str(request.data["amount"])) // (project.share_price or 1))
+            else:
+                shares = int(request.data.get("shares", 0))
+            inv = invest(request.user, project, shares, bool(request.data.get("risk_acknowledged")))
+        except (InvestmentError, ValueError, ArithmeticError) as e:
             return Response({"detail": str(e)}, status=400)
         return Response(S.InvestmentSerializer(inv).data, status=201)
 

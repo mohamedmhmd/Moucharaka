@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Distribution, Holding, Investment, Payout
+from .models import DealSettlement, Distribution, Holding, Investment, Payout
 
 
 @admin.register(Investment)
@@ -27,3 +27,15 @@ class DistributionAdmin(admin.ModelAdmin):
     list_display = ("paid_at", "project", "kind", "gross_amount", "platform_fee", "net_amount", "on_time")
     list_filter = ("kind", "on_time")
     inlines = [PayoutInline]
+
+
+@admin.register(DealSettlement)
+class DealSettlementAdmin(admin.ModelAdmin):
+    """Read-only here: validate or refuse from the back-office page /staff/settlements/ (moves the money)."""
+    list_display = ("created_at", "project", "amount", "capital", "status", "decided_by")
+    list_filter = ("status",)
+    search_fields = ("project__title", "reference")
+    readonly_fields = [f.name for f in DealSettlement._meta.fields]
+
+    def has_add_permission(self, request):
+        return False

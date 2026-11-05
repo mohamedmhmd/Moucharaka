@@ -1,4 +1,5 @@
 import json
+from urllib.parse import quote
 import mimetypes
 from datetime import timedelta
 from decimal import Decimal
@@ -17,9 +18,10 @@ from django.views.decorators.http import require_POST
 from apps.accounts.decorators import approved_required
 from apps.core.models import PlatformSettings
 from apps.core.utils import N_, notify
-from apps.investments.models import Holding, Investment
-from apps.investments.services import (InvestmentError, buyback, cancel_investment, invest,
-                                       max_shares_for, pay_installment, pay_profit_distribution)
+from apps.investments.models import DealSettlement, Holding, Investment
+from apps.investments.services import (InvestmentError, buyback, cancel_investment, cancel_settlement, deal_capital,
+                                       deal_expected, deal_split, invest, max_shares_for, pay_installment,
+                                       pay_profit_distribution, submit_settlement)
 from apps.market.models import Listing, Trade
 from apps.trust.forms import ReviewForm
 from apps.trust.models import Review
@@ -164,6 +166,7 @@ def detail(request, slug):
         if project.status == Project.Status.FUNDING and u.is_approved and not ctx["is_owner"]:
             ctx["invest_form"] = F_.InvestForm(initial={"shares": project.min_shares})
             ctx["max_shares"] = max_shares_for(u, project)
+            ctx["min_shares"] = min(project.min_shares, ctx["max_shares"]) or 1
             ctx["wallet"] = Wallet.for_user(u)
         invested = Investment.objects.filter(investor=u, project=project, status="settled").exists() or \
             Holding.objects.filter(user=u, project=project, shares__gt=0).exists()
@@ -180,10 +183,21 @@ def detail(request, slug):
 @approved_required
 def invest_view(request, slug):
     project = get_object_or_404(Project, slug=slug)
-    form = F_.InvestForm(request.POST)
-    if not form.is_valid():
-        messages.error(request, _("Indiquez le nombre de parts et confirmez avoir compris les risques."))
-        return redirect(project.get_absolute_url() + "#invest")
+    if project.is_deal:  # one-off operation: an amount, no parts (1 part = 1 MRU)
+        form = F_.DealInvestForm(request.POST)
+        if not form.is_valid():
+            messages.error(request, _("Indiquez le montant et confirmez avoir compris les risques."))
+            return redirect(project.get_absolute_url() + "#invest")
+        price = project.share_price or Decimal("1")
+        if form.cleaned_data["amount"] % price:
+            messages.error(request, _("Le montant doit être un multiple de %(p)s MRU.") % {"p": f"{price:,.0f}"})
+            return redirect(project.get_absolute_url() + "#invest")
+        form.cleaned_data["shares"] = int(form.cleaned_data["amount"] // price)
+    else:
+        form = F_.InvestForm(request.POST)
+        if not form.is_valid():
+            messages.error(request, _("Indiquez le nombre de parts et confirmez avoir compris les risques."))
+            return redirect(project.get_absolute_url() + "#invest")
     amount = form.cleaned_data["shares"] * project.share_price
     wallet = Wallet.for_user(request.user)
     if wallet.balance < amount:
@@ -195,7 +209,10 @@ def invest_view(request, slug):
     except InvestmentError as e:
         messages.error(request, str(e))
         return redirect(project.get_absolute_url() + "#invest")
-    messages.success(request, _("Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h.") % {"n": inv.shares})
+    if project.is_deal:
+        messages.success(request, _("Merci ! %(a)s MRU investis. Vos fonds restent bloqués jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h.") % {"a": f"{inv.amount:,.0f}".replace(",", " ")})
+    else:
+        messages.success(request, _("Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h.") % {"n": inv.shares})
     return redirect("core:portfolio")
 
 
@@ -531,6 +548,15 @@ def manage(request, slug):
         "score": get_score(request.user),
         "interests": project.interests.select_related("user"),
     }
+    if project.is_deal:
+        ctx["capital"] = deal_capital(project)
+        ctx["expected"] = deal_expected(project)
+        ctx["settlements"] = project.settlements.all()
+        ctx["pending_settlement"] = project.settlements.filter(status=DealSettlement.Status.PENDING).first()
+        start = ctx["expected"] or ctx["capital"]
+        ctx["settlement_form"] = F_.SettlementForm(initial={"amount": int(start) if start else None})
+        if ctx["pending_settlement"]:
+            ctx["split"] = deal_split(project, ctx["pending_settlement"].amount)
     from .sharing import share_context
 
     ctx.update(share_context(request, project))
@@ -601,6 +627,44 @@ def buyback_view(request, slug):
         except InvestmentError as e:
             messages.error(request, str(e))
     return redirect(reverse("projects:manage", args=[slug]) + "#buyback")
+
+
+@require_POST
+@approved_required
+def settle_view(request, slug):
+    """One-off operation: the owner sends back one total (capital + profit)."""
+    project = _owner_project(request, slug)
+    form = F_.SettlementForm(request.POST)
+    back = reverse("projects:manage", args=[slug]) + "#settle"
+    if not form.is_valid():
+        messages.error(request, _("Indiquez le montant total à rendre."))
+        return redirect(back)
+    amount = form.cleaned_data["amount"]
+    wallet = Wallet.for_user(request.user)
+    if wallet.balance < amount:
+        missing = amount - wallet.balance
+        messages.warning(request, _("Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez rembourser.") % {
+            "m": f"{missing:,.0f}".replace(",", " ")})
+        return redirect(reverse("wallet:deposit") + f"?amount={int(missing) + (1 if missing % 1 else 0)}&next={quote(back)}")
+    try:
+        submit_settlement(project, request.user, amount, form.cleaned_data.get("note") or "")
+        messages.success(request, _("Montant envoyé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."))
+    except InvestmentError as e:
+        messages.error(request, str(e))
+    return redirect(back)
+
+
+@require_POST
+@approved_required
+def cancel_settlement_view(request, slug, pk):
+    project = _owner_project(request, slug)
+    st = get_object_or_404(DealSettlement, pk=pk, project=project)
+    try:
+        cancel_settlement(st, request.user)
+        messages.success(request, _("Remboursement annulé : le montant est de nouveau disponible."))
+    except InvestmentError as e:
+        messages.error(request, str(e))
+    return redirect(reverse("projects:manage", args=[slug]) + "#settle")
 
 
 @require_POST

@@ -8,6 +8,7 @@
   <a href="{% url 'staff:deposits' %}" {% if deposits_pending %}class="hot"{% endif %}><b>{{ deposits_pending }}</b>{% trans "dépôts à confirmer" %}</a>
   <a href="{% url 'staff:withdrawals' %}" {% if withdrawals_pending %}class="hot"{% endif %}><b>{{ withdrawals_pending }}</b>{% trans "retraits à payer" %}</a>
   <a href="{% url 'staff:reports' %}"><b>{{ reports_pending }}</b>{% trans "rapports à vérifier" %}</a>
+  <a href="{% url 'staff:settlements' %}" {% if settlements_pending %}class="hot"{% endif %}><b>{{ settlements_pending }}</b>{% trans "remboursements à valider" %}</a>
 </div>
 <div class="grid g2" style="margin-top:20px">
   <div class="panel"><h2>{% trans "Revenus du mois" %}</h2><dl class="kv">{% for r in revenue %}<dt>{{ r.kind }}</dt><dd>{{ r.total|money }} MRU</dd>{% endfor %}<dt><b>{% trans "Total" %}</b></dt><dd><b>{{ revenue_total|money }} MRU</b></dd></dl>

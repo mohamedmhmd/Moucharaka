@@ -24,9 +24,9 @@
   <p class="tag">{% if boutique %}<b>{{ boutique.shop_name }}</b> · {% endif %}{{ project.tagline }}</p>
   <div class="grid2">
     <ul class="terms-list terms">
-      <li><span>{% trans "Prix d'une part" %}</span><b>{{ project.share_price|money }} MRU</b></li>
+      {% if not project.is_deal %}<li><span>{% trans "Prix d'une part" %}</span><b>{{ project.share_price|money }} MRU</b></li>{% endif %}
       {% if project.is_moucharaka %}<li><span>{% trans "Rendement potentiel" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %</b></li>
-      <li><span>{% trans "Part du bénéfice net aux investisseurs" %}</span><b>{{ project.investor_profit_share_pct|floatformat:"-1" }} %</b></li>
+      {% if not project.is_deal %}<li><span>{% trans "Part du bénéfice net aux investisseurs" %}</span><b>{{ project.investor_profit_share_pct|floatformat:"-1" }} %</b></li>{% endif %}
       {% else %}<li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %</b></li>{% endif %}
       <li><span>{% trans "Montant recherché" %}</span><b>{{ project.target_amount|money }} MRU</b></li>
       <li><span>{% trans "Durée" %}</span><b>{% blocktrans with m=project.duration_months %}{{ m }} mois{% endblocktrans %}</b></li>

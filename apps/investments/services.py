@@ -56,10 +56,16 @@ def invest(user, project, shares, risk_acknowledged=False):
         raise InvestmentError(_("Vous ne pouvez pas investir dans votre propre projet."))
     if not risk_acknowledged:
         raise InvestmentError(_("Vous devez confirmer avoir compris les risques."))
-    if shares < project.min_shares:
-        raise InvestmentError(_("Minimum %(n)s part(s).") % {"n": project.min_shares})
+    minimum = min(project.min_shares, project.shares_available) or 1
+    if shares < minimum:
+        if project.is_deal:
+            raise InvestmentError(_("Minimum %(n)s MRU.") % {"n": fmt(minimum * project.share_price)})
+        raise InvestmentError(_("Minimum %(n)s part(s).") % {"n": minimum})
     limit = max_shares_for(user, project)
     if shares > limit:
+        if project.is_deal:
+            raise InvestmentError(_("Vous pouvez investir au maximum %(n)s MRU dans ce projet.") % {
+                "n": fmt(limit * project.share_price)})
         raise InvestmentError(_("Vous pouvez souscrire au maximum %(n)s part(s) dans ce projet.") % {"n": limit})
     amount = q2(shares * project.share_price)
     ref = new_reference("INV")
@@ -72,9 +78,14 @@ def invest(user, project, shares, risk_acknowledged=False):
                                     risk_acknowledged=True)
     _refresh_counters(project)
     audit("investment.created", inv, actor=user, shares=shares, amount=str(amount))
-    notify(project.owner, N_("Nouvel investissement"),
-           N_("%(n)s part(s) souscrite(s) dans « %(p)s ».") % {"n": shares, "p": project.title},
-           url=project.get_absolute_url())
+    if project.is_deal:
+        notify(project.owner, N_("Nouvel investissement"),
+               N_("%(a)s MRU investis dans « %(p)s ».") % {"a": fmt(amount), "p": project.title},
+               url=project.get_absolute_url())
+    else:
+        notify(project.owner, N_("Nouvel investissement"),
+               N_("%(n)s part(s) souscrite(s) dans « %(p)s ».") % {"n": shares, "p": project.title},
+               url=project.get_absolute_url())
     if project.shares_available == 0:
         mark_funded(project)
     return inv
@@ -188,7 +199,7 @@ def release_funds(project, by=None):
     project.status = Project.Status.ACTIVE
     project.released_at = timezone.now()
     project.save()
-    if project.is_mourabaha:
+    if project.is_mourabaha and not project.is_deal:
         generate_installments(project)
     audit("project.released", project, actor=by, total=str(total), fee=str(fee))
     notify(project.owner, N_("Fonds versés"),
@@ -370,6 +381,174 @@ def buyback(project, shares_to_retire, price_per_share):
         complete_project(project)
     audit("project.buyback", project, actor=project.owner, shares=shares_to_retire, price=str(price))
     return dist
+
+
+# ------------------------------------------------------------------ one-off operation: final repayment
+
+def deal_capital(project):
+    """What the investors put in and is still in the project."""
+    return Holding.objects.filter(project=project, shares__gt=0).aggregate(s=Sum("cost_basis"))["s"] or ZERO
+
+
+def deal_expected(project):
+    """Best case announced in the terms: capital + margin (Mourabaha) or
+    capital + potential return (Moucharaka). None if nothing was announced."""
+    capital = deal_capital(project)
+    rate = project.margin_pct if project.is_mourabaha else project.projected_annual_return_pct
+    if rate is None:
+        return None
+    return q2(capital * (1 + rate / 100))
+
+
+def deal_split(project, amount):
+    """How a final repayment of `amount` is shared: the platform fee is taken on
+    the gain only (nothing when the capital is not fully returned), the rest goes
+    to each investor in proportion to what they put in. Rounding cents go to
+    the largest remainders, so the total is exact."""
+    amount = q2(amount)
+    holdings = list(Holding.objects.filter(project=project, shares__gt=0).select_related("user")
+                    .order_by("-shares", "id"))
+    capital = sum((h.cost_basis for h in holdings), ZERO)
+    gain = max(amount - capital, ZERO)
+    fee = pct(gain, project.management_fee_pct)
+    net = amount - fee
+    lines = []
+    if holdings:
+        cents = allocate_pro_rata(holdings, int(net * 100))
+        for h in holdings:
+            lines.append({"holding": h, "user": h.user, "invested": h.cost_basis,
+                          "amount": Decimal(cents[h.pk]) / 100})
+    return {"amount": amount, "capital": capital, "gain": gain, "loss": max(capital - amount, ZERO), "fee": fee,
+            "net": net, "lines": lines}
+
+
+@transaction.atomic
+def submit_settlement(project, user, amount, note=""):
+    """The owner sends back one total. It leaves their available balance and
+    waits (held) until the team validates the sharing."""
+    from apps.accounts.models import User
+
+    from .models import DealSettlement
+
+    project = Project.objects.select_for_update().get(pk=project.pk)
+    amount = q2(amount)
+    if project.owner_id != user.pk or not project.is_deal:
+        raise InvestmentError(_("Remboursement impossible pour ce projet."))
+    if project.status not in (Project.Status.ACTIVE, Project.Status.DEFAULTED):
+        raise InvestmentError(_("Le remboursement est possible une fois les fonds reçus."))
+    if project.settlements.filter(status=DealSettlement.Status.PENDING).exists():
+        raise InvestmentError(_("Un remboursement est déjà en attente de validation."))
+    if amount <= 0:
+        raise InvestmentError(_("Indiquez le montant à rendre."))
+    capital = deal_capital(project)
+    if capital <= 0:
+        raise InvestmentError(_("Aucun investisseur à rembourser."))
+    if amount < capital and not note.strip():
+        raise InvestmentError(_("Le montant est inférieur au capital investi : expliquez la perte dans le message."))
+    ref = new_reference("RMB")
+    try:
+        post(Wallet.for_user(user), Transaction.Kind.SETTLEMENT_HOLD, -amount, held_delta=amount, project=project,
+             reference=ref, description=project.title)
+    except WalletError as e:
+        raise InvestmentError(str(e)) from e
+    st = DealSettlement.objects.create(project=project, amount=amount, capital=capital, note=note.strip()[:2000],
+                                       reference=ref)
+    audit("settlement.submitted", st, actor=user, amount=str(amount))
+    for staff in User.objects.filter(is_staff=True, is_active=True):
+        notify(staff, N_("Remboursement à valider"),
+               N_("%(a)s MRU pour « %(p)s ».") % {"a": fmt(amount), "p": project.title}, url="/staff/settlements/")
+    return st
+
+
+@transaction.atomic
+def cancel_settlement(settlement, user):
+    from .models import DealSettlement
+
+    st = DealSettlement.objects.select_for_update().select_related("project").get(pk=settlement.pk)
+    if st.project.owner_id != user.pk or st.status != DealSettlement.Status.PENDING:
+        raise InvestmentError(_("Ce remboursement ne peut plus être annulé."))
+    post(Wallet.for_user(user), Transaction.Kind.SETTLEMENT_RELEASE, st.amount, held_delta=-st.amount,
+         project=st.project, reference=st.reference, description=_("Annulé par le porteur"))
+    st.status = DealSettlement.Status.CANCELLED
+    st.decided_at = timezone.now()
+    st.save(update_fields=["status", "decided_at"])
+    audit("settlement.cancelled", st, actor=user)
+    return st
+
+
+@transaction.atomic
+def reject_settlement(settlement, by, reason):
+    from .models import DealSettlement
+
+    st = DealSettlement.objects.select_for_update().select_related("project__owner").get(pk=settlement.pk)
+    if st.status != DealSettlement.Status.PENDING:
+        raise InvestmentError(_("Ce remboursement a déjà été traité."))
+    project = st.project
+    post(Wallet.for_user(project.owner), Transaction.Kind.SETTLEMENT_RELEASE, st.amount, held_delta=-st.amount,
+         project=project, reference=st.reference, description=reason[:255])
+    st.status, st.staff_reason, st.decided_by, st.decided_at = (DealSettlement.Status.REJECTED, reason[:255], by,
+                                                                timezone.now())
+    st.save(update_fields=["status", "staff_reason", "decided_by", "decided_at"])
+    audit("settlement.rejected", st, actor=by, reason=reason)
+    notify(project.owner, N_("Remboursement refusé"),
+           N_("%(a)s MRU sont de nouveau disponibles. Motif : %(r)s") % {"a": fmt(st.amount), "r": reason},
+           url=f"/projects/{project.slug}/manage/", whatsapp=True)
+    return st
+
+
+@transaction.atomic
+def validate_settlement(settlement, by):
+    """Team validates: the fee on the gain goes to the platform, each investor
+    receives their share, the operation is finished."""
+    from .models import DealSettlement
+
+    st = DealSettlement.objects.select_for_update().get(pk=settlement.pk)
+    if st.status != DealSettlement.Status.PENDING:
+        raise InvestmentError(_("Ce remboursement a déjà été traité."))
+    project = Project.objects.select_for_update().get(pk=st.project_id)
+    Holding.objects.select_for_update().filter(project=project)
+    split = deal_split(project, st.amount)
+    if not split["lines"]:
+        raise InvestmentError(_("Aucun investisseur à rembourser."))
+    ref = st.reference
+    post(Wallet.for_user(project.owner), Transaction.Kind.SETTLEMENT_OUT, 0, held_delta=-st.amount, project=project,
+         reference=ref, description=project.title)
+    collect_fee(Transaction.Kind.MANAGEMENT_FEE, split["fee"], description=project.title, project=project,
+                reference=ref)
+    outstanding = sum(line["holding"].shares for line in split["lines"])
+    due = add_months((project.released_at or timezone.now()).date(), project.duration_months or 0)
+    grace = PlatformSettings.get().installment_grace_days
+    on_time = timezone.now().date() <= due + timedelta(days=grace)
+    dist = Distribution.objects.create(
+        project=project, kind=Distribution.Kind.SETTLEMENT, gross_amount=split["amount"], fee_base=split["gain"],
+        platform_fee=split["fee"], net_amount=split["net"], shares_outstanding=outstanding,
+        shares_retired=outstanding, due_date=due, on_time=on_time, reference=ref,
+        per_share=(split["net"] / outstanding).quantize(Decimal("0.0001"), rounding=ROUND_DOWN),
+        note=_("Remboursement final"))
+    for line in split["lines"]:
+        h = line["holding"]
+        if line["amount"] > 0:
+            post(Wallet.for_user(h.user), Transaction.Kind.SETTLEMENT_IN, line["amount"], project=project,
+                 reference=ref, description=project.title)
+        Payout.objects.create(distribution=dist, user=h.user, shares=h.shares, amount=line["amount"])
+        notify(h.user, N_("Vous avez été remboursé"),
+               N_("%(a)s MRU de « %(p)s » (vous aviez investi %(i)s MRU).") % {
+                   "a": fmt(line["amount"]), "p": project.title, "i": fmt(h.cost_basis)},
+               url="/portfolio/", whatsapp=True)
+        h.received_total += line["amount"]
+        h.shares, h.locked_shares, h.cost_basis = 0, 0, ZERO
+        h.save()
+    st.status, st.decided_by, st.decided_at, st.distribution = (DealSettlement.Status.VALIDATED, by, timezone.now(),
+                                                                dist)
+    st.save(update_fields=["status", "decided_by", "decided_at", "distribution"])
+    record_event(project.owner, "payment_on_time" if on_time else "payment_late", project=project,
+                 note=dist.get_kind_display())
+    complete_project(project)
+    notify(project.owner, N_("Remboursement validé"),
+           N_("« %(p)s » est terminé : les investisseurs ont reçu leur part. Merci !") % {"p": project.title},
+           url=project.get_absolute_url(), whatsapp=True)
+    audit("settlement.validated", st, actor=by, amount=str(st.amount), fee=str(split["fee"]))
+    return st
 
 
 def complete_project(project):

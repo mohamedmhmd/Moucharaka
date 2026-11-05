@@ -14,7 +14,9 @@ from django.views.decorators.http import require_POST
 from apps.accounts.decorators import staff_required
 from apps.accounts.models import KYCProfile, User
 from apps.accounts.services import approve_kyc, reject_kyc
-from apps.investments.services import InvestmentError, mark_default, refund_campaign, release_funds
+from apps.investments.models import DealSettlement
+from apps.investments.services import (InvestmentError, deal_split, mark_default, refund_campaign, reject_settlement,
+                                       release_funds, validate_settlement)
 from apps.projects.models import FinancialReport, Installment, Project
 from apps.projects.services import (ProjectError, approve_project, checklist, missing_terms, reject_project,
                                     request_changes, verify_report)
@@ -64,6 +66,7 @@ def dashboard(request):
         "deposits_pending": DepositRequest.objects.filter(status__in=["proof"]).count(),
         "withdrawals_pending": WithdrawalRequest.objects.filter(status="pending").count(),
         "reports_pending": FinancialReport.objects.filter(status="submitted").count(),
+        "settlements_pending": DealSettlement.objects.filter(status="pending").count(),
         "late_installments": Installment.objects.filter(status__in=["late", "defaulted"]).select_related("project")[:20],
         "platform": platform, "revenue": revenue,
         "revenue_total": sum((r["total"] for r in revenue), 0),
@@ -135,7 +138,8 @@ def project_review(request, pk):
     ctx = {"project": project, "form": form, "checklist": checklist(project), "missing_terms": missing_terms(project),
            "owner_score": get_score(project.owner),
            "owner_kyc": getattr(project.owner, "kyc", None), "documents": project.documents.all(),
-           "other_projects": Project.objects.filter(owner=project.owner).exclude(pk=pk)}
+           "other_projects": Project.objects.filter(owner=project.owner).exclude(pk=pk),
+           "pending_settlement": project.settlements.filter(status="pending").first()}
     if hasattr(project, "boutique"):
         ctx["indicators"] = project.boutique.indicators()
         ctx["scenarios"] = project.boutique.scenarios()
@@ -206,3 +210,29 @@ def reports(request):
         return redirect("staff:reports")
     return render(request, "staff/reports.html", {
         "items": FinancialReport.objects.filter(status="submitted").select_related("project").order_by("submitted_at")})
+
+
+@staff_required
+def settlements(request):
+    """One-off operations: the owner sent back one total; check the sharing, then pay everyone."""
+    if request.method == "POST":
+        st = get_object_or_404(DealSettlement, pk=request.POST.get("id"))
+        try:
+            if request.POST.get("action") == "validate":
+                validate_settlement(st, by=request.user)
+                messages.success(request, _("Remboursement validé : chaque investisseur a reçu sa part."))
+            else:
+                reason = request.POST.get("reason", "").strip()
+                if not reason:
+                    messages.error(request, _("Indiquez le motif du refus."))
+                    return redirect("staff:settlements")
+                reject_settlement(st, request.user, reason)
+                messages.success(request, _("Remboursement refusé : le montant est rendu au porteur."))
+        except InvestmentError as e:
+            messages.error(request, str(e))
+        return redirect("staff:settlements")
+    items = list(DealSettlement.objects.filter(status="pending").select_related("project__owner").order_by("created_at"))
+    for st in items:
+        st.split = deal_split(st.project, st.amount)
+    done = DealSettlement.objects.exclude(status="pending").select_related("project", "decided_by")[:30]
+    return render(request, "staff/settlements.html", {"items": items, "done": done})

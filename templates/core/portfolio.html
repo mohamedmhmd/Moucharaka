@@ -1,20 +1,20 @@
 {% extends "base.html" %}{% load i18n mk %}
-{% block title %}{% trans "Mes parts" %}{% endblock %}
+{% block title %}{% trans "Mes investissements" %}{% endblock %}
 {% block content %}<div class="wrap section">
-  <h1>{% trans "Mes parts" %}</h1>
+  <h1>{% trans "Mes investissements" %}</h1>
   <div class="stats">
     <div class="stat"><b class="num">{{ invested|money }}</b><span>{% trans "MRU investis (prix de revient)" %}</span></div>
     <div class="stat"><b class="num">{{ market_value|money }}</b><span>{% trans "MRU valeur au dernier prix du marché" %}</span></div>
     <div class="stat"><b class="num">{{ received|money }}</b><span>{% trans "MRU reçus (bénéfices, échéances, rachats)" %}</span></div>
     <div class="stat"><b class="num">{% if invested %}{% widthratio received invested 100 %} %{% else %}—{% endif %}</b><span>{% trans "déjà récupéré" %}</span></div>
   </div>
-  <div class="panel" style="margin-top:24px"><h2>{% trans "Parts détenues" %}</h2>
+  <div class="panel" style="margin-top:24px"><h2>{% trans "Investissements en cours" %}</h2>
   {% if holdings %}<div class="table-wrap"><table class="table">
-    <thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Contrat" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Prix de revient" %}</th><th class="n">{% trans "Reçu" %}</th><th>{% trans "Statut" %}</th><th></th></tr></thead>
+    <thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Contrat" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Montant investi" %}</th><th class="n">{% trans "Reçu" %}</th><th>{% trans "Statut" %}</th><th></th></tr></thead>
     <tbody>{% for h in holdings %}<tr>
       <td><a href="{{ h.project.get_absolute_url }}">{{ h.project.title }}</a></td>
       <td><span class="model {{ h.project.financing_model }}">{% if h.project.is_moucharaka %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span></td>
-      <td class="n">{{ h.shares }}{% if h.locked_shares %} <span class="small muted">({{ h.locked_shares }} {% trans "en vente" %})</span>{% endif %}</td>
+      <td class="n">{% if h.project.is_deal %}—{% else %}{{ h.shares }}{% if h.locked_shares %} <span class="small muted">({{ h.locked_shares }} {% trans "en vente" %})</span>{% endif %}{% endif %}</td>
       <td class="n">{{ h.cost_basis|money }}</td><td class="n pos">{{ h.received_total|money }}</td>
       <td>{% badge h.project.status h.project.get_status_display %}</td>
       <td class="n">{% if h.project.is_tradable and h.free_shares %}<a class="btn small secondary" href="{% url 'market:sell' h.project.slug %}">{% trans "Vendre" %}</a>{% endif %}</td>
@@ -24,7 +24,7 @@
     <div class="panel"><h2>{% trans "Souscriptions" %}</h2>
       {% if investments %}<table class="table"><tbody>{% for i in investments %}<tr>
         <td><a href="{{ i.project.get_absolute_url }}">{{ i.project.title }}</a><div class="small muted">{{ i.created_at|date:"d/m/Y" }}</div></td>
-        <td class="n">{{ i.shares }} × {{ i.project.share_price|money }}</td><td>{% badge i.status i.get_status_display %}</td>
+        <td class="n">{% if i.project.is_deal %}{{ i.amount|money }} MRU{% else %}{{ i.shares }} × {{ i.project.share_price|money }}{% endif %}</td><td>{% badge i.status i.get_status_display %}</td>
         <td>{% if i.cancellable %}<form method="post" action="{% url 'projects:cancel_investment' i.pk %}">{% csrf_token %}<button class="btn small ghost" data-confirm="{% trans 'Annuler cette souscription ?' %}">{% trans "Annuler" %}</button></form>{% endif %}</td>
       </tr>{% endfor %}</tbody></table>{% else %}<p class="muted">{% trans "Aucune souscription." %}</p>{% endif %}</div>
     <div class="panel"><h2>{% trans "Versements reçus" %}</h2>

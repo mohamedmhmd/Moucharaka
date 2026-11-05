@@ -31,6 +31,8 @@
       {% if user.is_authenticated %}
         <a href="{% url 'core:dashboard' %}">{% trans "Mon espace" %}</a>
         {% if user.is_staff %}<a href="{% url 'staff:dashboard' %}">{% trans "Back-office" %}</a>{% endif %}
+        <a class="nav-only-mobile" href="{% url 'wallet:home' %}">{% trans "Portefeuille" %}</a>
+        <form class="nav-only-mobile" action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="nav-logout">{% trans "Déconnexion" %}</button></form>
       {% endif %}
     </nav>
     <form class="header-search" action="{% url 'search' %}" method="get" role="search">
@@ -49,7 +51,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg>
           {% if unread_count %}<span class="dot">{{ unread_count }}</span>{% endif %}
         </a>
-        <form action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="btn ghost small">{% trans "Déconnexion" %}</button></form>
+        <form class="header-logout" action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="btn ghost small">{% trans "Déconnexion" %}</button></form>
       {% else %}
         <a class="btn ghost small" href="{% url 'accounts:login' %}">{% trans "Connexion" %}</a>
         <a class="btn small" href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a>

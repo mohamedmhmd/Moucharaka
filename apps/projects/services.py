@@ -36,12 +36,12 @@ def checklist(project):
 def missing_terms(project):
     """Contract terms the team must set (in the administration) before a campaign can open."""
     missing = []
-    if project.is_moucharaka and project.investor_profit_share_pct is None:
+    if project.is_moucharaka and project.investor_profit_share_pct is None and not project.is_deal:
         missing.append(_("part des bénéfices revenant aux investisseurs"))
     if project.is_mourabaha:
         if project.margin_pct is None:
             missing.append(_("marge convenue"))
-        if not project.repayment_mode:
+        if not project.repayment_mode and not project.is_deal:
             missing.append(_("mode de remboursement"))
     if not project.target_amount or project.target_amount <= 0:
         missing.append(_("montant recherché"))
@@ -95,6 +95,11 @@ def approve_project(project, reviewer, risk_grade, public_notes=""):
     s = PlatformSettings.get()
     project.success_fee_pct = policy.success_fee_pct
     project.management_fee_pct = policy.management_fee_pct
+    if project.is_deal:  # counted in MRU: one "part" = 1 MRU, never resold
+        project.share_price = Decimal("1")
+        project.trading_enabled = False
+        project.target_amount = project.target_amount.quantize(Decimal("1"))
+        project.min_shares = max(project.min_shares, 100)  # minimum 100 MRU per investor
     project.risk_grade = risk_grade
     project.review_notes = public_notes
     project.reviewed_by = reviewer
@@ -137,8 +142,8 @@ def reject_project(project, reviewer, message):
 
 def report_periods(project, today=None):
     """Closed reporting periods since funds were released: (start, end, due)."""
-    if not project.released_at:
-        return []
+    if not project.released_at or project.is_deal:
+        return []  # a one-off operation has no periodic reports: the owner pays back once
     today = today or timezone.now().date()
     step = 3 if project.report_frequency == Project.Frequency.QUARTERLY else 1
     grace = PlatformSettings.get().report_grace_days

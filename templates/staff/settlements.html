@@ -1,0 +1,27 @@
+{% extends "staff/base_staff.html" %}{% load i18n mk %}
+{% block title %}{% trans "Remboursements" %}{% endblock %}
+{% block staff %}<h1>{% trans "Remboursements à valider" %}</h1>
+<p class="muted">{% trans "Opérations ponctuelles : le porteur a rendu un montant total. Vérifiez qu'il correspond à ce qui a été convenu, puis validez : chaque investisseur reçoit sa part dans son portefeuille." %}</p>
+{% for st in items %}<div class="panel" style="margin-bottom:16px">
+  <div class="section-head"><div><h2 style="margin:0"><a href="{% url 'staff:project_review' st.project.pk %}">{{ st.project.title }}</a></h2>
+    <p class="small muted" style="margin:4px 0 0">{{ st.project.owner.full_name }} · <span class="ltr">{{ st.project.owner.phone|phone }}</span> · {{ st.created_at|date:"d/m/Y H:i" }} · <span class="ltr">{{ st.reference }}</span></p></div></div>
+  <dl class="kv">
+    <dt>{% trans "Montant rendu par le porteur" %}</dt><dd><b>{{ st.amount|money }} MRU</b></dd>
+    <dt>{% trans "Capital des investisseurs" %}</dt><dd>{{ st.split.capital|money }} MRU</dd>
+    {% if st.split.loss %}<dt>{% trans "Perte" %}</dt><dd class="neg">−{{ st.split.loss|money }} MRU</dd>
+    {% else %}<dt>{% trans "Bénéfice" %}</dt><dd class="pos">+{{ st.split.gain|money }} MRU</dd>{% endif %}
+    <dt>{% blocktrans with p=st.project.management_fee_pct|floatformat:"-1" %}Commission plateforme ({{ p }} % du bénéfice){% endblocktrans %}</dt><dd>{{ st.split.fee|money }} MRU</dd>
+    <dt>{% trans "Partagé entre les investisseurs" %}</dt><dd><b>{{ st.split.net|money }} MRU</b></dd>
+  </dl>
+  {% if st.note %}<div class="note small" style="margin-top:10px"><b>{% trans "Message du porteur" %} :</b> {{ st.note|linebreaksbr }}</div>{% endif %}
+  <div class="table-wrap"><table class="table" style="margin-top:12px"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "A investi" %}</th><th class="n">{% trans "Recevra" %}</th></tr></thead><tbody>
+    {% for l in st.split.lines %}<tr><td>{{ l.user.full_name }} <span class="small muted ltr">{{ l.user.phone|phone }}</span></td><td class="n">{{ l.invested|money }}</td><td class="n"><b>{{ l.amount|money }}</b></td></tr>{% endfor %}
+  </tbody></table></div>
+  <form method="post" class="row" style="margin-top:12px">{% csrf_token %}<input type="hidden" name="id" value="{{ st.pk }}">
+    <button class="btn" name="action" value="validate" data-confirm="{% trans 'Valider et verser à chaque investisseur sa part ?' %}">{% trans "Valider et verser" %}</button>
+    <input name="reason" placeholder="{% trans 'motif du refus' %}" style="width:200px;min-height:34px"><button class="btn ghost" name="action" value="reject">{% trans "Refuser" %}</button></form>
+</div>{% empty %}<div class="panel"><div class="empty">{% trans "File vide." %}</div></div>{% endfor %}
+{% if done %}<div class="panel" style="margin-top:20px"><h2>{% trans "Déjà traités" %}</h2><div class="table-wrap"><table class="table"><tbody>
+{% for st in done %}<tr><td><a href="{% url 'staff:project_review' st.project.pk %}">{{ st.project.title }}</a></td><td class="n">{{ st.amount|money }} MRU</td><td>{% badge st.status st.get_status_display %}</td><td class="small muted">{{ st.decided_at|date:"d/m/Y" }}{% if st.decided_by %} · {{ st.decided_by.full_name }}{% endif %}{% if st.staff_reason %} · {{ st.staff_reason }}{% endif %}</td></tr>{% endfor %}
+</tbody></table></div></div>{% endif %}
+{% endblock %}

@@ -157,7 +157,7 @@ class BoutiqueMoucharakaFlow(FlowBase):
 
 class MourabahaFlow(FlowBase):
     def test_installments_and_completion(self):
-        p = self.launch(kind="deal", model="mourabaha", target=300_000, margin=10, duration_months=3)
+        p = self.launch(kind="boutique", model="mourabaha", target=300_000, margin=10, duration_months=3)
         invest(self.inv1, p, 120, True)
         invest(self.inv2, p, 120, True)
         close_campaign(p)
@@ -189,7 +189,7 @@ class MourabahaFlow(FlowBase):
         self.assertLedgerBalanced()
 
     def test_late_installment_and_default(self):
-        p = self.launch(kind="deal", model="mourabaha", target=100_000, margin=8, duration_months=2)
+        p = self.launch(kind="boutique", model="mourabaha", target=100_000, margin=8, duration_months=2)
         invest(self.inv1, p, 40, True)
         invest(self.inv2, p, 40, True)
         invest(make_user("Third", balance=50_000), p, 20, True)
@@ -250,10 +250,10 @@ class DeleteTestUserCommand(FlowBase):
         from apps.wallet.services import request_withdrawal
 
         p = self.launch(kind="deal", model="mourabaha", target=300_000, margin=10, duration_months=3)
-        invest(self.inv1, p, 120, True)
-        invest(self.inv2, p, 120, True)
+        invest(self.inv1, p, 120_000, True)  # a deal counts in MRU
+        invest(self.inv2, p, 120_000, True)
         inv3 = make_user("Test Diaspora", balance=200_000)
-        invest(inv3, p, 60, True)
+        invest(inv3, p, 60_000, True)
         p.refresh_from_db()
         release_funds(p, by=self.staff)
         acc = self.inv1.payment_accounts.create(method="bankily", number="36112233", holder_name="Mariem",
@@ -282,3 +282,183 @@ class DeleteTestUserCommand(FlowBase):
             call_command("delete_user", u.phone, "--yes", stdout=out)
             self.assertFalse(User.objects.filter(pk=u.pk).exists())
             self.assertLedgerBalanced()
+
+
+class DealSettlementFlow(FlowBase):
+    """Opération ponctuelle: invest an amount, owner gets the money, owner pays back one total,
+    the team validates, each investor receives their share. No parts, no reports, no market."""
+
+    def setUp(self):
+        super().setUp()
+        self.inv3 = make_user("Aicha Mint Sidi", balance=1_000_000)
+
+    def funded_deal(self, model="moucharaka", **kw):
+        kw.setdefault("target", 300_000)
+        p = self.launch(kind="deal", model=model, **kw)
+        self.assertEqual(p.share_price, D("1"))  # counted in MRU
+        invest(self.inv1, p, 120_000, True)
+        invest(self.inv2, p, 120_000, True)
+        invest(self.inv3, p, 60_000, True)
+        p.refresh_from_db()
+        self.assertEqual(p.status, "funded")
+        release_funds(p, by=self.staff)
+        p.refresh_from_db()
+        return p
+
+    def test_gain_is_shared_and_fee_taken_on_gain_only(self):
+        from apps.investments.models import DealSettlement
+        from apps.investments.services import submit_settlement, validate_settlement
+        from apps.wallet.services import adjust
+
+        p = self.funded_deal(projected=20)
+        self.assertEqual(p.status, "active")
+        self.assertFalse(p.installments.exists())
+        self.assertEqual(report_periods(p), [])
+        self.assertFalse(p.is_tradable)
+        adjust(self.owner, D("100000"))
+        st = submit_settlement(p, self.owner, D("360000"))
+        w = Wallet.for_user(self.owner)
+        self.assertEqual(w.held, D("360000"))
+        self.assertLedgerBalanced()
+        before = [Wallet.for_user(u).balance for u in (self.inv1, self.inv2, self.inv3)]
+        platform_before = Wallet.platform().balance
+        validate_settlement(st, by=self.staff)
+        st.refresh_from_db()
+        p.refresh_from_db()
+        self.assertEqual(st.status, DealSettlement.Status.VALIDATED)
+        self.assertEqual(p.status, "completed")
+        # gain 60 000, fee 10 % of the gain = 6 000, 354 000 shared 40/40/20
+        self.assertEqual(Wallet.platform().balance - platform_before, D("6000"))
+        after = [Wallet.for_user(u).balance for u in (self.inv1, self.inv2, self.inv3)]
+        self.assertEqual([a - b for a, b in zip(after, before)], [D("141600"), D("141600"), D("70800")])
+        self.assertEqual(Wallet.for_user(self.owner).held, D("0"))
+        self.assertFalse(Holding.objects.filter(project=p, shares__gt=0).exists())
+        self.assertEqual(Holding.objects.get(user=self.inv1, project=p).received_total, D("141600"))
+        self.assertLedgerBalanced()
+
+    def test_capital_only_no_fee(self):
+        from apps.investments.services import deal_split, submit_settlement, validate_settlement
+
+        p = self.funded_deal(model="mourabaha", margin=10)
+        split = deal_split(p, D("300000"))
+        self.assertEqual((split["gain"], split["fee"], split["net"]), (D("0"), D("0"), D("300000")))
+        from apps.wallet.services import adjust
+
+        adjust(self.owner, D("50000"))
+        st = submit_settlement(p, self.owner, D("300000"))
+        validate_settlement(st, by=self.staff)
+        self.assertEqual(Holding.objects.get(user=self.inv3, project=p).received_total, D("60000"))
+        self.assertLedgerBalanced()
+
+    def test_loss_needs_a_message_and_is_shared(self):
+        from apps.investments.services import submit_settlement, validate_settlement
+
+        p = self.funded_deal()
+        with self.assertRaises(InvestmentError):
+            submit_settlement(p, self.owner, D("150000"))
+        st = submit_settlement(p, self.owner, D("150000"), note="La marchandise a été vendue à perte.")
+        validate_settlement(st, by=self.staff)
+        self.assertEqual(Holding.objects.get(user=self.inv1, project=p).received_total, D("60000"))
+        self.assertEqual(Holding.objects.get(user=self.inv3, project=p).received_total, D("30000"))
+        self.assertLedgerBalanced()
+
+    def test_cents_add_up_exactly(self):
+        from apps.investments.models import Payout
+        from apps.investments.services import submit_settlement, validate_settlement
+        from apps.wallet.services import adjust
+
+        p = self.funded_deal()
+        adjust(self.owner, D("100000"))
+        st = submit_settlement(p, self.owner, D("333333.33"))
+        validate_settlement(st, by=self.staff)
+        st.refresh_from_db()
+        total = Payout.objects.filter(distribution=st.distribution).aggregate(s=Sum("amount"))["s"]
+        self.assertEqual(total + st.distribution.platform_fee, D("333333.33"))
+        self.assertLedgerBalanced()
+
+    def test_reject_and_cancel_give_the_money_back(self):
+        from apps.investments.services import cancel_settlement, reject_settlement, submit_settlement
+
+        p = self.funded_deal()
+        bal = Wallet.for_user(self.owner).balance
+        st = submit_settlement(p, self.owner, D("300000"))
+        with self.assertRaises(InvestmentError):  # only one at a time
+            submit_settlement(p, self.owner, D("300000"))
+        reject_settlement(st, self.staff, "Montant différent du contrat")
+        self.assertEqual((Wallet.for_user(self.owner).balance, Wallet.for_user(self.owner).held), (bal, D("0")))
+        st2 = submit_settlement(p, self.owner, D("300000"))
+        cancel_settlement(st2, self.owner)
+        self.assertEqual(Wallet.for_user(self.owner).balance, bal)
+        p.refresh_from_db()
+        self.assertEqual(p.status, "active")
+        self.assertLedgerBalanced()
+
+    def test_pages(self):
+        from django.test import Client
+
+        from apps.investments.models import DealSettlement
+
+        p = self.launch(kind="deal", model="moucharaka", target=300_000)
+        c = Client()
+        c.force_login(self.inv1)
+        page = c.get(p.get_absolute_url()).content.decode()
+        self.assertIn('name="amount"', page)
+        self.assertNotIn('name="shares"', page)
+        r = c.post(f"/fr/projects/{p.slug}/invest/", {"amount": "120000", "risk": "on"})
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(Investment.objects.get(project=p, investor=self.inv1).amount, D("120000"))
+        invest(self.inv2, p, 120_000, True)
+        invest(self.inv3, p, 60_000, True)
+        release_funds(p, by=self.staff)
+
+        owner = Client()
+        owner.force_login(self.owner)
+        page = owner.get(f"/fr/projects/{p.slug}/manage/").content.decode()
+        self.assertIn('id="settle"', page)
+        self.assertNotIn('id="buyback"', page)
+        too_much = owner.post(f"/fr/projects/{p.slug}/manage/settle/", {"amount": "9000000"})
+        self.assertIn("/wallet/deposit/", too_much["Location"])
+        owner.post(f"/fr/projects/{p.slug}/manage/settle/", {"amount": "310000"})
+        st = DealSettlement.objects.get(project=p)
+        self.assertEqual(st.status, "pending")
+
+        staff = Client()
+        staff.force_login(self.staff)
+        page = staff.get("/fr/staff/settlements/").content.decode()
+        self.assertIn(p.title, page)
+        staff.post("/fr/staff/settlements/", {"id": st.pk, "action": "validate"})
+        st.refresh_from_db()
+        self.assertEqual(st.status, "validated")
+        page = c.get("/fr/portfolio/").content.decode()
+        self.assertEqual(c.get("/fr/portfolio/").status_code, 200)
+        self.assertLedgerBalanced()
+
+    def test_terms_form_has_no_share_price(self):
+        from apps.projects.forms import TermsForm
+
+        p = make_project(self.owner, kind="deal", model="moucharaka")
+        form = TermsForm(instance=p)
+        self.assertNotIn("share_price", form.fields)
+        self.assertNotIn("exit_mode", form.fields)
+        form = TermsForm({"target_amount": "250000"}, instance=p)
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+        p.refresh_from_db()
+        self.assertEqual((p.share_price, p.target_amount), (D("1"), D("250000")))
+
+    def test_existing_deal_converted_to_mru(self):
+        import importlib
+
+        from django.apps import apps as registry
+
+        mig = importlib.import_module("apps.investments.migrations.0003_deals_in_mru")
+        p = make_project(self.owner, kind="deal", model="mourabaha", target=300_000)  # 300 parts of 1 000
+        Project.objects.filter(pk=p.pk).update(status="active", shares_sold=200)
+        Investment.objects.create(investor=self.inv1, project=p, shares=200, amount=D("200000"), reference="X",
+                                  status="settled")
+        Holding.objects.create(user=self.inv1, project=p, shares=200, cost_basis=D("200000"))
+        mig.forwards(registry, None)
+        p.refresh_from_db()
+        self.assertEqual((p.share_price, p.shares_sold, p.trading_enabled), (D("1"), 200_000, False))
+        self.assertEqual(Holding.objects.get(project=p).shares, 200_000)
+        self.assertEqual(Investment.objects.get(project=p).shares, 200_000)

@@ -84,6 +84,7 @@ class Distribution(models.Model):
         INSTALLMENT = "installment", _("Échéance (Mourabaha)")
         BUYBACK = "buyback", _("Rachat de parts")
         LIQUIDATION = "liquidation", _("Produit de liquidation")
+        SETTLEMENT = "settlement", _("Remboursement final (capital et bénéfice)")
 
     project = models.ForeignKey("projects.Project", on_delete=models.PROTECT, related_name="distributions")
     kind = models.CharField(max_length=12, choices=Kind.choices)
@@ -122,3 +123,41 @@ class Payout(models.Model):
 
     class Meta:
         ordering = ["-distribution__paid_at"]
+
+
+class DealSettlement(models.Model):
+    """One-off operation: the owner sends back one total (capital + profit).
+    The money waits on the owner's wallet until the team validates it, then it
+    is shared between the investors in proportion to what each put in."""
+
+    class Status(models.TextChoices):
+        PENDING = "pending", _("En attente de validation")
+        VALIDATED = "validated", _("Validé et versé")
+        REJECTED = "rejected", _("Refusé")
+        CANCELLED = "cancelled", _("Annulé par le porteur")
+
+    project = models.ForeignKey("projects.Project", on_delete=models.PROTECT, related_name="settlements")
+    amount = models.DecimalField(_("montant rendu aux investisseurs"), **MONEY)
+    capital = models.DecimalField(_("capital des investisseurs"), **MONEY, default=ZERO)
+    note = models.TextField(_("message du porteur"), blank=True)
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING, db_index=True)
+    staff_reason = models.CharField(_("motif"), max_length=255, blank=True)
+    decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL,
+                                   related_name="+")
+    decided_at = models.DateTimeField(null=True, blank=True)
+    distribution = models.OneToOneField(Distribution, null=True, blank=True, on_delete=models.SET_NULL,
+                                        related_name="settlement")
+    reference = models.CharField(max_length=24)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = _("remboursement final")
+        verbose_name_plural = _("remboursements finaux")
+
+    def __str__(self):
+        return f"{self.project} {self.amount} ({self.status})"
+
+    @property
+    def gain(self):
+        return self.amount - self.capital
