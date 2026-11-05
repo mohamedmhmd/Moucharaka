@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-03 13:53+0100\n"
+"POT-Creation-Date: 2026-11-05 14:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -417,6 +417,17 @@ msgid "Votre dossier d'identité a été refusé"
 msgstr "Votre dossier d'identité a été refusé"
 
 #, python-format
+msgid "%(what)s n'est pas encore disponible : l'envoi des codes WhatsApp n'est pas encore activé."
+msgstr "%(what)s n'est pas encore disponible : l'envoi des codes WhatsApp n'est pas encore activé."
+
+#, python-format
+msgid "Contactez le support au %(p)s."
+msgstr "Contactez le support au %(p)s."
+
+msgid "Contactez le support."
+msgstr "Contactez le support."
+
+#, python-format
 msgid "Mode développement : votre code est %(code)s"
 msgstr "Mode développement : votre code est %(code)s"
 
@@ -440,6 +451,12 @@ msgstr "Numéro ou mot de passe incorrect."
 
 msgid "Ce compte est suspendu. Contactez le support."
 msgstr "Ce compte est suspendu. Contactez le support."
+
+msgid "La connexion par code"
+msgstr "La connexion par code"
+
+msgid "La réinitialisation du mot de passe"
+msgstr "La réinitialisation du mot de passe"
 
 msgid "Mot de passe modifié. Connectez-vous."
 msgstr "Mot de passe modifié. Connectez-vous."
@@ -2831,6 +2848,9 @@ msgstr "Connexion par WhatsApp"
 
 msgid "Recevoir le code"
 msgstr "Recevoir le code"
+
+msgid "Se connecter avec le mot de passe"
+msgstr "Se connecter avec le mot de passe"
 
 msgid "Nous envoyons un code sur WhatsApp pour vérifier votre numéro. Tous les pays sont acceptés."
 msgstr "Nous envoyons un code sur WhatsApp pour vérifier votre numéro. Tous les pays sont acceptés."

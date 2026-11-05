@@ -22,13 +22,40 @@ from .otp import OTPError, issue_otp, verify_otp
 VERIFIED_TTL = 15 * 60  # seconds a verified phone stays valid in the session
 
 
+def _dev_console():
+    return settings.DEBUG and settings.SMS_FALLBACK_BACKEND == "console"
+
+
+def _codes_deliverable():
+    """True when codes really reach the member (an active WhatsApp/SMS provider), or in local development."""
+    from apps.sms.models import SMSProvider
+
+    return _dev_console() or SMSProvider.objects.filter(is_active=True).exists()
+
+
+def _codes_unavailable(request, what):
+    """Code login and password reset are refused while codes can't be delivered: showing the code on screen
+    there would let anyone take over an account just by typing its phone number."""
+    from apps.core.models import PlatformSettings
+
+    support = PlatformSettings.get().support_phone
+    msg = _("%(what)s n'est pas encore disponible : l'envoi des codes WhatsApp n'est pas encore activé.") % {"what": what}
+    if support:
+        msg += " " + _("Contactez le support au %(p)s.") % {"p": support}
+    else:
+        msg += " " + _("Contactez le support.")
+    messages.warning(request, msg)
+
+
 def _send_code(request, phone, purpose):
     try:
         code = issue_otp(phone, purpose, ip=client_ip(request))
     except OTPError as e:
         messages.error(request, str(e))
         return False
-    if settings.OTP_SHOW_ON_SCREEN or (settings.DEBUG and settings.SMS_FALLBACK_BACKEND == "console"):
+    # OTP_SHOW_ON_SCREEN (testing without WhatsApp) only ever applies to sign-up: a code shown on screen for
+    # login or password reset would hand any account to whoever types its number.
+    if _dev_console() or (settings.OTP_SHOW_ON_SCREEN and purpose == PhoneOTP.Purpose.REGISTER):
         messages.info(request, _("Mode développement : votre code est %(code)s") % {"code": code})
     return True
 
@@ -191,6 +218,9 @@ def login_view(request):
 def otp_login(request):
     """Passwordless login with a WhatsApp code."""
     form = PhoneOnlyForm(request.POST or None)
+    if not _codes_deliverable():
+        _codes_unavailable(request, _("La connexion par code"))
+        return render(request, "accounts/otp_login.html", {"form": form, "codes_unavailable": True})
     if request.method == "POST" and form.is_valid():
         phone = form.cleaned_data["phone"]
         if User.objects.filter(phone=phone, is_active=True).exists():
@@ -214,6 +244,9 @@ def otp_login_finish(request):
 
 def reset_start(request):
     form = PhoneOnlyForm(request.POST or None)
+    if not _codes_deliverable():
+        _codes_unavailable(request, _("La réinitialisation du mot de passe"))
+        return render(request, "accounts/reset_start.html", {"form": form, "codes_unavailable": True})
     if request.method == "POST" and form.is_valid():
         phone = form.cleaned_data["phone"]
         # Same response whether or not the account exists (no enumeration).

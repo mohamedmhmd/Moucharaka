@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-03 13:53+0100\n"
+"POT-Creation-Date: 2026-11-05 14:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -84,7 +84,7 @@ msgstr "الرقم المستخدم في واتساب، من أي بلد. مور
 msgid "J'accepte les conditions d'utilisation et la politique de confidentialité"
 msgstr "أوافق على شروط الاستخدام وسياسة الخصوصية"
 
-#: apps/accounts/forms.py:35 apps/accounts/views.py:100 apps/api/views.py:65
+#: apps/accounts/forms.py:35 apps/accounts/views.py:127 apps/api/views.py:65
 msgid "Ce numéro a déjà un compte. Connectez-vous."
 msgstr "هذا الرقم مرتبط بحساب موجود. سجّل الدخول."
 
@@ -558,48 +558,70 @@ msgstr "يجب تصحيح ملف هويتك"
 msgid "Votre dossier d'identité a été refusé"
 msgstr "تم رفض ملف هويتك"
 
-#: apps/accounts/views.py:32 apps/wallet/views.py:166
+#: apps/accounts/views.py:42
+#, python-format
+msgid "%(what)s n'est pas encore disponible : l'envoi des codes WhatsApp n'est pas encore activé."
+msgstr "خدمة %(what)s غير متاحة حالياً: لم يتم بعد تفعيل إرسال الرموز عبر واتساب."
+
+#: apps/accounts/views.py:44
+#, python-format
+msgid "Contactez le support au %(p)s."
+msgstr "تواصل مع الدعم على الرقم %(p)s."
+
+#: apps/accounts/views.py:46
+msgid "Contactez le support."
+msgstr "تواصل مع الدعم."
+
+#: apps/accounts/views.py:59 apps/wallet/views.py:166
 #, python-format
 msgid "Mode développement : votre code est %(code)s"
 msgstr "وضع التطوير: رمزك هو %(code)s"
 
-#: apps/accounts/views.py:71
+#: apps/accounts/views.py:98
 msgid "Un nouveau code a été envoyé."
 msgstr "تم إرسال رمز جديد."
 
-#: apps/accounts/views.py:94
+#: apps/accounts/views.py:121
 msgid "Vérifiez d'abord votre numéro."
 msgstr "تحقق من رقمك أولاً."
 
-#: apps/accounts/views.py:109
+#: apps/accounts/views.py:136
 msgid "Compte créé. Dernière étape : vérifier votre identité."
 msgstr "تم إنشاء الحساب. الخطوة الأخيرة: التحقق من هويتك."
 
-#: apps/accounts/views.py:135
+#: apps/accounts/views.py:162
 msgid "Nouveau dossier KYC à vérifier"
 msgstr "ملف هوية جديد للتحقق"
 
-#: apps/accounts/views.py:136
+#: apps/accounts/views.py:163
 msgid "Dossier envoyé. Notre équipe le vérifie, vous recevrez un message WhatsApp."
 msgstr "تم إرسال الملف. يتحقق منه فريقنا وستصلك رسالة على واتساب."
 
-#: apps/accounts/views.py:179 apps/api/views.py:143
+#: apps/accounts/views.py:206 apps/api/views.py:143
 msgid "Numéro ou mot de passe incorrect."
 msgstr "الرقم أو كلمة المرور غير صحيحة."
 
-#: apps/accounts/views.py:181
+#: apps/accounts/views.py:208
 msgid "Ce compte est suspendu. Contactez le support."
 msgstr "هذا الحساب موقوف. اتصل بالدعم."
 
-#: apps/accounts/views.py:240
+#: apps/accounts/views.py:222
+msgid "La connexion par code"
+msgstr "تسجيل الدخول بالرمز"
+
+#: apps/accounts/views.py:248
+msgid "La réinitialisation du mot de passe"
+msgstr "إعادة تعيين كلمة المرور"
+
+#: apps/accounts/views.py:273
 msgid "Mot de passe modifié. Connectez-vous."
 msgstr "تم تغيير كلمة المرور. سجّل الدخول."
 
-#: apps/accounts/views.py:261
+#: apps/accounts/views.py:294
 msgid "Mot de passe modifié."
 msgstr "تم تغيير كلمة المرور."
 
-#: apps/accounts/views.py:265
+#: apps/accounts/views.py:298
 msgid "Préférences enregistrées."
 msgstr "تم حفظ التفضيلات."
 
@@ -3775,6 +3797,10 @@ msgstr "الدخول عبر واتساب"
 #: templates/accounts/reset_start.html:4
 msgid "Recevoir le code"
 msgstr "استلام الرمز"
+
+#: templates/accounts/otp_login.html:4 templates/accounts/reset_start.html:4
+msgid "Se connecter avec le mot de passe"
+msgstr "تسجيل الدخول بكلمة المرور"
 
 #: templates/accounts/register.html:6
 msgid "Nous envoyons un code sur WhatsApp pour vérifier votre numéro. Tous les pays sont acceptés."

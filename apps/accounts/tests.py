@@ -442,3 +442,20 @@ class CodeOnScreenTests(TestCase):
         with self.settings(DEBUG=False, OTP_SHOW_ON_SCREEN=False):
             r = self.client.post("/fr/accounts/register/", {"phone": "+222 46 55 44 22", "accept_terms": "on"}, follow=True)
             self.assertNotContains(r, last_code())
+
+    def test_no_code_on_screen_for_reset_or_login(self):
+        """Codes on screen never apply to password reset or code login (account takeover)."""
+        victim = make_user("Victime", phone="+22246550011")
+        with self.settings(DEBUG=False, OTP_SHOW_ON_SCREEN=True):
+            # No WhatsApp/SMS provider yet: both pages refuse and offer password login
+            for url in ("/fr/accounts/password/reset/", "/fr/accounts/login/whatsapp/"):
+                r = self.client.post(url, {"phone": victim.phone}, follow=True)
+                self.assertContains(r, "pas encore disponible")
+                self.assertNotContains(r, "votre code est")
+                self.assertFalse(PhoneOTP.objects.filter(phone=victim.phone).exists())
+            # With a provider, codes are sent to WhatsApp and still never shown on screen
+            SMSProvider.objects.create(name="Test", backend="console", channel="whatsapp", is_active=True)
+            cache.clear()
+            r = self.client.post("/fr/accounts/password/reset/", {"phone": victim.phone}, follow=True)
+            self.assertNotContains(r, "votre code est")
+            self.assertTrue(PhoneOTP.objects.filter(phone=victim.phone, purpose="reset").exists())
