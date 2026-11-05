@@ -84,6 +84,12 @@ class Transaction(models.Model):
         SETTLEMENT_RELEASE = "settlement_release", _("Remboursement refusé : montant rendu")
         SETTLEMENT_OUT = "settlement_out", _("Remboursement versé aux investisseurs")
         SETTLEMENT_IN = "settlement_in", _("Remboursement reçu (capital et bénéfice)")
+        SHARE_PURCHASE = "share_purchase", _("Achat de parts d'une entreprise")
+        SHARE_ISSUE = "share_issue", _("Parts vendues aux investisseurs")
+        DIVIDEND_OUT = "dividend_out", _("Dividende versé aux actionnaires")
+        DIVIDEND_IN = "dividend_in", _("Dividende reçu")
+        BUYBACK_HOLD = "buyback_hold", _("Offre de rachat (montant réservé)")
+        BUYBACK_RELEASE = "buyback_release", _("Offre de rachat close (montant rendu)")
 
     wallet = models.ForeignKey(Wallet, on_delete=models.PROTECT, related_name="transactions")
     kind = models.CharField(max_length=20, choices=Kind.choices, db_index=True)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import DealSettlement, Distribution, Holding, Investment, Payout
+from .models import BuybackOffer, DealSettlement, Distribution, Holding, Investment, Payout
 
 
 @admin.register(Investment)
@@ -36,6 +36,18 @@ class DealSettlementAdmin(admin.ModelAdmin):
     list_filter = ("status",)
     search_fields = ("project__title", "reference")
     readonly_fields = [f.name for f in DealSettlement._meta.fields]
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(BuybackOffer)
+class BuybackOfferAdmin(admin.ModelAdmin):
+    """Read-only: the owner and the shareholder answer from their own pages (it moves money)."""
+    list_display = ("updated_at", "project", "holder", "shares", "price", "status", "waiting_on")
+    list_filter = ("status",)
+    search_fields = ("project__title", "holder__phone", "reference")
+    readonly_fields = [f.name for f in BuybackOffer._meta.fields]
 
     def has_add_permission(self, request):
         return False

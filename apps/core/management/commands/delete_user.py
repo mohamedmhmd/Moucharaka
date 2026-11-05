@@ -23,7 +23,7 @@ from django.db.models import Q, Sum
 
 from apps.accounts.models import PhoneOTP, User
 from apps.accounts.phones import normalize_phone
-from apps.investments.models import DealSettlement, Distribution, Holding, Investment, Payout
+from apps.investments.models import BuybackOffer, DealSettlement, Distribution, Holding, Investment, Payout
 from apps.market.models import Listing, Trade
 from apps.projects.models import Project
 from apps.sms.models import SMSMessage
@@ -97,6 +97,13 @@ class Command(BaseCommand):
             raise CommandError(blocked_msg)
 
         with transaction.atomic():
+            # 0. Buyback offers made to this person by other companies: give the money back to those owners
+            from apps.investments.company import _release
+
+            for offer in BuybackOffer.objects.filter(holder=user, status="pending").exclude(project__in=projects):
+                _release(offer)
+                offer.status = "cancelled"
+                offer.save()
             # 1. Take each movement back out of the other wallets it touched (platform fees, other test users)
             reverse = defaultdict(lambda: [Decimal("0"), Decimal("0")])
             for row in tx.exclude(wallet=wallet).values("wallet").annotate(a=Sum("amount"), h=Sum("held_delta")):
@@ -111,6 +118,7 @@ class Command(BaseCommand):
             Trade.objects.filter(Q(buyer=user) | Q(seller=user) | Q(project__in=projects)).delete()
             Listing.objects.filter(Q(seller=user) | Q(project__in=projects)).delete()
             DealSettlement.objects.filter(project__in=projects).delete()
+            BuybackOffer.objects.filter(Q(holder=user) | Q(project__in=projects)).delete()
             Payout.objects.filter(Q(user=user) | Q(distribution__project__in=projects)).delete()
             Distribution.objects.filter(project__in=projects).delete()
             Holding.objects.filter(Q(user=user) | Q(project__in=projects)).delete()

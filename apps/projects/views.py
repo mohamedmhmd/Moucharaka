@@ -18,7 +18,8 @@ from django.views.decorators.http import require_POST
 from apps.accounts.decorators import approved_required
 from apps.core.models import PlatformSettings
 from apps.core.utils import N_, notify
-from apps.investments.models import DealSettlement, Holding, Investment
+from apps.investments import company as C
+from apps.investments.models import BuybackOffer, DealSettlement, Holding, Investment
 from apps.investments.services import (InvestmentError, buyback, cancel_investment, cancel_settlement, deal_capital,
                                        deal_expected, deal_split, invest, max_shares_for, pay_installment,
                                        pay_profit_distribution, submit_settlement)
@@ -163,7 +164,7 @@ def detail(request, slug):
         ctx["holding"] = Holding.objects.filter(user=u, project=project).first()
         ctx["my_investments"] = Investment.objects.filter(investor=u, project=project).exclude(status="cancelled")
         ctx["is_favorite"] = project.favorited_by.filter(user=u).exists()
-        if project.status == Project.Status.FUNDING and u.is_approved and not ctx["is_owner"]:
+        if project.accepts_investment and u.is_approved and not ctx["is_owner"]:
             ctx["invest_form"] = F_.InvestForm(initial={"shares": project.min_shares})
             ctx["max_shares"] = max_shares_for(u, project)
             ctx["min_shares"] = min(project.min_shares, ctx["max_shares"]) or 1
@@ -209,7 +210,9 @@ def invest_view(request, slug):
     except InvestmentError as e:
         messages.error(request, str(e))
         return redirect(project.get_absolute_url() + "#invest")
-    if project.is_deal:
+    if project.is_company and inv.status == Investment.Status.SETTLED:
+        messages.success(request, _("Bienvenue parmi les actionnaires ! Vous détenez maintenant %(n)s part(s) de plus.") % {"n": inv.shares})
+    elif project.is_deal:
         messages.success(request, _("Merci ! %(a)s MRU investis. Vos fonds restent bloqués jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h.") % {"a": f"{inv.amount:,.0f}".replace(",", " ")})
     else:
         messages.success(request, _("Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h.") % {"n": inv.shares})
@@ -548,6 +551,16 @@ def manage(request, slug):
         "score": get_score(request.user),
         "interests": project.interests.select_related("user"),
     }
+    if project.is_company:
+        ctx["dividend_form"] = F_.DividendForm()
+        ctx["offer_form"] = F_.BuybackOfferForm()
+        offers = {o.holder_id: o for o in project.buyback_offers.filter(status="pending")}
+        holdings = ctx["holdings"] = list(holdings)
+        for h in holdings:
+            h.offer = offers.get(h.user_id)
+        ctx["closed_offers"] = project.buyback_offers.exclude(status="pending").select_related("holder")[:20]
+        ctx["dividends"] = project.distributions.filter(kind="dividend")
+        ctx["dividend_fee_pct"] = project.management_fee_pct
     if project.is_deal:
         ctx["capital"] = deal_capital(project)
         ctx["expected"] = deal_expected(project)
@@ -669,6 +682,86 @@ def cancel_settlement_view(request, slug, pk):
 
 @require_POST
 @approved_required
+def pay_dividend_view(request, slug):
+    project = _owner_project(request, slug)
+    form = F_.DividendForm(request.POST)
+    back = reverse("projects:manage", args=[slug]) + "#dividend"
+    if not form.is_valid():
+        messages.error(request, _("Indiquez le montant du dividende."))
+        return redirect(back)
+    amount = form.cleaned_data["amount"]
+    wallet = Wallet.for_user(request.user)
+    if wallet.balance < amount:
+        missing = amount - wallet.balance
+        messages.warning(request, _("Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez.") % {
+            "m": f"{missing:,.0f}".replace(",", " ")})
+        return redirect(reverse("wallet:deposit") + f"?amount={int(missing) + (1 if missing % 1 else 0)}&next={quote(back)}")
+    try:
+        d = C.pay_dividend(project, request.user, amount, form.cleaned_data.get("note") or "")
+        messages.success(request, _("Dividende versé : %(a)s MRU partagés entre les actionnaires, soit %(x)s MRU par part.") % {
+            "a": f"{d.net_amount:,.0f}".replace(",", " "), "x": f"{d.per_share:,.2f}".replace(",", " ")})
+    except InvestmentError as e:
+        messages.error(request, str(e))
+    return redirect(back)
+
+
+@require_POST
+@approved_required
+def close_offering_view(request, slug):
+    project = _owner_project(request, slug)
+    try:
+        C.close_offering(project, request.user)
+        messages.success(request, _("Vente arrêtée : les parts non vendues ne sont plus proposées."))
+    except InvestmentError as e:
+        messages.error(request, str(e))
+    return redirect("projects:manage", slug=slug)
+
+
+@require_POST
+@approved_required
+def propose_buyback_view(request, slug, user_id):
+    project = _owner_project(request, slug)
+    holding = get_object_or_404(Holding, project=project, user_id=user_id, shares__gt=0)
+    form = F_.BuybackOfferForm(request.POST)
+    back = reverse("projects:manage", args=[slug]) + "#shareholders"
+    if not form.is_valid():
+        messages.error(request, _("Indiquez un nombre de parts et un prix."))
+        return redirect(back)
+    d = form.cleaned_data
+    try:
+        C.propose_buyback(project, request.user, holding.user, d["shares"], d["price"], d.get("message") or "")
+        messages.success(request, _("Offre envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."))
+    except InvestmentError as e:
+        messages.error(request, str(e))
+    return redirect(back)
+
+
+@require_POST
+@approved_required
+def answer_buyback_view(request, pk):
+    offer = get_object_or_404(BuybackOffer.objects.select_related("project"), pk=pk)
+    is_owner = offer.project.owner_id == request.user.pk
+    back = (reverse("projects:manage", args=[offer.project.slug]) + "#shareholders") if is_owner \
+        else reverse("core:portfolio") + "#offers"
+    action = request.POST.get("action", "")
+    shares = price = None
+    if action == "counter":
+        form = F_.BuybackOfferForm(request.POST)
+        if not form.is_valid():
+            messages.error(request, _("Indiquez un nombre de parts et un prix."))
+            return redirect(back)
+        shares, price = form.cleaned_data["shares"], form.cleaned_data["price"]
+    try:
+        C.answer_buyback(offer, request.user, action, shares, price, request.POST.get("message", ""))
+        messages.success(request, {"accept": _("Rachat conclu."), "counter": _("Votre proposition a été envoyée."),
+                                   "refuse": _("Offre close.")}.get(action, _("C'est noté.")))
+    except InvestmentError as e:
+        messages.error(request, str(e))
+    return redirect(back)
+
+
+@require_POST
+@approved_required
 def post_update(request, slug):
     project = _owner_project(request, slug)
     form = F_.UpdateForm(request.POST, request.FILES)
@@ -703,7 +796,7 @@ def answer_question(request, slug, qid):
 def feature_project(request, slug):
     project = _owner_project(request, slug)
     fee = PlatformSettings.get().featured_fee
-    if project.status != Project.Status.FUNDING:
+    if not project.accepts_investment:
         messages.error(request, _("Seule une collecte en cours peut être mise en avant."))
         return redirect("projects:manage", slug=slug)
     try:

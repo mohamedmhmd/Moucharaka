@@ -12,7 +12,7 @@ STATUS_TONE = {
     "cancelled": "muted", "pending": "info", "proof": "info", "confirmed": "good", "paid": "good",
     "held": "info", "settled": "good", "refunded": "muted", "upcoming": "muted", "late": "warn",
     "approved": "good", "new": "warn", "suspended": "bad", "sold": "muted", "expired": "muted",
-    "verified": "good", "flagged": "warn", "resubmit": "warn", "validated": "good",
+    "verified": "good", "flagged": "warn", "resubmit": "warn", "validated": "good", "accepted": "good", "refused": "bad",
 }
 
 

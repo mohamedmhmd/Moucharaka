@@ -33,6 +33,8 @@
         {% if user.is_staff %}<a href="{% url 'staff:dashboard' %}">{% trans "Back-office" %}</a>{% endif %}
         <a class="nav-only-mobile" href="{% url 'wallet:home' %}">{% trans "Portefeuille" %}</a>
         <form class="nav-only-mobile" action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="nav-logout">{% trans "Déconnexion" %}</button></form>
+      {% else %}
+        <a class="nav-only-mobile nav-register" href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a>
       {% endif %}
     </nav>
     <form class="header-search" action="{% url 'search' %}" method="get" role="search">
@@ -54,7 +56,7 @@
         <form class="header-logout" action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="btn ghost small">{% trans "Déconnexion" %}</button></form>
       {% else %}
         <a class="btn ghost small" href="{% url 'accounts:login' %}">{% trans "Connexion" %}</a>
-        <a class="btn small" href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a>
+        <a class="btn small header-register" href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a>
       {% endif %}
       <button class="icon-btn menu-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="{% trans 'Menu' %}">
         <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>

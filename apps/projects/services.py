@@ -36,7 +36,8 @@ def checklist(project):
 def missing_terms(project):
     """Contract terms the team must set (in the administration) before a campaign can open."""
     missing = []
-    if project.is_moucharaka and project.investor_profit_share_pct is None and not project.is_deal:
+    if (project.is_moucharaka and project.investor_profit_share_pct is None and not project.is_deal
+            and not project.is_company):
         missing.append(_("part des bénéfices revenant aux investisseurs"))
     if project.is_mourabaha:
         if project.margin_pct is None:
@@ -103,10 +104,26 @@ def approve_project(project, reviewer, risk_grade, public_notes=""):
     project.risk_grade = risk_grade
     project.review_notes = public_notes
     project.reviewed_by = reviewer
-    project.status = Project.Status.FUNDING
     project.campaign_start = timezone.now()
-    project.campaign_end = timezone.now() + timedelta(days=min(project.campaign_days, s.max_campaign_days))
     project.changes_requested = ""
+    if project.is_company:
+        # Parts go on sale at once: each buyer becomes a shareholder, unsold parts stay on sale.
+        project.status = Project.Status.ACTIVE
+        project.offering_open = True
+        project.released_at = timezone.now()
+        project.campaign_end = None
+        project.min_shares = 1
+        project.save()
+        audit("project.approved", project, actor=reviewer, grade=risk_grade)
+        from .sharing import notify_interested
+
+        notify_interested(project)
+        notify(project.owner, N_("Vos parts sont en vente"),
+               N_("Les parts de « %(p)s » sont en vente. Partagez le lien du projet.") % {"p": project.title},
+               url=project.get_absolute_url(), whatsapp=True)
+        return project
+    project.status = Project.Status.FUNDING
+    project.campaign_end = timezone.now() + timedelta(days=min(project.campaign_days, s.max_campaign_days))
     project.save()
     audit("project.approved", project, actor=reviewer, grade=risk_grade)
     from .sharing import notify_interested
@@ -142,8 +159,9 @@ def reject_project(project, reviewer, message):
 
 def report_periods(project, today=None):
     """Closed reporting periods since funds were released: (start, end, due)."""
-    if not project.released_at or project.is_deal:
-        return []  # a one-off operation has no periodic reports: the owner pays back once
+    if not project.released_at or project.is_deal or project.is_company:
+        # One-off operation: the owner pays back once. Company: dividends when the owner decides.
+        return []
     today = today or timezone.now().date()
     step = 3 if project.report_frequency == Project.Frequency.QUARTERLY else 1
     grace = PlatformSettings.get().report_grace_days

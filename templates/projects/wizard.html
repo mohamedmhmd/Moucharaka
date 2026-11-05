@@ -22,8 +22,13 @@
 
     {% elif step == "terms" %}
       <h1>{% trans "Conditions du financement" %}</h1>
+      {% if project.is_company %}
+      <div class="note" style="margin-bottom:16px">{% trans "Vous mettez en vente un nombre de parts à un prix fixe. Chaque acheteur devient actionnaire tout de suite et pour toujours ; l'argent arrive dans votre portefeuille à chaque achat. Vous versez des dividendes quand vous le décidez et vous pouvez racheter des parts à vos actionnaires." %}
+        {% blocktrans with s=policy.success_fee_pct|floatformat:"-1" m=policy.management_fee_pct|floatformat:"-1" %}Frais : {{ s }} % de chaque vente de parts, {{ m }} % des dividendes versés.{% endblocktrans %}</div>
+      {% else %}
       <div class="note" style="margin-bottom:16px">{% if project.is_moucharaka %}{% trans "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus." %}{% else %}{% trans "Mourabaha : vous vous engagez sur une marge fixe, payée selon l'échéancier, même si les ventes sont moins bonnes que prévu." %}{% endif %}
         {% blocktrans with s=policy.success_fee_pct|floatformat:"-1" m=policy.management_fee_pct|floatformat:"-1" %}Frais : {{ s }} % des fonds levés en cas de succès, {{ m }} % des sommes distribuées.{% endblocktrans %}</div>
+      {% endif %}
       <div class="panel">{% include "includes/form.html" %}</div>
 
     {% elif step == "details" %}

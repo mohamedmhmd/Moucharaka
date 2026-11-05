@@ -8,6 +8,9 @@
     <div class="stat"><b class="num">{{ received|money }}</b><span>{% trans "MRU reçus (bénéfices, échéances, rachats)" %}</span></div>
     <div class="stat"><b class="num">{% if invested %}{% widthratio received invested 100 %} %{% else %}—{% endif %}</b><span>{% trans "déjà récupéré" %}</span></div>
   </div>
+  {% if offers %}<div class="panel anchor" id="offers" style="margin-top:24px"><h2>{% trans "Offres de rachat de vos parts" %}</h2>
+    {% for o in offers %}<div class="card" style="margin-top:10px"><p style="margin:0 0 6px"><a href="{{ o.project.get_absolute_url }}"><b>{{ o.project.title }}</b></a></p>
+      {% include "includes/buyback_offer.html" with offer=o side="holder" %}</div>{% endfor %}</div>{% endif %}
   <div class="panel" style="margin-top:24px"><h2>{% trans "Investissements en cours" %}</h2>
   {% if holdings %}<div class="table-wrap"><table class="table">
     <thead><tr><th>{% trans "Projet" %}</th><th>{% trans "Contrat" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Montant investi" %}</th><th class="n">{% trans "Reçu" %}</th><th>{% trans "Statut" %}</th><th></th></tr></thead>
@@ -22,15 +25,15 @@
   {% else %}<div class="empty">{% trans "Vous ne détenez encore aucune part." %}<br><a class="btn" href="{% url 'projects:explore' %}">{% trans "Découvrir les projets" %}</a></div>{% endif %}</div>
   <div class="grid g2" style="margin-top:20px">
     <div class="panel"><h2>{% trans "Souscriptions" %}</h2>
-      {% if investments %}<table class="table"><tbody>{% for i in investments %}<tr>
+      {% if investments %}<div class="table-wrap"><table class="table"><tbody>{% for i in investments %}<tr>
         <td><a href="{{ i.project.get_absolute_url }}">{{ i.project.title }}</a><div class="small muted">{{ i.created_at|date:"d/m/Y" }}</div></td>
         <td class="n">{% if i.project.is_deal %}{{ i.amount|money }} MRU{% else %}{{ i.shares }} × {{ i.project.share_price|money }}{% endif %}</td><td>{% badge i.status i.get_status_display %}</td>
         <td>{% if i.cancellable %}<form method="post" action="{% url 'projects:cancel_investment' i.pk %}">{% csrf_token %}<button class="btn small ghost" data-confirm="{% trans 'Annuler cette souscription ?' %}">{% trans "Annuler" %}</button></form>{% endif %}</td>
-      </tr>{% endfor %}</tbody></table>{% else %}<p class="muted">{% trans "Aucune souscription." %}</p>{% endif %}</div>
+      </tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted">{% trans "Aucune souscription." %}</p>{% endif %}</div>
     <div class="panel"><h2>{% trans "Versements reçus" %}</h2>
-      {% if payouts %}<table class="table"><tbody>{% for po in payouts %}<tr>
+      {% if payouts %}<div class="table-wrap"><table class="table"><tbody>{% for po in payouts %}<tr>
         <td>{{ po.distribution.project.title }}<div class="small muted">{{ po.distribution.get_kind_display }} · {{ po.distribution.paid_at|date:"d/m/Y" }}</div></td>
-        <td class="n pos">+{{ po.amount|money }} MRU</td></tr>{% endfor %}</tbody></table>
+        <td class="n pos">+{{ po.amount|money }} MRU</td></tr>{% endfor %}</tbody></table></div>
       {% else %}<p class="muted">{% trans "Les bénéfices et échéances apparaîtront ici." %}</p>{% endif %}</div>
   </div>
 </div>{% endblock %}

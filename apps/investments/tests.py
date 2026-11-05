@@ -462,3 +462,184 @@ class DealSettlementFlow(FlowBase):
         self.assertEqual((p.share_price, p.shares_sold, p.trading_enabled), (D("1"), 200_000, False))
         self.assertEqual(Holding.objects.get(project=p).shares, 200_000)
         self.assertEqual(Investment.objects.get(project=p).shares, 200_000)
+
+
+class CompanySharesFlow(FlowBase):
+    """Entreprise: parts on sale like an IPO, shareholders at once and for good, dividends,
+    buyback offers with counter-proposals, company buying on the market."""
+
+    def company(self, n=1000, price=1000):
+        p = self.launch(kind="company", model="moucharaka", target=n * price, share_price=price)
+        self.assertEqual(p.status, "active")
+        self.assertTrue(p.is_share_offering)
+        self.assertEqual(p.total_shares, n)
+        return p
+
+    def test_buy_is_immediate_and_rest_stays_on_sale(self):
+        p = self.company()
+        owner_before = Wallet.for_user(self.owner).balance
+        inv = invest(self.inv1, p, 100, True)
+        p.refresh_from_db()
+        self.assertEqual(inv.status, "settled")
+        self.assertEqual(Holding.objects.get(user=self.inv1, project=p).shares, 100)
+        self.assertEqual(p.shares_available, 900)
+        self.assertTrue(p.is_share_offering)
+        # owner paid at once, minus the 7 % success fee
+        self.assertEqual(Wallet.for_user(self.owner).balance - owner_before, D("93000"))
+        self.assertEqual(Wallet.for_user(self.inv1).held, D("0"))
+        self.assertEqual(report_periods(p), [])
+        self.assertLedgerBalanced()
+
+    def test_sold_out_closes_the_sale(self):
+        p = self.company(n=200)
+        invest(self.inv1, p, 80, True)
+        invest(self.inv2, p, 80, True)
+        invest(make_user("Third", balance=100_000), p, 40, True)
+        p.refresh_from_db()
+        self.assertFalse(p.offering_open)
+        self.assertFalse(p.is_share_offering)
+        with self.assertRaises(InvestmentError):
+            invest(make_user("Late", balance=100_000), p, 1, True)
+
+    def test_owner_can_stop_the_sale(self):
+        from apps.investments.company import close_offering
+
+        p = self.company()
+        invest(self.inv1, p, 10, True)
+        close_offering(p, self.owner)
+        p.refresh_from_db()
+        self.assertFalse(p.accepts_investment)
+        with self.assertRaises(InvestmentError):
+            invest(self.inv2, p, 10, True)
+
+    def test_dividend_per_share(self):
+        from apps.investments.company import dividend_preview, pay_dividend
+
+        p = self.company()
+        invest(self.inv1, p, 300, True)
+        invest(self.inv2, p, 100, True)
+        before1, before2 = Wallet.for_user(self.inv1).balance, Wallet.for_user(self.inv2).balance
+        prev = dividend_preview(p, D("100000"))
+        self.assertEqual((prev["fee"], prev["net"], prev["shares"]), (D("8000"), D("92000"), 400))
+        d = pay_dividend(p, self.owner, D("100000"))
+        self.assertEqual(d.kind, "dividend")
+        self.assertEqual(Wallet.for_user(self.inv1).balance - before1, D("69000"))
+        self.assertEqual(Wallet.for_user(self.inv2).balance - before2, D("23000"))
+        self.assertLedgerBalanced()
+
+    def test_buyback_offer_counter_and_accept(self):
+        from apps.investments.company import answer_buyback, propose_buyback
+
+        p = self.company()
+        invest(self.inv1, p, 200, True)
+        owner_w = Wallet.for_user(self.owner)
+        offer = propose_buyback(p, self.owner, self.inv1, 100, D("1100"), "Nous rachetons la moitié")
+        owner_w.refresh_from_db()
+        self.assertEqual(owner_w.held, D("110000"))
+        with self.assertRaises(InvestmentError):  # not the owner's turn
+            answer_buyback(offer, self.owner, "accept")
+        answer_buyback(offer, self.inv1, "counter", 80, D("1300"))
+        offer.refresh_from_db()
+        self.assertEqual((offer.waiting_on, offer.held_amount), ("owner", D("0")))
+        self.assertEqual(Wallet.for_user(self.owner).held, D("0"))
+        answer_buyback(offer, self.owner, "counter", 80, D("1200"))
+        self.assertEqual(Wallet.for_user(self.owner).held, D("96000"))
+        before = Wallet.for_user(self.inv1).balance
+        answer_buyback(offer, self.inv1, "accept")
+        offer.refresh_from_db()
+        self.assertEqual(offer.status, "accepted")
+        self.assertEqual(Holding.objects.get(user=self.inv1, project=p).shares, 120)
+        # 96 000 minus the 1 % seller fee
+        self.assertEqual(Wallet.for_user(self.inv1).balance - before, D("95040"))
+        self.assertEqual(Wallet.for_user(self.owner).held, D("0"))
+        self.assertLedgerBalanced()
+
+    def test_buyback_refused_or_withdrawn_returns_the_money(self):
+        from apps.investments.company import answer_buyback, propose_buyback
+
+        p = self.company()
+        invest(self.inv1, p, 50, True)
+        bal = Wallet.for_user(self.owner).balance
+        o = propose_buyback(p, self.owner, self.inv1, 50, D("1000"))
+        with self.assertRaises(InvestmentError):  # one discussion at a time
+            propose_buyback(p, self.owner, self.inv1, 10, D("1000"))
+        with self.assertRaises(InvestmentError):  # more parts than owned
+            propose_buyback(p, self.owner, self.inv2, 10, D("1000"))
+        answer_buyback(o, self.inv1, "refuse")
+        o.refresh_from_db()
+        self.assertEqual(o.status, "refused")
+        self.assertEqual(Wallet.for_user(self.owner).balance, bal)
+        o2 = propose_buyback(p, self.owner, self.inv1, 50, D("1000"))
+        answer_buyback(o2, self.owner, "refuse")  # the owner withdraws
+        o2.refresh_from_db()
+        self.assertEqual(o2.status, "cancelled")
+        self.assertEqual(Wallet.for_user(self.owner).balance, bal)
+        self.assertLedgerBalanced()
+
+    def test_company_buys_on_the_market_and_parts_are_cancelled(self):
+        from apps.investments.company import pay_dividend
+
+        p = self.company()
+        invest(self.inv1, p, 100, True)
+        invest(self.inv2, p, 100, True)
+        listing = create_listing(self.inv1, p, 50, D("1000"))
+        buy(self.owner, listing, 50)
+        self.assertFalse(Holding.objects.filter(user=self.owner, project=p).exists())
+        self.assertEqual(Holding.objects.get(user=self.inv1, project=p).shares, 50)
+        before = Wallet.for_user(self.inv2).balance
+        pay_dividend(p, self.owner, D("15000"))  # 150 parts left: inv2 holds 100 of them
+        self.assertEqual(Wallet.for_user(self.inv2).balance - before, D("9200"))
+        self.assertLedgerBalanced()
+
+    def test_pages(self):
+        from django.test import Client
+
+        from apps.investments.models import BuybackOffer
+
+        p = self.company()
+        c = Client()
+        c.force_login(self.inv1)
+        page = c.get(p.get_absolute_url()).content.decode()
+        self.assertIn('name="shares"', page)
+        self.assertIn('id="invest-form"', page)
+        c.post(f"/fr/projects/{p.slug}/invest/", {"shares": "30", "risk": "on"})
+        self.assertEqual(Holding.objects.get(user=self.inv1, project=p).shares, 30)
+        home = Client().get("/fr/").content.decode()
+        self.assertIn(p.title, home)
+
+        owner = Client()
+        owner.force_login(self.owner)
+        page = owner.get(f"/fr/projects/{p.slug}/manage/").content.decode()
+        for anchor in ('id="offering"', 'id="dividend"', 'id="shareholders"'):
+            self.assertIn(anchor, page)
+        self.assertNotIn('id="buyback"', page)
+        owner.post(f"/fr/projects/{p.slug}/manage/dividend/", {"amount": "3000"})
+        self.assertTrue(p.distributions.filter(kind="dividend").exists())
+        owner.post(f"/fr/projects/{p.slug}/manage/buyback/{self.inv1.pk}/", {"shares": "10", "price": "1200"})
+        offer = BuybackOffer.objects.get(project=p)
+        page = c.get("/fr/portfolio/").content.decode()
+        self.assertIn('id="offers"', page)
+        c.post(f"/fr/projects/buyback-offer/{offer.pk}/", {"action": "counter", "shares": "10", "price": "1500"})
+        offer.refresh_from_db()
+        self.assertEqual(offer.waiting_on, "owner")
+        owner.post(f"/fr/projects/buyback-offer/{offer.pk}/", {"action": "accept"})
+        offer.refresh_from_db()
+        self.assertEqual(offer.status, "accepted")
+        owner.post(f"/fr/projects/{p.slug}/manage/close-offering/")
+        p.refresh_from_db()
+        self.assertFalse(p.offering_open)
+        self.assertLedgerBalanced()
+
+    def test_terms_form_asks_parts_and_price(self):
+        from apps.projects.forms import TermsForm
+
+        p = make_project(self.owner, kind="company", model="moucharaka")
+        form = TermsForm(instance=p)
+        self.assertEqual(list(form.fields)[0], "shares_offered")
+        for gone in ("target_amount", "campaign_days", "duration_months", "investor_profit_share_pct", "exit_mode"):
+            self.assertNotIn(gone, form.fields)
+        form = TermsForm({"shares_offered": "500", "share_price": "2000"}, instance=p)
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+        p.refresh_from_db()
+        self.assertEqual((p.total_shares, p.target_amount), (500, D("1000000")))

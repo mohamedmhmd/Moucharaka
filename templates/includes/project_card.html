@@ -1,5 +1,5 @@
 {% load i18n mk %}<a class="p-card" href="{{ p.get_absolute_url }}">
-  <div class="cover" {% if p.cover %}style="background-image:url('{{ p.cover.url }}')"{% endif %}>{% badge p.status p.get_status_display %}</div>
+  <div class="cover" {% if p.cover %}style="background-image:url('{{ p.cover.url }}')"{% endif %}>{% if p.is_share_offering %}<span class="badge tone-go">{% trans "Parts en vente" %}</span>{% else %}{% badge p.status p.get_status_display %}{% endif %}</div>
   <div class="body">
     <div class="row between"><span class="model {{ p.financing_model }}">{% if p.is_moucharaka %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span>
       {% if p.risk_grade %}<span class="small muted">{% trans "Risque" %} <b>{{ p.risk_grade }}</b></span>{% endif %}</div>
@@ -11,7 +11,7 @@
     <div class="terms">
       <div>{% if p.is_mourabaha %}<b>{{ p.margin_pct|floatformat:"-1" }} %</b><small>{% blocktrans with m=p.duration_months %}marge fixe sur {{ m }} mois{% endblocktrans %}</small>
         {% else %}<b>~{{ p.projected_annual_return_pct|floatformat:"-1" }} %</b><small>{% trans "rendement potentiel" %}</small>{% endif %}</div>
-      {% if p.featured_until and p.status == "funding" %}<span class="featured-flag">{% trans "Mis en avant" %}</span>{% endif %}
+      {% if p.featured_until and p.accepts_investment %}<span class="featured-flag">{% trans "Mis en avant" %}</span>{% endif %}
     </div>
   </div>
 </a>

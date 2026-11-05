@@ -88,6 +88,9 @@ class TermsForm(forms.ModelForm):
         if p.is_deal:
             # One-off operation: investors give an amount, the owner pays everything back once.
             drop += ["share_price", "exit_mode", "repayment_mode"]
+        if p.is_company:
+            # Parts on sale like an IPO, shareholders for good: no campaign, no fixed duration, no profit split.
+            drop += ["target_amount", "campaign_days", "duration_months", "investor_profit_share_pct", "exit_mode"]
         for f in drop:
             self.fields.pop(f, None)
         _all_optional(self)
@@ -99,14 +102,25 @@ class TermsForm(forms.ModelForm):
                 "Bénéfice que vous pensez rendre en plus du capital à la fin de l'opération, dans le meilleur cas.")
         if p.is_deal and "investor_profit_share_pct" in self.fields:
             self.fields.pop("investor_profit_share_pct")
-        self.fields["campaign_days"].widget.attrs["max"] = 60
+        if p.is_company:
+            self.fields = {"shares_offered": forms.IntegerField(
+                label=_("Nombre de parts mises en vente"), min_value=1, required=False,
+                initial=p.total_shares or None,
+                help_text=_("Chaque acheteur devient actionnaire pour toujours et reçoit les dividendes selon ses parts.")),
+                **self.fields}
+            self.fields["share_price"].label = _("Prix d'une part (MRU)")
+            self.fields["share_price"].help_text = _("Montant total recherché = nombre de parts × prix d'une part.")
+            if "projected_annual_return_pct" in self.fields:
+                self.fields["projected_annual_return_pct"].label = _("Rendement potentiel par an (%), non garanti")
+        if "campaign_days" in self.fields:
+            self.fields["campaign_days"].widget.attrs["max"] = 60
 
     def clean(self):
         d = super().clean()
         for name, value in self.DEFAULTS.items():
             if name in self.fields and d.get(name) in (None, ""):
                 d[name] = value
-        if d.get("target_amount") in (None, ""):
+        if "target_amount" in self.fields and d.get("target_amount") in (None, ""):
             d["target_amount"] = self.instance.target_amount or Decimal("0")
         for name in ("exit_mode", "repayment_mode"):
             if name in self.fields and not d.get(name):
@@ -118,6 +132,15 @@ class TermsForm(forms.ModelForm):
             self.instance.repayment_mode = Project.Repayment.BULLET
             if d.get("target_amount") and d["target_amount"] != int(d["target_amount"]):
                 self.add_error("target_amount", _("Indiquez un montant entier."))
+        if self.instance.is_company:
+            price = d.get("share_price") or self.instance.share_price
+            n = d.get("shares_offered") or self.instance.total_shares
+            if price and price != int(price):
+                self.add_error("share_price", _("Indiquez un prix entier."))
+            if n and price:
+                self.instance.target_amount = Decimal(n) * price
+            self.instance.min_shares = 1
+            return d
         target, price = d.get("target_amount"), d.get("share_price")
         if target and price and "share_price" in self.fields:
             if price <= 0 or target % price:
@@ -368,6 +391,18 @@ class SettlementForm(forms.Form):
     note = forms.CharField(label=_("Message aux investisseurs (facultatif)"), required=False,
                            widget=forms.Textarea(attrs={"rows": 2}),
                            help_text=_("Obligatoire si vous rendez moins que le capital : expliquez ce qui s'est passé."))
+
+
+class DividendForm(forms.Form):
+    amount = forms.DecimalField(label=_("Montant total du dividende (MRU)"), min_value=1, decimal_places=2,
+                                widget=MoneyInput())
+    note = forms.CharField(label=_("Message aux actionnaires (facultatif)"), required=False, max_length=200)
+
+
+class BuybackOfferForm(forms.Form):
+    shares = forms.IntegerField(label=_("Parts"), min_value=1)
+    price = forms.DecimalField(label=_("Prix par part (MRU)"), min_value=1, decimal_places=2, widget=MoneyInput())
+    message = forms.CharField(label=_("Message (facultatif)"), required=False, max_length=255)
 
 
 class BuybackForm(forms.Form):

@@ -180,6 +180,9 @@ class Project(TimeStamped):
     released_at = models.DateTimeField(null=True, blank=True)
     closed_at = models.DateTimeField(null=True, blank=True)
     trading_enabled = models.BooleanField(_("revente des parts autorisée"), default=True)
+    offering_open = models.BooleanField(
+        _("parts encore en vente"), default=False,
+        help_text=_("Entreprise : les parts non vendues restent en vente jusqu'à ce qu'elles soient achetées."))
     preview_token = models.CharField(max_length=24, blank=True, editable=False, db_index=True,
                                      help_text=_("Clé du lien d'aperçu privé (projet pas encore publié)."))
     shares_count = models.PositiveIntegerField(default=0, editable=False, help_text=_("Ouvertures du lien partagé."))
@@ -248,6 +251,21 @@ class Project(TimeStamped):
     def is_deal(self):
         """Opération ponctuelle: investors put in an amount, the owner pays everything back once."""
         return self.kind == Kind.DEAL
+
+    @property
+    def is_company(self):
+        """Entreprise: shares sold one by one like an IPO, shareholders for life, dividends, buybacks."""
+        return self.kind == Kind.COMPANY
+
+    @property
+    def is_share_offering(self):
+        """A company whose remaining shares can be bought right now."""
+        return (self.is_company and self.status == self.Status.ACTIVE and self.offering_open
+                and self.shares_available > 0)
+
+    @property
+    def accepts_investment(self):
+        return self.status == self.Status.FUNDING or self.is_share_offering
 
     @property
     def is_moucharaka(self):

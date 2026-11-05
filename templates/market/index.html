@@ -16,7 +16,7 @@
     {% for l in listings %}<tr><td><a href="{{ l.project.get_absolute_url }}">{{ l.project.title }}</a></td><td>{{ l.seller.display_name }}{% if l.note %}<div class="small muted">{{ l.note }}</div>{% endif %}</td>
       <td class="n">{{ l.remaining }}{% if not l.allow_partial %} <span class="small muted">({% trans "lot entier" %})</span>{% endif %}</td><td class="n"><b>{{ l.price_per_share|money }}</b></td>
       <td class="n {% if l.premium_pct >= 0 %}pos{% else %}neg{% endif %}">{{ l.premium_pct }} %</td>
-      <td class="n">{% if user != l.seller and user != l.project.owner %}<a class="btn small" href="{% url 'market:buy' l.pk %}">{% trans "Acheter" %}</a>{% endif %}</td></tr>{% endfor %}
+      <td class="n">{% if user != l.seller and user != l.project.owner %}<a class="btn small" href="{% url 'market:buy' l.pk %}">{% trans "Acheter" %}</a>{% elif user == l.project.owner and l.project.is_company %}<a class="btn small" href="{% url 'market:buy' l.pk %}">{% trans "Racheter" %}</a>{% endif %}</td></tr>{% endfor %}
   </tbody></table></div>{% else %}<div class="empty">{% trans "Aucune part en vente pour le moment." %}</div>{% endif %}</div>
   {% if recent %}<div class="panel" style="margin-top:20px"><h2>{% trans "Derniers échanges" %}</h2><table class="table"><tbody>{% for t in recent %}<tr><td class="small">{{ t.created_at|date:"d/m H:i" }}</td><td>{{ t.project.title }}</td><td class="n">{{ t.shares }} × {{ t.price_per_share|money }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
 </div>{% endblock %}

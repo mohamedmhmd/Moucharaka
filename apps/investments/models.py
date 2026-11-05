@@ -85,6 +85,7 @@ class Distribution(models.Model):
         BUYBACK = "buyback", _("Rachat de parts")
         LIQUIDATION = "liquidation", _("Produit de liquidation")
         SETTLEMENT = "settlement", _("Remboursement final (capital et bénéfice)")
+        DIVIDEND = "dividend", _("Dividende")
 
     project = models.ForeignKey("projects.Project", on_delete=models.PROTECT, related_name="distributions")
     kind = models.CharField(max_length=12, choices=Kind.choices)
@@ -161,3 +162,45 @@ class DealSettlement(models.Model):
     @property
     def gain(self):
         return self.amount - self.capital
+
+
+class BuybackOffer(models.Model):
+    """The company offers to buy back some of a shareholder's parts at a price.
+    Each side can accept, refuse or answer with other numbers. While the offer
+    waits on the shareholder, the owner's money is set aside (held)."""
+
+    class Status(models.TextChoices):
+        PENDING = "pending", _("En discussion")
+        ACCEPTED = "accepted", _("Accepté")
+        REFUSED = "refused", _("Refusé")
+        CANCELLED = "cancelled", _("Retiré")
+
+    OWNER, HOLDER = "owner", "holder"
+    WAITING = [(OWNER, _("le porteur")), (HOLDER, _("l'actionnaire"))]
+
+    project = models.ForeignKey("projects.Project", on_delete=models.PROTECT, related_name="buyback_offers")
+    holder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="buyback_offers")
+    shares = models.PositiveIntegerField(_("parts"))
+    price = models.DecimalField(_("prix par part (MRU)"), **MONEY)
+    message = models.CharField(_("message"), max_length=255, blank=True)
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING, db_index=True)
+    waiting_on = models.CharField(max_length=6, choices=WAITING, default=HOLDER)
+    held_amount = models.DecimalField(**MONEY, default=ZERO, help_text=_("Montant réservé sur le portefeuille du porteur."))
+    rounds = models.PositiveSmallIntegerField(default=1)
+    reference = models.CharField(max_length=24)
+    distribution = models.OneToOneField(Distribution, null=True, blank=True, on_delete=models.SET_NULL,
+                                        related_name="buyback_offer")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-updated_at"]
+        verbose_name = _("offre de rachat")
+        verbose_name_plural = _("offres de rachat")
+
+    def __str__(self):
+        return f"{self.project} ← {self.holder} {self.shares} × {self.price}"
+
+    @property
+    def total(self):
+        return self.shares * self.price

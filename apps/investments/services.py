@@ -47,6 +47,10 @@ def max_shares_for(user, project):
 @transaction.atomic
 def invest(user, project, shares, risk_acknowledged=False):
     project = Project.objects.select_for_update().get(pk=project.pk)
+    if project.is_company and project.status == Project.Status.ACTIVE:  # parts on sale: shareholder at once
+        from .company import buy_issued_shares
+
+        return buy_issued_shares(user, project, shares, risk_acknowledged)
     shares = int(shares)
     if not user.is_approved:
         raise InvestmentError(_("Votre compte doit être vérifié pour investir."))

@@ -4,7 +4,10 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const lang = document.documentElement.lang || "fr";
-  const fmt = (n) => new Intl.NumberFormat(lang === "ar" ? "ar-MR-u-nu-latn" : "fr-FR", { maximumFractionDigits: 0 }).format(Math.round(n));
+  // Same look as the server's |money filter: 1 234 567 (narrow no-break spaces), decimals with "."
+  const group = (str) => str.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202f");
+  const fmt = (n) => group(String(Math.round(n)));
+  const fmtDec = (n) => { const [i, d] = (Math.floor(n * 100) / 100).toFixed(2).split("."); return group(i) + "." + d; };
 
   // Mobile menu
   const toggle = $(".menu-toggle");
@@ -45,6 +48,27 @@
       const total = (parseInt(input.value || "0", 10) || 0) * price;
       if (out) out.textContent = fmt(total);
       if (warn) warn.hidden = total <= balance;
+    };
+    input.addEventListener("input", upd);
+    upd();
+  }
+
+  // Dividend: live preview of what each part receives
+  const div = $("#dividend-form");
+  if (div) {
+    const shares = parseInt(div.dataset.shares || "0", 10);
+    const feePct = parseFloat(div.dataset.fee || "0");
+    const input = div.querySelector("[name=amount]");
+    const box = $("#dividend-preview");
+    const upd = () => {
+      const a = parseFloat(input.value || "0") || 0;
+      if (!a || !shares) { box.hidden = true; return; }
+      const fee = Math.round(a * feePct) / 100;
+      const net = a - fee;
+      box.querySelector("[data-k=fee]").textContent = fmt(fee);
+      box.querySelector("[data-k=net]").textContent = fmt(net);
+      box.querySelector("[data-k=per]").textContent = fmtDec(net / shares);
+      box.hidden = false;
     };
     input.addEventListener("input", upd);
     upd();

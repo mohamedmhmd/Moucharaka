@@ -110,10 +110,12 @@ small, .small { font-size: .86rem; }
   .wallet-chip span { display: none; }
   .header-logout { display: none; }
 }
+@media (max-width: 480px) { .header-end .header-register { display: none; } .brand b { font-size: 1.15rem; } .header-end { gap: 6px; } }
 .nav-only-mobile { display: none; }
 .nav-logout { background: none; border: 0; font: inherit; font-weight: 500; color: var(--clay); padding: 8px 12px; cursor: pointer;
   text-align: start; width: 100%; }
 @media (max-width: 900px) { .nav a.nav-only-mobile, .nav form.nav-only-mobile { display: block; } }
+@media (min-width: 481px) { .nav a.nav-register { display: none; } }
 
 /* ---------------------------------------------------------- buttons & badges */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 18px; border-radius: 10px;
@@ -283,6 +285,9 @@ table.table { width: 100%; border-collapse: collapse; font-size: .95rem; }
 .p-body > .panel + .panel, .p-body > section + section { margin-block-start: 20px; }
 .p-hero .cover { border-radius: var(--radius-lg); aspect-ratio: 16 / 9; background: var(--sky-soft) center / cover; }
 .p-hero h1 { margin-block: 10px 6px; }
+.p-hero, .p-aside, .p-body { min-width: 0; } /* let the tab bar scroll instead of widening the page */
+.p-body > .panel { overflow-x: auto; }
+.grid > * { min-width: 0; } /* a wide table must not stretch its grid column */ /* wide tables scroll inside their section on phones */
 @media (max-width: 960px) { .p-layout { grid-template-columns: 1fr; grid-template-areas: "hero" "aside" "body"; } .invest-box { position: static; } }
 .tabs { position: sticky; top: 64px; z-index: 20; background: var(--paper); border-block-end: 1px solid var(--line);
   display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-block: 16px 24px; }

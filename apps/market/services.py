@@ -95,7 +95,8 @@ def buy(buyer, listing, shares):
         raise MarketError(_("La négociation est suspendue sur ce projet."))
     if buyer.pk == listing.seller_id:
         raise MarketError(_("Vous ne pouvez pas acheter votre propre annonce."))
-    if buyer.pk == project.owner_id:
+    company_buyback = buyer.pk == project.owner_id
+    if company_buyback and not project.is_company:
         raise MarketError(_("Le porteur rachète ses parts via la procédure de rachat, pas sur le marché."))
     if shares <= 0 or shares > listing.remaining:
         raise MarketError(_("Quantité indisponible (max. %(n)s).") % {"n": listing.remaining})
@@ -123,10 +124,15 @@ def buy(buyer, listing, shares):
     sh.locked_shares -= shares
     sh.cost_basis -= sold_cost
     sh.save()
-    bh, _c = Holding.objects.select_for_update().get_or_create(user=buyer, project=project)
-    bh.shares += shares
-    bh.cost_basis += q["gross"] + q["buyer_fee"]
-    bh.save()
+    if company_buyback:  # the company buys its own parts back: they are cancelled
+        from apps.trust.services import record_event
+
+        record_event(project.owner, "buyback", project=project)
+    else:
+        bh, _c = Holding.objects.select_for_update().get_or_create(user=buyer, project=project)
+        bh.shares += shares
+        bh.cost_basis += q["gross"] + q["buyer_fee"]
+        bh.save()
     listing.remaining -= shares
     if listing.remaining == 0:
         listing.status = Listing.Status.SOLD
