@@ -12,7 +12,7 @@ numbers, login codes and message log.
 
 Fees the platform took on these operations are taken back out of the platform wallet. When other
 members invested in this person's projects, --force is needed and those members get their money back.
-Refuses a superuser.
+A superuser (owner) account is reset only with --superuser: it keeps its admin rights.
 """
 from django.core.management.base import BaseCommand, CommandError
 
@@ -29,18 +29,23 @@ class Command(BaseCommand):
         parser.add_argument("--yes", action="store_true", help="really erase")
         parser.add_argument("--force", action="store_true",
                             help="also when other members invested in their projects or traded with them")
+        parser.add_argument("--superuser", action="store_true",
+                            help="allow resetting an owner (superuser) account; it keeps its admin rights")
 
-    def handle(self, phone, yes, force, **opts):
+    def handle(self, phone, yes, force, superuser, **opts):
         user = User.objects.filter(phone=normalize_phone(phone)).first()
         if not user:
             raise CommandError(f"No account with the number {phone}.")
-        if user.is_superuser:
-            raise CommandError("This is an owner (superuser) account: it is never reset by this command.")
+        if user.is_superuser and not superuser:
+            raise CommandError("This is an owner (superuser) account. To reset its wallet and history anyway, add "
+                               "--superuser (the account keeps its admin rights and password).")
         wipe = Wipe(user)
         summary = wipe.summary()
         for k, v in summary.items():
             self.stdout.write(f"  {k}: {v}")
         self.stdout.write(f"  identity verification: kept ({user.get_status_display()})")
+        if user.is_superuser:
+            self.stdout.write("  admin rights: kept")
         reason = wipe.blocked_reason("reset")
         if not yes:
             if reason:

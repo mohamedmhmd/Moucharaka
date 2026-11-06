@@ -793,7 +793,7 @@ class ResetTestUserCommand(FlowBase):
         self.assertTrue(self.inv1.is_approved)
         self.assertLedgerBalanced()
 
-    def test_superuser_is_never_reset(self):
+    def test_superuser_needs_the_flag(self):
         from io import StringIO
 
         from django.core.management import call_command
@@ -804,3 +804,14 @@ class ResetTestUserCommand(FlowBase):
         User.objects.filter(pk=self.staff.pk).update(is_superuser=True)
         with self.assertRaises(CommandError):
             call_command("reset_user", self.staff.phone, "--yes", stdout=StringIO())
+        Wallet.for_user(self.staff)
+        from apps.wallet.services import adjust
+
+        adjust(self.staff, D("5000"))
+        call_command("reset_user", self.staff.phone, "--yes", "--superuser", stdout=StringIO())
+        self.staff.refresh_from_db()
+        self.assertTrue(self.staff.is_superuser and self.staff.is_staff)
+        self.assertEqual(Wallet.for_user(self.staff).balance, D("0"))
+        self.assertLedgerBalanced()
+        with self.assertRaises(CommandError):  # deleting an owner account stays impossible
+            call_command("delete_user", self.staff.phone, "--yes", stdout=StringIO())
