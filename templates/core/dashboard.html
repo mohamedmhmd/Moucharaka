@@ -14,6 +14,7 @@
     <a class="btn" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a>
     <a class="btn secondary" href="{% url 'wallet:withdraw' %}">{% trans "Retirer" %}</a>
     <a class="btn secondary" href="{% url 'core:portfolio' %}">{% trans "Mon portefeuille de parts" %}</a>
+    <a class="btn ghost" href="{% url 'contracts:mine' %}">{% trans "Mes contrats" %}</a>
   </div>
   {% if no_accounts %}<div class="note" style="margin-top:16px">{% trans "Ajoutez votre compte Bankily, Masrvi, Sedad ou bancaire pour déposer et recevoir vos gains. Il peut être différent de votre numéro WhatsApp." %} <a href="{% url 'wallet:account_add' %}">{% trans "Ajouter un compte" %}</a></div>{% endif %}
   {% endif %}

@@ -7,13 +7,16 @@ from django.utils.translation import gettext_lazy
 from django.views.decorators.http import require_POST
 
 from apps.accounts.decorators import approved_required
+from apps.contracts import flows as contract_flows
+from apps.contracts.services import ContractError
 from apps.core.models import PlatformSettings
 from apps.core.widgets import MoneyInput
 from apps.investments.models import Holding
 from apps.projects.models import Project
+from apps.wallet.models import Wallet
 
 from .models import Listing, Trade
-from .services import MarketError, buy, cancel_listing, create_listing, price_bounds, quote
+from .services import MarketError, cancel_listing, price_bounds, quote
 
 
 class SellForm(forms.Form):
@@ -54,12 +57,20 @@ def sell(request, slug):
     form = SellForm(request.POST or None, initial={"shares": holding.free_shares, "price": project.share_price})
     if request.method == "POST" and form.is_valid():
         d = form.cleaned_data
-        try:
-            create_listing(request.user, project, d["shares"], d["price"], d["allow_partial"], d["note"])
-            messages.success(request, _("Annonce publiée sur le marché."))
-            return redirect("market:mine")
-        except MarketError as e:
-            form.add_error(None, str(e))
+        if not project.is_tradable:
+            form.add_error(None, _("La revente des parts de ce projet n'est pas ouverte."))
+        elif d["shares"] > holding.free_shares:
+            form.add_error("shares", _("Vous n'avez que %(n)s part(s) disponibles.") % {"n": holding.free_shares})
+        elif not low <= d["price"] <= high:
+            form.add_error("price", _("Le prix doit être compris entre %(a)s et %(b)s MRU.") % {
+                "a": f"{low:,.0f}", "b": f"{high:,.0f}"})
+        else:
+            try:  # the seller signs the offer; it is published when signed
+                contract = contract_flows.start_listing(request, project, d["shares"], d["price"], d["allow_partial"],
+                                                        d["note"])
+                return redirect("contracts:sign", ref=contract.reference)
+            except ContractError as e:
+                form.add_error(None, str(e))
     return render(request, "market/sell.html", {
         "project": project, "holding": holding, "form": form, "low": low, "high": high,
         "settings": PlatformSettings.get(), "last_price": project.last_trade_price})
@@ -75,13 +86,17 @@ def buy_view(request, pk):
     shares = max(1, min(shares, listing.remaining or 1))
     q = quote(listing, shares)
     if request.method == "POST" and request.POST.get("confirm"):
-        try:
-            trade = buy(request.user, listing, shares)
-            messages.success(request, _("Achat réalisé : %(n)s part(s) de « %(p)s ».") % {
-                "n": trade.shares, "p": listing.project.title})
-            return redirect("core:portfolio")
-        except MarketError as e:
-            messages.error(request, str(e))
+        if listing.status != "active" or listing.seller_id == request.user.pk:
+            messages.error(request, _("Cette annonce n'est plus disponible."))
+        elif Wallet.for_user(request.user).balance < q["buyer_total"]:
+            messages.error(request, _("Solde insuffisant : il faut %(t)s MRU, frais compris.") % {
+                "t": f"{q['buyer_total']:,.0f}".replace(",", " ")})
+        else:
+            try:  # the buyer signs the transfer contract; payment happens when it is signed
+                contract = contract_flows.start_buy(request, listing, shares)
+                return redirect("contracts:sign", ref=contract.reference)
+            except ContractError as e:
+                messages.error(request, str(e))
     return render(request, "market/buy.html", {"listing": listing, "shares": shares, "q": q,
                                                "wallet": request.user.wallet})
 

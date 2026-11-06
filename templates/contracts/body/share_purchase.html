@@ -1,0 +1,13 @@
+{% extends "contracts/body/base.html" %}{% load i18n mk %}
+{% block articles %}
+<section><h3>{% trans "Article 1 — Objet" %}</h3>
+  <p>{% blocktrans with n=shares t=project.title x=price|money a=amount|money %}L'investisseur achète {{ n }} part(s) de l'entreprise « {{ t }} » au prix de {{ x }} MRU l'une, soit {{ a }} MRU prélevés sur son portefeuille.{% endblocktrans %}</p></section>
+<section><h3>{% trans "Article 2 — Qualité d'actionnaire" %}</h3>
+  <p>{% blocktrans with p=after_pct i=issued %}L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent {{ p }} % des parts détenues par les actionnaires ({{ i }} parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi.{% endblocktrans %}</p></section>
+<section><h3>{% trans "Article 3 — Droits de l'actionnaire" %}</h3>
+  <p>{% trans "L'actionnaire reçoit les dividendes que l'entreprise décide de verser, au prorata de ses parts. Il est informé des nouvelles de l'entreprise et de toute nouvelle émission de parts. Il peut revendre ses parts sur le marché de la plateforme. L'entreprise ne peut racheter ses parts qu'avec son accord, au prix convenu entre eux." %}</p></section>
+<section><h3>{% trans "Article 4 — Engagements de l'entreprise" %}</h3>
+  <p>{% blocktrans with s=success_pct|floatformat:"-1" m=mgmt_pct|floatformat:"-1" %}L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de {{ s }} % ; la plateforme prélève {{ m }} % des dividendes versés.{% endblocktrans %}</p></section>
+<section><h3>{% trans "Article 5 — Risques" %}</h3>
+  <p>{% trans "La valeur des parts peut baisser et les dividendes ne sont pas garantis. L'actionnaire peut perdre tout ou partie de la somme investie." %}</p></section>
+{% endblock %}

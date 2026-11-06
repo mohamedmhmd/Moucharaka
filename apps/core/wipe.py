@@ -16,6 +16,7 @@ from django.db import transaction
 from django.db.models import Q, Sum
 
 from apps.accounts.models import PhoneOTP
+from apps.contracts.models import Contract
 from apps.core.models import Notification
 from apps.investments.models import (BuybackOffer, DealSettlement, Distribution, Holding, Investment, Payout,
                                      ShareIssue)
@@ -58,6 +59,7 @@ class Wipe:
             "withdrawals": WithdrawalRequest.objects.filter(user=u).count(),
             "investments": Investment.objects.filter(Q(investor=u) | Q(project__in=self.projects)).count(),
             "notifications": Notification.objects.filter(user=u).count(),
+            "contracts": Contract.objects.filter(Q(project__in=self.projects) | Q(created_by=u)).distinct().count(),
         }
 
     def blocked_reason(self, verb="delete"):
@@ -97,7 +99,8 @@ class Wipe:
             w.held = max(Decimal("0"), w.held - held)
             w.save(update_fields=["balance", "held"])
 
-        # 2. Market, payouts, shares, investments
+        # 2. Contracts (test data only: real contracts are never deleted), market, payouts, shares, investments
+        Contract.objects.filter(Q(project__in=projects) | Q(created_by=u) | Q(signatures__user=u)).distinct().delete()
         Trade.objects.filter(Q(buyer=u) | Q(seller=u) | Q(project__in=projects)).delete()
         Listing.objects.filter(Q(seller=u) | Q(project__in=projects)).delete()
         DealSettlement.objects.filter(project__in=projects).delete()

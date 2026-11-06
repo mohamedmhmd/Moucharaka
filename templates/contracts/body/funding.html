@@ -1,0 +1,24 @@
+{% extends "contracts/body/base.html" %}{% load i18n mk %}
+{% block articles %}
+<section><h3>{% trans "Article 1 — Fonds reçus" %}</h3>
+  <p>{% blocktrans with t=project.title r=raised|money n=investors_count %}La collecte « {{ t }} » a réuni {{ r }} MRU auprès de {{ n }} investisseur(s), dont la liste figure en annexe.{% endblocktrans %}
+  {% blocktrans with net=net|money s=success_pct|floatformat:"-1" f=fee|money %}Le porteur reçoit {{ net }} MRU dans son portefeuille, après la commission de succès de la plateforme ({{ s }} %, soit {{ f }} MRU).{% endblocktrans %}</p></section>
+{% if project.is_deal %}
+<section><h3>{% trans "Article 2 — Utilisation des fonds" %}</h3>
+  <p>{% trans "Le porteur utilise les fonds uniquement pour l'achat des marchandises décrites sur la page du projet et pour leur revente. Il tient les investisseurs informés et répond à leurs questions." %}</p></section>
+<section><h3>{% trans "Article 3 — Remboursement" %}</h3>
+  <p>{% blocktrans with r=raised|money %}À la fin de l'opération, le porteur rend en une seule fois, par la plateforme, le capital des investisseurs ({{ r }} MRU) et le bénéfice réalisé.{% endblocktrans %}
+  {% if months %}{% blocktrans with m=months %}Fin de l'opération prévue dans {{ m }} mois.{% endblocktrans %}{% endif %}
+  {% if expected_pct is not None %}{% blocktrans with e=expected_pct|floatformat:"-1" %}Bénéfice annoncé dans le meilleur cas : {{ e }} %.{% endblocktrans %}{% endif %}
+  {% blocktrans with m=mgmt_pct|floatformat:"-1" %}Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève {{ m }} % du bénéfice seulement.{% endblocktrans %}</p></section>
+<section><h3>{% trans "Article 4 — Pertes et responsabilité" %}</h3>
+  <p>{% trans "Si l'opération perd de l'argent sans faute du porteur, la perte est supportée par les investisseurs au prorata de leurs apports et le porteur explique les faits. En cas de faute, de négligence, de détournement ou de fausse déclaration, le porteur doit rendre le capital et répond personnellement du préjudice." %}</p></section>
+{% else %}
+<section><h3>{% trans "Article 2 — Engagements" %}</h3>
+  <p>{% trans "Les investisseurs deviennent actionnaires selon leurs parts. Le porteur utilise les fonds pour l'activité décrite, traite tous les actionnaires à égalité, leur verse les dividendes par la plateforme au prorata de leurs parts et les tient informés. Il répond personnellement de toute faute, détournement ou fausse déclaration." %}</p></section>
+{% endif %}
+<section><h3>{% trans "Annexe — Investisseurs" %}</h3>
+  <table class="c-table"><thead><tr><th>{% trans "Investisseur" %}</th><th>{% trans "Apport (MRU)" %}</th></tr></thead><tbody>
+  {% for i in investments %}<tr><td>{{ i.investor.full_name }}</td><td>{{ i.amount|money }}</td></tr>{% endfor %}
+  <tr><td><b>{% trans "Total" %}</b></td><td><b>{{ raised|money }}</b></td></tr></tbody></table></section>
+{% endblock %}

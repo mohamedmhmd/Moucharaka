@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "apps.wallet",
     "apps.investments",
     "apps.market",
+    "apps.contracts",
     "apps.trust",
     "apps.staff",
     "apps.api",

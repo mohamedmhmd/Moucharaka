@@ -1,0 +1,24 @@
+{% load i18n mk %}<article class="contract-doc">
+<header class="c-head">
+  <p class="c-meta">{% blocktrans with r=contract_ref c=city d=today|date:"d/m/Y" %}Contrat n° {{ r }} · fait à {{ c }}, le {{ d }}{% endblocktrans %}</p>
+  <h2>{{ title }}</h2>
+  {% if project %}<p class="c-meta">{% blocktrans with t=project.title r=project.reference %}Projet « {{ t }} » (réf. {{ r }}){% endblocktrans %}</p>{% endif %}
+</header>
+
+<section><h3>{% trans "Les parties" %}</h3>
+  {% for p in parties %}{% if p.user == signer.user %}<p><b>{{ p.role_label }} :</b> {{ p.name }}{% if p.nni %}{{ sep }}{% blocktrans with n=p.nni %}NNI {{ n }}{% endblocktrans %}{% endif %}{% if p.birth_date %}{{ sep }}{% blocktrans with d=p.birth_date|date:"d/m/Y" l=p.birth_place %}né(e) le {{ d }} à {{ l }}{% endblocktrans %}{% endif %}{% if p.address %}{{ sep }}{% blocktrans with a=p.address %}demeurant à {{ a }}{% endblocktrans %}{% endif %}{{ sep }}{% blocktrans with t=p.phone|phone %}téléphone {{ t }}{% endblocktrans %}.</p>
+  {% else %}<p><b>{{ p.role_label }} :</b> {{ p.name }}{{ sep }}{% blocktrans with i=p.public_id %}identité vérifiée par la plateforme (membre n° {{ i }}){% endblocktrans %}.</p>{% endif %}{% endfor %}
+  <p><b>{% trans "La plateforme" %} :</b> {{ platform.name }}{% if platform.registration %}{{ sep }}{{ platform.registration }}{% endif %}{% if platform.address %}{{ sep }}{{ platform.address }}{% endif %}{{ sep }}{{ platform.site }}{% if platform.email %}{{ sep }}{{ platform.email }}{% endif %}. {% trans "Elle met les parties en relation, tient leurs portefeuilles, exécute les paiements prévus par ce contrat et le conserve. Elle n'est pas partie au risque du projet." %}</p>
+</section>
+
+{% block articles %}{% endblock %}
+
+<section><h3>{% trans "Dispositions communes" %}</h3><ol class="c-list">
+  <li>{% trans "Ce contrat respecte les principes de la finance islamique (Moucharaka) : aucun intérêt (riba) n'est dû et aucun rendement n'est garanti. Les bénéfices annoncés sont des estimations." %}</li>
+  <li>{% trans "Les paiements prévus se font uniquement entre les portefeuilles des parties sur la plateforme, qui prélève les frais indiqués dans ce contrat et sur la page « Frais »." %}</li>
+  <li>{% trans "Chaque partie déclare que les informations de son dossier d'identité sont exactes et qu'elle agit pour son propre compte. La plateforme a vérifié l'identité de chaque partie ; elle conserve leurs dossiers complets et les communique aux parties ou au juge en cas de litige." %}</li>
+  <li>{% trans "Signature électronique : chaque partie signe en saisissant un code à usage unique envoyé sur son numéro WhatsApp vérifié. La plateforme enregistre la date, l'heure, l'adresse de connexion et l'empreinte numérique (SHA-256) de ce texte. Les parties reconnaissent à cette signature la même valeur qu'une signature manuscrite, et à cet enregistrement la valeur de preuve." %}</li>
+  <li>{% trans "Le contrat est conservé par la plateforme. Chaque partie peut le lire et l'imprimer à tout moment depuis « Mes contrats »." %}</li>
+  <li>{% blocktrans %}En cas de désaccord, les parties cherchent d'abord une solution amiable avec l'aide de la plateforme. À défaut, le litige est porté devant les juridictions compétentes de {{ city }}, selon le droit mauritanien.{% endblocktrans %}</li>
+</ol></section>
+</article>

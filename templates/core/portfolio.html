@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load i18n mk %}
 {% block title %}{% trans "Mes investissements" %}{% endblock %}
 {% block content %}<div class="wrap section">
-  <h1>{% trans "Mes investissements" %}</h1>
+  <div class="section-head"><h1 style="margin:0">{% trans "Mes investissements" %}</h1><a class="btn small ghost" href="{% url 'contracts:mine' %}">{% trans "Mes contrats" %}</a></div>
   <div class="stats">
     <div class="stat"><b class="num">{{ invested|money }}</b><span>{% trans "MRU investis (prix de revient)" %}</span></div>
     <div class="stat"><b class="num">{{ market_value|money }}</b><span>{% trans "MRU valeur au dernier prix du marché" %}</span></div>

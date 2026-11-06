@@ -156,7 +156,17 @@ class APITests(TestCase):
         self.assertIn("scenarios", r.json()["model"])
         r = c.post(f"/api/v1/projects/{p.slug}/invest", {"shares": 10, "risk_acknowledged": True},
                    content_type="application/json", **auth)
-        self.assertEqual(r.status_code, 201, r.content)
+        # Every investment is confirmed by signing its contract on the website
+        self.assertEqual(r.status_code, 202, r.content)
+        self.assertEqual(Wallet.for_user(user).held, Decimal("0"))
+        ref = r.json()["contract"]
+        self.assertIn(f"/contracts/{ref}/sign/", r.json()["sign_url"])
+        c.force_login(user)
+        c.post(f"/fr/contracts/{ref}/sign/", {"action": "resend"})
+        from apps.contracts.testing import sign_pending
+
+        contract, _r = sign_pending(c, user)
+        self.assertEqual(contract.status, "signed")
         self.assertEqual(Wallet.for_user(user).held, Decimal("10000"))
         self.assertEqual(c.get("/api/v1/portfolio", **auth).status_code, 200)
         self.assertEqual(c.get(f"/api/v1/users/{owner.public_id}").status_code, 200)

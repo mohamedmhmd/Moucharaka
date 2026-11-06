@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Signer le contrat" %}{% endblock %}
+{% block content %}<div class="wrap section" style="max-width:860px">
+  <p class="small muted" style="margin:0">{% trans "Étape finale" %}</p>
+  <h1 style="margin-top:4px">{% trans "Lisez et signez le contrat" %}</h1>
+  <p class="muted">{% blocktrans with r=role_label %}Vous signez en tant que : <b>{{ r }}</b>. Rien n'est payé ni engagé tant que vous n'avez pas signé.{% endblocktrans %}</p>
+
+  <div class="contract-paper">{{ contract.body|safe }}</div>
+  <p class="small muted hash-line" style="margin-top:6px">{% trans "Empreinte du texte" %} (SHA-256) :<br><code dir="ltr">{{ contract.body_hash }}</code></p>
+
+  <form method="post" class="panel form" style="margin-top:16px">{% csrf_token %}
+    <label class="row" style="gap:10px;align-items:flex-start"><input type="checkbox" name="accept" value="1" required style="margin-top:4px">
+      <span>{% trans "J'ai lu ce contrat en entier, je l'accepte et je le signe électroniquement." %}</span></label>
+    {% if dev_code %}<div class="note warn small" style="margin-top:12px">{% blocktrans with c=dev_code %}Mode développement : votre code de signature est <b class="ltr">{{ c }}</b>. Une fois WhatsApp activé, il sera envoyé uniquement sur votre téléphone.{% endblocktrans %}</div>
+    {% else %}<p class="small" style="margin-top:12px">{% blocktrans with p=user.phone|phone %}Nous avons envoyé un code de signature sur WhatsApp au {{ p }}.{% endblocktrans %}</p>{% endif %}
+    <div class="field" style="max-width:240px;margin-top:8px"><label for="code">{% trans "Code de signature" %}</label>
+      <input type="text" id="code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required dir="ltr"></div>
+    <button class="btn" name="action" value="sign">{% trans "Signer le contrat" %}</button>
+  </form>
+  <div class="row" style="margin-top:10px">
+    <form method="post">{% csrf_token %}<button class="btn ghost small" name="action" value="resend">{% trans "Renvoyer le code" %}</button></form>
+    <form method="post">{% csrf_token %}<button class="btn ghost small" name="action" value="cancel">{% trans "Abandonner" %}</button></form>
+  </div>
+</div>{% endblock %}

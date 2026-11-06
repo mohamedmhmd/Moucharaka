@@ -140,7 +140,9 @@ def project_review(request, pk):
            "owner_score": get_score(project.owner),
            "owner_kyc": getattr(project.owner, "kyc", None), "documents": project.documents.all(),
            "other_projects": Project.objects.filter(owner=project.owner).exclude(pk=pk),
-           "pending_settlement": project.settlements.filter(status="pending").first()}
+           "pending_settlement": project.settlements.filter(status="pending").first(),
+           "contracts": project.contracts.exclude(status="pending").select_related("created_by")[:50],
+           "funding_contract": project.contracts.filter(kind="funding", status="signed").first()}
     if hasattr(project, "boutique"):
         ctx["indicators"] = project.boutique.indicators()
         ctx["scenarios"] = project.boutique.scenarios()
@@ -153,6 +155,11 @@ def project_action(request, pk, action):
     project = get_object_or_404(Project, pk=pk)
     try:
         if action == "release":
+            from apps.contracts.services import funding_signed
+
+            if not funding_signed(project):
+                messages.error(request, _("Le porteur doit d'abord signer le contrat de financement."))
+                return redirect("staff:project_review", pk=pk)
             release_funds(project, by=request.user)
             messages.success(request, _("Fonds libérés vers le porteur."))
         elif action == "refund":

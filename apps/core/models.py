@@ -86,6 +86,12 @@ class PlatformSettings(models.Model):
     merchant_sedad = models.CharField(_("numéro marchand Sedad"), max_length=40, blank=True)
     bank_details = models.TextField(_("coordonnées bancaires pour virements"), blank=True)
     support_phone = models.CharField(_("téléphone support"), max_length=40, blank=True)
+    # Identity of the operator, printed in every contract
+    legal_name = models.CharField(_("raison sociale de l'exploitant"), max_length=200, blank=True,
+                                  help_text=_("Société ou personne qui exploite la plateforme, telle qu'enregistrée."))
+    legal_registration = models.CharField(_("immatriculation (RC / NIF)"), max_length=120, blank=True)
+    legal_address = models.CharField(_("adresse du siège"), max_length=255, blank=True)
+    legal_city = models.CharField(_("ville des contrats et des litiges"), max_length=80, default="Nouakchott")
     contact_email = models.EmailField(_("e-mail de contact"), blank=True, default="moucharaka.mr@gmail.com",
                                       help_text=_("Affiché sur la page Contact et en bas de chaque page."))
 

@@ -1,0 +1,12 @@
+{% extends "contracts/body/base.html" %}{% load i18n mk %}
+{% block articles %}
+<section><h3>{% trans "Article 1 — Offre" %}</h3>
+  <p>{% if by_company %}{% blocktrans with n=shares x=price|money t=total|money %}L'entreprise propose à l'actionnaire de lui racheter {{ n }} part(s) au prix de {{ x }} MRU l'une, soit {{ t }} MRU.{% endblocktrans %}
+  {% else %}{% blocktrans with n=shares x=price|money t=total|money %}L'actionnaire propose à l'entreprise de lui vendre {{ n }} part(s) au prix de {{ x }} MRU l'une, soit {{ t }} MRU.{% endblocktrans %}{% endif %}
+  {% if counter %}{% trans "Cette offre remplace la précédente proposition." %}{% endif %}
+  {% if message %}{% blocktrans with m=message %}Message : « {{ m }} »{% endblocktrans %}{% endif %}</p></section>
+<section><h3>{% trans "Article 2 — Validité" %}</h3>
+  <p>{% if by_company %}{% blocktrans with t=total|money %}Le montant de {{ t }} MRU est réservé sur le portefeuille de l'entreprise jusqu'à la réponse.{% endblocktrans %} {% endif %}{% trans "L'offre reste valable jusqu'à la réponse de l'autre partie ou jusqu'à son retrait. L'autre partie peut l'accepter, la refuser ou proposer d'autres conditions." %}</p></section>
+<section><h3>{% trans "Article 3 — Si l'offre est acceptée" %}</h3>
+  <p>{% blocktrans with s=seller_net|money f=seller_fee_pct|floatformat:"-1" %}L'actionnaire reçoit {{ s }} MRU (après frais de {{ f }} %). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre.{% endblocktrans %}</p></section>
+{% endblock %}

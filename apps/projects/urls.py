@@ -29,6 +29,7 @@ urlpatterns = [
     path("<slug:slug>/manage/installment/<int:inst_id>/", views.pay_installment_view, name="pay_installment"),
     path("<slug:slug>/manage/buyback/", views.buyback_view, name="buyback"),
     path("<slug:slug>/manage/settle/", views.settle_view, name="settle"),
+    path("<slug:slug>/manage/sign-funding/", views.sign_funding_view, name="sign_funding"),
     path("<slug:slug>/manage/dividend/", views.pay_dividend_view, name="pay_dividend"),
     path("<slug:slug>/manage/close-offering/", views.close_offering_view, name="close_offering"),
     path("<slug:slug>/manage/issue/", views.request_issue_view, name="request_issue"),

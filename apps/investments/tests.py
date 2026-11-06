@@ -7,6 +7,7 @@ from django.db.models import Sum
 from django.test import TestCase
 from django.utils import timezone
 
+from apps.contracts.testing import sign_pending
 from apps.core.factories import make_project, make_user
 from apps.investments.models import Distribution, Holding, Investment
 from apps.investments.services import (InvestmentError, buyback, cancel_investment, close_campaign, invest,
@@ -405,7 +406,10 @@ class DealSettlementFlow(FlowBase):
         self.assertIn('name="amount"', page)
         self.assertNotIn('name="shares"', page)
         r = c.post(f"/fr/projects/{p.slug}/invest/", {"amount": "120000", "risk": "on"})
-        self.assertEqual(r.status_code, 302)
+        self.assertIn("/contracts/", r["Location"])  # nothing paid before the contract is signed
+        self.assertFalse(Investment.objects.filter(project=p, investor=self.inv1).exists())
+        contract, _r = sign_pending(c, self.inv1)
+        self.assertEqual((contract.kind, contract.status), ("deal_investment", "signed"))
         self.assertEqual(Investment.objects.get(project=p, investor=self.inv1).amount, D("120000"))
         invest(self.inv2, p, 120_000, True)
         invest(self.inv3, p, 60_000, True)
@@ -419,6 +423,7 @@ class DealSettlementFlow(FlowBase):
         too_much = owner.post(f"/fr/projects/{p.slug}/manage/settle/", {"amount": "9000000"})
         self.assertIn("/wallet/deposit/", too_much["Location"])
         owner.post(f"/fr/projects/{p.slug}/manage/settle/", {"amount": "310000"})
+        sign_pending(owner, self.owner)
         st = DealSettlement.objects.get(project=p)
         self.assertEqual(st.status, "pending")
 
@@ -603,6 +608,8 @@ class CompanySharesFlow(FlowBase):
         self.assertIn('name="shares"', page)
         self.assertIn('id="invest-form"', page)
         c.post(f"/fr/projects/{p.slug}/invest/", {"shares": "30", "risk": "on"})
+        contract, _r = sign_pending(c, self.inv1)
+        self.assertEqual(contract.kind, "share_purchase")
         self.assertEqual(Holding.objects.get(user=self.inv1, project=p).shares, 30)
         home = Client().get("/fr/").content.decode()
         self.assertIn(p.title, home)
@@ -618,15 +625,20 @@ class CompanySharesFlow(FlowBase):
         self.assertIn(self.inv1.full_name, page)  # the owner sees full names
         owner.post(f"/fr/projects/{p.slug}/manage/buyback-offer/",
                    {"holder": self.inv1.pk, "shares": "10", "price": "1200"})
+        sign_pending(owner, self.owner)
         offer = BuybackOffer.objects.get(project=p)
         page = c.get("/fr/portfolio/").content.decode()
         self.assertIn('id="offers"', page)
         c.post(f"/fr/projects/buyback-offer/{offer.pk}/", {"action": "counter", "shares": "10", "price": "1500"})
+        sign_pending(c, self.inv1)
         offer.refresh_from_db()
         self.assertEqual(offer.waiting_on, "owner")
         owner.post(f"/fr/projects/buyback-offer/{offer.pk}/", {"action": "accept"})
+        contract, _r = sign_pending(owner, self.owner)
         offer.refresh_from_db()
         self.assertEqual(offer.status, "accepted")
+        # the buyback contract carries both signatures: the shareholder's counter-offer and the company's acceptance
+        self.assertEqual(sorted(contract.signatures.values_list("role", flat=True)), ["company", "shareholder"])
         owner.post(f"/fr/projects/{p.slug}/manage/close-offering/")
         p.refresh_from_db()
         self.assertFalse(p.offering_open)
@@ -729,6 +741,7 @@ class CompanyIssuesAndOwnerPage(FlowBase):
         self.assertEqual(stranger.get(f"/fr/projects/{p.slug}/manage/shareholders.csv").status_code, 404)
         owner.post(f"/fr/projects/{p.slug}/manage/close-offering/")
         owner.post(f"/fr/projects/{p.slug}/manage/issue/", {"shares": "40", "price": "1200", "reason": "Camion"})
+        sign_pending(owner, self.owner)
         staff = Client()
         staff.force_login(self.staff)
         page = staff.get("/fr/staff/issues/").content.decode()

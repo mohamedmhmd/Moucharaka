@@ -50,6 +50,26 @@ def missing_terms(project):
 
 
 @transaction.atomic
+def submit_problem(project, user):
+    """Why the project cannot be sent for review yet (None when it can). Checked before signing too."""
+    if project.owner_id != user.pk or not project.is_editable:
+        return _("Ce projet ne peut pas être soumis.")
+    missing = [i["label"] for i in checklist(project) if not i["done"]]
+    if missing:
+        return _("Il manque : %(m)s") % {"m": "; ".join(str(m) for m in missing)}
+    policy = FeePolicy.for_project(project)
+    if not policy.is_enabled:
+        return _("Ce type de financement n'est pas ouvert pour le moment.")
+    if not policy.min_target <= project.target_amount <= policy.max_target:
+        return _("Le montant doit être compris entre %(a)s et %(b)s MRU.") % {
+            "a": f"{policy.min_target:,.0f}", "b": f"{policy.max_target:,.0f}"}
+    fee = policy.review_fee if project.review_fee_paid == 0 else Decimal("0")
+    if fee and Wallet.for_user(user).balance < fee:
+        return _("Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille.") % {
+            "f": f"{fee:,.0f}"}
+    return None
+
+
 def submit_project(project, user):
     project = Project.objects.select_for_update().get(pk=project.pk)
     if project.owner_id != user.pk or not project.is_editable:

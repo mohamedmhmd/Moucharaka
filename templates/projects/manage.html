@@ -18,7 +18,11 @@
   {% if project.status == "funding" %}<div class="panel" style="margin-top:20px"><h2>{% trans "Collecte en cours" %}</h2>
     <p>{% blocktrans with d=project.campaign_end|date:"d/m/Y" %}Clôture le {{ d }}. Partagez la page du projet dans vos groupes WhatsApp : la confiance de votre entourage attire les autres investisseurs.{% endblocktrans %}</p>
     <form method="post" action="{% url 'projects:feature' project.slug %}">{% csrf_token %}<button class="btn secondary" data-confirm="{% blocktrans with f=settings.featured_fee|money %}Payer {{ f }} MRU pour 7 jours de mise en avant ?{% endblocktrans %}">{% blocktrans with f=settings.featured_fee|money %}Mettre en avant 7 jours ({{ f }} MRU){% endblocktrans %}</button></form></div>
-  {% elif project.status == "funded" %}<div class="note good" style="margin-top:20px">{% trans "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; les fonds seront ensuite versés dans votre portefeuille." %}</div>{% endif %}
+  {% elif project.status == "funded" %}<div class="panel" style="margin-top:20px"><h2>{% trans "Objectif atteint" %}</h2>
+    {% if funding_signed %}<p class="note good">{% trans "Contrat de financement signé. Notre équipe libère les fonds dans votre portefeuille." %}</p>
+    {% else %}<p>{% trans "Pour recevoir les fonds, lisez et signez le contrat de financement : il rappelle le montant reçu, la commission et vos engagements envers les investisseurs." %}</p>
+      <form method="post" action="{% url 'projects:sign_funding' project.slug %}">{% csrf_token %}<button class="btn">{% trans "Lire et signer le contrat de financement" %}</button></form>{% endif %}
+  </div>{% endif %}
 
 
   {% if pending_periods %}<div class="panel anchor" id="reports" style="margin-top:20px"><h2>{% trans "Rapports à publier" %}</h2>
@@ -80,4 +84,6 @@
       {% for h in holdings %}<tr><td>{{ h.user.full_name }}</td><td class="n">{{ h.shares }}</td><td class="n">{{ h.shares|pct_of:outstanding }} %</td></tr>{% endfor %}</tbody></table>
     {% else %}<table class="table"><tbody>{% for i in investments %}<tr><td>{{ i.investor.full_name }}</td><td class="n">{{ i.shares }}</td><td>{% badge i.status i.get_status_display %}</td></tr>{% empty %}<tr><td class="muted">{% trans "Pas encore d'investisseur." %}</td></tr>{% endfor %}</tbody></table>{% endif %}
   </div>
+  {% if contracts %}<div class="panel" style="margin-top:20px"><h2>{% trans "Contrats du projet" %}</h2>
+    <div class="table-wrap"><table class="table"><tbody>{% for c in contracts %}<tr><td>{{ c.get_kind_display }}<div class="small muted ltr">{{ c.reference }}</div></td><td>{{ c.signed_at|date:"d/m/Y" }}</td><td>{% badge c.status c.get_status_display %}</td><td class="n"><a class="btn small ghost" href="{{ c.get_absolute_url }}">{% trans "Ouvrir" %}</a></td></tr>{% endfor %}</tbody></table></div></div>{% endif %}
 </div>{% endblock %}

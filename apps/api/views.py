@@ -17,6 +17,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from rest_framework import generics, mixins, permissions, status, viewsets
 from rest_framework.authtoken.models import Token
@@ -29,9 +30,11 @@ from apps.accounts.otp import OTPError, issue_otp, verify_otp
 from apps.core.models import Moughataa, Wilaya
 from apps.core.utils import client_ip
 from apps.investments.models import Holding, Investment
-from apps.investments.services import InvestmentError, invest
+from apps.contracts.flows import start_buy, start_invest, start_listing
+from apps.contracts.services import ContractError
+from apps.investments.services import InvestmentError
 from apps.market.models import Listing, Trade
-from apps.market.services import MarketError, buy, cancel_listing, create_listing
+from apps.market.services import cancel_listing
 from apps.projects.models import Project, Sector
 from apps.wallet.models import DepositRequest, Wallet
 from apps.wallet.gateways import get_gateway
@@ -223,10 +226,22 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
                 shares = int(Decimal(str(request.data["amount"])) // (project.share_price or 1))
             else:
                 shares = int(request.data.get("shares", 0))
-            inv = invest(request.user, project, shares, bool(request.data.get("risk_acknowledged")))
+            if not request.data.get("risk_acknowledged"):
+                raise InvestmentError(_("Vous devez confirmer avoir compris les risques."))
+            try:  # every investment is confirmed by signing its contract on the website
+                contract = start_invest(request, project, shares)
+            except ContractError as e:
+                raise InvestmentError(str(e)) from e
         except (InvestmentError, ValueError, ArithmeticError) as e:
             return Response({"detail": str(e)}, status=400)
-        return Response(S.InvestmentSerializer(inv).data, status=201)
+        return _sign_response(request, contract, _("Signez le contrat pour confirmer l'investissement."))
+
+
+def _sign_response(request, contract, detail):
+    """Money operations are confirmed by signing the contract on the website (code sent on WhatsApp)."""
+    return Response({"detail": detail, "contract": contract.reference,
+                     "sign_url": request.build_absolute_uri(reverse("contracts:sign", args=[contract.reference]))},
+                    status=202)
 
 
 @api_view(["GET"])
@@ -358,12 +373,12 @@ class ListingViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retr
         ser = self.get_serializer(data=request.data)
         ser.is_valid(raise_exception=True)
         d = ser.validated_data
-        try:
-            listing = create_listing(request.user, d["project"], d["shares"], d["price_per_share"],
+        try:  # published once the seller signs the offer on the website
+            contract = start_listing(request, d["project"], d["shares"], d["price_per_share"],
                                      d.get("allow_partial", True), d.get("note", ""))
-        except MarketError as e:
+        except ContractError as e:
             return Response({"detail": str(e)}, status=400)
-        return Response(S.ListingSerializer(listing).data, status=201)
+        return _sign_response(request, contract, _("Signez l'offre pour la publier."))
 
     def destroy(self, request, *args, **kwargs):
         listing = self.get_object()
@@ -373,11 +388,11 @@ class ListingViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retr
     @action(detail=True, methods=["post"])
     def buy(self, request, pk=None):
         listing = self.get_object()
-        try:
-            trade = buy(request.user, listing, int(request.data.get("shares", listing.remaining)))
-        except (MarketError, ValueError) as e:
+        try:  # paid once the buyer signs the transfer contract on the website
+            contract = start_buy(request, listing, int(request.data.get("shares", listing.remaining)))
+        except (ContractError, ValueError) as e:
             return Response({"detail": str(e)}, status=400)
-        return Response(S.TradeSerializer(trade).data, status=201)
+        return _sign_response(request, contract, _("Signez le contrat de cession pour acheter."))
 
 
 @api_view(["GET"])

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-06 14:27+0100\n"
+"POT-Creation-Date: 2026-11-06 14:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -372,6 +372,9 @@ msgstr "Mot de passe oublié"
 msgid "Retrait"
 msgstr "Retrait"
 
+msgid "Signature d'un contrat"
+msgstr "Signature d'un contrat"
+
 msgid "code OTP"
 msgstr "code OTP"
 
@@ -479,6 +482,188 @@ msgstr "Nom complet requis."
 msgid "Dossier déjà soumis."
 msgstr "Dossier déjà soumis."
 
+msgid "Vous devez confirmer avoir compris les risques."
+msgstr "Vous devez confirmer avoir compris les risques."
+
+msgid "Signez le contrat pour confirmer l'investissement."
+msgstr "Signez le contrat pour confirmer l'investissement."
+
+msgid "Signez l'offre pour la publier."
+msgstr "Signez l'offre pour la publier."
+
+msgid "Signez le contrat de cession pour acheter."
+msgstr "Signez le contrat de cession pour acheter."
+
+#, python-format
+msgid "Contrat signé. Bienvenue parmi les actionnaires : %(n)s part(s) de plus."
+msgstr "Contrat signé. Bienvenue parmi les actionnaires : %(n)s part(s) de plus."
+
+#, python-format
+msgid "Contrat signé. %(a)s MRU investis ; vous pouvez annuler pendant 48 h."
+msgstr "Contrat signé. %(a)s MRU investis ; vous pouvez annuler pendant 48 h."
+
+#, python-format
+msgid "Contrat signé. %(n)s part(s) réservée(s)."
+msgstr "Contrat signé. %(n)s part(s) réservée(s)."
+
+msgid "Ce contrat ne peut être signé que lorsque la collecte est réussie."
+msgstr "Ce contrat ne peut être signé que lorsque la collecte est réussie."
+
+msgid "Contrat de financement signé"
+msgstr "Contrat de financement signé"
+
+#, python-format
+msgid "« %(p)s » : les fonds peuvent être libérés."
+msgstr "« %(p)s » : les fonds peuvent être libérés."
+
+msgid "Contrat signé. Notre équipe libère les fonds dans votre portefeuille."
+msgstr "Contrat signé. Notre équipe libère les fonds dans votre portefeuille."
+
+msgid "Contrat signé et projet envoyé ! Notre équipe l'étudie, en général sous 5 jours ouvrés."
+msgstr "Contrat signé et projet envoyé ! Notre équipe l'étudie, en général sous 5 jours ouvrés."
+
+msgid "Contrat signé. Notre équipe vérifie la demande, puis les nouvelles parts seront mises en vente."
+msgstr "Contrat signé. Notre équipe vérifie la demande, puis les nouvelles parts seront mises en vente."
+
+msgid "Offre signée et publiée sur le marché."
+msgstr "Offre signée et publiée sur le marché."
+
+#, python-format
+msgid "Contrat signé : %(n)s part(s) de « %(p)s » achetée(s)."
+msgstr "Contrat signé : %(n)s part(s) de « %(p)s » achetée(s)."
+
+msgid "Offre signée et envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."
+msgstr "Offre signée et envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."
+
+msgid "Proposition signée et envoyée."
+msgstr "Proposition signée et envoyée."
+
+msgid "Contrat signé : rachat conclu."
+msgstr "Contrat signé : rachat conclu."
+
+msgid "Acte signé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
+msgstr "Acte signé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
+
+msgid "Contrat de participation (opération ponctuelle)"
+msgstr "Contrat de participation (opération ponctuelle)"
+
+msgid "Contrat de souscription de parts"
+msgstr "Contrat de souscription de parts"
+
+msgid "Contrat de financement (porteur)"
+msgstr "Contrat de financement (porteur)"
+
+msgid "Engagement d'émission de parts (entreprise)"
+msgstr "Engagement d'émission de parts (entreprise)"
+
+msgid "Offre de vente de parts (marché)"
+msgstr "Offre de vente de parts (marché)"
+
+msgid "Contrat de cession de parts"
+msgstr "Contrat de cession de parts"
+
+msgid "Offre de rachat de parts"
+msgstr "Offre de rachat de parts"
+
+msgid "Contrat de rachat de parts"
+msgstr "Contrat de rachat de parts"
+
+msgid "Acte de remboursement final"
+msgstr "Acte de remboursement final"
+
+msgid "En attente de signature"
+msgstr "En attente de signature"
+
+msgid "Signé"
+msgstr "Signé"
+
+msgid "Non signé"
+msgstr "Non signé"
+
+msgid "Résilié"
+msgstr "Résilié"
+
+msgid "type"
+msgstr "type"
+
+msgid "titre"
+msgstr "titre"
+
+msgid "texte du contrat"
+msgstr "texte du contrat"
+
+msgid "empreinte du texte (SHA-256)"
+msgstr "empreinte du texte (SHA-256)"
+
+msgid "empreinte du contrat signé (SHA-256)"
+msgstr "empreinte du contrat signé (SHA-256)"
+
+msgid "conditions"
+msgstr "conditions"
+
+msgid "Parties qui peuvent lire le contrat dans leur espace."
+msgstr "Parties qui peuvent lire le contrat dans leur espace."
+
+msgid "Offre signée par l'autre partie sur laquelle ce contrat s'appuie."
+msgstr "Offre signée par l'autre partie sur laquelle ce contrat s'appuie."
+
+msgid "opération liée"
+msgstr "opération liée"
+
+msgid "Référence de l'investissement, de l'annonce, de l'échange…"
+msgstr "Référence de l'investissement, de l'annonce, de l'échange…"
+
+msgid "contrat"
+msgstr "contrat"
+
+msgid "contrats"
+msgstr "contrats"
+
+msgid "Investisseur"
+msgstr "Investisseur"
+
+msgid "Porteur de projet"
+msgstr "Porteur de projet"
+
+msgid "Entreprise, représentée par son porteur"
+msgstr "Entreprise, représentée par son porteur"
+
+msgid "Vendeur"
+msgstr "Vendeur"
+
+msgid "Acheteur"
+msgstr "Acheteur"
+
+msgid "Actionnaire"
+msgstr "Actionnaire"
+
+msgid "Signature donnée sur l'offre de l'autre partie."
+msgstr "Signature donnée sur l'offre de l'autre partie."
+
+msgid "signature"
+msgstr "signature"
+
+msgid "Ce contrat ne peut plus être signé."
+msgstr "Ce contrat ne peut plus être signé."
+
+msgid "Ce contrat a expiré. Recommencez l'opération."
+msgstr "Ce contrat a expiré. Recommencez l'opération."
+
+msgid "Ce contrat est déjà traité."
+msgstr "Ce contrat est déjà traité."
+
+msgid "Ce contrat n'a pas été signé. Recommencez l'opération si vous le souhaitez."
+msgstr "Ce contrat n'a pas été signé. Recommencez l'opération si vous le souhaitez."
+
+msgid "Opération abandonnée : rien n'a été signé ni payé."
+msgstr "Opération abandonnée : rien n'a été signé ni payé."
+
+msgid "Un nouveau code vous a été envoyé."
+msgstr "Un nouveau code vous a été envoyé."
+
+msgid "Cochez la case pour confirmer que vous avez lu le contrat."
+msgstr "Cochez la case pour confirmer que vous avez lu le contrat."
+
 msgid "Marché secondaire"
 msgstr "Marché secondaire"
 
@@ -496,6 +681,9 @@ msgstr "Revenus annexes"
 
 msgid "Contact"
 msgstr "Contact"
+
+msgid "Identité juridique (imprimée dans les contrats)"
+msgstr "Identité juridique (imprimée dans les contrats)"
 
 msgid "Instructions de paiement"
 msgstr "Instructions de paiement"
@@ -572,6 +760,21 @@ msgstr "coordonnées bancaires pour virements"
 msgid "téléphone support"
 msgstr "téléphone support"
 
+msgid "raison sociale de l'exploitant"
+msgstr "raison sociale de l'exploitant"
+
+msgid "Société ou personne qui exploite la plateforme, telle qu'enregistrée."
+msgstr "Société ou personne qui exploite la plateforme, telle qu'enregistrée."
+
+msgid "immatriculation (RC / NIF)"
+msgstr "immatriculation (RC / NIF)"
+
+msgid "adresse du siège"
+msgstr "adresse du siège"
+
+msgid "ville des contrats et des litiges"
+msgstr "ville des contrats et des litiges"
+
 msgid "e-mail de contact"
 msgstr "e-mail de contact"
 
@@ -601,9 +804,6 @@ msgstr "Il n'y a plus de parts en vente pour cette entreprise."
 
 msgid "Vous ne pouvez pas investir dans votre propre projet."
 msgstr "Vous ne pouvez pas investir dans votre propre projet."
-
-msgid "Vous devez confirmer avoir compris les risques."
-msgstr "Vous devez confirmer avoir compris les risques."
 
 #, python-format
 msgid "Minimum %(n)s part(s)."
@@ -931,8 +1131,8 @@ msgid "Objectif atteint !"
 msgstr "Objectif atteint !"
 
 #, python-format
-msgid "« %(p)s » est financé. Notre équipe prépare le contrat et le versement des fonds."
-msgstr "« %(p)s » est financé. Notre équipe prépare le contrat et le versement des fonds."
+msgid "« %(p)s » est financé. Signez le contrat de financement depuis votre page de gestion pour recevoir les fonds."
+msgstr "« %(p)s » est financé. Signez le contrat de financement depuis votre page de gestion pour recevoir les fonds."
 
 msgid "Projet financé : fonds à libérer"
 msgstr "Projet financé : fonds à libérer"
@@ -1168,12 +1368,20 @@ msgstr "Message (facultatif)"
 msgid "Vous n'avez pas de parts disponibles dans ce projet."
 msgstr "Vous n'avez pas de parts disponibles dans ce projet."
 
-msgid "Annonce publiée sur le marché."
-msgstr "Annonce publiée sur le marché."
+msgid "La revente des parts de ce projet n'est pas ouverte."
+msgstr "La revente des parts de ce projet n'est pas ouverte."
 
 #, python-format
-msgid "Achat réalisé : %(n)s part(s) de « %(p)s »."
-msgstr "Achat réalisé : %(n)s part(s) de « %(p)s »."
+msgid "Vous n'avez que %(n)s part(s) disponibles."
+msgstr "Vous n'avez que %(n)s part(s) disponibles."
+
+#, python-format
+msgid "Le prix doit être compris entre %(a)s et %(b)s MRU."
+msgstr "Le prix doit être compris entre %(a)s et %(b)s MRU."
+
+#, python-format
+msgid "Solde insuffisant : il faut %(t)s MRU, frais compris."
+msgstr "Solde insuffisant : il faut %(t)s MRU, frais compris."
 
 msgid "Annonce retirée."
 msgstr "Annonce retirée."
@@ -1642,9 +1850,6 @@ msgstr "Acte de garantie / caution"
 
 msgid "Autorisation / licence"
 msgstr "Autorisation / licence"
-
-msgid "type"
-msgstr "type"
 
 msgid "intitulé"
 msgstr "intitulé"
@@ -2216,9 +2421,6 @@ msgstr "réponse visible des investisseurs"
 msgid "question"
 msgstr "question"
 
-msgid "titre"
-msgstr "titre"
-
 msgid "votre question"
 msgstr "votre question"
 
@@ -2325,6 +2527,10 @@ msgstr "Ce type de financement n'est pas ouvert pour le moment."
 #, python-format
 msgid "Le montant doit être compris entre %(a)s et %(b)s MRU."
 msgstr "Le montant doit être compris entre %(a)s et %(b)s MRU."
+
+#, python-format
+msgid "Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille."
+msgstr "Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille."
 
 #, python-format
 msgid "Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille. %(e)s"
@@ -2436,20 +2642,11 @@ msgstr "Indiquez le nombre de parts et confirmez avoir compris les risques."
 msgid "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez investir."
 msgstr "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez investir."
 
-#, python-format
-msgid "Bienvenue parmi les actionnaires ! Vous détenez maintenant %(n)s part(s) de plus."
-msgstr "Bienvenue parmi les actionnaires ! Vous détenez maintenant %(n)s part(s) de plus."
+msgid "Ce projet n'accepte plus d'investissement."
+msgstr "Ce projet n'accepte plus d'investissement."
 
-#, python-format
-msgid "Merci ! %(a)s MRU investis. Vos fonds restent bloqués jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h."
-msgstr "Merci ! %(a)s MRU investis. Vos fonds restent bloqués jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h."
-
-#, python-format
-msgid "Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h."
-msgstr "Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h."
-
-msgid "Souscription annulée, fonds débloqués."
-msgstr "Souscription annulée, fonds débloqués."
+msgid "Souscription annulée, fonds débloqués. Le contrat est résilié."
+msgstr "Souscription annulée, fonds débloqués. Le contrat est résilié."
 
 msgid "Nouvelle question d'un investisseur"
 msgstr "Nouvelle question d'un investisseur"
@@ -2534,15 +2731,15 @@ msgstr "Échéance payée. Merci !"
 msgid "Rachat effectué."
 msgstr "Rachat effectué."
 
+msgid "Le contrat de financement est déjà signé."
+msgstr "Le contrat de financement est déjà signé."
+
 msgid "Indiquez le montant total à rendre."
 msgstr "Indiquez le montant total à rendre."
 
 #, python-format
 msgid "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez rembourser."
 msgstr "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez rembourser."
-
-msgid "Montant envoyé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
-msgstr "Montant envoyé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
 
 msgid "Remboursement annulé : le montant est de nouveau disponible."
 msgstr "Remboursement annulé : le montant est de nouveau disponible."
@@ -2554,9 +2751,6 @@ msgstr "Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez."
 #, python-format
 msgid "Dividende versé : %(a)s MRU partagés entre les actionnaires, soit %(x)s MRU par part."
 msgstr "Dividende versé : %(a)s MRU partagés entre les actionnaires, soit %(x)s MRU par part."
-
-msgid "Demande envoyée. Notre équipe la vérifie, puis les nouvelles parts seront mises en vente."
-msgstr "Demande envoyée. Notre équipe la vérifie, puis les nouvelles parts seront mises en vente."
 
 msgid "Demande annulée."
 msgstr "Demande annulée."
@@ -2579,20 +2773,11 @@ msgstr "Vente arrêtée : les parts non vendues ne sont plus proposées."
 msgid "Choisissez un actionnaire."
 msgstr "Choisissez un actionnaire."
 
-msgid "Offre envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."
-msgstr "Offre envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."
-
-msgid "Rachat conclu."
-msgstr "Rachat conclu."
-
-msgid "Votre proposition a été envoyée."
-msgstr "Votre proposition a été envoyée."
+msgid "Solde insuffisant : alimentez votre portefeuille du montant de l'offre."
+msgstr "Solde insuffisant : alimentez votre portefeuille du montant de l'offre."
 
 msgid "Offre close."
 msgstr "Offre close."
-
-msgid "C'est noté."
-msgstr "C'est noté."
 
 #, python-format
 msgid "Nouvelles de « %(p)s »"
@@ -2730,6 +2915,9 @@ msgstr "Projet non retenu."
 
 msgid "Projet refusé."
 msgstr "Projet refusé."
+
+msgid "Le porteur doit d'abord signer le contrat de financement."
+msgstr "Le porteur doit d'abord signer le contrat de financement."
 
 msgid "Fonds libérés vers le porteur."
 msgstr "Fonds libérés vers le porteur."
@@ -3410,6 +3598,9 @@ msgstr "Mon espace"
 msgid "Back-office"
 msgstr "Back-office"
 
+msgid "Mes contrats"
+msgstr "Mes contrats"
+
 msgid "Déconnexion"
 msgstr "Déconnexion"
 
@@ -3470,6 +3661,489 @@ msgstr "Nous contacter"
 msgid "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties."
 msgstr "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties."
 
+#, python-format
+msgid "Contrat n° %(r)s · fait à %(c)s, le %(d)s"
+msgstr "Contrat n° %(r)s · fait à %(c)s, le %(d)s"
+
+#, python-format
+msgid "Projet « %(t)s » (réf. %(r)s)"
+msgstr "Projet « %(t)s » (réf. %(r)s)"
+
+msgid "Les parties"
+msgstr "Les parties"
+
+#, python-format
+msgid "NNI %(n)s"
+msgstr "NNI %(n)s"
+
+#, python-format
+msgid "né(e) le %(d)s à %(l)s"
+msgstr "né(e) le %(d)s à %(l)s"
+
+#, python-format
+msgid "demeurant à %(a)s"
+msgstr "demeurant à %(a)s"
+
+#, python-format
+msgid "téléphone %(t)s"
+msgstr "téléphone %(t)s"
+
+#, python-format
+msgid "identité vérifiée par la plateforme (membre n° %(i)s)"
+msgstr "identité vérifiée par la plateforme (membre n° %(i)s)"
+
+msgid "La plateforme"
+msgstr "La plateforme"
+
+msgid "Elle met les parties en relation, tient leurs portefeuilles, exécute les paiements prévus par ce contrat et le conserve. Elle n'est pas partie au risque du projet."
+msgstr "Elle met les parties en relation, tient leurs portefeuilles, exécute les paiements prévus par ce contrat et le conserve. Elle n'est pas partie au risque du projet."
+
+msgid "Dispositions communes"
+msgstr "Dispositions communes"
+
+msgid "Ce contrat respecte les principes de la finance islamique (Moucharaka) : aucun intérêt (riba) n'est dû et aucun rendement n'est garanti. Les bénéfices annoncés sont des estimations."
+msgstr "Ce contrat respecte les principes de la finance islamique (Moucharaka) : aucun intérêt (riba) n'est dû et aucun rendement n'est garanti. Les bénéfices annoncés sont des estimations."
+
+msgid "Les paiements prévus se font uniquement entre les portefeuilles des parties sur la plateforme, qui prélève les frais indiqués dans ce contrat et sur la page « Frais »."
+msgstr "Les paiements prévus se font uniquement entre les portefeuilles des parties sur la plateforme, qui prélève les frais indiqués dans ce contrat et sur la page « Frais »."
+
+msgid "Chaque partie déclare que les informations de son dossier d'identité sont exactes et qu'elle agit pour son propre compte. La plateforme a vérifié l'identité de chaque partie ; elle conserve leurs dossiers complets et les communique aux parties ou au juge en cas de litige."
+msgstr "Chaque partie déclare que les informations de son dossier d'identité sont exactes et qu'elle agit pour son propre compte. La plateforme a vérifié l'identité de chaque partie ; elle conserve leurs dossiers complets et les communique aux parties ou au juge en cas de litige."
+
+msgid "Signature électronique : chaque partie signe en saisissant un code à usage unique envoyé sur son numéro WhatsApp vérifié. La plateforme enregistre la date, l'heure, l'adresse de connexion et l'empreinte numérique (SHA-256) de ce texte. Les parties reconnaissent à cette signature la même valeur qu'une signature manuscrite, et à cet enregistrement la valeur de preuve."
+msgstr "Signature électronique : chaque partie signe en saisissant un code à usage unique envoyé sur son numéro WhatsApp vérifié. La plateforme enregistre la date, l'heure, l'adresse de connexion et l'empreinte numérique (SHA-256) de ce texte. Les parties reconnaissent à cette signature la même valeur qu'une signature manuscrite, et à cet enregistrement la valeur de preuve."
+
+msgid "Le contrat est conservé par la plateforme. Chaque partie peut le lire et l'imprimer à tout moment depuis « Mes contrats »."
+msgstr "Le contrat est conservé par la plateforme. Chaque partie peut le lire et l'imprimer à tout moment depuis « Mes contrats »."
+
+#, python-format
+msgid "En cas de désaccord, les parties cherchent d'abord une solution amiable avec l'aide de la plateforme. À défaut, le litige est porté devant les juridictions compétentes de %(city)s, selon le droit mauritanien."
+msgstr "En cas de désaccord, les parties cherchent d'abord une solution amiable avec l'aide de la plateforme. À défaut, le litige est porté devant les juridictions compétentes de %(city)s, selon le droit mauritanien."
+
+msgid "Article 1 — Rachat"
+msgstr "Article 1 — Rachat"
+
+#, python-format
+msgid "L'entreprise « %(t)s » rachète à l'actionnaire %(n)s part(s) au prix de %(x)s MRU l'une, soit %(tot)s MRU."
+msgstr "L'entreprise « %(t)s » rachète à l'actionnaire %(n)s part(s) au prix de %(x)s MRU l'une, soit %(tot)s MRU."
+
+msgid "Article 2 — Paiement"
+msgstr "Article 2 — Paiement"
+
+#, python-format
+msgid "L'actionnaire reçoit immédiatement %(s)s MRU dans son portefeuille (après frais de %(f)s %%), payés par l'entreprise."
+msgstr "L'actionnaire reçoit immédiatement %(s)s MRU dans son portefeuille (après frais de %(f)s %%), payés par l'entreprise."
+
+msgid "Article 3 — Effets"
+msgstr "Article 3 — Effets"
+
+msgid "Les parts rachetées sont annulées. L'actionnaire perd les droits attachés à ces parts et garde ceux de ses autres parts. Le registre des actionnaires est mis à jour."
+msgstr "Les parts rachetées sont annulées. L'actionnaire perd les droits attachés à ces parts et garde ceux de ses autres parts. Le registre des actionnaires est mis à jour."
+
+msgid "Article 4 — Accord des parties"
+msgstr "Article 4 — Accord des parties"
+
+#, python-format
+msgid "Ces conditions ont été proposées et signées par l'autre partie dans l'offre n° %(r)s du %(d)s, et sont acceptées par ce contrat."
+msgstr "Ces conditions ont été proposées et signées par l'autre partie dans l'offre n° %(r)s du %(d)s, et sont acceptées par ce contrat."
+
+msgid "Ces conditions ont été proposées par l'autre partie sur la plateforme et sont acceptées par ce contrat."
+msgstr "Ces conditions ont été proposées par l'autre partie sur la plateforme et sont acceptées par ce contrat."
+
+msgid "Article 1 — Offre"
+msgstr "Article 1 — Offre"
+
+#, python-format
+msgid "L'entreprise propose à l'actionnaire de lui racheter %(n)s part(s) au prix de %(x)s MRU l'une, soit %(t)s MRU."
+msgstr "L'entreprise propose à l'actionnaire de lui racheter %(n)s part(s) au prix de %(x)s MRU l'une, soit %(t)s MRU."
+
+#, python-format
+msgid "L'actionnaire propose à l'entreprise de lui vendre %(n)s part(s) au prix de %(x)s MRU l'une, soit %(t)s MRU."
+msgstr "L'actionnaire propose à l'entreprise de lui vendre %(n)s part(s) au prix de %(x)s MRU l'une, soit %(t)s MRU."
+
+msgid "Cette offre remplace la précédente proposition."
+msgstr "Cette offre remplace la précédente proposition."
+
+#, python-format
+msgid "Message : « %(m)s »"
+msgstr "Message : « %(m)s »"
+
+msgid "Article 2 — Validité"
+msgstr "Article 2 — Validité"
+
+#, python-format
+msgid "Le montant de %(t)s MRU est réservé sur le portefeuille de l'entreprise jusqu'à la réponse."
+msgstr "Le montant de %(t)s MRU est réservé sur le portefeuille de l'entreprise jusqu'à la réponse."
+
+msgid "L'offre reste valable jusqu'à la réponse de l'autre partie ou jusqu'à son retrait. L'autre partie peut l'accepter, la refuser ou proposer d'autres conditions."
+msgstr "L'offre reste valable jusqu'à la réponse de l'autre partie ou jusqu'à son retrait. L'autre partie peut l'accepter, la refuser ou proposer d'autres conditions."
+
+msgid "Article 3 — Si l'offre est acceptée"
+msgstr "Article 3 — Si l'offre est acceptée"
+
+#, python-format
+msgid "L'actionnaire reçoit %(s)s MRU (après frais de %(f)s %%). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre."
+msgstr "L'actionnaire reçoit %(s)s MRU (après frais de %(f)s %%). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre."
+
+msgid "Article 1 — Objet"
+msgstr "Article 1 — Objet"
+
+#, python-format
+msgid "L'investisseur participe, selon les règles de la Moucharaka, au financement de l'opération « %(t)s » présentée par le porteur : l'achat de marchandises en vue de leur revente, tel que décrit sur la page du projet."
+msgstr "L'investisseur participe, selon les règles de la Moucharaka, au financement de l'opération « %(t)s » présentée par le porteur : l'achat de marchandises en vue de leur revente, tel que décrit sur la page du projet."
+
+msgid "Article 2 — Apport"
+msgstr "Article 2 — Apport"
+
+#, python-format
+msgid "L'investisseur apporte %(a)s MRU, prélevés sur son portefeuille. Montant total recherché pour l'opération : %(t)s MRU."
+msgstr "L'investisseur apporte %(a)s MRU, prélevés sur son portefeuille. Montant total recherché pour l'opération : %(t)s MRU."
+
+#, python-format
+msgid "Durée prévue de l'opération : %(m)s mois."
+msgstr "Durée prévue de l'opération : %(m)s mois."
+
+msgid "Aucun frais n'est prélevé à l'investisseur lors de son apport."
+msgstr "Aucun frais n'est prélevé à l'investisseur lors de son apport."
+
+msgid "Article 3 — Collecte"
+msgstr "Article 3 — Collecte"
+
+msgid "L'apport reste bloqué sur la plateforme jusqu'à la fin de la collecte."
+msgstr "L'apport reste bloqué sur la plateforme jusqu'à la fin de la collecte."
+
+#, python-format
+msgid "Fin de la collecte prévue le %(d)s."
+msgstr "Fin de la collecte prévue le %(d)s."
+
+msgid "Si l'objectif n'est pas atteint, l'apport est rendu en totalité. L'investisseur peut annuler sa participation dans les 48 heures qui suivent sa signature ; le contrat est alors résilié."
+msgstr "Si l'objectif n'est pas atteint, l'apport est rendu en totalité. L'investisseur peut annuler sa participation dans les 48 heures qui suivent sa signature ; le contrat est alors résilié."
+
+msgid "Article 4 — Engagements du porteur"
+msgstr "Article 4 — Engagements du porteur"
+
+msgid "Le porteur s'engage à utiliser les fonds uniquement pour l'opération décrite, à informer les investisseurs de son avancement et, à la fin de l'opération, à rendre en une seule fois, par la plateforme, le capital et le bénéfice réalisé. Il confirme ces engagements en signant le contrat de financement avant de recevoir les fonds."
+msgstr "Le porteur s'engage à utiliser les fonds uniquement pour l'opération décrite, à informer les investisseurs de son avancement et, à la fin de l'opération, à rendre en une seule fois, par la plateforme, le capital et le bénéfice réalisé. Il confirme ces engagements en signant le contrat de financement avant de recevoir les fonds."
+
+msgid "Article 5 — Partage du résultat"
+msgstr "Article 5 — Partage du résultat"
+
+msgid "Le montant rendu par le porteur est partagé entre tous les investisseurs au prorata de leurs apports."
+msgstr "Le montant rendu par le porteur est partagé entre tous les investisseurs au prorata de leurs apports."
+
+#, python-format
+msgid "La plateforme prélève %(m)s %% du bénéfice seulement, jamais du capital."
+msgstr "La plateforme prélève %(m)s %% du bénéfice seulement, jamais du capital."
+
+#, python-format
+msgid "Bénéfice annoncé par le porteur dans le meilleur cas : %(e)s %% de l'apport (estimation, non garantie)."
+msgstr "Bénéfice annoncé par le porteur dans le meilleur cas : %(e)s %% de l'apport (estimation, non garantie)."
+
+msgid "En cas de perte, chaque investisseur la supporte au prorata de son apport, sauf faute, négligence ou fausse déclaration du porteur, qui en répond alors personnellement."
+msgstr "En cas de perte, chaque investisseur la supporte au prorata de son apport, sauf faute, négligence ou fausse déclaration du porteur, qui en répond alors personnellement."
+
+msgid "Article 1 — Fonds reçus"
+msgstr "Article 1 — Fonds reçus"
+
+#, python-format
+msgid "La collecte « %(t)s » a réuni %(r)s MRU auprès de %(n)s investisseur(s), dont la liste figure en annexe."
+msgstr "La collecte « %(t)s » a réuni %(r)s MRU auprès de %(n)s investisseur(s), dont la liste figure en annexe."
+
+#, python-format
+msgid "Le porteur reçoit %(net)s MRU dans son portefeuille, après la commission de succès de la plateforme (%(s)s %%, soit %(f)s MRU)."
+msgstr "Le porteur reçoit %(net)s MRU dans son portefeuille, après la commission de succès de la plateforme (%(s)s %%, soit %(f)s MRU)."
+
+msgid "Article 2 — Utilisation des fonds"
+msgstr "Article 2 — Utilisation des fonds"
+
+msgid "Le porteur utilise les fonds uniquement pour l'achat des marchandises décrites sur la page du projet et pour leur revente. Il tient les investisseurs informés et répond à leurs questions."
+msgstr "Le porteur utilise les fonds uniquement pour l'achat des marchandises décrites sur la page du projet et pour leur revente. Il tient les investisseurs informés et répond à leurs questions."
+
+msgid "Article 3 — Remboursement"
+msgstr "Article 3 — Remboursement"
+
+#, python-format
+msgid "À la fin de l'opération, le porteur rend en une seule fois, par la plateforme, le capital des investisseurs (%(r)s MRU) et le bénéfice réalisé."
+msgstr "À la fin de l'opération, le porteur rend en une seule fois, par la plateforme, le capital des investisseurs (%(r)s MRU) et le bénéfice réalisé."
+
+#, python-format
+msgid "Fin de l'opération prévue dans %(m)s mois."
+msgstr "Fin de l'opération prévue dans %(m)s mois."
+
+#, python-format
+msgid "Bénéfice annoncé dans le meilleur cas : %(e)s %%."
+msgstr "Bénéfice annoncé dans le meilleur cas : %(e)s %%."
+
+#, python-format
+msgid "Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève %(m)s %% du bénéfice seulement."
+msgstr "Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève %(m)s %% du bénéfice seulement."
+
+msgid "Article 4 — Pertes et responsabilité"
+msgstr "Article 4 — Pertes et responsabilité"
+
+msgid "Si l'opération perd de l'argent sans faute du porteur, la perte est supportée par les investisseurs au prorata de leurs apports et le porteur explique les faits. En cas de faute, de négligence, de détournement ou de fausse déclaration, le porteur doit rendre le capital et répond personnellement du préjudice."
+msgstr "Si l'opération perd de l'argent sans faute du porteur, la perte est supportée par les investisseurs au prorata de leurs apports et le porteur explique les faits. En cas de faute, de négligence, de détournement ou de fausse déclaration, le porteur doit rendre le capital et répond personnellement du préjudice."
+
+msgid "Article 2 — Engagements"
+msgstr "Article 2 — Engagements"
+
+msgid "Les investisseurs deviennent actionnaires selon leurs parts. Le porteur utilise les fonds pour l'activité décrite, traite tous les actionnaires à égalité, leur verse les dividendes par la plateforme au prorata de leurs parts et les tient informés. Il répond personnellement de toute faute, détournement ou fausse déclaration."
+msgstr "Les investisseurs deviennent actionnaires selon leurs parts. Le porteur utilise les fonds pour l'activité décrite, traite tous les actionnaires à égalité, leur verse les dividendes par la plateforme au prorata de leurs parts et les tient informés. Il répond personnellement de toute faute, détournement ou fausse déclaration."
+
+msgid "Annexe — Investisseurs"
+msgstr "Annexe — Investisseurs"
+
+msgid "Apport (MRU)"
+msgstr "Apport (MRU)"
+
+msgid "Total"
+msgstr "Total"
+
+#, python-format
+msgid "Le vendeur propose %(n)s part(s) de « %(t)s » au prix de %(x)s MRU l'une, soit %(tot)s MRU, sur le marché de la plateforme."
+msgstr "Le vendeur propose %(n)s part(s) de « %(t)s » au prix de %(x)s MRU l'une, soit %(tot)s MRU, sur le marché de la plateforme."
+
+msgid "Un acheteur peut n'en prendre qu'une partie."
+msgstr "Un acheteur peut n'en prendre qu'une partie."
+
+msgid "Les parts sont vendues en un seul lot."
+msgstr "Les parts sont vendues en un seul lot."
+
+msgid "Article 2 — Engagements du vendeur"
+msgstr "Article 2 — Engagements du vendeur"
+
+msgid "Le vendeur certifie être propriétaire de ces parts. Elles sont bloquées tant que l'offre est active. L'offre est valable 30 jours ; le vendeur peut la retirer tant qu'elle n'est pas acceptée."
+msgstr "Le vendeur certifie être propriétaire de ces parts. Elles sont bloquées tant que l'offre est active. L'offre est valable 30 jours ; le vendeur peut la retirer tant qu'elle n'est pas acceptée."
+
+msgid "Article 3 — Vente"
+msgstr "Article 3 — Vente"
+
+#, python-format
+msgid "Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de %(f)s %% de frais."
+msgstr "Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de %(f)s %% de frais."
+
+msgid "Article 1 — Montant rendu"
+msgstr "Article 1 — Montant rendu"
+
+#, python-format
+msgid "Le porteur de l'opération « %(t)s » rend %(a)s MRU pour l'ensemble des investisseurs, dont le capital encore investi est de %(c)s MRU."
+msgstr "Le porteur de l'opération « %(t)s » rend %(a)s MRU pour l'ensemble des investisseurs, dont le capital encore investi est de %(c)s MRU."
+
+msgid "Article 2 — Partage"
+msgstr "Article 2 — Partage"
+
+#, python-format
+msgid "Bénéfice : %(g)s MRU. La plateforme prélève %(f)s MRU (%(m)s %% du bénéfice). %(n)s MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe)."
+msgstr "Bénéfice : %(g)s MRU. La plateforme prélève %(f)s MRU (%(m)s %% du bénéfice). %(n)s MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe)."
+
+#, python-format
+msgid "Perte : %(l)s MRU, supportée par les investisseurs au prorata de leurs apports. Aucune commission n'est prélevée. %(n)s MRU sont partagés (détail en annexe)."
+msgstr "Perte : %(l)s MRU, supportée par les investisseurs au prorata de leurs apports. Aucune commission n'est prélevée. %(n)s MRU sont partagés (détail en annexe)."
+
+#, python-format
+msgid "Le capital est rendu sans bénéfice ni perte : %(n)s MRU sont partagés (détail en annexe). Aucune commission n'est prélevée."
+msgstr "Le capital est rendu sans bénéfice ni perte : %(n)s MRU sont partagés (détail en annexe). Aucune commission n'est prélevée."
+
+msgid "Article 3 — Validation"
+msgstr "Article 3 — Validation"
+
+msgid "Le montant est bloqué sur le portefeuille du porteur jusqu'à la validation de la plateforme, qui vérifie sa conformité avec le contrat de financement, puis verse à chaque investisseur sa part. Si la plateforme refuse, le montant est rendu au porteur. Après versement, l'opération est terminée."
+msgstr "Le montant est bloqué sur le portefeuille du porteur jusqu'à la validation de la plateforme, qui vérifie sa conformité avec le contrat de financement, puis verse à chaque investisseur sa part. Si la plateforme refuse, le montant est rendu au porteur. Après versement, l'opération est terminée."
+
+msgid "Article 4 — Déclaration du porteur"
+msgstr "Article 4 — Déclaration du porteur"
+
+msgid "Le porteur déclare que ce montant correspond au résultat réel de l'opération. Toute fausse déclaration engage sa responsabilité personnelle."
+msgstr "Le porteur déclare que ce montant correspond au résultat réel de l'opération. Toute fausse déclaration engage sa responsabilité personnelle."
+
+#, python-format
+msgid "Explications du porteur : « %(n)s »"
+msgstr "Explications du porteur : « %(n)s »"
+
+msgid "Annexe — Partage"
+msgstr "Annexe — Partage"
+
+msgid "Reçoit (MRU)"
+msgstr "Reçoit (MRU)"
+
+msgid "Article 1 — Parts mises en vente"
+msgstr "Article 1 — Parts mises en vente"
+
+#, python-format
+msgid "L'entreprise met en vente %(n)s nouvelle(s) part(s) au prix de %(x)s MRU l'une (total %(tot)s MRU), en plus des %(e)s parts déjà émises."
+msgstr "L'entreprise met en vente %(n)s nouvelle(s) part(s) au prix de %(x)s MRU l'une (total %(tot)s MRU), en plus des %(e)s parts déjà émises."
+
+#, python-format
+msgid "L'entreprise met en vente %(n)s part(s) au prix de %(x)s MRU l'une (total %(tot)s MRU)."
+msgstr "L'entreprise met en vente %(n)s part(s) au prix de %(x)s MRU l'une (total %(tot)s MRU)."
+
+msgid "La vente commence après validation de l'équipe de la plateforme."
+msgstr "La vente commence après validation de l'équipe de la plateforme."
+
+#, python-format
+msgid "Utilisation prévue de l'argent : %(r)s"
+msgstr "Utilisation prévue de l'argent : %(r)s"
+
+msgid "Article 2 — Ventes"
+msgstr "Article 2 — Ventes"
+
+#, python-format
+msgid "Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de %(s)s %%. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées."
+msgstr "Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de %(s)s %%. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées."
+
+msgid "Article 3 — Engagements envers les actionnaires"
+msgstr "Article 3 — Engagements envers les actionnaires"
+
+#, python-format
+msgid "L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève %(m)s %%) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme."
+msgstr "L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève %(m)s %%) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme."
+
+msgid "Article 4 — Responsabilité"
+msgstr "Article 4 — Responsabilité"
+
+msgid "Le porteur garantit l'exactitude des informations publiées sur l'entreprise. Il répond personnellement de toute fausse déclaration, faute ou détournement."
+msgstr "Le porteur garantit l'exactitude des informations publiées sur l'entreprise. Il répond personnellement de toute fausse déclaration, faute ou détournement."
+
+#, python-format
+msgid "L'investisseur achète %(n)s part(s) de l'entreprise « %(t)s » au prix de %(x)s MRU l'une, soit %(a)s MRU prélevés sur son portefeuille."
+msgstr "L'investisseur achète %(n)s part(s) de l'entreprise « %(t)s » au prix de %(x)s MRU l'une, soit %(a)s MRU prélevés sur son portefeuille."
+
+msgid "Article 2 — Qualité d'actionnaire"
+msgstr "Article 2 — Qualité d'actionnaire"
+
+#, python-format
+msgid "L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent %(p)s %% des parts détenues par les actionnaires (%(i)s parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi."
+msgstr "L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent %(p)s %% des parts détenues par les actionnaires (%(i)s parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi."
+
+msgid "Article 3 — Droits de l'actionnaire"
+msgstr "Article 3 — Droits de l'actionnaire"
+
+msgid "L'actionnaire reçoit les dividendes que l'entreprise décide de verser, au prorata de ses parts. Il est informé des nouvelles de l'entreprise et de toute nouvelle émission de parts. Il peut revendre ses parts sur le marché de la plateforme. L'entreprise ne peut racheter ses parts qu'avec son accord, au prix convenu entre eux."
+msgstr "L'actionnaire reçoit les dividendes que l'entreprise décide de verser, au prorata de ses parts. Il est informé des nouvelles de l'entreprise et de toute nouvelle émission de parts. Il peut revendre ses parts sur le marché de la plateforme. L'entreprise ne peut racheter ses parts qu'avec son accord, au prix convenu entre eux."
+
+msgid "Article 4 — Engagements de l'entreprise"
+msgstr "Article 4 — Engagements de l'entreprise"
+
+#, python-format
+msgid "L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de %(s)s %% ; la plateforme prélève %(m)s %% des dividendes versés."
+msgstr "L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de %(s)s %% ; la plateforme prélève %(m)s %% des dividendes versés."
+
+msgid "Article 5 — Risques"
+msgstr "Article 5 — Risques"
+
+msgid "La valeur des parts peut baisser et les dividendes ne sont pas garantis. L'actionnaire peut perdre tout ou partie de la somme investie."
+msgstr "La valeur des parts peut baisser et les dividendes ne sont pas garantis. L'actionnaire peut perdre tout ou partie de la somme investie."
+
+msgid "Article 1 — Cession"
+msgstr "Article 1 — Cession"
+
+#, python-format
+msgid "Le vendeur cède %(n)s part(s) de « %(t)s » au prix de %(x)s MRU l'une, soit %(g)s MRU."
+msgstr "Le vendeur cède %(n)s part(s) de « %(t)s » au prix de %(x)s MRU l'une, soit %(g)s MRU."
+
+msgid "L'acheteur est l'entreprise elle-même : les parts rachetées sont annulées et les dividendes futurs sont partagés entre les autres actionnaires."
+msgstr "L'acheteur est l'entreprise elle-même : les parts rachetées sont annulées et les dividendes futurs sont partagés entre les autres actionnaires."
+
+#, python-format
+msgid "L'acheteur paie %(b)s MRU (frais de %(bf)s %% inclus). Le vendeur reçoit %(s)s MRU (après frais de %(sf)s %%). Le paiement se fait immédiatement entre leurs portefeuilles."
+msgstr "L'acheteur paie %(b)s MRU (frais de %(bf)s %% inclus). Le vendeur reçoit %(s)s MRU (après frais de %(sf)s %%). Le paiement se fait immédiatement entre leurs portefeuilles."
+
+msgid "Article 3 — Transfert de propriété"
+msgstr "Article 3 — Transfert de propriété"
+
+msgid "La propriété des parts et tous les droits qui y sont attachés, dont les dividendes futurs, passent à l'acheteur au moment du paiement. Le registre des actionnaires est mis à jour en même temps."
+msgstr "La propriété des parts et tous les droits qui y sont attachés, dont les dividendes futurs, passent à l'acheteur au moment du paiement. Le registre des actionnaires est mis à jour en même temps."
+
+#, python-format
+msgid "Le vendeur a accepté ces conditions en signant son offre de vente n° %(r)s le %(d)s. L'acheteur les accepte en signant ce contrat."
+msgstr "Le vendeur a accepté ces conditions en signant son offre de vente n° %(r)s le %(d)s. L'acheteur les accepte en signant ce contrat."
+
+#, python-format
+msgid "Le vendeur a publié son offre de vente sur la plateforme le %(d)s. L'acheteur l'accepte en signant ce contrat."
+msgstr "Le vendeur a publié son offre de vente sur la plateforme le %(d)s. L'acheteur l'accepte en signant ce contrat."
+
+msgid "Imprimer / enregistrer en PDF"
+msgstr "Imprimer / enregistrer en PDF"
+
+#, python-format
+msgid "résilié le %(d)s"
+msgstr "résilié le %(d)s"
+
+msgid "Signatures électroniques"
+msgstr "Signatures électroniques"
+
+#, python-format
+msgid "Signé le %(d)s par code à usage unique envoyé sur WhatsApp au %(p)s"
+msgstr "Signé le %(d)s par code à usage unique envoyé sur WhatsApp au %(p)s"
+
+#, python-format
+msgid "Signé le %(d)s par code à usage unique envoyé sur son WhatsApp vérifié"
+msgstr "Signé le %(d)s par code à usage unique envoyé sur son WhatsApp vérifié"
+
+#, python-format
+msgid "Signature donnée sur l'offre n° %(r)s"
+msgstr "Signature donnée sur l'offre n° %(r)s"
+
+msgid "Pas encore signé."
+msgstr "Pas encore signé."
+
+msgid "Empreinte du texte"
+msgstr "Empreinte du texte"
+
+msgid "Empreinte du contrat signé"
+msgstr "Empreinte du contrat signé"
+
+msgid "Intégrité vérifiée : le texte et les signatures n'ont pas été modifiés depuis la signature."
+msgstr "Intégrité vérifiée : le texte et les signatures n'ont pas été modifiés depuis la signature."
+
+msgid "Attention : le contrat enregistré ne correspond plus à son empreinte."
+msgstr "Attention : le contrat enregistré ne correspond plus à son empreinte."
+
+msgid "Tous les contrats que vous avez signés ou auxquels vous êtes partie. Ouvrez-en un pour le lire, l'imprimer ou l'enregistrer en PDF."
+msgstr "Tous les contrats que vous avez signés ou auxquels vous êtes partie. Ouvrez-en un pour le lire, l'imprimer ou l'enregistrer en PDF."
+
+msgid "Contrat"
+msgstr "Contrat"
+
+msgid "Projet"
+msgstr "Projet"
+
+msgid "Aucun contrat pour le moment."
+msgstr "Aucun contrat pour le moment."
+
+msgid "Signer le contrat"
+msgstr "Signer le contrat"
+
+msgid "Étape finale"
+msgstr "Étape finale"
+
+msgid "Lisez et signez le contrat"
+msgstr "Lisez et signez le contrat"
+
+#, python-format
+msgid "Vous signez en tant que : <b>%(r)s</b>. Rien n'est payé ni engagé tant que vous n'avez pas signé."
+msgstr "Vous signez en tant que : <b>%(r)s</b>. Rien n'est payé ni engagé tant que vous n'avez pas signé."
+
+msgid "J'ai lu ce contrat en entier, je l'accepte et je le signe électroniquement."
+msgstr "J'ai lu ce contrat en entier, je l'accepte et je le signe électroniquement."
+
+#, python-format
+msgid "Mode développement : votre code de signature est <b class=\"ltr\">%(c)s</b>. Une fois WhatsApp activé, il sera envoyé uniquement sur votre téléphone."
+msgstr "Mode développement : votre code de signature est <b class=\"ltr\">%(c)s</b>. Une fois WhatsApp activé, il sera envoyé uniquement sur votre téléphone."
+
+#, python-format
+msgid "Nous avons envoyé un code de signature sur WhatsApp au %(p)s."
+msgstr "Nous avons envoyé un code de signature sur WhatsApp au %(p)s."
+
+msgid "Code de signature"
+msgstr "Code de signature"
+
+msgid "Renvoyer le code"
+msgstr "Renvoyer le code"
+
+msgid "Abandonner"
+msgstr "Abandonner"
+
 msgid "Une question sur la plateforme, un projet, votre portefeuille ou la vérification de votre identité ? Écrivez-nous, nous répondons en arabe ou en français."
 msgstr "Une question sur la plateforme, un projet, votre portefeuille ou la vérification de votre identité ? Écrivez-nous, nous répondons en arabe ou en français."
 
@@ -3521,9 +4195,6 @@ msgstr "Mes projets"
 
 msgid "Nouveau projet"
 msgstr "Nouveau projet"
-
-msgid "Projet"
-msgstr "Projet"
 
 msgid "Collecté"
 msgstr "Collecté"
@@ -3856,9 +4527,6 @@ msgstr "Offres de rachat de vos parts"
 msgid "Investissements en cours"
 msgstr "Investissements en cours"
 
-msgid "Contrat"
-msgstr "Contrat"
-
 msgid "Montant investi"
 msgstr "Montant investi"
 
@@ -4142,9 +4810,6 @@ msgstr "Offres sur « %(t)s »"
 msgid "Toutes les offres"
 msgstr "Toutes les offres"
 
-msgid "Vendeur"
-msgstr "Vendeur"
-
 msgid "Prix / part"
 msgstr "Prix / part"
 
@@ -4303,9 +4968,6 @@ msgstr "De %(a)s à %(b)s MRU."
 #, python-format
 msgid "Maximum %(m)s parts pour vous dans ce projet."
 msgstr "Maximum %(m)s parts pour vous dans ce projet."
-
-msgid "Total"
-msgstr "Total"
 
 #, python-format
 msgid "Votre solde est de %(b)s MRU : vous serez invité à déposer la différence."
@@ -4807,8 +5469,14 @@ msgstr "Payer %(f)s MRU pour 7 jours de mise en avant ?"
 msgid "Mettre en avant 7 jours (%(f)s MRU)"
 msgstr "Mettre en avant 7 jours (%(f)s MRU)"
 
-msgid "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; les fonds seront ensuite versés dans votre portefeuille."
-msgstr "Objectif atteint. Notre équipe vous contacte pour signer le contrat ; les fonds seront ensuite versés dans votre portefeuille."
+msgid "Contrat de financement signé. Notre équipe libère les fonds dans votre portefeuille."
+msgstr "Contrat de financement signé. Notre équipe libère les fonds dans votre portefeuille."
+
+msgid "Pour recevoir les fonds, lisez et signez le contrat de financement : il rappelle le montant reçu, la commission et vos engagements envers les investisseurs."
+msgstr "Pour recevoir les fonds, lisez et signez le contrat de financement : il rappelle le montant reçu, la commission et vos engagements envers les investisseurs."
+
+msgid "Lire et signer le contrat de financement"
+msgstr "Lire et signer le contrat de financement"
 
 msgid "Rapports à publier"
 msgstr "Rapports à publier"
@@ -4855,9 +5523,6 @@ msgstr "Rembourser les investisseurs"
 #, python-format
 msgid "Vous avez envoyé %(a)s MRU le %(d)s. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
 msgstr "Vous avez envoyé %(a)s MRU le %(d)s. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
-
-msgid "Investisseur"
-msgstr "Investisseur"
 
 msgid "A investi"
 msgstr "A investi"
@@ -4927,6 +5592,9 @@ msgstr "Pas encore d'investisseur."
 
 msgid "Part du capital"
 msgstr "Part du capital"
+
+msgid "Contrats du projet"
+msgstr "Contrats du projet"
 
 msgid "Gestion du projet"
 msgstr "Gestion du projet"
@@ -5042,9 +5710,6 @@ msgstr "Faites une offre à un actionnaire : il peut accepter, refuser ou propos
 
 msgid "Faire une offre de rachat"
 msgstr "Faire une offre de rachat"
-
-msgid "Actionnaire"
-msgstr "Actionnaire"
 
 #, python-format
 msgid "%(n)s parts"
@@ -5509,8 +6174,18 @@ msgstr "Après signature du contrat avec le porteur : le porteur reçoit les fon
 msgid "Après signature du contrat avec le porteur : les investisseurs reçoivent leurs parts, le porteur reçoit les fonds nets de la commission de succès."
 msgstr "Après signature du contrat avec le porteur : les investisseurs reçoivent leurs parts, le porteur reçoit les fonds nets de la commission de succès."
 
+#, python-format
+msgid "Contrat de financement %(r)s signé par le porteur le %(d)s."
+msgstr "Contrat de financement %(r)s signé par le porteur le %(d)s."
+
+msgid "Lire"
+msgstr "Lire"
+
 msgid "Libérer les fonds maintenant ?"
 msgstr "Libérer les fonds maintenant ?"
+
+msgid "En attente : le porteur doit signer le contrat de financement depuis sa page de gestion. Il a été prévenu."
+msgstr "En attente : le porteur doit signer le contrat de financement depuis sa page de gestion. Il a été prévenu."
 
 msgid "Annuler la collecte"
 msgstr "Annuler la collecte"
@@ -5550,6 +6225,9 @@ msgstr "Apport"
 
 msgid "Frais d'étude payés"
 msgstr "Frais d'étude payés"
+
+msgid "Contrats"
+msgstr "Contrats"
 
 msgid "Rapports financiers à vérifier"
 msgstr "Rapports financiers à vérifier"

@@ -8,6 +8,9 @@ class ContactPageTests(TestCase):
     def test_email_can_be_changed_in_settings(self):
         from apps.core.models import PlatformSettings
 
+        from django.core.cache import cache
+
+        self.addCleanup(cache.delete, "platform_settings")  # the database rolls back, the cache would not
         s = PlatformSettings.get()
         s.contact_email = "aide@mou-charaka.com"
         s.save()

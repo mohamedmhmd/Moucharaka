@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{% trans "Mes contrats" %}{% endblock %}
+{% block content %}<div class="wrap section" style="max-width:960px">
+  <h1>{% trans "Mes contrats" %}</h1>
+  <p class="muted">{% trans "Tous les contrats que vous avez signés ou auxquels vous êtes partie. Ouvrez-en un pour le lire, l'imprimer ou l'enregistrer en PDF." %}</p>
+  <div class="panel">{% if contracts %}<table class="table cards">
+    <thead><tr><th>{% trans "Contrat" %}</th><th>{% trans "Projet" %}</th><th>{% trans "Date" %}</th><th>{% trans "Statut" %}</th><th></th></tr></thead>
+    <tbody>{% for c in contracts %}<tr>
+      <td class="cell-title"><b>{{ c.get_kind_display }}</b> <span class="small muted ltr">{{ c.reference }}</span></td>
+      <td data-label="{% trans 'Projet' %}">{% if c.project %}{{ c.project.title }}{% else %}—{% endif %}</td>
+      <td data-label="{% trans 'Date' %}">{{ c.signed_at|date:"d/m/Y" }}</td>
+      <td data-label="{% trans 'Statut' %}">{% badge c.status c.get_status_display %}</td>
+      <td class="n cell-action"><a class="btn small secondary" href="{{ c.get_absolute_url }}">{% trans "Ouvrir" %}</a></td>
+    </tr>{% endfor %}</tbody></table>
+  {% else %}<div class="empty">{% trans "Aucun contrat pour le moment." %}</div>{% endif %}</div>
+</div>{% endblock %}

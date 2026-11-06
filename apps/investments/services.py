@@ -132,8 +132,9 @@ def mark_funded(project):
     project.save(update_fields=["status", "funded_at", "updated_at"])
     record_event(project.owner, "campaign_funded", project=project)
     notify(project.owner, N_("Objectif atteint !"),
-           N_("« %(p)s » est financé. Notre équipe prépare le contrat et le versement des fonds.") % {"p": project.title},
-           url=project.get_absolute_url(), whatsapp=True)
+           N_("« %(p)s » est financé. Signez le contrat de financement depuis votre page de gestion pour recevoir "
+              "les fonds.") % {"p": project.title},
+           url=f"/projects/{project.slug}/manage/", whatsapp=True)
     for staff in User.objects.filter(is_staff=True, is_active=True):
         notify(staff, N_("Projet financé : fonds à libérer"), project.title, url=f"/staff/projects/{project.pk}/")
     for inv in project.investments.filter(status="held").select_related("investor"):

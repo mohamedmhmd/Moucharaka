@@ -32,6 +32,7 @@
         <a href="{% url 'core:dashboard' %}">{% trans "Mon espace" %}</a>
         {% if user.is_staff %}<a href="{% url 'staff:dashboard' %}">{% trans "Back-office" %}</a>{% endif %}
         <a class="nav-only-mobile" href="{% url 'wallet:home' %}">{% trans "Portefeuille" %}</a>
+        <a class="nav-only-mobile" href="{% url 'contracts:mine' %}">{% trans "Mes contrats" %}</a>
         <form class="nav-only-mobile" action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="nav-logout">{% trans "Déconnexion" %}</button></form>
       {% else %}
         <a class="nav-only-mobile nav-register" href="{% url 'accounts:register' %}">{% trans "Créer un compte" %}</a>

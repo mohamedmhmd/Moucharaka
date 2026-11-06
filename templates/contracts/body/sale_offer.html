@@ -1,0 +1,10 @@
+{% extends "contracts/body/base.html" %}{% load i18n mk %}
+{% block articles %}
+<section><h3>{% trans "Article 1 — Offre" %}</h3>
+  <p>{% blocktrans with n=shares t=project.title x=price|money tot=total|money %}Le vendeur propose {{ n }} part(s) de « {{ t }} » au prix de {{ x }} MRU l'une, soit {{ tot }} MRU, sur le marché de la plateforme.{% endblocktrans %}
+  {% if allow_partial %}{% trans "Un acheteur peut n'en prendre qu'une partie." %}{% else %}{% trans "Les parts sont vendues en un seul lot." %}{% endif %}</p></section>
+<section><h3>{% trans "Article 2 — Engagements du vendeur" %}</h3>
+  <p>{% trans "Le vendeur certifie être propriétaire de ces parts. Elles sont bloquées tant que l'offre est active. L'offre est valable 30 jours ; le vendeur peut la retirer tant qu'elle n'est pas acceptée." %}</p></section>
+<section><h3>{% trans "Article 3 — Vente" %}</h3>
+  <p>{% blocktrans with f=seller_fee_pct|floatformat:"-1" %}Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de {{ f }} % de frais.{% endblocktrans %}</p></section>
+{% endblock %}

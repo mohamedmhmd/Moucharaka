@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% load i18n mk %}
+{% block title %}{{ contract.title }} · {{ contract.reference }}{% endblock %}
+{% block content %}<div class="wrap section" style="max-width:860px">
+  <div class="row between no-print" style="margin-bottom:12px">
+    <a class="small" href="{% url 'contracts:mine' %}">← {% trans "Mes contrats" %}</a>
+    <button type="button" class="btn small secondary" onclick="window.print()">{% trans "Imprimer / enregistrer en PDF" %}</button>
+  </div>
+  <div class="row no-print" style="margin-bottom:12px">{% badge contract.status contract.get_status_display %}
+    {% if contract.terminated_at %}<span class="small muted">{% blocktrans with d=contract.terminated_at|date:"d/m/Y H:i" %}résilié le {{ d }}{% endblocktrans %}</span>{% endif %}</div>
+
+  <div class="contract-paper full">{{ contract.body|safe }}
+    <section class="contract-doc"><h3>{% trans "Signatures électroniques" %}</h3>
+      {% for s in signatures %}<div class="c-sign">
+        <b>{{ s.get_role_display }} : {{ s.full_name }}</b>{% if s.user_id == user.id or user.is_staff %}{% if s.nni %} · {% blocktrans with n=s.nni %}NNI {{ n }}{% endblocktrans %}{% endif %}<br>
+        {% blocktrans with d=s.signed_at|date:"d/m/Y H:i:s" p=s.phone|phone %}Signé le {{ d }} par code à usage unique envoyé sur WhatsApp au {{ p }}{% endblocktrans %}{% if s.ip %} · IP <span class="ltr">{{ s.ip }}</span>{% endif %}
+        {% else %}<br>{% blocktrans with d=s.signed_at|date:"d/m/Y H:i:s" %}Signé le {{ d }} par code à usage unique envoyé sur son WhatsApp vérifié{% endblocktrans %}{% endif %}
+        {% if s.from_contract %}<br><span class="small">{% blocktrans with r=s.from_contract.reference %}Signature donnée sur l'offre n° {{ r }}{% endblocktrans %}</span>{% endif %}
+      </div>{% empty %}<p>{% trans "Pas encore signé." %}</p>{% endfor %}
+      {% if contract.seal_hash %}<p class="small hash-line" style="margin-top:12px">{% trans "Empreinte du texte" %} :<br><code dir="ltr">{{ contract.body_hash }}</code><br>{% trans "Empreinte du contrat signé" %} :<br><code dir="ltr">{{ contract.seal_hash }}</code></p>{% endif %}
+    </section>
+  </div>
+  {% if contract.seal_hash %}<p class="small no-print {% if seal_ok and text_ok %}pos{% else %}neg{% endif %}" style="margin-top:8px">
+    {% if seal_ok and text_ok %}✓ {% trans "Intégrité vérifiée : le texte et les signatures n'ont pas été modifiés depuis la signature." %}{% else %}⚠ {% trans "Attention : le contrat enregistré ne correspond plus à son empreinte." %}{% endif %}</p>{% endif %}
+</div>{% endblock %}

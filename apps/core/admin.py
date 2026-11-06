@@ -13,6 +13,8 @@ class PlatformSettingsAdmin(admin.ModelAdmin):
         (_("Discipline des porteurs"), {"fields": ("report_grace_days", "installment_grace_days")}),
         (_("Revenus annexes"), {"fields": ("featured_fee",)}),
         (_("Contact"), {"fields": ("contact_email",)}),
+        (_("Identité juridique (imprimée dans les contrats)"),
+         {"fields": ("legal_name", "legal_registration", "legal_address", "legal_city")}),
         (_("Instructions de paiement"), {"fields": ("merchant_bankily", "merchant_masrvi", "merchant_sedad",
                                                    "bank_details", "support_phone")}),
     )

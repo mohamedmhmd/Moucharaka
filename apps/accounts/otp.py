@@ -25,11 +25,12 @@ def _throttle(key, limit, window=3600):
     return True
 
 
-def issue_otp(phone, purpose, ip=None):
-    """Create and send a one-time code. Returns the code (for dev display only)."""
-    if not _throttle(f"otp:phone:{phone}", settings.OTP_MAX_PER_HOUR):
+def issue_otp(phone, purpose, ip=None, per_hour=None, key="otp"):
+    """Create and send a one-time code. Returns the code (for dev display only).
+    `per_hour` and `key` give a purpose its own limit (contract signatures can be many in an hour)."""
+    if not _throttle(f"{key}:phone:{phone}", per_hour or settings.OTP_MAX_PER_HOUR):
         raise OTPError(_("Trop de codes demandés pour ce numéro. Réessayez dans une heure."))
-    if ip and not _throttle(f"otp:ip:{ip}", settings.OTP_MAX_PER_HOUR * 4):
+    if ip and not _throttle(f"{key}:ip:{ip}", (per_hour or settings.OTP_MAX_PER_HOUR) * 4):
         raise OTPError(_("Trop de demandes depuis cette connexion. Réessayez plus tard."))
     # Invalidate previous codes for the same purpose
     PhoneOTP.objects.filter(phone=phone, purpose=purpose, consumed_at__isnull=True).update(consumed_at=timezone.now())
@@ -60,4 +61,4 @@ def verify_otp(phone, purpose, code):
         raise OTPError(_("Code incorrect. Il vous reste %(n)s essai(s).") % {"n": remaining})
     otp.consumed_at = timezone.now()
     otp.save(update_fields=["consumed_at"])
-    return True
+    return otp  # truthy; contracts keep its id as proof of the signature

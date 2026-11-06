@@ -239,6 +239,7 @@ class PhoneOTP(models.Model):
         LOGIN = "login", _("Connexion")
         RESET = "reset", _("Mot de passe oublié")
         WITHDRAW = "withdraw", _("Retrait")
+        SIGN = "sign", _("Signature d'un contrat")
 
     phone = models.CharField(max_length=16, db_index=True)
     purpose = models.CharField(max_length=10, choices=Purpose.choices)

@@ -1,0 +1,19 @@
+{% extends "contracts/body/base.html" %}{% load i18n mk %}
+{% block articles %}
+<section><h3>{% trans "Article 1 — Objet" %}</h3>
+  <p>{% blocktrans with t=project.title %}L'investisseur participe, selon les règles de la Moucharaka, au financement de l'opération « {{ t }} » présentée par le porteur : l'achat de marchandises en vue de leur revente, tel que décrit sur la page du projet.{% endblocktrans %}</p></section>
+<section><h3>{% trans "Article 2 — Apport" %}</h3>
+  <p>{% blocktrans with a=amount|money t=target|money %}L'investisseur apporte {{ a }} MRU, prélevés sur son portefeuille. Montant total recherché pour l'opération : {{ t }} MRU.{% endblocktrans %}
+  {% if months %}{% blocktrans with m=months %}Durée prévue de l'opération : {{ m }} mois.{% endblocktrans %}{% endif %}
+  {% trans "Aucun frais n'est prélevé à l'investisseur lors de son apport." %}</p></section>
+<section><h3>{% trans "Article 3 — Collecte" %}</h3>
+  <p>{% trans "L'apport reste bloqué sur la plateforme jusqu'à la fin de la collecte." %}{% if campaign_end %} {% blocktrans with d=campaign_end|date:"d/m/Y" %}Fin de la collecte prévue le {{ d }}.{% endblocktrans %}{% endif %}
+  {% trans "Si l'objectif n'est pas atteint, l'apport est rendu en totalité. L'investisseur peut annuler sa participation dans les 48 heures qui suivent sa signature ; le contrat est alors résilié." %}</p></section>
+<section><h3>{% trans "Article 4 — Engagements du porteur" %}</h3>
+  <p>{% trans "Le porteur s'engage à utiliser les fonds uniquement pour l'opération décrite, à informer les investisseurs de son avancement et, à la fin de l'opération, à rendre en une seule fois, par la plateforme, le capital et le bénéfice réalisé. Il confirme ces engagements en signant le contrat de financement avant de recevoir les fonds." %}</p></section>
+<section><h3>{% trans "Article 5 — Partage du résultat" %}</h3>
+  <p>{% trans "Le montant rendu par le porteur est partagé entre tous les investisseurs au prorata de leurs apports." %}
+  {% blocktrans with m=mgmt_pct|floatformat:"-1" %}La plateforme prélève {{ m }} % du bénéfice seulement, jamais du capital.{% endblocktrans %}
+  {% if expected_pct is not None %}{% blocktrans with e=expected_pct|floatformat:"-1" %}Bénéfice annoncé par le porteur dans le meilleur cas : {{ e }} % de l'apport (estimation, non garantie).{% endblocktrans %}{% endif %}
+  {% trans "En cas de perte, chaque investisseur la supporte au prorata de son apport, sauf faute, négligence ou fausse déclaration du porteur, qui en répond alors personnellement." %}</p></section>
+{% endblock %}

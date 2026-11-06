@@ -18,11 +18,14 @@ from django.views.decorators.http import require_POST
 from apps.accounts.decorators import approved_required
 from apps.core.models import PlatformSettings
 from apps.core.utils import N_, notify
+from apps.contracts import flows as contract_flows
+from apps.contracts.services import ContractError, funding_signed
+from apps.contracts.services import terminate as terminate_contract
 from apps.investments import company as C
 from apps.investments.models import BuybackOffer, DealSettlement, Holding, Investment, ShareIssue
 from apps.investments.services import (InvestmentError, buyback, cancel_investment, cancel_settlement, deal_capital,
-                                       deal_expected, deal_split, invest, max_shares_for, pay_installment,
-                                       pay_profit_distribution, submit_settlement)
+                                       deal_expected, deal_split, max_shares_for, pay_installment,
+                                       pay_profit_distribution)
 from apps.market.models import Listing, Trade
 from apps.trust.forms import ReviewForm
 from apps.trust.models import Review
@@ -33,7 +36,7 @@ from apps.wallet.services import WalletError, collect_fee, post
 from . import forms as F_
 from .models import (FeePolicy, FinancialReport, FinancingModel, Installment, Kind, Project, ProjectDocument,
                      ProjectImage, ProjectQuestion)
-from .services import ProjectError, checklist, pending_periods, submit_project, submit_report
+from .services import ProjectError, checklist, pending_periods, submit_problem, submit_project, submit_report
 
 # ------------------------------------------------------------------ public pages
 
@@ -203,18 +206,32 @@ def invest_view(request, slug):
         messages.warning(request, _("Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez investir.") % {
             "m": f"{amount - wallet.balance:,.0f}".replace(",", " ")})
         return redirect(reverse("wallet:deposit") + f"?amount={int(amount - wallet.balance)}&next={project.get_absolute_url()}")
-    try:
-        inv = invest(request.user, project, form.cleaned_data["shares"], form.cleaned_data["risk"])
-    except InvestmentError as e:
+    shares = form.cleaned_data["shares"]
+    problem = _invest_problem(request.user, project, shares)
+    if problem:
+        messages.error(request, problem)
+        return redirect(project.get_absolute_url() + "#invest")
+    try:  # nothing is paid yet: the investor first reads and signs the contract
+        contract = contract_flows.start_invest(request, project, shares)
+    except ContractError as e:
         messages.error(request, str(e))
         return redirect(project.get_absolute_url() + "#invest")
-    if project.is_company and inv.status == Investment.Status.SETTLED:
-        messages.success(request, _("Bienvenue parmi les actionnaires ! Vous détenez maintenant %(n)s part(s) de plus.") % {"n": inv.shares})
-    elif project.is_deal:
-        messages.success(request, _("Merci ! %(a)s MRU investis. Vos fonds restent bloqués jusqu'à la fin de la collecte ; vous pouvez annuler pendant 48 h.") % {"a": f"{inv.amount:,.0f}".replace(",", " ")})
-    else:
-        messages.success(request, _("Merci ! %(n)s part(s) réservée(s). Vos fonds restent bloqués jusqu'à la fin de la collecte; vous pouvez annuler pendant 48 h.") % {"n": inv.shares})
-    return redirect("core:portfolio")
+    return redirect("contracts:sign", ref=contract.reference)
+
+
+def _invest_problem(user, project, shares):
+    """Obvious refusals, checked before showing a contract (the service checks again when signing)."""
+    if not project.accepts_investment:
+        return _("Ce projet n'accepte plus d'investissement.")
+    if project.owner_id == user.pk:
+        return _("Vous ne pouvez pas investir dans votre propre projet.")
+    limit = max_shares_for(user, project)
+    if shares > limit:
+        if project.is_deal:
+            return _("Vous pouvez investir au maximum %(n)s MRU dans ce projet.") % {
+                "n": f"{limit * project.share_price:,.0f}".replace(",", " ")}
+        return _("Vous pouvez souscrire au maximum %(n)s part(s) dans ce projet.") % {"n": limit}
+    return None
 
 
 @require_POST
@@ -223,7 +240,8 @@ def cancel_investment_view(request, pk):
     inv = get_object_or_404(Investment, pk=pk, investor=request.user)
     try:
         cancel_investment(inv, request.user)
-        messages.success(request, _("Souscription annulée, fonds débloqués."))
+        terminate_contract(inv.reference)
+        messages.success(request, _("Souscription annulée, fonds débloqués. Le contrat est résilié."))
     except InvestmentError as e:
         messages.error(request, str(e))
     return redirect("core:portfolio")
@@ -502,6 +520,18 @@ def edit_project(request, slug, step):
         ctx.update(doc_form=doc_form, images=project.images.all(), documents=project.documents.all())
     elif step == "submit":
         if post is not None:
+            if project.is_company:  # the company commits to its future shareholders: signed contract first
+                problem = submit_problem(project, request.user)
+                if problem:
+                    messages.error(request, problem)
+                    return redirect("projects:edit", slug=slug, step="submit")
+                try:
+                    contract = contract_flows.start_share_issue(
+                        request, project, project.total_shares, project.share_price)
+                except ContractError as e:
+                    messages.error(request, str(e))
+                    return redirect("projects:edit", slug=slug, step="submit")
+                return redirect("contracts:sign", ref=contract.reference)
             try:
                 submit_project(project, request.user)
             except ProjectError as e:
@@ -546,6 +576,8 @@ def manage(request, slug):
         "score": get_score(request.user),
         "interests": project.interests.select_related("user"),
     }
+    ctx["funding_signed"] = funding_signed(project)
+    ctx["contracts"] = project.contracts.filter(status__in=["signed", "terminated"]).distinct()[:30]
     template = "projects/manage.html"
     if project.is_company and project.status in ("active", "completed", "defaulted"):
         template = "projects/manage_company.html"
@@ -669,6 +701,25 @@ def buyback_view(request, slug):
 
 @require_POST
 @approved_required
+def sign_funding_view(request, slug):
+    """The collection succeeded: the owner signs the funding contract before receiving the money."""
+    project = _owner_project(request, slug)
+    if project.status != Project.Status.FUNDED:
+        messages.error(request, _("Ce contrat ne peut être signé que lorsque la collecte est réussie."))
+        return redirect("projects:manage", slug=slug)
+    if funding_signed(project):
+        messages.info(request, _("Le contrat de financement est déjà signé."))
+        return redirect("projects:manage", slug=slug)
+    try:
+        contract = contract_flows.start_funding(request, project)
+    except ContractError as e:
+        messages.error(request, str(e))
+        return redirect("projects:manage", slug=slug)
+    return redirect("contracts:sign", ref=contract.reference)
+
+
+@require_POST
+@approved_required
 def settle_view(request, slug):
     """One-off operation: the owner sends back one total (capital + profit)."""
     project = _owner_project(request, slug)
@@ -684,11 +735,20 @@ def settle_view(request, slug):
         messages.warning(request, _("Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez rembourser.") % {
             "m": f"{missing:,.0f}".replace(",", " ")})
         return redirect(reverse("wallet:deposit") + f"?amount={int(missing) + (1 if missing % 1 else 0)}&next={quote(back)}")
-    try:
-        submit_settlement(project, request.user, amount, form.cleaned_data.get("note") or "")
-        messages.success(request, _("Montant envoyé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."))
-    except InvestmentError as e:
-        messages.error(request, str(e))
+    note = form.cleaned_data.get("note") or ""
+    capital = deal_capital(project)
+    if project.settlements.filter(status=DealSettlement.Status.PENDING).exists():
+        messages.error(request, _("Un remboursement est déjà en attente de validation."))
+    elif capital <= 0:
+        messages.error(request, _("Aucun investisseur à rembourser."))
+    elif amount < capital and not note.strip():
+        messages.error(request, _("Le montant est inférieur au capital investi : expliquez la perte dans le message."))
+    else:
+        try:  # the owner signs the repayment statement; the money moves when it is signed
+            contract = contract_flows.start_settlement(request, project, amount, note)
+            return redirect("contracts:sign", ref=contract.reference)
+        except ContractError as e:
+            messages.error(request, str(e))
     return redirect(back)
 
 
@@ -740,11 +800,17 @@ def request_issue_view(request, slug):
         messages.error(request, _("Indiquez un nombre de parts et un prix entier."))
         return redirect(back)
     d = form.cleaned_data
-    try:
-        C.request_issue(project, request.user, d["shares"], d["price"], d.get("reason") or "")
-        messages.success(request, _("Demande envoyée. Notre équipe la vérifie, puis les nouvelles parts seront mises en vente."))
-    except InvestmentError as e:
-        messages.error(request, str(e))
+    if project.is_share_offering:
+        messages.error(request, _("Des parts sont encore en vente : attendez qu'elles soient vendues ou arrêtez la vente."))
+    elif project.share_issues.filter(status=ShareIssue.Status.PENDING).exists():
+        messages.error(request, _("Une demande d'émission est déjà en attente de validation."))
+    else:
+        try:
+            contract = contract_flows.start_share_issue(request, project, d["shares"], d["price"],
+                                                        d.get("reason") or "", new=True)
+            return redirect("contracts:sign", ref=contract.reference)
+        except ContractError as e:
+            messages.error(request, str(e))
     return redirect(back)
 
 
@@ -813,12 +879,27 @@ def propose_buyback_view(request, slug):
         messages.error(request, _("Indiquez un nombre de parts et un prix."))
         return redirect(back)
     d = form.cleaned_data
+    problem = _buyback_problem(project, holding, d["shares"], d["price"], request.user, new=True)
+    if problem:
+        messages.error(request, problem)
+        return redirect(back)
     try:
-        C.propose_buyback(project, request.user, holding.user, d["shares"], d["price"], d.get("message") or "")
-        messages.success(request, _("Offre envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."))
-    except InvestmentError as e:
+        contract = contract_flows.start_buyback_offer(request, project, holding.user, d["shares"], d["price"],
+                                                      d.get("message") or "")
+        return redirect("contracts:sign", ref=contract.reference)
+    except ContractError as e:
         messages.error(request, str(e))
     return redirect(back)
+
+
+def _buyback_problem(project, holding, shares, price, user, new=False):
+    if new and BuybackOffer.objects.filter(project=project, holder=holding.user, status="pending").exists():
+        return _("Une offre est déjà en discussion avec cet actionnaire.")
+    if shares > holding.free_shares:
+        return _("Cet actionnaire n'a que %(n)s part(s) disponibles.") % {"n": holding.free_shares}
+    if user.pk == project.owner_id and Wallet.for_user(user).balance < shares * price:
+        return _("Solde insuffisant : alimentez votre portefeuille du montant de l'offre.")
+    return None
 
 
 @require_POST
@@ -836,11 +917,36 @@ def answer_buyback_view(request, pk):
             messages.error(request, _("Indiquez un nombre de parts et un prix."))
             return redirect(back)
         shares, price = form.cleaned_data["shares"], form.cleaned_data["price"]
+    if action == "refuse":
+        try:
+            C.answer_buyback(offer, request.user, "refuse")
+            messages.success(request, _("Offre close."))
+        except InvestmentError as e:
+            messages.error(request, str(e))
+        return redirect(back)
+    side = BuybackOffer.OWNER if is_owner else BuybackOffer.HOLDER
+    if offer.status != BuybackOffer.Status.PENDING or offer.waiting_on != side or (
+            not is_owner and offer.holder_id != request.user.pk):
+        messages.error(request, _("C'est à l'autre partie de répondre."))
+        return redirect(back)
+    holding = Holding.objects.filter(project=offer.project, user=offer.holder).first()
+    check_shares, check_price = (shares, price) if action == "counter" else (offer.shares, offer.price)
+    problem = _buyback_problem(offer.project, holding, check_shares, check_price, request.user) if holding else \
+        _("L'actionnaire n'a plus assez de parts disponibles.")
+    if problem and not (is_owner and action == "accept" and offer.held_amount):
+        messages.error(request, problem)
+        return redirect(back)
     try:
-        C.answer_buyback(offer, request.user, action, shares, price, request.POST.get("message", ""))
-        messages.success(request, {"accept": _("Rachat conclu."), "counter": _("Votre proposition a été envoyée."),
-                                   "refuse": _("Offre close.")}.get(action, _("C'est noté.")))
-    except InvestmentError as e:
+        if action == "accept":
+            contract = contract_flows.start_buyback_accept(request, offer)
+        elif action == "counter":
+            contract = contract_flows.start_buyback_offer(request, offer.project, offer.holder, shares, price,
+                                                          request.POST.get("message", ""), offer=offer)
+        else:
+            messages.error(request, _("Action inconnue."))
+            return redirect(back)
+        return redirect("contracts:sign", ref=contract.reference)
+    except ContractError as e:
         messages.error(request, str(e))
     return redirect(back)
 
