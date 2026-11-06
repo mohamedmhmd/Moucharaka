@@ -740,3 +740,67 @@ class CompanyIssuesAndOwnerPage(FlowBase):
         self.assertTrue(p.is_share_offering)
         page = owner.get(f"/fr/projects/{p.slug}/manage/").content.decode()
         self.assertIn("Il reste 40 parts en vente", page)
+
+
+class ResetTestUserCommand(FlowBase):
+    """manage.py reset_user: same account and identity verification, everything else back to zero."""
+
+    def test_reset_owner_then_investor(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+        from django.core.management.base import CommandError
+
+        from apps.core.models import Notification
+        from apps.investments.company import pay_dividend, propose_buyback
+
+        company = self.launch(kind="company", model="moucharaka", target=500_000, share_price=1000)
+        invest(self.inv1, company, 100, True)
+        invest(self.inv2, company, 50, True)
+        pay_dividend(company, self.owner, D("15000"))
+        propose_buyback(company, self.owner, self.inv1, 10, D("1200"))
+        create_listing(self.inv2, company, 20, D("1000"))
+        self.assertTrue(Notification.objects.filter(user=self.owner).exists())
+        inv1_start = D("1000000")  # their balance before anything (see FlowBase)
+
+        out = StringIO()
+        call_command("reset_user", self.owner.phone, stdout=out)  # dry run
+        self.assertIn("Nothing erased", out.getvalue())
+        self.assertTrue(Project.objects.filter(owner=self.owner).exists())
+        with self.assertRaises(CommandError):  # others invested: needs --force
+            call_command("reset_user", self.owner.phone, "--yes", stdout=StringIO())
+        call_command("reset_user", self.owner.phone, "--yes", "--force", stdout=StringIO())
+
+        self.owner.refresh_from_db()
+        self.assertEqual(self.owner.status, "approved")
+        self.assertTrue(self.owner.check_password("Moucharaka#2026"))
+        self.assertEqual(self.owner.kyc.status, "approved")
+        w = Wallet.for_user(self.owner)
+        self.assertEqual((w.balance, w.held), (D("0"), D("0")))
+        self.assertFalse(Transaction.objects.filter(wallet=w).exists())
+        self.assertFalse(Project.objects.filter(owner=self.owner).exists())
+        self.assertFalse(Notification.objects.filter(user=self.owner).exists())
+        self.assertFalse(TrustEvent.objects.filter(user=self.owner).exists())
+        # investors got back what they put in this company (dividends received are taken back too)
+        self.assertEqual(Wallet.for_user(self.inv1).balance, inv1_start)
+        self.assertFalse(Holding.objects.filter(project=company).exists())
+        self.assertLedgerBalanced()
+
+        # now the investor can be reset too
+        call_command("reset_user", self.inv1.phone, "--yes", stdout=StringIO())
+        self.assertEqual(Wallet.for_user(self.inv1).balance, D("0"))
+        self.inv1.refresh_from_db()
+        self.assertTrue(self.inv1.is_approved)
+        self.assertLedgerBalanced()
+
+    def test_superuser_is_never_reset(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+        from django.core.management.base import CommandError
+
+        from apps.accounts.models import User
+
+        User.objects.filter(pk=self.staff.pk).update(is_superuser=True)
+        with self.assertRaises(CommandError):
+            call_command("reset_user", self.staff.phone, "--yes", stdout=StringIO())
