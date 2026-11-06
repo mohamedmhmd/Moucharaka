@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-05 17:48+0100\n"
+"POT-Creation-Date: 2026-11-06 12:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -1179,12 +1179,6 @@ msgstr "Fonds libérés : %(p)s"
 msgid "Que voulez-vous financer ?"
 msgstr "Que voulez-vous financer ?"
 
-msgid "Comment rémunérer les investisseurs ?"
-msgstr "Comment rémunérer les investisseurs ?"
-
-msgid "Une entreprise se finance en Moucharaka (partage des bénéfices) : choisissez la Moucharaka."
-msgstr "Une entreprise se finance en Moucharaka (partage des bénéfices) : choisissez la Moucharaka."
-
 msgid "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent."
 msgstr "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent."
 
@@ -1329,9 +1323,6 @@ msgstr "Rechercher"
 
 msgid "Tous les types"
 msgstr "Tous les types"
-
-msgid "Tous les modes"
-msgstr "Tous les modes"
 
 msgid "Ouverts et en activité"
 msgstr "Ouverts et en activité"
@@ -3467,8 +3458,8 @@ msgstr "Conditions d'utilisation"
 msgid "Confidentialité"
 msgstr "Confidentialité"
 
-msgid "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, sauf la marge contractuelle des opérations Mourabaha, elle-même soumise au risque de défaut du porteur."
-msgstr "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, sauf la marge contractuelle des opérations Mourabaha, elle-même soumise au risque de défaut du porteur."
+msgid "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties."
+msgstr "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties."
 
 #, python-format
 msgid "Bonjour %(n)s"
@@ -3555,8 +3546,8 @@ msgstr "Le prix d'une part, fixé par chaque projet."
 msgid "Mon argent est-il garanti ?"
 msgstr "Mon argent est-il garanti ?"
 
-msgid "Non. En Moucharaka vous partagez les résultats réels, y compris les pertes. En Mourabaha la marge est fixée mais le porteur peut faire défaut ; les garanties proposées sont affichées sur chaque projet."
-msgstr "Non. En Moucharaka vous partagez les résultats réels, y compris les pertes. En Mourabaha la marge est fixée mais le porteur peut faire défaut ; les garanties proposées sont affichées sur chaque projet."
+msgid "Non. En Moucharaka vous partagez les résultats réels, y compris les pertes. Les garanties éventuelles proposées par le porteur sont affichées sur chaque projet."
+msgstr "Non. En Moucharaka vous partagez les résultats réels, y compris les pertes. Les garanties éventuelles proposées par le porteur sont affichées sur chaque projet."
 
 msgid "Que se passe-t-il si la collecte échoue ?"
 msgstr "Que se passe-t-il si la collecte échoue ?"
@@ -3606,20 +3597,14 @@ msgstr "Étude du dossier"
 msgid "Montants"
 msgstr "Montants"
 
-msgid "Moucharaka"
-msgstr "Moucharaka"
-
-msgid "Mourabaha"
-msgstr "Mourabaha"
-
 msgid "Étude du dossier : payée à l'envoi, non remboursable. Elle couvre la vérification et, si besoin, la visite du commerce."
 msgstr "Étude du dossier : payée à l'envoi, non remboursable. Elle couvre la vérification et, si besoin, la visite du commerce."
 
 msgid "Commission de succès : prélevée uniquement si la collecte réussit, sur le montant levé."
 msgstr "Commission de succès : prélevée uniquement si la collecte réussit, sur le montant levé."
 
-msgid "Commission de gestion : prélevée sur les bénéfices distribués (Moucharaka) ou sur la marge (Mourabaha), jamais sur le capital remboursé."
-msgstr "Commission de gestion : prélevée sur les bénéfices distribués (Moucharaka) ou sur la marge (Mourabaha), jamais sur le capital remboursé."
+msgid "Commission de gestion : prélevée sur le bénéfice rendu (opération ponctuelle) ou sur les dividendes (entreprise), jamais sur le capital."
+msgstr "Commission de gestion : prélevée sur le bénéfice rendu (opération ponctuelle) ou sur les dividendes (entreprise), jamais sur le capital."
 
 #, python-format
 msgid "Mise en avant d'une collecte : %(f)s MRU pour 7 jours (facultatif)."
@@ -3700,26 +3685,32 @@ msgstr "Aucune collecte ouverte pour le moment."
 msgid "Proposer le premier projet"
 msgstr "Proposer le premier projet"
 
-msgid "Deux contrats, clairement séparés"
-msgstr "Deux contrats, clairement séparés"
+msgid "Une seule règle : la Moucharaka"
+msgstr "Une seule règle : la Moucharaka"
 
-msgid "Vous devenez associé"
-msgstr "Vous devenez associé"
+msgid "Pas de prêt, pas d'intérêt. Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses."
+msgstr "Pas de prêt, pas d'intérêt. Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses."
 
-msgid "Vous recevez un pourcentage convenu des bénéfices réels du commerce. Si le mois est mauvais, vous recevez moins ; s'il y a une perte, elle est partagée. Le rendement affiché est une estimation."
-msgstr "Vous recevez un pourcentage convenu des bénéfices réels du commerce. Si le mois est mauvais, vous recevez moins ; s'il y a une perte, elle est partagée. Le rendement affiché est une estimation."
+msgid "Vous financez une opération précise"
+msgstr "Vous financez une opération précise"
+
+msgid "Vous placez le montant de votre choix. À la fin de l'opération, le porteur rend le capital et le bénéfice en une fois, et la plateforme verse à chacun sa part selon sa mise."
+msgstr "Vous placez le montant de votre choix. À la fin de l'opération, le porteur rend le capital et le bénéfice en une fois, et la plateforme verse à chacun sa part selon sa mise."
+
+msgid "Pour : moutons de Tabaski, stock de saison, importations, bons de commande."
+msgstr "Pour : moutons de Tabaski, stock de saison, importations, bons de commande."
+
+msgid "Entreprise"
+msgstr "Entreprise"
+
+msgid "Vous devenez actionnaire"
+msgstr "Vous devenez actionnaire"
+
+msgid "Vous achetez des parts d'une entreprise existante ou en création. Vous restez actionnaire aussi longtemps que vous voulez, recevez des dividendes selon vos parts et pouvez les revendre sur le marché."
+msgstr "Vous achetez des parts d'une entreprise existante ou en création. Vous restez actionnaire aussi longtemps que vous voulez, recevez des dividendes selon vos parts et pouvez les revendre sur le marché."
 
 msgid "Pour : entreprises existantes ou en création."
 msgstr "Pour : entreprises existantes ou en création."
-
-msgid "Vous financez un achat de marchandises"
-msgstr "Vous financez un achat de marchandises"
-
-msgid "Les investisseurs achètent la marchandise et la revendent au porteur avec une marge fixée à l'avance, payée par échéances. Pas d'intérêt sur l'argent : une marge sur un bien réel."
-msgstr "Les investisseurs achètent la marchandise et la revendent au porteur avec une marge fixée à l'avance, payée par échéances. Pas d'intérêt sur l'argent : une marge sur un bien réel."
-
-msgid "Pour : stock de saison, moutons de Tabaski, importations, bons de commande."
-msgstr "Pour : stock de saison, moutons de Tabaski, importations, bons de commande."
 
 msgid "Vérifiez votre identité"
 msgstr "Vérifiez votre identité"
@@ -3733,11 +3724,11 @@ msgstr "Alimentez votre portefeuille"
 msgid "Par Bankily, Masrvi, Sedad ou virement. L'argent reste à vous tant qu'il n'est pas investi."
 msgstr "Par Bankily, Masrvi, Sedad ou virement. L'argent reste à vous tant qu'il n'est pas investi."
 
-msgid "Achetez des parts"
-msgstr "Achetez des parts"
+msgid "Investissez"
+msgstr "Investissez"
 
-msgid "Vos fonds sont bloqués jusqu'à la fin de la collecte. Si l'objectif n'est pas atteint, vous êtes remboursé."
-msgstr "Vos fonds sont bloqués jusqu'à la fin de la collecte. Si l'objectif n'est pas atteint, vous êtes remboursé."
+msgid "Dans une entreprise, vous devenez actionnaire tout de suite. Dans une opération ponctuelle, vos fonds sont bloqués jusqu'à la fin de la collecte et rendus si l'objectif n'est pas atteint."
+msgstr "Dans une entreprise, vous devenez actionnaire tout de suite. Dans une opération ponctuelle, vos fonds sont bloqués jusqu'à la fin de la collecte et rendus si l'objectif n'est pas atteint."
 
 msgid "Recevez vos versements"
 msgstr "Recevez vos versements"
@@ -3781,8 +3772,8 @@ msgstr "Le porteur publie ses ventes et ses charges chaque mois. Les écarts ave
 msgid "Versements."
 msgstr "Versements."
 
-msgid "Moucharaka : votre part du bénéfice réel. Mourabaha : les échéances convenues. Tout arrive dans votre portefeuille."
-msgstr "Moucharaka : votre part du bénéfice réel. Mourabaha : les échéances convenues. Tout arrive dans votre portefeuille."
+msgid "Opération ponctuelle : le capital et votre part du bénéfice à la fin. Entreprise : des dividendes selon vos parts. Tout arrive dans votre portefeuille."
+msgstr "Opération ponctuelle : le capital et votre part du bénéfice à la fin. Entreprise : des dividendes selon vos parts. Tout arrive dans votre portefeuille."
 
 msgid "Revente."
 msgstr "Revente."
@@ -3853,6 +3844,12 @@ msgstr "Montant investi"
 msgid "Reçu"
 msgstr "Reçu"
 
+msgid "Moucharaka"
+msgstr "Moucharaka"
+
+msgid "Mourabaha"
+msgstr "Mourabaha"
+
 msgid "en vente"
 msgstr "en vente"
 
@@ -3901,11 +3898,14 @@ msgstr "Les investisseurs et le porteur sont associés. Le bénéfice est partag
 msgid "Moucharaka moutanaqisa (dégressive) : le porteur rachète progressivement les parts des investisseurs, à un prix convenu au moment du rachat, jusqu'à redevenir seul propriétaire."
 msgstr "Moucharaka moutanaqisa (dégressive) : le porteur rachète progressivement les parts des investisseurs, à un prix convenu au moment du rachat, jusqu'à redevenir seul propriétaire."
 
-msgid "Mourabaha (vente avec marge)"
-msgstr "Mourabaha (vente avec marge)"
+msgid "Comment la Moucharaka s'applique ici"
+msgstr "Comment la Moucharaka s'applique ici"
 
-msgid "Les investisseurs financent l'achat d'une marchandise identifiée (stock, bétail, équipement). Elle est revendue au porteur au prix de revient plus une marge connue d'avance, payée en une ou plusieurs échéances. La marge ne change pas en cas de retard : il n'y a pas d'intérêt de retard."
-msgstr "Les investisseurs financent l'achat d'une marchandise identifiée (stock, bétail, équipement). Elle est revendue au porteur au prix de revient plus une marge connue d'avance, payée en une ou plusieurs échéances. La marge ne change pas en cas de retard : il n'y a pas d'intérêt de retard."
+msgid "Opération ponctuelle : l'association porte sur une seule opération (achat et revente de marchandises, par exemple). À la fin, le porteur rend le capital et le bénéfice, partagés selon la mise de chacun ; en cas de perte, chacun la supporte selon sa mise."
+msgstr "Opération ponctuelle : l'association porte sur une seule opération (achat et revente de marchandises, par exemple). À la fin, le porteur rend le capital et le bénéfice, partagés selon la mise de chacun ; en cas de perte, chacun la supporte selon sa mise."
+
+msgid "Entreprise : chaque part est une fraction de l'entreprise. Les actionnaires reçoivent des dividendes prélevés sur les bénéfices réels et peuvent revendre leurs parts ou les vendre à l'entreprise, à un prix librement convenu."
+msgstr "Entreprise : chaque part est une fraction de l'entreprise. Les actionnaires reçoivent des dividendes prélevés sur les bénéfices réels et peuvent revendre leurs parts ou les vendre à l'entreprise, à un prix librement convenu."
 
 msgid "Ce que la plateforme refuse"
 msgstr "Ce que la plateforme refuse"
@@ -5099,8 +5099,8 @@ msgstr "Vos actionnaires reçoivent une notification. Ventes du mois, ouverture,
 msgid "Déjà publiées"
 msgstr "Déjà publiées"
 
-msgid "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
-msgstr "Deux questions pour adapter le dossier. Vous pourrez enregistrer et revenir à tout moment."
+msgid "Tous les projets sont financés en Moucharaka : les investisseurs deviennent vos associés et partagent les résultats réels, bénéfices comme pertes. Vous pourrez enregistrer et revenir à tout moment."
+msgstr "Tous les projets sont financés en Moucharaka : les investisseurs deviennent vos associés et partagent les résultats réels, bénéfices comme pertes. Vous pourrez enregistrer et revenir à tout moment."
 
 msgid "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles. En Moucharaka, les investisseurs deviennent associés de votre commerce."
 msgstr "Votre commerce tourne déjà : plus de stock, un frigo, un 2e local. Vous montrez vos ventes réelles. En Moucharaka, les investisseurs deviennent associés de votre commerce."
@@ -5110,12 +5110,6 @@ msgstr "Un achat-revente précis : moutons de Tabaski, stock de rentrée, import
 
 msgid "Une entreprise qui existe déjà ou qui est en création. Vous mettez des parts en vente : chaque acheteur devient actionnaire et reçoit des dividendes quand vous en versez."
 msgstr "Une entreprise qui existe déjà ou qui est en création. Vous mettez des parts en vente : chaque acheteur devient actionnaire et reçoit des dividendes quand vous en versez."
-
-msgid "Recommandé pour les boutiques et les entreprises. Les investisseurs deviennent vos associés : vous partagez avec eux un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
-msgstr "Recommandé pour les boutiques et les entreprises. Les investisseurs deviennent vos associés : vous partagez avec eux un pourcentage du bénéfice réel. Les mauvais mois coûtent moins cher."
-
-msgid "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rendez le capital avec une marge fixe convenue à l'avance, que les ventes soient bonnes ou non."
-msgstr "Recommandé pour les opérations ponctuelles. Les investisseurs ne deviennent pas associés : vous leur rendez le capital avec une marge fixe convenue à l'avance, que les ventes soient bonnes ou non."
 
 msgid "Continuer"
 msgstr "Continuer"
@@ -5193,11 +5187,15 @@ msgstr "Vous mettez en vente un nombre de parts à un prix fixe. Chaque acheteur
 msgid "Frais : %(s)s %% de chaque vente de parts, %(m)s %% des dividendes versés."
 msgstr "Frais : %(s)s %% de chaque vente de parts, %(m)s %% des dividendes versés."
 
+msgid "Moucharaka : les investisseurs placent un montant dans votre opération. À la fin, vous leur rendez en une fois le capital et le bénéfice ; si l'opération perd de l'argent, la perte est partagée. Indiquez le bénéfice que vous pensez réaliser, sans l'exagérer."
+msgstr "Moucharaka : les investisseurs placent un montant dans votre opération. À la fin, vous leur rendez en une fois le capital et le bénéfice ; si l'opération perd de l'argent, la perte est partagée. Indiquez le bénéfice que vous pensez réaliser, sans l'exagérer."
+
+#, python-format
+msgid "Frais : %(s)s %% des fonds levés, %(m)s %% du bénéfice rendu aux investisseurs (rien sur le capital)."
+msgstr "Frais : %(s)s %% des fonds levés, %(m)s %% du bénéfice rendu aux investisseurs (rien sur le capital)."
+
 msgid "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus."
 msgstr "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus."
-
-msgid "Mourabaha : vous vous engagez sur une marge fixe, payée selon l'échéancier, même si les ventes sont moins bonnes que prévu."
-msgstr "Mourabaha : vous vous engagez sur une marge fixe, payée selon l'échéancier, même si les ventes sont moins bonnes que prévu."
 
 #, python-format
 msgid "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."

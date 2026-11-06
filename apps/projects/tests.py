@@ -194,15 +194,18 @@ class MinimalProjectTests(TestCase):
         translation.activate("fr")
 
     def test_name_and_amount_are_enough(self):
-        from apps.projects.services import ProjectError, approve_project
+        from apps.projects.services import approve_project
 
         owner = make_user("Porteur Minimal", balance=1_000)
         c = self.client
         c.force_login(owner)
+        # Moucharaka only: an old form asking for Mourabaha still creates a Moucharaka project
         r = c.post("/fr/projects/new/", {"kind": "deal", "financing_model": "mourabaha"})
         self.assertRedirects(r, "/fr/projects/new/details/")
         r = c.post("/fr/projects/new/details/", {"title": "Moutons de Tabaski"})
         p = Project.objects.get(title="Moutons de Tabaski")
+        self.assertEqual(p.financing_model, "moucharaka")
+        self.assertNotIn("Mourabaha", c.get("/fr/projects/new/").content.decode())
         self.assertRedirects(r, f"/fr/projects/{p.slug}/edit/terms/")
         self.assertIsNone(p.wilaya)
         # Every step can be saved empty
@@ -223,13 +226,31 @@ class MinimalProjectTests(TestCase):
         staff = make_user("Staff Review", staff=True)
         c.force_login(staff)
         page = c.get(f"/fr/staff/projects/{p.pk}/").content.decode()
-        self.assertIn("marge convenue", page)
-        with self.assertRaises(ProjectError):
-            approve_project(p, staff, "C")
-        p.margin_pct = Decimal("8")
-        p.save()
+        self.assertNotIn("None %", page)
         approve_project(p, staff, "C")
         self.assertEqual(c.get(p.get_absolute_url()).status_code, 200)
         self.assertEqual(c.get("/fr/projects/").status_code, 200)
         self.assertEqual(c.get(f"/fr/projects/{p.slug}/poster/").status_code, 200)
         self.assertEqual(c.get("/api/v1/projects").status_code, 200)
+
+
+class MoucharakaOnlyTests(TestCase):
+    def test_existing_mourabaha_projects_are_converted(self):
+        import importlib
+
+        from django.apps import apps as registry
+
+        from apps.projects.models import FeePolicy
+
+        owner = make_user("Porteur Ancien")
+        deal = make_project(owner, kind="deal", model="mourabaha", margin=10)
+        Project.objects.filter(pk=deal.pk).update(projected_annual_return_pct=None)
+        mig = importlib.import_module("apps.projects.migrations.0009_moucharaka_only")
+        mig.forwards(registry, None)
+        deal.refresh_from_db()
+        self.assertEqual((deal.financing_model, deal.projected_annual_return_pct), ("moucharaka", Decimal("10")))
+        self.assertFalse(FeePolicy.objects.filter(financing_model="mourabaha", is_enabled=True).exists())
+
+    def test_public_pages_say_moucharaka_only(self):
+        for url in ("/fr/", "/fr/p/how/", "/fr/p/fees/", "/fr/p/faq/", "/fr/p/sharia/", "/fr/projects/"):
+            self.assertNotIn("Mourabaha", self.client.get(url).content.decode(), url)

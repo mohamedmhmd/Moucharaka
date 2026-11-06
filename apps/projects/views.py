@@ -31,8 +31,8 @@ from apps.wallet.models import Transaction, Wallet
 from apps.wallet.services import WalletError, collect_fee, post
 
 from . import forms as F_
-from .models import (FeePolicy, FinancialReport, Installment, Kind, Project, ProjectDocument, ProjectImage,
-                     ProjectQuestion)
+from .models import (FeePolicy, FinancialReport, FinancingModel, Installment, Kind, Project, ProjectDocument,
+                     ProjectImage, ProjectQuestion)
 from .services import ProjectError, checklist, pending_periods, submit_project, submit_report
 
 # ------------------------------------------------------------------ public pages
@@ -56,8 +56,6 @@ def explore(request):
             qs = qs.filter(pk__in=search_projects(d["q"]).values("pk"))
         if d.get("kind"):
             qs = qs.filter(kind=d["kind"])
-        if d.get("model"):
-            qs = qs.filter(financing_model=d["model"])
         if d.get("wilaya"):
             qs = qs.filter(wilaya=d["wilaya"])
         if d.get("sector"):
@@ -348,12 +346,9 @@ def new_basics(request):
     if request.method == "POST" and form.is_valid():
         p = form.save(commit=False)
         p.owner = request.user
-        p.kind, p.financing_model = start["kind"], start["financing_model"]
+        p.kind, p.financing_model = start["kind"], FinancingModel.MOUCHARAKA
         p.target_amount = Decimal("0")
-        if p.is_mourabaha:
-            p.repayment_mode = Project.Repayment.MONTHLY
-        else:
-            p.exit_mode = Project.Exit.DIMINISHING
+        p.exit_mode = Project.Exit.DIMINISHING
         p.save()
         request.session.pop("new_project", None)
         messages.success(request, _("Brouillon créé. Vous pouvez le compléter à votre rythme."))

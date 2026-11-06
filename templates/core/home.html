@@ -39,16 +39,17 @@
 </div></section>
 
 <section class="section" style="padding-top:0"><div class="wrap">
-  <h2>{% trans "Deux contrats, clairement séparés" %}</h2>
+  <h2>{% trans "Une seule règle : la Moucharaka" %}</h2>
+  <p class="muted" style="max-width:720px">{% trans "Pas de prêt, pas d'intérêt. Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses." %}</p>
   <div class="grid g2" style="margin-top:16px">
-    <div class="panel"><span class="model moucharaka">{% trans "Moucharaka" %}</span>
-      <h3 style="margin-top:12px">{% trans "Vous devenez associé" %}</h3>
-      <p>{% trans "Vous recevez un pourcentage convenu des bénéfices réels du commerce. Si le mois est mauvais, vous recevez moins ; s'il y a une perte, elle est partagée. Le rendement affiché est une estimation." %}</p>
+    <div class="panel"><span class="model moucharaka">{% trans "Opération ponctuelle" %}</span>
+      <h3 style="margin-top:12px">{% trans "Vous financez une opération précise" %}</h3>
+      <p>{% trans "Vous placez le montant de votre choix. À la fin de l'opération, le porteur rend le capital et le bénéfice en une fois, et la plateforme verse à chacun sa part selon sa mise." %}</p>
+      <p class="small muted">{% trans "Pour : moutons de Tabaski, stock de saison, importations, bons de commande." %}</p></div>
+    <div class="panel"><span class="model moucharaka">{% trans "Entreprise" %}</span>
+      <h3 style="margin-top:12px">{% trans "Vous devenez actionnaire" %}</h3>
+      <p>{% trans "Vous achetez des parts d'une entreprise existante ou en création. Vous restez actionnaire aussi longtemps que vous voulez, recevez des dividendes selon vos parts et pouvez les revendre sur le marché." %}</p>
       <p class="small muted">{% trans "Pour : entreprises existantes ou en création." %}</p></div>
-    <div class="panel"><span class="model mourabaha">{% trans "Mourabaha" %}</span>
-      <h3 style="margin-top:12px">{% trans "Vous financez un achat de marchandises" %}</h3>
-      <p>{% trans "Les investisseurs achètent la marchandise et la revendent au porteur avec une marge fixée à l'avance, payée par échéances. Pas d'intérêt sur l'argent : une marge sur un bien réel." %}</p>
-      <p class="small muted">{% trans "Pour : stock de saison, moutons de Tabaski, importations, bons de commande." %}</p></div>
   </div>
 </div></section>
 
@@ -57,7 +58,7 @@
   <ol class="grid g4" style="list-style:none;padding:0;margin-top:16px">
     <li class="card"><h4>1. {% trans "Vérifiez votre identité" %}</h4><p class="small muted">{% trans "Numéro WhatsApp, code de vérification, NNI et pièce d'identité. Notre équipe valide sous 48 h." %}</p></li>
     <li class="card"><h4>2. {% trans "Alimentez votre portefeuille" %}</h4><p class="small muted">{% trans "Par Bankily, Masrvi, Sedad ou virement. L'argent reste à vous tant qu'il n'est pas investi." %}</p></li>
-    <li class="card"><h4>3. {% trans "Achetez des parts" %}</h4><p class="small muted">{% trans "Vos fonds sont bloqués jusqu'à la fin de la collecte. Si l'objectif n'est pas atteint, vous êtes remboursé." %}</p></li>
+    <li class="card"><h4>3. {% trans "Investissez" %}</h4><p class="small muted">{% trans "Dans une entreprise, vous devenez actionnaire tout de suite. Dans une opération ponctuelle, vos fonds sont bloqués jusqu'à la fin de la collecte et rendus si l'objectif n'est pas atteint." %}</p></li>
     <li class="card"><h4>4. {% trans "Recevez vos versements" %}</h4><p class="small muted">{% trans "Bénéfices ou échéances arrivent dans votre portefeuille. Vous pouvez revendre vos parts sur le marché." %}</p></li>
   </ol>
 </div></section>

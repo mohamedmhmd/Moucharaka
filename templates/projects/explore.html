@@ -5,7 +5,7 @@
   <form method="get" class="panel" style="padding:16px">
     <div class="grid g4" style="gap:10px">
       <input type="search" name="q" value="{{ form.q.value|default:'' }}" placeholder="{% trans 'Nom, quartier, boutique…' %}" aria-label="{% trans 'Rechercher' %}">
-      {{ form.kind }} {{ form.model }} {{ form.wilaya }} {{ form.sector }} {{ form.status }} {{ form.sort }}
+      {{ form.kind }} {{ form.wilaya }} {{ form.sector }} {{ form.status }} {{ form.sort }}
       <button class="btn">{% trans "Filtrer" %}</button>
     </div>
   </form>

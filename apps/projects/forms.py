@@ -13,24 +13,22 @@ from .models import (BoutiqueMonth, BoutiqueProduct, BoutiqueProfile, CompanyPla
 
 
 class StartForm(forms.Form):
+    """Every project is financed in Moucharaka (partnership, profit and loss shared)."""
     kind = forms.ChoiceField(label=_("Que voulez-vous financer ?"), choices=Kind.choices, widget=forms.RadioSelect)
-    financing_model = forms.ChoiceField(label=_("Comment rémunérer les investisseurs ?"),
-                                        choices=FinancingModel.choices, widget=forms.RadioSelect)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Only project types with at least one open fee grid are offered. To pause or reopen a type
+        # Only project types with an open fee grid are offered. To pause or reopen a type
         # (e.g. boutiques), tick "ouvert aux nouvelles demandes" in Administration › Grilles tarifaires.
         from .models import FeePolicy
 
-        open_kinds = set(FeePolicy.objects.filter(is_enabled=True).values_list("kind", flat=True))
+        open_kinds = set(FeePolicy.objects.filter(is_enabled=True, financing_model=FinancingModel.MOUCHARAKA)
+                         .values_list("kind", flat=True))
         self.fields["kind"].choices = [(k, label) for k, label in Kind.choices if k in open_kinds]
 
     def clean(self):
         d = super().clean()
-        if d.get("kind") == Kind.COMPANY and d.get("financing_model") == FinancingModel.MOURABAHA:
-            raise forms.ValidationError(_(
-                "Une entreprise se finance en Moucharaka (partage des bénéfices) : choisissez la Moucharaka."))
+        d["financing_model"] = FinancingModel.MOUCHARAKA
         return d
 
 
@@ -421,7 +419,6 @@ class BuybackForm(forms.Form):
 class FilterForm(forms.Form):
     q = forms.CharField(required=False, label=_("Rechercher"))
     kind = forms.ChoiceField(required=False, choices=[("", _("Tous les types"))] + list(Kind.choices))
-    model = forms.ChoiceField(required=False, choices=[("", _("Tous les modes"))] + list(FinancingModel.choices))
     status = forms.ChoiceField(required=False, choices=[
         ("", _("Ouverts et en activité")), ("funding", _("Collecte en cours")), ("active", _("En activité")),
         ("completed", _("Terminés")), ("all", _("Tous"))])

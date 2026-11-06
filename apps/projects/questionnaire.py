@@ -176,6 +176,7 @@ SECTORS = [
 FEE_POLICIES = [
     # kind, model, review_fee, success%, management%, min, max
     ("boutique", "moucharaka", 100, 5, 10, 50_000, 3_000_000),
+    # Mourabaha: no longer offered (closed by projects/0009), kept so older projects keep their fees
     ("boutique", "mourabaha", 100, 3, 12, 30_000, 2_000_000),
     ("deal", "mourabaha", 100, 2.5, 12, 30_000, 5_000_000),
     ("deal", "moucharaka", 100, 3, 10, 30_000, 5_000_000),

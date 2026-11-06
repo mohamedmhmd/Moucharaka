@@ -91,5 +91,6 @@ def page(request, name):
         from django.http import Http404
 
         raise Http404
-    ctx = {"policies": FeePolicy.objects.all(), "settings": PlatformSettings.get()}
+    ctx = {"policies": FeePolicy.objects.filter(is_enabled=True, financing_model="moucharaka"),
+           "settings": PlatformSettings.get()}
     return render(request, templates[name], ctx)

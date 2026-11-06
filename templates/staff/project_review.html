@@ -27,7 +27,7 @@
   <div class="panel"><h3>{% trans "Conditions" %}</h3><ul class="terms-list small">
     {% if project.is_deal %}<li><span>{% trans "Montant recherché" %}</span><b>{{ project.target_amount|money }} MRU</b></li>
     {% else %}<li><span>{% trans "Parts" %}</span><b>{{ project.total_shares }} × {{ project.share_price|money }}</b></li>{% endif %}
-    {% if project.is_moucharaka %}{% if not project.is_deal %}<li><span>{% trans "Part investisseurs" %}</span><b>{{ project.investor_profit_share_pct }} %</b></li>{% endif %}<li><span>{% trans "Rendement potentiel" %}</span><b>{{ project.projected_annual_return_pct }} %</b></li>
+    {% if project.is_moucharaka %}{% if not project.is_deal %}<li><span>{% trans "Part investisseurs" %}</span><b>{{ project.investor_profit_share_pct }} %</b></li>{% endif %}<li><span>{% trans "Rendement potentiel" %}</span><b>{% if project.projected_annual_return_pct is not None %}{{ project.projected_annual_return_pct|floatformat:"-1" }} %{% else %}—{% endif %}</b></li>
     {% else %}<li><span>{% trans "Marge" %}</span><b>{{ project.margin_pct }} % ({{ project.mourabaha_annualized_pct }} %/an)</b></li>{% endif %}
     <li><span>{% trans "Durée" %}</span><b>{{ project.duration_months }} {% trans "mois" %}</b></li><li><span>{% trans "Apport" %}</span><b>{{ project.owner_contribution|money }}</b></li>
     <li><span>{% trans "Frais d'étude payés" %}</span><b>{{ project.review_fee_paid|money }}</b></li></ul></div>
