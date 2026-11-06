@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-06 12:20+0100\n"
+"POT-Creation-Date: 2026-11-06 13:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -494,6 +494,9 @@ msgstr "Discipline des porteurs"
 msgid "Revenus annexes"
 msgstr "Revenus annexes"
 
+msgid "Contact"
+msgstr "Contact"
+
 msgid "Instructions de paiement"
 msgstr "Instructions de paiement"
 
@@ -568,6 +571,12 @@ msgstr "coordonnées bancaires pour virements"
 
 msgid "téléphone support"
 msgstr "téléphone support"
+
+msgid "e-mail de contact"
+msgstr "e-mail de contact"
+
+msgid "Affiché sur la page Contact et en bas de chaque page."
+msgstr "Affiché sur la page Contact et en bas de chaque page."
 
 msgid "paramètres de la plateforme"
 msgstr "paramètres de la plateforme"
@@ -3458,8 +3467,23 @@ msgstr "Conditions d'utilisation"
 msgid "Confidentialité"
 msgstr "Confidentialité"
 
+msgid "Nous contacter"
+msgstr "Nous contacter"
+
 msgid "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties."
 msgstr "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties."
+
+msgid "Une question sur la plateforme, un projet, votre portefeuille ou la vérification de votre identité ? Écrivez-nous, nous répondons en arabe ou en français."
+msgstr "Une question sur la plateforme, un projet, votre portefeuille ou la vérification de votre identité ? Écrivez-nous, nous répondons en arabe ou en français."
+
+msgid "Copié"
+msgstr "Copié"
+
+msgid "Copier l'adresse"
+msgstr "Copier l'adresse"
+
+msgid "Pour un projet précis, indiquez son ID (MP-…) ; pour un dépôt ou un retrait, sa référence. N'envoyez jamais votre mot de passe ni un code de vérification : notre équipe ne vous les demandera jamais."
+msgstr "Pour un projet précis, indiquez son ID (MP-…) ; pour un dépôt ou un retrait, sa référence. N'envoyez jamais votre mot de passe ni un code de vérification : notre équipe ne vous les demandera jamais."
 
 #, python-format
 msgid "Bonjour %(n)s"
@@ -4043,9 +4067,6 @@ msgstr "Lien d'aperçu privé : le projet n'est pas encore publié. Seules les p
 
 msgid "Lien du projet"
 msgstr "Lien du projet"
-
-msgid "Copié"
-msgstr "Copié"
 
 msgid "Copier"
 msgstr "Copier"

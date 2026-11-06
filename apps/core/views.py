@@ -86,7 +86,8 @@ def notifications(request):
 
 def page(request, name):
     templates = {"how": "core/how.html", "fees": "core/fees.html", "sharia": "core/sharia.html",
-                 "faq": "core/faq.html", "terms": "core/terms.html", "privacy": "core/privacy.html"}
+                 "faq": "core/faq.html", "terms": "core/terms.html", "privacy": "core/privacy.html",
+                 "contact": "core/contact.html"}
     if name not in templates:
         from django.http import Http404
 

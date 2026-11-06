@@ -12,6 +12,7 @@ class PlatformSettingsAdmin(admin.ModelAdmin):
         (_("Protection des investisseurs"), {"fields": ("max_ticket_pct", "max_campaign_days")}),
         (_("Discipline des porteurs"), {"fields": ("report_grace_days", "installment_grace_days")}),
         (_("Revenus annexes"), {"fields": ("featured_fee",)}),
+        (_("Contact"), {"fields": ("contact_email",)}),
         (_("Instructions de paiement"), {"fields": ("merchant_bankily", "merchant_masrvi", "merchant_sedad",
                                                    "bank_details", "support_phone")}),
     )

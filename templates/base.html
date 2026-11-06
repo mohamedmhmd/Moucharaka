@@ -79,6 +79,7 @@
       <div>
         <b style="font-family:var(--display);font-size:1.3rem;color:#fff">{% if IS_RTL %}مشاركة{% else %}Moucharaka{% endif %}</b>
         <p class="small" style="margin-top:8px">{% trans "Les Mauritaniens financent les commerces et les entreprises de leur pays, sans intérêt, avec des chiffres publiés chaque mois." %}</p>
+        {% if CONTACT_EMAIL %}<p class="small" style="margin-top:8px"><a href="mailto:{{ CONTACT_EMAIL }}" dir="ltr">{{ CONTACT_EMAIL }}</a></p>{% endif %}
       </div>
       <div><h4>{% trans "Investir" %}</h4><ul>
         <li><a href="{% url 'projects:explore' %}">{% trans "Projets ouverts" %}</a></li>
@@ -91,7 +92,8 @@
       <div><h4>{% trans "Aide" %}</h4><ul>
         <li><a href="{% url 'core:page' 'faq' %}">{% trans "Questions fréquentes" %}</a></li>
         <li><a href="{% url 'core:page' 'terms' %}">{% trans "Conditions d'utilisation" %}</a></li>
-        <li><a href="{% url 'core:page' 'privacy' %}">{% trans "Confidentialité" %}</a></li></ul></div>
+        <li><a href="{% url 'core:page' 'privacy' %}">{% trans "Confidentialité" %}</a></li>
+        <li><a href="{% url 'core:page' 'contact' %}">{% trans "Nous contacter" %}</a></li></ul></div>
     </div>
     <div class="legal">{% trans "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties." %}</div>
   </div>

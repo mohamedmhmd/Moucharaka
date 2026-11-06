@@ -1,0 +1,13 @@
+{% extends "core/page.html" %}{% load i18n %}
+{% block title %}{% trans "Nous contacter" %}{% endblock %}
+{% block page %}<h1>{% trans "Nous contacter" %}</h1>
+<div class="panel stack">
+  <p>{% trans "Une question sur la plateforme, un projet, votre portefeuille ou la vérification de votre identité ? Écrivez-nous, nous répondons en arabe ou en français." %}</p>
+  {% if CONTACT_EMAIL %}
+  <div class="row" style="align-items:center">
+    <a class="btn" href="mailto:{{ CONTACT_EMAIL }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg> <span dir="ltr">{{ CONTACT_EMAIL }}</span></a>
+    <button type="button" class="btn ghost small" data-copy="{{ CONTACT_EMAIL }}" data-done="{% trans 'Copié' %}">{% trans "Copier l'adresse" %}</button>
+  </div>
+  {% endif %}
+  <p class="small muted">{% trans "Pour un projet précis, indiquez son ID (MP-…) ; pour un dépôt ou un retrait, sa référence. N'envoyez jamais votre mot de passe ni un code de vérification : notre équipe ne vous les demandera jamais." %}</p>
+</div>{% endblock %}

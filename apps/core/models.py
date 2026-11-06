@@ -86,6 +86,8 @@ class PlatformSettings(models.Model):
     merchant_sedad = models.CharField(_("numéro marchand Sedad"), max_length=40, blank=True)
     bank_details = models.TextField(_("coordonnées bancaires pour virements"), blank=True)
     support_phone = models.CharField(_("téléphone support"), max_length=40, blank=True)
+    contact_email = models.EmailField(_("e-mail de contact"), blank=True, default="moucharaka.mr@gmail.com",
+                                      help_text=_("Affiché sur la page Contact et en bas de chaque page."))
 
     class Meta:
         verbose_name = _("paramètres de la plateforme")
