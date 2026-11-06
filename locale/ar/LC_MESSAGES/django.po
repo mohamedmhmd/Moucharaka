@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-06 13:31+0100\n"
+"POT-Creation-Date: 2026-11-06 14:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -1534,8 +1534,8 @@ msgstr "بيعت %(n)s حصة من «%(p)s»، وأضيفت %(a)s أوقية إ�
 msgid "Parts à vendre"
 msgstr "الحصص المعروضة للبيع"
 
-#: apps/market/views.py:21 apps/projects/forms.py:410
-#: apps/projects/forms.py:416
+#: apps/market/views.py:21 apps/projects/forms.py:409
+#: apps/projects/forms.py:415
 msgid "Prix par part (MRU)"
 msgstr "سعر الحصة (أوقية)"
 
@@ -1543,7 +1543,7 @@ msgstr "سعر الحصة (أوقية)"
 msgid "Accepter la vente d'une partie du lot"
 msgstr "قبول بيع جزء من الدفعة"
 
-#: apps/market/views.py:24 apps/projects/forms.py:411
+#: apps/market/views.py:24 apps/projects/forms.py:410
 #: templates/includes/buyback_offer.html:17
 msgid "Message (facultatif)"
 msgstr "رسالة (اختياري)"
@@ -1598,7 +1598,7 @@ msgstr "عدد الحصص المعروضة للبيع"
 msgid "Chaque acheteur devient actionnaire pour toujours et reçoit les dividendes selon ses parts."
 msgstr "كل مشترٍ يصبح مساهماً بشكل دائم ويحصل على الأرباح الموزعة حسب حصصه."
 
-#: apps/projects/forms.py:109 apps/projects/forms.py:402
+#: apps/projects/forms.py:109 apps/projects/forms.py:401
 msgid "Prix d'une part (MRU)"
 msgstr "سعر الحصة (أوقية)"
 
@@ -1706,119 +1706,115 @@ msgstr "لا"
 msgid "Photos (boutique, stock, devanture…)"
 msgstr "صور (المتجر، المخزون، الواجهة…)"
 
-#: apps/projects/forms.py:336
-msgid "Le fichier est ajouté dès que vous le choisissez."
-msgstr "يُضاف الملف بمجرد اختياره."
-
-#: apps/projects/forms.py:351 templates/market/buy.html:7
+#: apps/projects/forms.py:350 templates/market/buy.html:7
 #: templates/projects/detail.html:69
 msgid "Nombre de parts"
 msgstr "عدد الحصص"
 
-#: apps/projects/forms.py:353 apps/projects/forms.py:382
+#: apps/projects/forms.py:352 apps/projects/forms.py:381
 msgid "J'ai compris que mon capital n'est pas garanti, que les rendements sont estimés et que je peux perdre tout ou partie de ma mise."
 msgstr "أدرك أن رأس مالي غير مضمون، وأن العوائد تقديرية، وأنني قد أخسر كل أو جزء من مبلغي."
 
-#: apps/projects/forms.py:380
+#: apps/projects/forms.py:379
 msgid "Montant (MRU)"
 msgstr "المبلغ (أوقية)"
 
-#: apps/projects/forms.py:386
+#: apps/projects/forms.py:385
 msgid "Montant total rendu aux investisseurs (MRU)"
 msgstr "المبلغ الإجمالي المعاد إلى المستثمرين (أوقية)"
 
-#: apps/projects/forms.py:388
+#: apps/projects/forms.py:387
 msgid "Capital + bénéfice. La plateforme calcule la part de chacun."
 msgstr "رأس المال + الربح. المنصة تحسب نصيب كل واحد."
 
-#: apps/projects/forms.py:389
+#: apps/projects/forms.py:388
 msgid "Message aux investisseurs (facultatif)"
 msgstr "رسالة إلى المستثمرين (اختياري)"
 
-#: apps/projects/forms.py:391
+#: apps/projects/forms.py:390
 msgid "Obligatoire si vous rendez moins que le capital : expliquez ce qui s'est passé."
 msgstr "إلزامية إذا أعدت أقل من رأس المال: اشرح ما حدث."
 
-#: apps/projects/forms.py:395
+#: apps/projects/forms.py:394
 msgid "Montant total du dividende (MRU)"
 msgstr "المبلغ الإجمالي للأرباح الموزعة (أوقية)"
 
-#: apps/projects/forms.py:397
+#: apps/projects/forms.py:396
 msgid "Message aux actionnaires (facultatif)"
 msgstr "رسالة إلى المساهمين (اختياري)"
 
-#: apps/projects/forms.py:401
+#: apps/projects/forms.py:400
 msgid "Nombre de nouvelles parts"
 msgstr "عدد الحصص الجديدة"
 
-#: apps/projects/forms.py:403
+#: apps/projects/forms.py:402
 msgid "À quoi servira l'argent ?"
 msgstr "فيمَ سيُستخدم المال؟"
 
-#: apps/projects/forms.py:405
+#: apps/projects/forms.py:404
 msgid "Vos actionnaires recevront ce message avec l'annonce."
 msgstr "سيستلم مساهموك هذه الرسالة مع الإعلان."
 
-#: apps/projects/forms.py:409 apps/projects/views.py:778
+#: apps/projects/forms.py:408 apps/projects/views.py:778
 #: templates/core/portfolio.html:16
 msgid "Parts"
 msgstr "الحصص"
 
-#: apps/projects/forms.py:415 templates/projects/manage_company.html:97
+#: apps/projects/forms.py:414 templates/projects/manage_company.html:97
 msgid "Parts à racheter"
 msgstr "الحصص المراد إعادة شرائها"
 
-#: apps/projects/forms.py:420 templates/projects/explore.html:7
+#: apps/projects/forms.py:419 templates/projects/explore.html:7
 #: templates/projects/search.html:7
 msgid "Rechercher"
 msgstr "بحث"
 
-#: apps/projects/forms.py:421
+#: apps/projects/forms.py:420
 msgid "Tous les types"
 msgstr "كل الأنواع"
 
-#: apps/projects/forms.py:423
+#: apps/projects/forms.py:422
 msgid "Ouverts et en activité"
 msgstr "المفتوحة والنشطة"
 
-#: apps/projects/forms.py:423 apps/projects/models.py:81
+#: apps/projects/forms.py:422 apps/projects/models.py:81
 #: templates/projects/manage.html:18
 msgid "Collecte en cours"
 msgstr "الحملة جارية"
 
-#: apps/projects/forms.py:423 apps/projects/models.py:83
+#: apps/projects/forms.py:422 apps/projects/models.py:83
 msgid "En activité"
 msgstr "نشط"
 
-#: apps/projects/forms.py:424
+#: apps/projects/forms.py:423
 msgid "Terminés"
 msgstr "المنتهية"
 
-#: apps/projects/forms.py:424
+#: apps/projects/forms.py:423
 msgid "Tous"
 msgstr "الكل"
 
-#: apps/projects/forms.py:425
+#: apps/projects/forms.py:424
 msgid "Toutes les wilayas"
 msgstr "كل الولايات"
 
-#: apps/projects/forms.py:426
+#: apps/projects/forms.py:425
 msgid "Tous les secteurs"
 msgstr "كل القطاعات"
 
-#: apps/projects/forms.py:428
+#: apps/projects/forms.py:427
 msgid "Plus récents"
 msgstr "الأحدث"
 
-#: apps/projects/forms.py:428
+#: apps/projects/forms.py:427
 msgid "Se terminent bientôt"
 msgstr "تنتهي قريباً"
 
-#: apps/projects/forms.py:428
+#: apps/projects/forms.py:427
 msgid "Presque financés"
 msgstr "شبه مموَّلة"
 
-#: apps/projects/forms.py:429
+#: apps/projects/forms.py:428
 msgid "Rendement estimé"
 msgstr "العائد التقديري"
 
@@ -3316,7 +3312,7 @@ msgstr "الاستبيان"
 msgid "Photos et justificatifs"
 msgstr "الصور والمستندات"
 
-#: apps/projects/views.py:324 templates/projects/wizard.html:90
+#: apps/projects/views.py:324 templates/projects/wizard.html:89
 msgid "Vérifier et envoyer"
 msgstr "المراجعة والإرسال"
 
@@ -4453,7 +4449,7 @@ msgid "Nouveau mot de passe"
 msgstr "كلمة مرور جديدة"
 
 #: templates/accounts/reset_finish.html:4 templates/accounts/settings.html:7
-#: templates/projects/wizard.html:97
+#: templates/projects/wizard.html:96
 msgid "Enregistrer"
 msgstr "حفظ"
 
@@ -6896,7 +6892,7 @@ msgstr "عملية شراء وبيع محددة: أضاحي العيد، مخز�
 msgid "Une entreprise qui existe déjà ou qui est en création. Vous mettez des parts en vente : chaque acheteur devient actionnaire et reçoit des dividendes quand vous en versez."
 msgstr "مؤسسة قائمة أو قيد الإنشاء. تعرض حصصاً للبيع: كل مشترٍ يصبح مساهماً ويحصل على أرباح متى وزعتها."
 
-#: templates/projects/new_start.html:13 templates/projects/wizard.html:98
+#: templates/projects/new_start.html:13 templates/projects/wizard.html:97
 #: templates/wallet/deposit.html:6
 msgid "Continuer"
 msgstr "متابعة"
@@ -7091,40 +7087,36 @@ msgstr "الصور"
 msgid "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos."
 msgstr "الواجهة، الداخل، الرفوف، المخزون، أنت أثناء العمل. 3 صور على الأقل."
 
-#: templates/projects/wizard.html:82
-msgid "Les photos sont ajoutées dès que vous les choisissez."
-msgstr "تُضاف الصور بمجرد اختيارها."
-
-#: templates/projects/wizard.html:84
+#: templates/projects/wizard.html:83
 msgid "Justificatifs (facultatif)"
 msgstr "المستندات (اختياري)"
 
-#: templates/projects/wizard.html:85
+#: templates/projects/wizard.html:84
 msgid "Visible des investisseurs"
 msgstr "مرئي للمستثمرين"
 
-#: templates/projects/wizard.html:85
+#: templates/projects/wizard.html:84
 msgid "Réservé à l'équipe"
 msgstr "خاص بالفريق"
 
-#: templates/projects/wizard.html:92
+#: templates/projects/wizard.html:91
 #, python-format
 msgid "L'envoi déclenche les frais d'étude de %(f)s MRU, prélevés sur votre portefeuille (solde : %(b)s MRU)."
 msgstr "يؤدي الإرسال إلى اقتطاع رسوم الدراسة البالغة %(f)s أوقية من محفظتك (الرصيد: %(b)s أوقية)."
 
-#: templates/projects/wizard.html:92
+#: templates/projects/wizard.html:91
 msgid "Déposer maintenant"
 msgstr "إيداع الآن"
 
-#: templates/projects/wizard.html:93
+#: templates/projects/wizard.html:92
 msgid "Après l'envoi, le dossier n'est plus modifiable sauf si l'équipe demande des corrections."
 msgstr "بعد الإرسال لا يمكن تعديل الملف إلا إذا طلب الفريق تصحيحات."
 
-#: templates/projects/wizard.html:94
+#: templates/projects/wizard.html:93
 msgid "Envoyer pour étude"
 msgstr "إرسال للدراسة"
 
-#: templates/projects/wizard.html:97
+#: templates/projects/wizard.html:96
 msgid "Enregistrer et continuer"
 msgstr "حفظ ومتابعة"
 

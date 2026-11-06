@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-06 13:31+0100\n"
+"POT-Creation-Date: 2026-11-06 14:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -1281,9 +1281,6 @@ msgstr "Non"
 
 msgid "Photos (boutique, stock, devanture…)"
 msgstr "Photos (boutique, stock, devanture…)"
-
-msgid "Le fichier est ajouté dès que vous le choisissez."
-msgstr "Le fichier est ajouté dès que vous le choisissez."
 
 msgid "Nombre de parts"
 msgstr "Nombre de parts"
@@ -5273,9 +5270,6 @@ msgstr "Photos"
 
 msgid "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos."
 msgstr "Devanture, intérieur, rayons, stock, vous au travail. Au moins 3 photos."
-
-msgid "Les photos sont ajoutées dès que vous les choisissez."
-msgstr "Les photos sont ajoutées dès que vous les choisissez."
 
 msgid "Justificatifs (facultatif)"
 msgstr "Justificatifs (facultatif)"

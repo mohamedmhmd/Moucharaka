@@ -333,7 +333,6 @@ class DocumentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["kind"].required = False
         self.fields["title"].required = False
-        self.fields["file"].help_text = _("Le fichier est ajouté dès que vous le choisissez.")
 
     def clean(self):
         d = super().clean()

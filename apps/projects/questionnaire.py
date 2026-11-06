@@ -91,11 +91,6 @@ SECTIONS = [
          ALL, False, True, [], "", ""),
         ("legal_disputes", "bool", "Avez-vous un litige en cours (justice, impôts, bail) ?",
          "هل لديك نزاع قائم (قضاء، ضرائب، إيجار)؟", ALL, True, False, [], "", ""),
-        ("guarantor", "bool", "Une personne peut-elle se porter garante pour vous ?", "هل يمكن لشخص أن يكفلك؟",
-         ALL, False, True, [], "", ""),
-        ("sharia_commitment", "bool",
-         "Acceptez-vous un financement sans intérêt (riba), où les pertes réelles sont partagées selon le contrat ?",
-         "هل تقبل تمويلاً بلا فائدة (ربا)، تُقتسم فيه الخسائر الحقيقية حسب العقد؟", ALL, True, True, [], "", ""),
     ]),
     ("La boutique au quotidien", "الدكان يومياً", [
         ("boutique_why_location", "textarea", "Pourquoi avoir choisi cet emplacement ?", "لماذا اخترت هذا الموقع؟",
