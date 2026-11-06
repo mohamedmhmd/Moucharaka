@@ -60,8 +60,6 @@ SECTIONS = [
          ALL, True, True, [("none", "Je ne note rien", "لا أدوّن شيئاً"), ("notebook", "Un cahier", "دفتر"),
                            ("excel", "Un tableur", "جدول إلكتروني"), ("software", "Un logiciel de caisse", "برنامج محاسبة")],
          "", ""),
-        ("separate_cash", "bool", "Séparez-vous l'argent du commerce de celui de la famille ?",
-         "هل تفصل مال التجارة عن مال الأسرة؟", ALL, True, True, [], "", ""),
         ("stock_control", "choice", "Faites-vous l'inventaire du stock ?", "هل تجرد المخزون؟", f"{B},{D}", False, True, [
             ("never", "Jamais", "أبداً"), ("monthly", "Chaque mois", "كل شهر"), ("weekly", "Chaque semaine", "كل أسبوع"),
             ("daily", "Chaque jour", "كل يوم")], "", ""),

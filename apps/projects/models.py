@@ -662,15 +662,16 @@ class Milestone(models.Model):
 
 class DealPlan(models.Model):
     OPERATIONS = [
-        ("stock", _("Achat de stock pour revente")),
-        ("import", _("Importation de marchandises")),
-        ("livestock", _("Bétail (moutons de Tabaski, embouche)")),
-        ("dates", _("Récolte de dattes (guetna)")),
-        ("fishing", _("Campagne de pêche")),
-        ("agri", _("Campagne agricole")),
-        ("contract", _("Exécution d'un marché / bon de commande")),
-        ("equipment", _("Achat d'équipement productif")),
-        ("other", _("Autre opération")),
+        # Buying merchandise to resell it, then sharing the profit
+        ("import", _("Importer un stock pour le revendre")),
+        ("stock", _("Acheter en gros pour revendre au détail")),
+        ("contract", _("Acheter la marchandise d'une commande client")),
+        ("livestock", _("Bétail : achat et revente")),
+        ("dates", _("Dattes : achat et revente")),
+        ("fishing", _("Poisson : achat et revente")),
+        ("agri", _("Produits agricoles : achat et revente")),
+        ("equipment", _("Matériel : achat et revente")),
+        ("other", _("Autre achat-revente")),
     ]
     project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="deal")
     operation = models.CharField(_("nature de l'opération"), max_length=10, choices=OPERATIONS, blank=True)
