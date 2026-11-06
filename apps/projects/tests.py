@@ -254,3 +254,22 @@ class MoucharakaOnlyTests(TestCase):
     def test_public_pages_say_moucharaka_only(self):
         for url in ("/fr/", "/fr/p/how/", "/fr/p/fees/", "/fr/p/faq/", "/fr/p/sharia/", "/fr/projects/"):
             self.assertNotIn("Mourabaha", self.client.get(url).content.decode(), url)
+
+
+class SubmitThroughThePageTests(TestCase):
+    """Regression: on PostgreSQL, sending a project for review from the page must work
+    (submit_project locks the row, so it must run inside a transaction)."""
+
+    def test_deal_submitted_from_the_page(self):
+        from django.test import Client
+
+        from apps.core.factories import make_project
+
+        owner = make_user("Porteur Page", balance=50_000)
+        p = make_project(owner, kind="deal", model="moucharaka", target=300_000)
+        c = Client()
+        c.force_login(owner)
+        r = c.post(f"/projects/{p.slug}/edit/submit/", {})
+        self.assertEqual(r.status_code, 302)
+        p.refresh_from_db()
+        self.assertEqual(p.status, "submitted")

@@ -49,7 +49,6 @@ def missing_terms(project):
     return missing
 
 
-@transaction.atomic
 def submit_problem(project, user):
     """Why the project cannot be sent for review yet (None when it can). Checked before signing too."""
     if project.owner_id != user.pk or not project.is_editable:
@@ -70,6 +69,7 @@ def submit_problem(project, user):
     return None
 
 
+@transaction.atomic
 def submit_project(project, user):
     project = Project.objects.select_for_update().get(pk=project.pk)
     if project.owner_id != user.pk or not project.is_editable:
