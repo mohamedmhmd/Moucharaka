@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 17:57+0100\n"
+"POT-Creation-Date: 2026-11-07 19:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -3867,8 +3867,8 @@ msgstr "Votre dossier est en cours de vérification. Vous recevrez un message Wh
 msgid "voir le détail"
 msgstr "voir le détail"
 
-msgid "Les Mauritaniens financent les commerces et les entreprises de leur pays, sans intérêt, avec des chiffres publiés chaque mois."
-msgstr "Les Mauritaniens financent les commerces et les entreprises de leur pays, sans intérêt, avec des chiffres publiés chaque mois."
+msgid "Les Mauritaniens investissent dans les commerces et les entreprises de leur pays et partagent leurs bénéfices, avec des chiffres publiés chaque mois."
+msgstr "Les Mauritaniens investissent dans les commerces et les entreprises de leur pays et partagent leurs bénéfices, avec des chiffres publiés chaque mois."
 
 msgid "Projets ouverts"
 msgstr "Projets ouverts"
@@ -4574,8 +4574,8 @@ msgstr "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 M
 msgid "Investissez dans des projets et des entreprises."
 msgstr "Investissez dans des projets et des entreprises."
 
-msgid "Achetez des parts de projets vérifiés et recevez votre part de leurs bénéfices. Sans intérêt, avec des chiffres publiés régulièrement."
-msgstr "Achetez des parts de projets vérifiés et recevez votre part de leurs bénéfices. Sans intérêt, avec des chiffres publiés régulièrement."
+msgid "Investissez dans des projets vérifiés et recevez votre part de leurs bénéfices ou des dividendes, avec des chiffres publiés régulièrement."
+msgstr "Investissez dans des projets vérifiés et recevez votre part de leurs bénéfices ou des dividendes, avec des chiffres publiés régulièrement."
 
 msgid "Voir les projets ouverts"
 msgstr "Voir les projets ouverts"
@@ -4583,8 +4583,8 @@ msgstr "Voir les projets ouverts"
 msgid "Financez vos opérations ponctuelles ou votre entreprise, existante ou en création."
 msgstr "Financez vos opérations ponctuelles ou votre entreprise, existante ou en création."
 
-msgid "Présentez votre projet, fixez vos conditions et réunissez des investisseurs, sans intérêt."
-msgstr "Présentez votre projet, fixez vos conditions et réunissez des investisseurs, sans intérêt."
+msgid "Présentez votre projet, fixez vos conditions et réunissez des investisseurs qui partagent vos bénéfices."
+msgstr "Présentez votre projet, fixez vos conditions et réunissez des investisseurs qui partagent vos bénéfices."
 
 #, python-format
 msgid "%(shop)s : un mois de ventes"
@@ -4630,8 +4630,8 @@ msgstr "Proposer le premier projet"
 msgid "Une seule règle : la Moucharaka"
 msgstr "Une seule règle : la Moucharaka"
 
-msgid "Pas de prêt, pas d'intérêt. Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses."
-msgstr "Pas de prêt, pas d'intérêt. Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses."
+msgid "Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses."
+msgstr "Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses."
 
 msgid "Vous financez l'achat de marchandises"
 msgstr "Vous financez l'achat de marchandises"

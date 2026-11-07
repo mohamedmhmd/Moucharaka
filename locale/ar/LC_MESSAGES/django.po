@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 17:57+0100\n"
+"POT-Creation-Date: 2026-11-07 19:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -5169,8 +5169,8 @@ msgid "voir le détail"
 msgstr "عرض التفاصيل"
 
 #: templates/base.html:82
-msgid "Les Mauritaniens financent les commerces et les entreprises de leur pays, sans intérêt, avec des chiffres publiés chaque mois."
-msgstr "يموّل الموريتانيون متاجر بلدهم ومؤسساته، دون فائدة، مع أرقام تُنشر كل شهر."
+msgid "Les Mauritaniens investissent dans les commerces et les entreprises de leur pays et partagent leurs bénéfices, avec des chiffres publiés chaque mois."
+msgstr "يستثمر الموريتانيون في متاجر بلدهم ومؤسساته ويتقاسمون أرباحها، مع أرقام تُنشر كل شهر."
 
 #: templates/base.html:86
 msgid "Projets ouverts"
@@ -6110,8 +6110,8 @@ msgid "Investissez dans des projets et des entreprises."
 msgstr "استثمر في المشاريع والمؤسسات."
 
 #: templates/core/home.html:6
-msgid "Achetez des parts de projets vérifiés et recevez votre part de leurs bénéfices. Sans intérêt, avec des chiffres publiés régulièrement."
-msgstr "اشترِ حصصاً في مشاريع موثَّقة واحصل على نصيبك من أرباحها. بلا فوائد، مع أرقام تُنشر بانتظام."
+msgid "Investissez dans des projets vérifiés et recevez votre part de leurs bénéfices ou des dividendes, avec des chiffres publiés régulièrement."
+msgstr "استثمر في مشاريع موثَّقة واحصل على نصيبك من أرباحها أو من الأرباح الموزعة، مع أرقام تُنشر بانتظام."
 
 #: templates/core/home.html:8
 msgid "Voir les projets ouverts"
@@ -6122,8 +6122,8 @@ msgid "Financez vos opérations ponctuelles ou votre entreprise, existante ou en
 msgstr "موّل عملياتك الظرفية أو مؤسستك القائمة أو قيد الإنشاء."
 
 #: templates/core/home.html:12
-msgid "Présentez votre projet, fixez vos conditions et réunissez des investisseurs, sans intérêt."
-msgstr "قدّم مشروعك، وحدّد شروطك، واجمع المستثمرين، بلا فوائد."
+msgid "Présentez votre projet, fixez vos conditions et réunissez des investisseurs qui partagent vos bénéfices."
+msgstr "قدّم مشروعك، وحدّد شروطك، واجمع مستثمرين يشاركونك الأرباح."
 
 #: templates/core/home.html:18
 #, python-format
@@ -6184,8 +6184,8 @@ msgid "Une seule règle : la Moucharaka"
 msgstr "قاعدة واحدة: المشاركة"
 
 #: templates/core/home.html:43
-msgid "Pas de prêt, pas d'intérêt. Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses."
-msgstr "لا قروض ولا فوائد. تصبح شريكاً: تتقاسم الأرباح الفعلية، والخسائر إن وُجدت. العوائد المعروضة تقديرات وليست وعوداً."
+msgid "Vous devenez associé : vous partagez les bénéfices réels et, s'il y en a, les pertes. Les rendements affichés sont des estimations, jamais des promesses."
+msgstr "تصبح شريكاً: تتقاسم الأرباح الفعلية، والخسائر إن وُجدت. العوائد المعروضة تقديرات وليست وعوداً."
 
 #: templates/core/home.html:46
 msgid "Vous financez l'achat de marchandises"
