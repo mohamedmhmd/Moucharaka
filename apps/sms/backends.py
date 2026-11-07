@@ -123,14 +123,15 @@ class WhatsAppCloudBackend(BaseBackend):
         return self._post({"to": phone_e164.lstrip("+"), "type": "text", "text": {"body": text[:4096]}})
 
     def send_otp(self, phone_e164, code, lang, text):
-        name = self.config.get("otp_template")
+        # a single name ("moucharaka_code") or one per language ({"fr": "moucharaka_code_fr", "ar": "moucharaka_code_ar"})
+        name = _per_language(self.config.get("otp_template"), lang)
         if not name:
             raise MessagingError("WhatsApp Cloud: 'otp_template' is required for verification codes")
         button = code if self.config.get("otp_copy_button", True) else None
         return self._template(phone_e164, name, lang, [code], button)
 
     def send_notification(self, phone_e164, title, body, lang):
-        name = self.config.get("notification_template")
+        name = _per_language(self.config.get("notification_template"), lang)
         if not name:
             return super().send_notification(phone_e164, title, body, lang)
         # WhatsApp refuses empty or multi-line parameters
