@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from .models import AuditLog, Moughataa, Notification, PlatformSettings, Wilaya
+from .models import AuditLog, BackupRun, Moughataa, Notification, PlatformSettings, Wilaya
 
 
 @admin.register(PlatformSettings)
@@ -57,4 +57,14 @@ class AuditLogAdmin(admin.ModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(BackupRun)
+class BackupRunAdmin(admin.ModelAdmin):
+    list_display = ("created_at", "stamp", "status", "size_bytes", "uploaded", "message")
+    list_filter = ("status", "uploaded")
+    readonly_fields = [f.name for f in BackupRun._meta.fields]
+
+    def has_add_permission(self, request):
         return False

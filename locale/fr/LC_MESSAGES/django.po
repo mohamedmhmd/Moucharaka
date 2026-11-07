@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-06 14:57+0100\n"
+"POT-Creation-Date: 2026-11-07 10:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -792,6 +792,27 @@ msgstr "notification"
 
 msgid "journal d'audit"
 msgstr "journal d'audit"
+
+msgid "Réussie"
+msgstr "Réussie"
+
+msgid "Échouée"
+msgstr "Échouée"
+
+msgid "nom de la sauvegarde"
+msgstr "nom de la sauvegarde"
+
+msgid "taille (octets)"
+msgstr "taille (octets)"
+
+msgid "copiée hors du serveur"
+msgstr "copiée hors du serveur"
+
+msgid "sauvegarde"
+msgstr "sauvegarde"
+
+msgid "sauvegardes"
+msgstr "sauvegardes"
 
 msgid "Nouveau"
 msgstr "Nouveau"
@@ -5978,6 +5999,23 @@ msgstr "Remboursements"
 
 msgid "Administration"
 msgstr "Administration"
+
+#, python-format
+msgid "Dernière sauvegarde réussie : %(d)s (%(s)s)"
+msgstr "Dernière sauvegarde réussie : %(d)s (%(s)s)"
+
+msgid "sur le serveur seulement"
+msgstr "sur le serveur seulement"
+
+msgid "Aucune sauvegarde enregistrée."
+msgstr "Aucune sauvegarde enregistrée."
+
+#, python-format
+msgid "Échec le %(d)s : %(m)s"
+msgstr "Échec le %(d)s : %(m)s"
+
+msgid "Plus de 36 h sans sauvegarde réussie : vérifiez la tâche planifiée sur le serveur."
+msgstr "Plus de 36 h sans sauvegarde réussie : vérifiez la tâche planifiée sur le serveur."
 
 msgid "dossiers KYC à vérifier"
 msgstr "dossiers KYC à vérifier"

@@ -15,3 +15,30 @@ class ContactPageTests(TestCase):
         s.contact_email = "aide@mou-charaka.com"
         s.save()
         self.assertIn("aide@mou-charaka.com", self.client.get("/p/contact/").content.decode())
+
+
+class BackupStatusTests(TestCase):
+    def test_record_and_dashboard(self):
+        from io import StringIO
+
+        from django.core.management import call_command
+
+        from apps.accounts.models import User
+        from apps.core.factories import make_user
+        from apps.core.models import BackupRun, Notification
+
+        owner = make_user("Owner Admin", staff=True)
+        User.objects.filter(pk=owner.pk).update(is_superuser=True)
+        self.client.force_login(owner)
+        page = self.client.get("/fr/staff/").content.decode()
+        self.assertIn("Aucune sauvegarde enregistrée", page)
+        call_command("record_backup", "--status", "ok", "--stamp", "2026-11-07_0315", "--size", "2048000",
+                     "--uploaded", stdout=StringIO())
+        page = self.client.get("/fr/staff/").content.decode()
+        self.assertIn("Dernière sauvegarde réussie", page)
+        self.assertIn("copiée hors du serveur", page)
+        self.assertFalse(Notification.objects.filter(user=owner, title="Sauvegarde : attention").exists())
+        call_command("record_backup", "--status", "failed", "--message", "database dump failed", stdout=StringIO())
+        self.assertEqual(BackupRun.objects.count(), 2)
+        self.assertTrue(Notification.objects.filter(user=owner, title="Sauvegarde : attention").exists())
+        self.assertIn("database dump failed", self.client.get("/fr/staff/").content.decode())

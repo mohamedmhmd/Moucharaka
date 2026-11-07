@@ -68,6 +68,7 @@ def dashboard(request):
         "reports_pending": FinancialReport.objects.filter(status="submitted").count(),
         "settlements_pending": DealSettlement.objects.filter(status="pending").count(),
         "issues_pending": ShareIssue.objects.filter(status="pending").count(),
+        "last_backup": _last_backup(),
         "late_installments": Installment.objects.filter(status__in=["late", "defaulted"]).select_related("project")[:20],
         "platform": platform, "revenue": revenue,
         "revenue_total": sum((r["total"] for r in revenue), 0),
@@ -244,6 +245,20 @@ def settlements(request):
         st.split = deal_split(st.project, st.amount)
     done = DealSettlement.objects.exclude(status="pending").select_related("project", "decided_by")[:30]
     return render(request, "staff/settlements.html", {"items": items, "done": done})
+
+
+def _last_backup():
+    """Latest backup and whether it is too old (no successful backup for 36 h)."""
+    from datetime import timedelta
+
+    from django.utils import timezone
+
+    from apps.core.models import BackupRun
+
+    last = BackupRun.objects.first()
+    last_ok = BackupRun.objects.filter(status="ok").first()
+    stale = not last_ok or last_ok.created_at < timezone.now() - timedelta(hours=36)
+    return {"run": last, "ok": last_ok, "stale": stale}
 
 
 @staff_required

@@ -150,3 +150,26 @@ class AuditLog(models.Model):
 
     def __str__(self):
         return f"{self.created_at:%Y-%m-%d %H:%M} {self.action} {self.target_repr}"
+
+
+class BackupRun(models.Model):
+    """One line per nightly backup (written by deploy/backup.sh through `manage.py record_backup`)."""
+
+    class Status(models.TextChoices):
+        OK = "ok", _("Réussie")
+        FAILED = "failed", _("Échouée")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    stamp = models.CharField(_("nom de la sauvegarde"), max_length=40, blank=True)
+    status = models.CharField(max_length=8, choices=Status.choices)
+    size_bytes = models.BigIntegerField(_("taille (octets)"), default=0)
+    uploaded = models.BooleanField(_("copiée hors du serveur"), default=False)
+    message = models.CharField(max_length=500, blank=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = _("sauvegarde")
+        verbose_name_plural = _("sauvegardes")
+
+    def __str__(self):
+        return f"{self.stamp} {self.status}"

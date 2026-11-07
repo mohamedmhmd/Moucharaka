@@ -1,6 +1,10 @@
 {% extends "staff/base_staff.html" %}{% load i18n mk %}
 {% block title %}{% trans "Back-office" %}{% endblock %}
 {% block staff %}<h1>{% trans "Back-office" %}</h1>
+{% if user.is_superuser %}{% with b=last_backup %}<p class="note small {% if b.stale or b.run.status == 'failed' %}warn{% else %}good{% endif %}" style="margin-bottom:16px">
+  {% if b.ok %}{% blocktrans with d=b.ok.created_at|date:"d/m/Y H:i" s=b.ok.size_bytes|filesizeformat %}Dernière sauvegarde réussie : {{ d }} ({{ s }}){% endblocktrans %}{% if b.ok.uploaded %} · {% trans "copiée hors du serveur" %}{% else %} · {% trans "sur le serveur seulement" %}{% endif %}{% else %}{% trans "Aucune sauvegarde enregistrée." %}{% endif %}
+  {% if b.run.status == "failed" %}<br>{% blocktrans with d=b.run.created_at|date:"d/m/Y H:i" m=b.run.message %}Échec le {{ d }} : {{ m }}{% endblocktrans %}{% elif b.stale %}<br>{% trans "Plus de 36 h sans sauvegarde réussie : vérifiez la tâche planifiée sur le serveur." %}{% endif %}
+</p>{% endwith %}{% endif %}
 <div class="queue">
   <a href="{% url 'staff:kyc_list' %}" {% if kyc_pending %}class="hot"{% endif %}><b>{{ kyc_pending }}</b>{% trans "dossiers KYC à vérifier" %}</a>
   <a href="{% url 'staff:project_list' %}" {% if projects_pending %}class="hot"{% endif %}><b>{{ projects_pending }}</b>{% trans "projets à étudier" %}</a>
