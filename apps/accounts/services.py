@@ -27,7 +27,7 @@ def approve_kyc(profile: KYCProfile, reviewer, risk_level="low", notes="", reque
     record_event(user, "kyc_verified")
     audit("kyc.approved", profile, actor=reviewer, request=request, risk=risk_level)
     notify(user, N_("Votre compte est validé"),
-           N_("Vous pouvez maintenant investir et proposer des projets sur Moucharaka."), url="/dashboard/", whatsapp=True)
+           N_("Vous pouvez maintenant investir et proposer des projets sur Moucharaka."), url="/dashboard/", whatsapp=True, important=True)
 
 
 @transaction.atomic
@@ -42,6 +42,7 @@ def reject_kyc(profile: KYCProfile, reviewer, reason, allow_resubmit=True, reque
     user.save(update_fields=["status"])
     audit("kyc.rejected", profile, actor=reviewer, request=request, reason=reason, resubmit=allow_resubmit)
     if allow_resubmit:
-        notify(user, N_("Votre dossier d'identité doit être corrigé"), reason, url="/accounts/identity/", whatsapp=True)
+        notify(user, N_("Votre dossier d'identité doit être corrigé"), reason, url="/accounts/identity/", whatsapp=True, important=True)
     else:
-        notify(user, N_("Votre dossier d'identité a été refusé"), reason, url="/accounts/identity/status/", whatsapp=True)
+        notify(user, N_("Votre dossier d'identité a été refusé"), reason, url="/accounts/identity/status/", whatsapp=True,
+               important=True)

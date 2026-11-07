@@ -506,3 +506,32 @@ class InternationalAddressTests(TestCase):
                   wilaya=Moughataa.objects.first().wilaya_id)  # a stray wilaya is dropped
         kyc = KYCProfile.objects.get(user=u)
         self.assertEqual((kyc.country_name, kyc.wilaya_id), ("Japon", None))
+
+
+class IdentityDecisionWhatsAppTests(TestCase):
+    def kyc_for(self, user):
+        from apps.core.models import Wilaya
+        w = Wilaya.objects.get(code="NKO")
+        kyc = KYCProfile(user=user, full_name=user.full_name, nni=str(9988776600 + user.pk), id_type="cni",
+                         date_of_birth=date(1990, 1, 1), place_of_birth="Atar", gender="m", wilaya=w,
+                         moughataa=w.moughataas.first(), address="Ilot A", profession="Commerçant",
+                         monthly_income="20-50k", source_of_funds="business", experience="informal",
+                         status=KYCProfile.Status.SUBMITTED)
+        kyc.id_front.save("f.jpg", image_file("f.jpg"), save=False)
+        kyc.save()
+        return kyc
+
+    def test_every_decision_reaches_whatsapp_even_if_member_unticked_it(self):
+        from apps.accounts.services import reject_kyc
+        from apps.sms.backends import ConsoleBackend
+        for decide in ("approve", "resubmit", "reject"):
+            u = make_user(f"Member {decide}", approved=False)
+            u.whatsapp_notifications = False
+            u.save(update_fields=["whatsapp_notifications"])
+            kyc = self.kyc_for(u)
+            ConsoleBackend.outbox.clear()
+            if decide == "approve":
+                approve_kyc(kyc, None)
+            else:
+                reject_kyc(kyc, None, "Photo floue", allow_resubmit=decide == "resubmit")
+            self.assertEqual([p for p, _t in ConsoleBackend.outbox], [u.phone], decide)

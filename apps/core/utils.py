@@ -72,9 +72,11 @@ def N_(text):  # noqa: N802 - gettext-style marker, extracted by scripts/i18n.py
     return Msg(text)
 
 
-def notify(user, title, body="", url="", whatsapp=False, sms=None):
+def notify(user, title, body="", url="", whatsapp=False, sms=None, important=False):
     """In-app notification, mirrored on WhatsApp when `whatsapp=True` and the
-    user accepted WhatsApp notifications.
+    user accepted WhatsApp notifications. `important=True` (decisions on the
+    member's own account, e.g. identity verification) sends it on WhatsApp even
+    to members who unticked WhatsApp notifications.
 
     `title` and `body` may be N_() / lazy strings: they are rendered in the
     recipient's preferred language, not the caller's.
@@ -89,6 +91,6 @@ def notify(user, title, body="", url="", whatsapp=False, sms=None):
     with translation.override(lang):
         title_s, body_s = str(title), str(body)
     n = Notification.objects.create(user=user, title=title_s[:200], body=body_s, url=url)
-    if whatsapp and user.phone and getattr(user, "whatsapp_notifications", True):
+    if whatsapp and user.phone and (important or getattr(user, "whatsapp_notifications", True)):
         send_notification(user.phone, title_s, body_s, lang=lang)
     return n
