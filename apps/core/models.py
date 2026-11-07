@@ -173,3 +173,41 @@ class BackupRun(models.Model):
 
     def __str__(self):
         return f"{self.stamp} {self.status}"
+
+
+class Broadcast(models.Model):
+    """A message from the team to a group of members (e.g. everyone who has not verified their identity).
+
+    The in-app notification is created for everyone at once; WhatsApp copies go out in batches
+    (`whatsapp_pending` holds who is still waiting), so a large group never times out the page."""
+
+    class Audience(models.TextChoices):
+        KYC_TODO = "kyc_todo", _("Identité pas encore vérifiée (dossier non envoyé)")
+        KYC_FIX = "kyc_fix", _("Corrections d'identité demandées")
+        APPROVED = "approved", _("Membres vérifiés")
+        ALL = "all", _("Tous les membres")
+
+    audience = models.CharField(_("destinataires"), max_length=12, choices=Audience.choices)
+    title_ar = models.CharField(_("titre (arabe)"), max_length=120)
+    body_ar = models.TextField(_("message (arabe)"), max_length=600)
+    title_fr = models.CharField(_("titre (français)"), max_length=120)
+    body_fr = models.TextField(_("message (français)"), max_length=600)
+    url = models.CharField(_("lien dans le site"), max_length=200, blank=True)
+    whatsapp = models.BooleanField(_("aussi sur WhatsApp"), default=True)
+    recipients = models.PositiveIntegerField(default=0)
+    whatsapp_pending = models.JSONField(default=list, blank=True)
+    whatsapp_sent = models.PositiveIntegerField(default=0)
+    whatsapp_failed = models.PositiveIntegerField(default=0)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name="+")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = _("message groupé")
+        verbose_name_plural = _("messages groupés")
+
+    def __str__(self):
+        return self.title_fr
+
+    def text_for(self, lang):
+        return (self.title_fr, self.body_fr) if (lang or "ar")[:2] == "fr" else (self.title_ar, self.body_ar)

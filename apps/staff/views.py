@@ -288,3 +288,63 @@ def issues(request):
         it.after = it.outstanding + it.shares
     done = ShareIssue.objects.exclude(status="pending").select_related("project", "decided_by")[:30]
     return render(request, "staff/issues.html", {"items": items, "done": done})
+
+
+KYC_REMINDER = {
+    "title_ar": "وثّق هويتك",
+    "body_ar": "حسابك في مشاركة شبه جاهز. وثّق هويتك في دقيقتين لتتمكن من الاستثمار وسحب أموالك.",
+    "title_fr": "Vérifiez votre identité",
+    "body_fr": "Votre compte Moucharaka est presque prêt. Vérifiez votre identité en 2 minutes pour pouvoir "
+               "investir et retirer votre argent.",
+    "url": "/accounts/identity/",
+}
+
+
+class BroadcastForm(forms.ModelForm):
+    class Meta:
+        from apps.core.models import Broadcast
+
+        model = Broadcast
+        fields = ["audience", "title_ar", "body_ar", "title_fr", "body_fr", "url", "whatsapp"]
+        widgets = {"body_ar": forms.Textarea(attrs={"rows": 3, "dir": "rtl"}),
+                   "body_fr": forms.Textarea(attrs={"rows": 3, "dir": "ltr"}),
+                   "title_ar": forms.TextInput(attrs={"dir": "rtl"}), "title_fr": forms.TextInput(attrs={"dir": "ltr"}),
+                   "url": forms.TextInput(attrs={"dir": "ltr", "placeholder": "/accounts/identity/"})}
+
+    def clean_url(self):
+        url = self.cleaned_data["url"].strip()
+        if url and (not url.startswith("/") or url.startswith("//")):
+            raise forms.ValidationError(_("Un lien du site, qui commence par / (ex. /accounts/identity/)."))
+        return url
+
+
+@staff_required
+def broadcasts(request):
+    """Send a message to a group of members: in-app for everyone, WhatsApp copy for those who accept it."""
+    from apps.core.broadcast import audience_users, create_broadcast, send_whatsapp_batch
+    from apps.core.models import Broadcast
+
+    if request.method == "POST" and request.POST.get("continue"):
+        b = get_object_or_404(Broadcast, pk=request.POST["continue"])
+        left = send_whatsapp_batch(b)
+        messages.success(request, _("WhatsApp : %(s)s envoyés, %(f)s échecs, %(l)s restants.")
+                         % {"s": b.whatsapp_sent, "f": b.whatsapp_failed, "l": left})
+        return redirect("staff:broadcasts")
+    form = BroadcastForm(request.POST or None, initial={"audience": Broadcast.Audience.KYC_TODO, **KYC_REMINDER})
+    if request.method == "POST" and form.is_valid():
+        d = form.cleaned_data
+        b = create_broadcast(by=request.user, **d)
+        if not b.recipients:
+            messages.warning(request, _("Aucun membre dans ce groupe : rien n'a été envoyé."))
+            return redirect("staff:broadcasts")
+        left = send_whatsapp_batch(b) if b.whatsapp else 0
+        msg = _("Notification envoyée à %(n)s membre(s).") % {"n": b.recipients}
+        if b.whatsapp:
+            msg += " " + _("WhatsApp : %(s)s envoyés, %(f)s échecs, %(l)s restants.") % {
+                "s": b.whatsapp_sent, "f": b.whatsapp_failed, "l": left}
+        messages.success(request, msg)
+        return redirect("staff:broadcasts")
+    counts = {a: audience_users(a).count() for a, _label in Broadcast.Audience.choices}
+    return render(request, "staff/broadcasts.html", {
+        "form": form, "counts": counts, "audiences": Broadcast.Audience.choices,
+        "history": Broadcast.objects.select_related("created_by")[:20]})

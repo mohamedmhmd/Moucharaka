@@ -96,6 +96,7 @@
         <li><a href="{% url 'core:page' 'privacy' %}">{% trans "Confidentialité" %}</a></li>
         <li><a href="{% url 'core:page' 'contact' %}">{% trans "Nous contacter" %}</a></li></ul></div>
     </div>
+    {% if LEGAL_NAME %}<div class="legal">{% if LEGAL_REGISTRATION %}{% blocktrans with n=LEGAL_NAME r=LEGAL_REGISTRATION %}Moucharaka est une plateforme exploitée par {{ n }} ({{ r }}).{% endblocktrans %}{% else %}{% blocktrans with n=LEGAL_NAME %}Moucharaka est une plateforme exploitée par {{ n }}.{% endblocktrans %}{% endif %}</div>{% endif %}
     <div class="legal">{% trans "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties." %}</div>
   </div>
 </footer>

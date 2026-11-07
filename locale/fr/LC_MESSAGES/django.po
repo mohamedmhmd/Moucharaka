@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 11:30+0100\n"
+"POT-Creation-Date: 2026-11-07 16:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -813,6 +813,45 @@ msgstr "sauvegarde"
 
 msgid "sauvegardes"
 msgstr "sauvegardes"
+
+msgid "Identité pas encore vérifiée (dossier non envoyé)"
+msgstr "Identité pas encore vérifiée (dossier non envoyé)"
+
+msgid "Corrections d'identité demandées"
+msgstr "Corrections d'identité demandées"
+
+msgid "Membres vérifiés"
+msgstr "Membres vérifiés"
+
+msgid "Tous les membres"
+msgstr "Tous les membres"
+
+msgid "destinataires"
+msgstr "destinataires"
+
+msgid "titre (arabe)"
+msgstr "titre (arabe)"
+
+msgid "message (arabe)"
+msgstr "message (arabe)"
+
+msgid "titre (français)"
+msgstr "titre (français)"
+
+msgid "message (français)"
+msgstr "message (français)"
+
+msgid "lien dans le site"
+msgstr "lien dans le site"
+
+msgid "aussi sur WhatsApp"
+msgstr "aussi sur WhatsApp"
+
+msgid "message groupé"
+msgstr "message groupé"
+
+msgid "messages groupés"
+msgstr "messages groupés"
 
 msgid "Nouveau"
 msgstr "Nouveau"
@@ -2978,6 +3017,20 @@ msgstr "Émission validée : les nouvelles parts sont en vente."
 msgid "Émission refusée."
 msgstr "Émission refusée."
 
+msgid "Un lien du site, qui commence par / (ex. /accounts/identity/)."
+msgstr "Un lien du site, qui commence par / (ex. /accounts/identity/)."
+
+#, python-format
+msgid "WhatsApp : %(s)s envoyés, %(f)s échecs, %(l)s restants."
+msgstr "WhatsApp : %(s)s envoyés, %(f)s échecs, %(l)s restants."
+
+msgid "Aucun membre dans ce groupe : rien n'a été envoyé."
+msgstr "Aucun membre dans ce groupe : rien n'a été envoyé."
+
+#, python-format
+msgid "Notification envoyée à %(n)s membre(s)."
+msgstr "Notification envoyée à %(n)s membre(s)."
+
 msgid "Recalculer"
 msgstr "Recalculer"
 
@@ -3681,6 +3734,14 @@ msgstr "Confidentialité"
 
 msgid "Nous contacter"
 msgstr "Nous contacter"
+
+#, python-format
+msgid "Moucharaka est une plateforme exploitée par %(n)s (%(r)s)."
+msgstr "Moucharaka est une plateforme exploitée par %(n)s (%(r)s)."
+
+#, python-format
+msgid "Moucharaka est une plateforme exploitée par %(n)s."
+msgstr "Moucharaka est une plateforme exploitée par %(n)s."
 
 msgid "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties."
 msgstr "Investir comporte des risques de perte en capital. Les rendements affichés sont des estimations, jamais des garanties."
@@ -6000,8 +6061,43 @@ msgstr "Rapports"
 msgid "Remboursements"
 msgstr "Remboursements"
 
+msgid "Messages"
+msgstr "Messages"
+
 msgid "Administration"
 msgstr "Administration"
+
+msgid "Messages aux membres"
+msgstr "Messages aux membres"
+
+msgid "Envoyer un message aux membres"
+msgstr "Envoyer un message aux membres"
+
+msgid "Chaque membre reçoit le message dans sa langue : dans ses notifications sur le site, et sur WhatsApp s'il a accepté les notifications WhatsApp."
+msgstr "Chaque membre reçoit le message dans sa langue : dans ses notifications sur le site, et sur WhatsApp s'il a accepté les notifications WhatsApp."
+
+msgid "Destinataires"
+msgstr "Destinataires"
+
+msgid "Page ouverte quand le membre clique sur la notification. Pour la vérification d'identité : /accounts/identity/"
+msgstr "Page ouverte quand le membre clique sur la notification. Pour la vérification d'identité : /accounts/identity/"
+
+msgid "Envoyé avec le modèle moucharaka_update. Chaque message WhatsApp est facturé par Meta."
+msgstr "Envoyé avec le modèle moucharaka_update. Chaque message WhatsApp est facturé par Meta."
+
+msgid "Envoyer ce message à tout le groupe choisi ?"
+msgstr "Envoyer ce message à tout le groupe choisi ?"
+
+msgid "Messages envoyés"
+msgstr "Messages envoyés"
+
+#, python-format
+msgid "%(n)s sur le site"
+msgstr "%(n)s sur le site"
+
+#, python-format
+msgid "Envoyer les %(n)s WhatsApp restants"
+msgstr "Envoyer les %(n)s WhatsApp restants"
 
 #, python-format
 msgid "Dernière sauvegarde réussie : %(d)s (%(s)s)"
