@@ -113,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # ---------------------------------------------------------------- i18n
 LANGUAGE_CODE = env("LANGUAGE_CODE", default="ar")
+FORMAT_MODULE_PATH = ["config.formats"]  # Arabic: "." for decimals (see config/formats/ar)
 LANGUAGES = [("ar", "العربية"), ("fr", "Français")]
 LOCALE_PATHS = [BASE_DIR / "locale"]
 TIME_ZONE = "Africa/Nouakchott"

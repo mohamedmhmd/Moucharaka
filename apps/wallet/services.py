@@ -87,7 +87,28 @@ def reject_deposit(deposit, by, reason):
 
 # ------------------------------------------------------------------ withdrawals
 
-def withdrawal_fee(amount):
+def withdrawal_fee_rules():
+    """{method: [(from_amount, flat, pct), ...]} plus the general fee, for the fee preview in the browser."""
+    from .models import WithdrawalFee
+
+    rules = {}
+    for r in WithdrawalFee.objects.all():
+        rules.setdefault(r.method, []).append((r.from_amount, r.flat_fee, r.pct_fee))
+    s = PlatformSettings.get()
+    return rules, (s.withdrawal_fee_flat, s.withdrawal_fee_pct)
+
+
+def withdrawal_fee(amount, method=None):
+    """Cost of a withdrawal: the member's service grid (bracket with the highest "from" not above the
+    amount), or the general fee when that service has no grid."""
+    from .models import WithdrawalFee
+
+    amount = q2(amount)
+    if method:
+        rule = (WithdrawalFee.objects.filter(method=method, from_amount__lte=amount)
+                .order_by("-from_amount").first())
+        if rule:
+            return q2(rule.flat_fee + pct(amount, rule.pct_fee))
     s = PlatformSettings.get()
     return q2(s.withdrawal_fee_flat + pct(amount, s.withdrawal_fee_pct))
 
@@ -104,7 +125,7 @@ def request_withdrawal(user, amount, account):
             "d": account.withdrawable_from.strftime("%d/%m/%Y %H:%M")})
     if amount < s.min_withdrawal:
         raise WalletError(_("Le retrait minimum est de %(m)s MRU.") % {"m": fmt_amount(s.min_withdrawal)})
-    fee = withdrawal_fee(amount)
+    fee = withdrawal_fee(amount, account.method)
     destination = account.number
     wr = WithdrawalRequest.objects.create(user=user, amount=amount, fee=fee, method=account.method,
                                           destination=destination, payment_account=account)

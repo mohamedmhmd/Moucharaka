@@ -1,7 +1,7 @@
 from django.contrib import admin, messages
 from django.utils.translation import gettext_lazy as _
 
-from .models import DepositRequest, PaymentAccount, Transaction, Wallet, WithdrawalRequest
+from .models import DepositRequest, PaymentAccount, Transaction, Wallet, WithdrawalFee, WithdrawalRequest
 from .services import WalletError, confirm_deposit, mark_withdrawal_paid
 
 
@@ -76,3 +76,15 @@ class PaymentAccountAdmin(admin.ModelAdmin):
         from django.utils import timezone
 
         queryset.filter(verified_at__isnull=True).update(verified_at=timezone.now())
+
+
+@admin.register(WithdrawalFee)
+class WithdrawalFeeAdmin(admin.ModelAdmin):
+    """One line per bracket: the fee of a withdrawal is the line of the member's service with the highest
+    "from" amount not above the withdrawal. A service with no line uses the general fee
+    (Paramètres de la plateforme)."""
+
+    list_display = ("method", "from_amount", "flat_fee", "pct_fee", "note")
+    list_editable = ("from_amount", "flat_fee", "pct_fee", "note")
+    list_display_links = ("method",)
+    list_filter = ("method",)

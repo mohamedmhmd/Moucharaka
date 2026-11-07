@@ -103,6 +103,14 @@ def page(request, name):
         raise Http404
     ctx = {"policies": FeePolicy.objects.filter(is_enabled=True, financing_model="moucharaka"),
            "settings": PlatformSettings.get()}
+    if name == "fees":
+        from apps.wallet.models import PaymentMethod, WithdrawalFee
+
+        grids = {}
+        for r in WithdrawalFee.objects.all():
+            grids.setdefault(r.method, []).append(r)
+        ctx["withdrawal_grids"] = [(label, grids[m]) for m, label in PaymentMethod.choices if m in grids]
+        ctx["withdrawal_general_for"] = [label for m, label in PaymentMethod.choices if m not in grids and m != "cash"]
     return render(request, templates[name], ctx)
 
 

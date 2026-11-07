@@ -133,3 +133,34 @@ class TransactionIdTests(TestCase):
         d = self.dep(self.b, "bankily", status="pending")
         with self.assertRaises(WalletError):
             confirm_deposit(d, external_ref="777")
+
+
+class WithdrawalFeeGridTests(TestCase):
+    def test_bankily_grid_and_general_fee_for_others(self):
+        from apps.wallet.services import withdrawal_fee
+        self.assertEqual(withdrawal_fee(Decimal("1000"), "bankily"), Decimal("0"))
+        self.assertEqual(withdrawal_fee(Decimal("2000"), "bankily"), Decimal("6"))
+        self.assertEqual(withdrawal_fee(Decimal("10000"), "bankily"), Decimal("21"))      # 11 + 0.1 %
+        self.assertEqual(withdrawal_fee(Decimal("1000000"), "bankily"), Decimal("1073"))  # 73 + 1 000
+        # Sedad has no grid yet: the general fee (20 + 0.5 %)
+        self.assertEqual(withdrawal_fee(Decimal("10000"), "sedad"), Decimal("70"))
+
+    def test_withdrawal_request_uses_the_account_service(self):
+        from datetime import timedelta
+
+        from django.utils import timezone
+
+        from apps.wallet.models import PaymentAccount, WithdrawalFee
+        from apps.wallet.services import request_withdrawal
+        WithdrawalFee.objects.create(method="sedad", from_amount=Decimal("0"), flat_fee=Decimal("5"))
+        u = make_user("Withdrawer", balance=50000)
+        acc = PaymentAccount.objects.create(user=u, method="sedad", number="33445566", holder_name="W")
+        PaymentAccount.objects.filter(pk=acc.pk).update(created_at=timezone.now() - timedelta(days=3))
+        acc.refresh_from_db()
+        wr = request_withdrawal(u, Decimal("20000"), acc)
+        self.assertEqual(wr.fee, Decimal("5"))
+
+    def test_fees_page_lists_the_grid(self):
+        r = self.client.get("/fr/p/fees/")
+        self.assertContains(r, "Bankily (BPM)")
+        self.assertContains(r, "Gratuit")

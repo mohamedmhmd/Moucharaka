@@ -284,3 +284,33 @@ class WithdrawalRequest(models.Model):
     @property
     def total(self):
         return self.amount + self.fee
+
+
+class WithdrawalFee(models.Model):
+    """What a withdrawal costs, per payment service and amount bracket.
+
+    The rule used is the one of the member's service with the highest "from" amount not above the
+    withdrawal. A service without rules uses the general fee in the platform settings.
+    Pre-filled with Bankily's public grid (client → client, 20 % TOF included, 0.1 % TTE from
+    5 000 MRU); adjust it to your merchant contracts."""
+
+    method = models.CharField(_("service"), max_length=10, choices=PaymentMethod.choices)
+    from_amount = models.DecimalField(_("à partir de (MRU)"), max_digits=12, decimal_places=2, default=Decimal("0"))
+    flat_fee = models.DecimalField(_("frais fixes (MRU)"), max_digits=10, decimal_places=2, default=Decimal("0"))
+    pct_fee = models.DecimalField(_("frais proportionnels (%)"), max_digits=5, decimal_places=2, default=Decimal("0"))
+    note = models.CharField(_("note"), max_length=120, blank=True)
+
+    class Meta:
+        ordering = ["method", "from_amount"]
+        unique_together = [("method", "from_amount")]
+        verbose_name = _("frais de retrait par service")
+        verbose_name_plural = _("frais de retrait par service")
+
+    def __str__(self):
+        return f"{self.get_method_display()} ≥ {self.from_amount}"
+
+    @property
+    def above(self):
+        """1000.01 reads better as "more than 1 000"."""
+        whole = int(self.from_amount)
+        return whole if self.from_amount != whole else None

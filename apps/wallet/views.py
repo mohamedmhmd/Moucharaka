@@ -22,7 +22,8 @@ from .forms import DepositForm, DepositProofForm, PaymentAccountForm, WithdrawFo
 from .gateways import get_gateway, verify_signature
 from .models import DepositRequest, PaymentAccount, Wallet, WithdrawalRequest
 from .services import (WalletError, cancel_withdrawal, confirm_deposit, remove_payment_account, request_withdrawal,
-                       save_payment_account, withdrawal_fee)
+                       save_payment_account, withdrawal_fee,
+                       withdrawal_fee_rules)
 
 
 @approved_required
@@ -152,7 +153,7 @@ def withdraw(request):
     form = WithdrawForm(request.POST or None, user=request.user)
     if request.method == "POST" and form.is_valid():
         amount = form.cleaned_data["amount"]
-        fee = withdrawal_fee(amount)
+        fee = withdrawal_fee(amount, form.cleaned_data["account"].method)
         if amount + fee > wallet.balance:
             form.add_error("amount", _("Solde disponible insuffisant (frais de %(f)s MRU inclus).") % {"f": fee})
         elif amount < s.min_withdrawal:
@@ -171,7 +172,14 @@ def withdraw(request):
                            "holder": acc.holder_name}
                 request.session["withdraw_pending"] = pending
                 return render(request, "wallet/withdraw_confirm.html", {"pending": pending})
-    return render(request, "wallet/withdraw.html", {"form": form, "wallet": wallet, "settings": s})
+    rules, general = withdrawal_fee_rules()
+    fee_data = {
+        "rules": {m: [[float(a), float(f), float(p)] for a, f, p in rs] for m, rs in rules.items()},
+        "general": [float(general[0]), float(general[1])],
+        "accounts": {str(a.pk): a.method for a in request.user.payment_accounts.filter(is_active=True)},
+    }
+    return render(request, "wallet/withdraw.html", {"form": form, "wallet": wallet, "settings": s,
+                                                    "fee_data": fee_data})
 
 
 @require_POST

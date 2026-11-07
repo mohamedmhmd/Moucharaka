@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 19:36+0100\n"
+"POT-Creation-Date: 2026-11-07 20:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -819,6 +819,9 @@ msgstr "Marché secondaire"
 
 msgid "Portefeuille"
 msgstr "Portefeuille"
+
+msgid "Frais de retrait généraux, pour les services sans grille dans « Frais de retrait par service »."
+msgstr "Frais de retrait généraux, pour les services sans grille dans « Frais de retrait par service »."
 
 msgid "Protection des investisseurs"
 msgstr "Protection des investisseurs"
@@ -3582,6 +3585,24 @@ msgstr "retrait"
 msgid "retraits"
 msgstr "retraits"
 
+msgid "service"
+msgstr "service"
+
+msgid "à partir de (MRU)"
+msgstr "à partir de (MRU)"
+
+msgid "frais fixes (MRU)"
+msgstr "frais fixes (MRU)"
+
+msgid "frais proportionnels (%)"
+msgstr "frais proportionnels (%)"
+
+msgid "note"
+msgstr "note"
+
+msgid "frais de retrait par service"
+msgstr "frais de retrait par service"
+
 #, python-format
 msgid "Solde insuffisant : il manque %(m)s MRU."
 msgstr "Solde insuffisant : il manque %(m)s MRU."
@@ -4566,6 +4587,27 @@ msgstr "Achat de parts sur le marché"
 
 msgid "Vente de parts sur le marché"
 msgstr "Vente de parts sur le marché"
+
+msgid "selon le service et le montant (ci-dessous)"
+msgstr "selon le service et le montant (ci-dessous)"
+
+msgid "Ce que coûte l'envoi de votre argent vers votre compte, selon le service qui le reçoit. Le dépôt est toujours gratuit."
+msgstr "Ce que coûte l'envoi de votre argent vers votre compte, selon le service qui le reçoit. Le dépôt est toujours gratuit."
+
+msgid "Montant retiré"
+msgstr "Montant retiré"
+
+#, python-format
+msgid "plus de %(a)s MRU"
+msgstr "plus de %(a)s MRU"
+
+#, python-format
+msgid "à partir de %(a)s MRU"
+msgstr "à partir de %(a)s MRU"
+
+#, python-format
+msgid "%(s)s : %(f)s MRU + %(p)s %%."
+msgstr "%(s)s : %(f)s MRU + %(p)s %%."
 
 #, python-format
 msgid "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
@@ -6801,14 +6843,17 @@ msgid "Retirer de l'argent"
 msgstr "Retirer de l'argent"
 
 #, python-format
-msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
-msgstr "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
+msgid "Disponible : %(b)s MRU. Les frais dépendent du service qui reçoit l'argent et du montant. Un code WhatsApp confirme l'opération."
+msgstr "Disponible : %(b)s MRU. Les frais dépendent du service qui reçoit l'argent et du montant. Un code WhatsApp confirme l'opération."
 
 msgid "Recevoir le code de confirmation"
 msgstr "Recevoir le code de confirmation"
 
 msgid "Ajouter un compte de réception"
 msgstr "Ajouter un compte de réception"
+
+msgid "Grille des frais"
+msgstr "Grille des frais"
 
 msgid "Confirmer le retrait"
 msgstr "Confirmer le retrait"

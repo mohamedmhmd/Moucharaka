@@ -8,7 +8,9 @@ from .models import AuditLog, BackupRun, Moughataa, Notification, PlatformSettin
 class PlatformSettingsAdmin(admin.ModelAdmin):
     fieldsets = (
         (_("Marché secondaire"), {"fields": ("trade_fee_buyer_pct", "trade_fee_seller_pct", "max_listing_premium_pct")}),
-        (_("Portefeuille"), {"fields": ("min_deposit", "min_withdrawal", "withdrawal_fee_flat", "withdrawal_fee_pct")}),
+        (_("Portefeuille"), {"fields": ("min_deposit", "min_withdrawal", "withdrawal_fee_flat", "withdrawal_fee_pct"),
+                             "description": _("Frais de retrait généraux, pour les services sans grille dans "
+                                              "« Frais de retrait par service ».")}),
         (_("Protection des investisseurs"), {"fields": ("max_ticket_pct", "max_campaign_days")}),
         (_("Discipline des porteurs"), {"fields": ("report_grace_days", "installment_grace_days")}),
         (_("Revenus annexes"), {"fields": ("featured_fee",)}),

@@ -17,6 +17,33 @@
     toggle.setAttribute("aria-expanded", nav.classList.contains("open"));
   });
 
+  // Withdrawal: live fee for the chosen receiving account and amount (same rule as the server)
+  const wf = $("form[data-withdraw-fees]");
+  const wfData = $("#withdraw-fees");
+  if (wf && wfData) {
+    const data = JSON.parse(wfData.textContent);
+    const amountEl = $("input[name=amount]", wf);
+    const box = $("[data-fee-preview]", wf);
+    const fee = (amount, method) => {
+      const rules = (data.rules[method] || []).filter((r) => r[0] <= amount);
+      const [flat, p] = rules.length ? rules[rules.length - 1].slice(1) : data.general;
+      return Math.round((flat + (amount * p) / 100) * 100) / 100;
+    };
+    const update = () => {
+      const amount = parseFloat(String(amountEl.value).replace(/[\s\u202f]/g, "").replace(",", ".")) || 0;
+      const acc = $("input[name=account]:checked", wf);
+      if (!amount || !acc) { box.hidden = true; return; }
+      const f = fee(amount, data.accounts[acc.value]);
+      const show = (n) => (Number.isInteger(n) ? fmt(n) : fmtDec(n));
+      $("[data-fee]", box).textContent = show(f);
+      $("[data-total]", box).textContent = show(amount + f);
+      box.hidden = false;
+    };
+    wf.addEventListener("input", update);
+    wf.addEventListener("change", update);
+    update();
+  }
+
   // Identity address: wilaya + moughataa in Mauritania, city (and country name for "other") abroad
   $$("select[data-country-select]").forEach((sel) => {
     const form = sel.form;

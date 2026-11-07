@@ -22,7 +22,16 @@
   <li><span>{% trans "Inscription, dépôt, souscription" %}</span><b>{% trans "Gratuit" %}</b></li>
   <li><span>{% trans "Achat de parts sur le marché" %}</span><b>{{ settings.trade_fee_buyer_pct|floatformat:"-1" }} %</b></li>
   <li><span>{% trans "Vente de parts sur le marché" %}</span><b>{{ settings.trade_fee_seller_pct|floatformat:"-1" }} %</b></li>
-  <li><span>{% trans "Retrait" %}</span><b>{{ settings.withdrawal_fee_flat|money }} MRU + {{ settings.withdrawal_fee_pct|floatformat:"-1" }} %</b></li>
+  <li><span>{% trans "Retrait" %}</span><b>{% trans "selon le service et le montant (ci-dessous)" %}</b></li>
 </ul></div>
+<div class="panel" style="margin-top:20px"><h2>{% trans "Frais de retrait" %}</h2>
+<p class="muted small">{% trans "Ce que coûte l'envoi de votre argent vers votre compte, selon le service qui le reçoit. Le dépôt est toujours gratuit." %}</p>
+{% for label, rows in withdrawal_grids %}<h3 style="margin:14px 0 6px">{{ label }}</h3>
+<div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Montant retiré" %}</th><th class="n">{% trans "Frais" %}</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{% if r.above is not None %}{% blocktrans with a=r.above|money %}plus de {{ a }} MRU{% endblocktrans %}{% else %}{% blocktrans with a=r.from_amount|money %}à partir de {{ a }} MRU{% endblocktrans %}{% endif %}</td>
+<td class="n"><span dir="ltr">{% if not r.flat_fee and not r.pct_fee %}{% trans "Gratuit" %}{% else %}{% if r.flat_fee %}{{ r.flat_fee|money }} MRU{% endif %}{% if r.flat_fee and r.pct_fee %} + {% endif %}{% if r.pct_fee %}{{ r.pct_fee|floatformat:"-1" }} %{% endif %}{% endif %}</span></td></tr>{% endfor %}
+</tbody></table></div>{% endfor %}
+{% if withdrawal_general_for %}<p class="small" style="margin-top:12px">{% blocktrans with s=withdrawal_general_for|join:", " f=settings.withdrawal_fee_flat|money p=settings.withdrawal_fee_pct|floatformat:"-1" %}{{ s }} : {{ f }} MRU + {{ p }} %.{% endblocktrans %}</p>{% endif %}
+</div>
 <div class="note">{% trans "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 % de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs." %}</div>
 {% endblock %}

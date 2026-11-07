@@ -1,6 +1,9 @@
 {% extends "accounts/auth_base.html" %}{% load i18n mk %}
 {% block title %}{% trans "Retirer" %}{% endblock %}
 {% block auth %}<h1>{% trans "Retirer de l'argent" %}</h1>
-<p class="muted">{% blocktrans with b=wallet.balance|money f=settings.withdrawal_fee_flat|money p=settings.withdrawal_fee_pct|floatformat:"-1" %}Disponible : {{ b }} MRU. Frais : {{ f }} MRU + {{ p }} %. Un code WhatsApp confirme l'opération.{% endblocktrans %}</p>
-<form method="post" class="form" novalidate>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}<button class="btn block">{% trans "Recevoir le code de confirmation" %}</button></form>
-<p class="small" style="margin-top:12px"><a href="{% url 'wallet:account_add' %}?next={% url 'wallet:withdraw' %}">{% trans "Ajouter un compte de réception" %}</a> · <a href="{% url 'wallet:accounts' %}">{% trans "Gérer mes comptes" %}</a></p>{% endblock %}
+<p class="muted">{% blocktrans with b=wallet.balance|money %}Disponible : {{ b }} MRU. Les frais dépendent du service qui reçoit l'argent et du montant. Un code WhatsApp confirme l'opération.{% endblocktrans %}</p>
+<form method="post" class="form" novalidate data-withdraw-fees>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}
+  <p class="note" data-fee-preview hidden>{% trans "Frais" %} : <b data-fee></b> MRU · {% trans "Total débité" %} : <b data-total></b> MRU</p>
+  {{ fee_data|json_script:"withdraw-fees" }}
+  <button class="btn block">{% trans "Recevoir le code de confirmation" %}</button></form>
+<p class="small" style="margin-top:12px"><a href="{% url 'wallet:account_add' %}?next={% url 'wallet:withdraw' %}">{% trans "Ajouter un compte de réception" %}</a> · <a href="{% url 'wallet:accounts' %}">{% trans "Gérer mes comptes" %}</a> · <a href="{% url 'core:page' 'fees' %}">{% trans "Grille des frais" %}</a></p>{% endblock %}

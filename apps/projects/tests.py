@@ -294,3 +294,4 @@ class AmountRequiredTests(TestCase):
         self.client.force_login(owner)
         r = self.client.post(f"/fr/projects/{p.slug}/edit/terms/", {"share_price": "1000"})
         self.assertContains(r, "Indiquez le nombre de parts mises en vente.")
+

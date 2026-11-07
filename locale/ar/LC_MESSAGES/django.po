@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 19:34+0100\n"
+"POT-Creation-Date: 2026-11-07 20:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -773,7 +773,7 @@ msgstr "تواصل مع الدعم على الرقم %(p)s."
 msgid "Contactez le support."
 msgstr "تواصل مع الدعم."
 
-#: apps/accounts/views.py:59 apps/wallet/views.py:167
+#: apps/accounts/views.py:59 apps/wallet/views.py:168
 #, python-format
 msgid "Mode développement : votre code est %(code)s"
 msgstr "وضع التطوير: رمزك هو %(code)s"
@@ -1099,26 +1099,30 @@ msgid "Portefeuille"
 msgstr "المحفظة"
 
 #: apps/core/admin.py:12
+msgid "Frais de retrait généraux, pour les services sans grille dans « Frais de retrait par service »."
+msgstr "رسوم السحب العامة، للخدمات التي ليس لها جدول في «رسوم السحب حسب الخدمة»."
+
+#: apps/core/admin.py:14
 msgid "Protection des investisseurs"
 msgstr "حماية المستثمرين"
 
-#: apps/core/admin.py:13
+#: apps/core/admin.py:15
 msgid "Discipline des porteurs"
 msgstr "انضباط أصحاب المشاريع"
 
-#: apps/core/admin.py:14
+#: apps/core/admin.py:16
 msgid "Revenus annexes"
 msgstr "إيرادات إضافية"
 
-#: apps/core/admin.py:15
+#: apps/core/admin.py:17
 msgid "Contact"
 msgstr "التواصل"
 
-#: apps/core/admin.py:16
+#: apps/core/admin.py:18
 msgid "Identité juridique (imprimée dans les contrats)"
 msgstr "الهوية القانونية (تُطبع في العقود)"
 
-#: apps/core/admin.py:18
+#: apps/core/admin.py:20
 msgid "Instructions de paiement"
 msgstr "تعليمات الدفع"
 
@@ -4584,7 +4588,7 @@ msgstr "بيع حصص"
 msgid "Frais de marché"
 msgstr "رسوم السوق"
 
-#: apps/wallet/models.py:80
+#: apps/wallet/models.py:80 templates/core/fees.html:27
 msgid "Frais de retrait"
 msgstr "رسوم السحب"
 
@@ -4780,6 +4784,30 @@ msgstr "سحب"
 msgid "retraits"
 msgstr "السحوبات"
 
+#: apps/wallet/models.py:297
+msgid "service"
+msgstr "الخدمة"
+
+#: apps/wallet/models.py:298
+msgid "à partir de (MRU)"
+msgstr "ابتداءً من (أوقية)"
+
+#: apps/wallet/models.py:299
+msgid "frais fixes (MRU)"
+msgstr "رسوم ثابتة (أوقية)"
+
+#: apps/wallet/models.py:300
+msgid "frais proportionnels (%)"
+msgstr "رسوم نسبية (%)"
+
+#: apps/wallet/models.py:301
+msgid "note"
+msgstr "ملاحظة"
+
+#: apps/wallet/models.py:306 apps/wallet/models.py:307
+msgid "frais de retrait par service"
+msgstr "رسوم السحب حسب الخدمة"
+
 #: apps/wallet/services.py:29
 #, python-format
 msgid "Solde insuffisant : il manque %(m)s MRU."
@@ -4806,90 +4834,90 @@ msgstr "تمت إضافة %(a)s أوقية إلى محفظتك."
 msgid "Dépôt refusé"
 msgstr "رُفض الإيداع"
 
-#: apps/wallet/services.py:101
+#: apps/wallet/services.py:122
 msgid "Compte de réception invalide."
 msgstr "حساب الاستلام غير صالح."
 
-#: apps/wallet/services.py:103
+#: apps/wallet/services.py:124
 #, python-format
 msgid "Ce compte vient d'être ajouté : il pourra recevoir un retrait à partir du %(d)s."
 msgstr "أُضيف هذا الحساب للتو: يمكنه استلام سحب ابتداءً من %(d)s."
 
-#: apps/wallet/services.py:106
+#: apps/wallet/services.py:127
 #, python-format
 msgid "Le retrait minimum est de %(m)s MRU."
 msgstr "الحد الأدنى للسحب هو %(m)s أوقية."
 
-#: apps/wallet/services.py:117
+#: apps/wallet/services.py:138
 msgid "Retrait à payer"
 msgstr "سحب بانتظار الدفع"
 
-#: apps/wallet/services.py:126 apps/wallet/services.py:148
+#: apps/wallet/services.py:147 apps/wallet/services.py:169
 msgid "Ce retrait a déjà été traité."
 msgstr "تمت معالجة هذا السحب من قبل."
 
-#: apps/wallet/services.py:138
+#: apps/wallet/services.py:159
 msgid "Retrait envoyé"
 msgstr "تم إرسال السحب"
 
-#: apps/wallet/services.py:139
+#: apps/wallet/services.py:160
 #, python-format
 msgid "%(a)s MRU envoyés vers %(d)s."
 msgstr "أُرسلت %(a)s أوقية إلى %(d)s."
 
-#: apps/wallet/services.py:158
+#: apps/wallet/services.py:179
 msgid "Retrait refusé"
 msgstr "رُفض السحب"
 
-#: apps/wallet/services.py:185
+#: apps/wallet/services.py:206
 msgid "Nouveau compte de paiement ajouté"
 msgstr "تمت إضافة حساب دفع جديد"
 
-#: apps/wallet/services.py:186
+#: apps/wallet/services.py:207
 #, python-format
 msgid "%(m)s %(n)s a été ajouté à votre portefeuille. Si ce n'est pas vous, contactez le support immédiatement."
 msgstr "تمت إضافة %(m)s %(n)s إلى محفظتك. إذا لم تكن أنت، اتصل بالدعم فوراً."
 
-#: apps/wallet/services.py:194
+#: apps/wallet/services.py:215
 msgid "Un retrait en cours utilise ce compte. Attendez qu'il soit traité."
 msgstr "هناك سحب قيد المعالجة يستخدم هذا الحساب. انتظر حتى تتم معالجته."
 
-#: apps/wallet/views.py:56
+#: apps/wallet/views.py:57
 msgid "Compte enregistré."
 msgstr "تم حفظ الحساب."
 
-#: apps/wallet/views.py:81
+#: apps/wallet/views.py:82
 msgid "Compte retiré."
 msgstr "تم حذف الحساب."
 
-#: apps/wallet/views.py:94 apps/wallet/views.py:159
+#: apps/wallet/views.py:95 apps/wallet/views.py:160
 #, python-format
 msgid "Minimum %(m)s MRU."
 msgstr "الحد الأدنى %(m)s أوقية."
 
-#: apps/wallet/views.py:120
+#: apps/wallet/views.py:121
 msgid "Dépôt à confirmer"
 msgstr "إيداع للتأكيد"
 
-#: apps/wallet/views.py:122
+#: apps/wallet/views.py:123
 msgid "Merci. Votre dépôt sera confirmé après vérification (généralement en moins d'une heure en journée)."
 msgstr "شكراً. سيُؤكَّد إيداعك بعد التحقق (عادة في أقل من ساعة خلال النهار)."
 
-#: apps/wallet/views.py:147
+#: apps/wallet/views.py:148
 #, python-format
 msgid "Demande %(r)s enregistrée. Paiement sous 24 h ouvrées."
 msgstr "تم تسجيل الطلب %(r)s. الدفع خلال 24 ساعة عمل."
 
-#: apps/wallet/views.py:150
+#: apps/wallet/views.py:151
 msgid "Ajoutez d'abord le compte Bankily, Masrvi, Sedad ou bancaire qui recevra l'argent."
 msgstr "أضف أولاً حساب بنكيلي أو مصرفي أو سداد أو الحساب البنكي الذي سيستلم المال."
 
-#: apps/wallet/views.py:157
+#: apps/wallet/views.py:158
 #, python-format
 msgid "Solde disponible insuffisant (frais de %(f)s MRU inclus)."
 msgstr "الرصيد المتاح غير كافٍ (بما في ذلك رسوم %(f)s أوقية)."
 
-#: apps/wallet/views.py:183
+#: apps/wallet/views.py:191
 msgid "Retrait annulé, fonds débloqués."
 msgstr "أُلغي السحب وتم فك حجز الأموال."
 
@@ -6088,7 +6116,7 @@ msgstr "للمستثمرين"
 msgid "Inscription, dépôt, souscription"
 msgstr "التسجيل، الإيداع، الاكتتاب"
 
-#: templates/core/fees.html:22
+#: templates/core/fees.html:22 templates/core/fees.html:32
 msgid "Gratuit"
 msgstr "مجاني"
 
@@ -6100,7 +6128,34 @@ msgstr "شراء حصص في السوق"
 msgid "Vente de parts sur le marché"
 msgstr "بيع حصص في السوق"
 
-#: templates/core/fees.html:27
+#: templates/core/fees.html:25
+msgid "selon le service et le montant (ci-dessous)"
+msgstr "حسب الخدمة والمبلغ (أدناه)"
+
+#: templates/core/fees.html:28
+msgid "Ce que coûte l'envoi de votre argent vers votre compte, selon le service qui le reçoit. Le dépôt est toujours gratuit."
+msgstr "تكلفة إرسال أموالك إلى حسابك، حسب الخدمة التي تستقبلها. الإيداع مجاني دائماً."
+
+#: templates/core/fees.html:30
+msgid "Montant retiré"
+msgstr "المبلغ المسحوب"
+
+#: templates/core/fees.html:31
+#, python-format
+msgid "plus de %(a)s MRU"
+msgstr "أكثر من %(a)s أوقية"
+
+#: templates/core/fees.html:31
+#, python-format
+msgid "à partir de %(a)s MRU"
+msgstr "ابتداءً من %(a)s أوقية"
+
+#: templates/core/fees.html:34
+#, python-format
+msgid "%(s)s : %(f)s MRU + %(p)s %%."
+msgstr "%(s)s: %(f)s أوقية + %(p)s %%."
+
+#: templates/core/fees.html:36
 #, python-format
 msgid "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
 msgstr "مثال: متجر يجمع 600 000 أوقية بصيغة المشاركة ويوزّع 24 000 أوقية أرباحاً في شهر ما. يستلم صاحب المشروع 570 000 أوقية (عمولة 5 %%). ومن مبلغ 24 000 أوقية، تذهب 2 400 إلى المنصة وتُوزَّع 21 600 على المستثمرين."
@@ -6713,7 +6768,7 @@ msgstr "إعادة شراء من طرف المؤسسة: تُلغى الحصص ا
 msgid "Frais acheteur"
 msgstr "رسوم المشتري"
 
-#: templates/market/buy.html:12
+#: templates/market/buy.html:12 templates/wallet/withdraw.html:6
 msgid "Total débité"
 msgstr "المبلغ المخصوم"
 
@@ -9082,7 +9137,7 @@ msgstr "أوقية محجوزة"
 msgid "MRU au total"
 msgstr "أوقية إجمالاً"
 
-#: templates/wallet/home.html:11 templates/wallet/withdraw.html:6
+#: templates/wallet/home.html:11 templates/wallet/withdraw.html:9
 msgid "Gérer mes comptes"
 msgstr "إدارة حساباتي"
 
@@ -9120,16 +9175,20 @@ msgstr "سحب المال"
 
 #: templates/wallet/withdraw.html:4
 #, python-format
-msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
-msgstr "المتاح: %(b)s أوقية. الرسوم: %(f)s أوقية + %(p)s %%. رمز على واتساب يؤكد العملية."
+msgid "Disponible : %(b)s MRU. Les frais dépendent du service qui reçoit l'argent et du montant. Un code WhatsApp confirme l'opération."
+msgstr "المتاح: %(b)s أوقية. تختلف الرسوم حسب الخدمة التي تستقبل المال وحسب المبلغ. يؤكد رمز واتساب العملية."
 
-#: templates/wallet/withdraw.html:5
+#: templates/wallet/withdraw.html:8
 msgid "Recevoir le code de confirmation"
 msgstr "استلام رمز التأكيد"
 
-#: templates/wallet/withdraw.html:6
+#: templates/wallet/withdraw.html:9
 msgid "Ajouter un compte de réception"
 msgstr "إضافة حساب استلام"
+
+#: templates/wallet/withdraw.html:9
+msgid "Grille des frais"
+msgstr "جدول الرسوم"
 
 #: templates/wallet/withdraw_confirm.html:2
 #: templates/wallet/withdraw_confirm.html:3
