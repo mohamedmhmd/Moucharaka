@@ -194,6 +194,8 @@ class Broadcast(models.Model):
     body_fr = models.TextField(_("message (français)"), max_length=600)
     url = models.CharField(_("lien dans le site"), max_length=200, blank=True)
     whatsapp = models.BooleanField(_("aussi sur WhatsApp"), default=True)
+    include_opted_out = models.BooleanField(
+        _("y compris les membres qui ont refusé les notifications WhatsApp"), default=False)
     recipients = models.PositiveIntegerField(default=0)
     whatsapp_pending = models.JSONField(default=list, blank=True)
     whatsapp_sent = models.PositiveIntegerField(default=0)

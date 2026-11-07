@@ -22,17 +22,19 @@ def audience_users(audience):
 
 
 @transaction.atomic
-def create_broadcast(*, audience, title_ar, body_ar, title_fr, body_fr, url="", whatsapp=True, by=None):
+def create_broadcast(*, audience, title_ar, body_ar, title_fr, body_fr, url="", whatsapp=True, include_opted_out=False,
+                     by=None):
     users = list(audience_users(audience).only("id", "preferred_language", "whatsapp_notifications"))
     b = Broadcast.objects.create(audience=audience, title_ar=title_ar, body_ar=body_ar, title_fr=title_fr,
-                                 body_fr=body_fr, url=url, whatsapp=whatsapp, created_by=by, recipients=len(users))
+                                 body_fr=body_fr, url=url, whatsapp=whatsapp, include_opted_out=include_opted_out,
+                                 created_by=by, recipients=len(users))
     notes = []
     for u in users:
         title, body = b.text_for(u.preferred_language)
         notes.append(Notification(user=u, title=title[:200], body=body, url=url))
     Notification.objects.bulk_create(notes, batch_size=500)
     if whatsapp:
-        b.whatsapp_pending = [u.pk for u in users if u.whatsapp_notifications]
+        b.whatsapp_pending = [u.pk for u in users if u.whatsapp_notifications or include_opted_out]
         b.save(update_fields=["whatsapp_pending"])
     return b
 

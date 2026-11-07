@@ -140,3 +140,26 @@ class BroadcastTests(TestCase):
     def test_members_cannot_open_it(self):
         self.client.force_login(self.new_ar)
         self.assertNotEqual(self.client.get("/staff/messages/").status_code, 200)
+
+
+class BroadcastOptedOutTests(BroadcastTests):
+    def test_can_include_members_who_refused_whatsapp(self):
+        from apps.core.models import Broadcast
+        from apps.sms.backends import ConsoleBackend
+        self.client.force_login(self.staff)
+        ConsoleBackend.outbox.clear()
+        self.client.post("/staff/messages/", {
+            "audience": "kyc_todo", "title_ar": "أ", "body_ar": "ب", "title_fr": "A", "body_fr": "B",
+            "whatsapp": "on", "include_opted_out": "on"})
+        b = Broadcast.objects.get()
+        self.assertTrue(b.include_opted_out)
+        self.assertEqual(b.whatsapp_sent, 2)
+        self.assertEqual(sorted(p for p, _t in ConsoleBackend.outbox), ["+22222000002", "+33612000003"])
+
+    def test_option_ignored_without_whatsapp(self):
+        from apps.core.models import Broadcast
+        self.client.force_login(self.staff)
+        self.client.post("/staff/messages/", {"audience": "kyc_todo", "title_ar": "أ", "body_ar": "ب", "title_fr": "A",
+                                              "body_fr": "B", "include_opted_out": "on"})
+        b = Broadcast.objects.get()
+        self.assertEqual((b.whatsapp, b.include_opted_out, b.whatsapp_pending), (False, False, []))

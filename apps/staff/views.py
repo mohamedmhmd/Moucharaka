@@ -305,11 +305,17 @@ class BroadcastForm(forms.ModelForm):
         from apps.core.models import Broadcast
 
         model = Broadcast
-        fields = ["audience", "title_ar", "body_ar", "title_fr", "body_fr", "url", "whatsapp"]
+        fields = ["audience", "title_ar", "body_ar", "title_fr", "body_fr", "url", "whatsapp", "include_opted_out"]
         widgets = {"body_ar": forms.Textarea(attrs={"rows": 3, "dir": "rtl"}),
                    "body_fr": forms.Textarea(attrs={"rows": 3, "dir": "ltr"}),
                    "title_ar": forms.TextInput(attrs={"dir": "rtl"}), "title_fr": forms.TextInput(attrs={"dir": "ltr"}),
                    "url": forms.TextInput(attrs={"dir": "ltr", "placeholder": "/accounts/identity/"})}
+
+    def clean(self):
+        d = super().clean()
+        if not d.get("whatsapp"):
+            d["include_opted_out"] = False
+        return d
 
     def clean_url(self):
         url = self.cleaned_data["url"].strip()

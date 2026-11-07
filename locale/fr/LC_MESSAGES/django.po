@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 16:03+0100\n"
+"POT-Creation-Date: 2026-11-07 16:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -846,6 +846,9 @@ msgstr "lien dans le site"
 
 msgid "aussi sur WhatsApp"
 msgstr "aussi sur WhatsApp"
+
+msgid "y compris les membres qui ont refusé les notifications WhatsApp"
+msgstr "y compris les membres qui ont refusé les notifications WhatsApp"
 
 msgid "message groupé"
 msgstr "message groupé"
@@ -6085,6 +6088,9 @@ msgstr "Page ouverte quand le membre clique sur la notification. Pour la vérifi
 msgid "Envoyé avec le modèle moucharaka_update. Chaque message WhatsApp est facturé par Meta."
 msgstr "Envoyé avec le modèle moucharaka_update. Chaque message WhatsApp est facturé par Meta."
 
+msgid "À utiliser pour les messages importants. Ces membres ont décoché WhatsApp à l'inscription : s'ils bloquent ou signalent le numéro, Meta peut le limiter."
+msgstr "À utiliser pour les messages importants. Ces membres ont décoché WhatsApp à l'inscription : s'ils bloquent ou signalent le numéro, Meta peut le limiter."
+
 msgid "Envoyer ce message à tout le groupe choisi ?"
 msgstr "Envoyer ce message à tout le groupe choisi ?"
 
@@ -6094,6 +6100,9 @@ msgstr "Messages envoyés"
 #, python-format
 msgid "%(n)s sur le site"
 msgstr "%(n)s sur le site"
+
+msgid "tous"
+msgstr "tous"
 
 #, python-format
 msgid "Envoyer les %(n)s WhatsApp restants"

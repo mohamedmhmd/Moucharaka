@@ -15,12 +15,14 @@
   </div>
   <div class="field"><label for="id_url">{{ form.url.label }}</label>{{ form.url }}<p class="small muted">{% trans "Page ouverte quand le membre clique sur la notification. Pour la vérification d'identité : /accounts/identity/" %}</p>{{ form.url.errors }}</div>
   <div class="field"><label style="font-weight:normal">{{ form.whatsapp }} {{ form.whatsapp.label }}</label>
-    <p class="small muted">{% trans "Envoyé avec le modèle moucharaka_update. Chaque message WhatsApp est facturé par Meta." %}</p></div>
+    <p class="small muted">{% trans "Envoyé avec le modèle moucharaka_update. Chaque message WhatsApp est facturé par Meta." %}</p>
+    <label style="font-weight:normal;margin-top:6px;display:block">{{ form.include_opted_out }} {{ form.include_opted_out.label }}</label>
+    <p class="small muted">{% trans "À utiliser pour les messages importants. Ces membres ont décoché WhatsApp à l'inscription : s'ils bloquent ou signalent le numéro, Meta peut le limiter." %}</p></div>
   <button class="btn" data-confirm="{% trans 'Envoyer ce message à tout le groupe choisi ?' %}">{% trans "Envoyer" %}</button>
 </form></div>
 {% if history %}<div class="panel" style="margin-top:20px"><h2>{% trans "Messages envoyés" %}</h2><div class="table-wrap"><table class="table cards"><tbody>
 {% for b in history %}<tr><td>{{ b.created_at|date:"d/m/Y H:i" }}</td><td><b>{% if IS_RTL %}{{ b.title_ar }}{% else %}{{ b.title_fr }}{% endif %}</b><br><span class="small muted">{{ b.get_audience_display }}{% if b.created_by %} · {{ b.created_by.full_name }}{% endif %}</span></td>
-<td class="n">{% blocktrans with n=b.recipients %}{{ n }} sur le site{% endblocktrans %}{% if b.whatsapp %}<br><span class="small">WhatsApp : {{ b.whatsapp_sent }} ✓ · {{ b.whatsapp_failed }} ✗</span>{% endif %}</td>
+<td class="n">{% blocktrans with n=b.recipients %}{{ n }} sur le site{% endblocktrans %}{% if b.whatsapp %}<br><span class="small">WhatsApp : {{ b.whatsapp_sent }} ✓ · {{ b.whatsapp_failed }} ✗{% if b.include_opted_out %} · {% trans "tous" %}{% endif %}</span>{% endif %}</td>
 <td>{% if b.whatsapp_pending %}<form method="post">{% csrf_token %}<button class="btn small" name="continue" value="{{ b.pk }}">{% blocktrans with n=b.whatsapp_pending|length %}Envoyer les {{ n }} WhatsApp restants{% endblocktrans %}</button></form>{% endif %}</td></tr>{% endfor %}
 </tbody></table></div></div>{% endif %}
 {% endblock %}

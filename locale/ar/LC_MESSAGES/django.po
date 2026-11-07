@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 16:03+0100\n"
+"POT-Creation-Date: 2026-11-07 16:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -1134,11 +1134,15 @@ msgstr "رابط داخل الموقع"
 msgid "aussi sur WhatsApp"
 msgstr "وعلى واتساب أيضًا"
 
-#: apps/core/models.py:206
+#: apps/core/models.py:198
+msgid "y compris les membres qui ont refusé les notifications WhatsApp"
+msgstr "بما في ذلك الأعضاء الذين رفضوا إشعارات واتساب"
+
+#: apps/core/models.py:208
 msgid "message groupé"
 msgstr "رسالة جماعية"
 
-#: apps/core/models.py:207
+#: apps/core/models.py:209
 msgid "messages groupés"
 msgstr "رسائل جماعية"
 
@@ -4027,20 +4031,20 @@ msgstr "تمت المصادقة على الإصدار: الحصص الجديدة
 msgid "Émission refusée."
 msgstr "تم رفض الإصدار."
 
-#: apps/staff/views.py:317
+#: apps/staff/views.py:323
 msgid "Un lien du site, qui commence par / (ex. /accounts/identity/)."
 msgstr "رابط من الموقع يبدأ بـ / (مثال: /accounts/identity/)."
 
-#: apps/staff/views.py:330 apps/staff/views.py:343
+#: apps/staff/views.py:336 apps/staff/views.py:349
 #, python-format
 msgid "WhatsApp : %(s)s envoyés, %(f)s échecs, %(l)s restants."
 msgstr "واتساب: أُرسلت %(s)s، فشلت %(f)s، متبقية %(l)s."
 
-#: apps/staff/views.py:338
+#: apps/staff/views.py:344
 msgid "Aucun membre dans ce groupe : rien n'a été envoyé."
 msgstr "لا يوجد أعضاء في هذه المجموعة: لم يُرسل شيء."
 
-#: apps/staff/views.py:341
+#: apps/staff/views.py:347
 #, python-format
 msgid "Notification envoyée à %(n)s membre(s)."
 msgstr "أُرسل الإشعار إلى %(n)s عضو."
@@ -6327,7 +6331,7 @@ msgstr "قبول"
 msgid "Proposer d'autres conditions"
 msgstr "اقتراح شروط أخرى"
 
-#: templates/includes/buyback_offer.html:18 templates/staff/broadcasts.html:19
+#: templates/includes/buyback_offer.html:18 templates/staff/broadcasts.html:21
 msgid "Envoyer"
 msgstr "إرسال"
 
@@ -8165,20 +8169,28 @@ msgstr "الصفحة التي تُفتح عند نقر العضو على الإ�
 msgid "Envoyé avec le modèle moucharaka_update. Chaque message WhatsApp est facturé par Meta."
 msgstr "تُرسل بقالب moucharaka_update. كل رسالة واتساب تحتسبها Meta."
 
-#: templates/staff/broadcasts.html:19
+#: templates/staff/broadcasts.html:20
+msgid "À utiliser pour les messages importants. Ces membres ont décoché WhatsApp à l'inscription : s'ils bloquent ou signalent le numéro, Meta peut le limiter."
+msgstr "للرسائل المهمة. هؤلاء الأعضاء ألغوا اختيار واتساب عند التسجيل: إذا حظروا الرقم أو أبلغوا عنه، قد تقيّده Meta."
+
+#: templates/staff/broadcasts.html:21
 msgid "Envoyer ce message à tout le groupe choisi ?"
 msgstr "إرسال هذه الرسالة إلى كل المجموعة المختارة؟"
 
-#: templates/staff/broadcasts.html:21
+#: templates/staff/broadcasts.html:23
 msgid "Messages envoyés"
 msgstr "الرسائل المرسلة"
 
-#: templates/staff/broadcasts.html:23
+#: templates/staff/broadcasts.html:25
 #, python-format
 msgid "%(n)s sur le site"
 msgstr "%(n)s على الموقع"
 
-#: templates/staff/broadcasts.html:24
+#: templates/staff/broadcasts.html:25
+msgid "tous"
+msgstr "الجميع"
+
+#: templates/staff/broadcasts.html:26
 #, python-format
 msgid "Envoyer les %(n)s WhatsApp restants"
 msgstr "إرسال رسائل واتساب المتبقية (%(n)s)"
