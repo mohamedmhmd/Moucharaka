@@ -90,7 +90,7 @@ else
 fi
 
 echo "Stopping the site..."
-docker compose stop web scheduler >/dev/null 2>&1
+docker compose stop web scheduler backup >/dev/null 2>&1
 
 echo "Restoring the database..."
 docker compose exec -T db pg_restore -U moucharaka -d moucharaka --clean --if-exists --no-owner < "$DB" \

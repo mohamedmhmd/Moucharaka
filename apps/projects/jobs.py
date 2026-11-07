@@ -96,6 +96,29 @@ def recompute_scores():
     return n
 
 
+def check_backups():
+    """Alert the owners if the last backup failed, was not copied off the server, or is older than 36 h.
+    Silent until the first backup has ever run (backups not set up yet)."""
+    from apps.accounts.models import User
+    from apps.core.models import BackupRun
+
+    last = BackupRun.objects.first()
+    if not last:
+        return "not set up"
+    last_ok = BackupRun.objects.filter(status="ok").first()
+    problem = ""
+    if last.status == "failed":
+        problem = last.message or "backup failed"
+    elif not last_ok or last_ok.created_at < timezone.now() - timedelta(hours=36):
+        problem = "no successful backup for more than 36 hours: is the backup service running?"
+    elif last.message:
+        problem = last.message
+    if problem:
+        for owner in User.objects.filter(is_superuser=True, is_active=True):
+            notify(owner, N_("Sauvegarde : attention"), problem[:300], url="/staff/", whatsapp=True)
+    return problem or "ok"
+
+
 def run_all():
     from apps.market.services import expire_listings
 
@@ -106,6 +129,7 @@ def run_all():
         "listings_expired": expire_listings(),
         "deposits_expired": expire_deposits(),
         "scores": recompute_scores(),
+        "backups": check_backups(),
     }
     logger.info("daily jobs: %s", result)
     return result

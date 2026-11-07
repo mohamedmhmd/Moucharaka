@@ -42,3 +42,28 @@ class BackupStatusTests(TestCase):
         self.assertEqual(BackupRun.objects.count(), 2)
         self.assertTrue(Notification.objects.filter(user=owner, title="Sauvegarde : attention").exists())
         self.assertIn("database dump failed", self.client.get("/fr/staff/").content.decode())
+
+
+class BackupDailyCheckTests(TestCase):
+    def test_daily_check_alerts_owners(self):
+        from datetime import timedelta
+
+        from django.utils import timezone
+
+        from apps.accounts.models import User
+        from apps.core.factories import make_user
+        from apps.core.models import BackupRun, Notification
+        from apps.projects.jobs import check_backups
+
+        owner = make_user("Owner Admin", staff=True)
+        User.objects.filter(pk=owner.pk).update(is_superuser=True)
+        alerts = Notification.objects.filter(user=owner, title="Sauvegarde : attention")
+        self.assertEqual(check_backups(), "not set up")  # nothing before the first backup
+        BackupRun.objects.create(status="ok", stamp="a", uploaded=True)
+        self.assertEqual(check_backups(), "ok")
+        self.assertFalse(alerts.exists())
+        BackupRun.objects.update(created_at=timezone.now() - timedelta(hours=40))
+        self.assertIn("36 hours", check_backups())
+        BackupRun.objects.create(status="failed", stamp="b", message="database dump failed")
+        self.assertEqual(check_backups(), "database dump failed")
+        self.assertEqual(alerts.count(), 2)

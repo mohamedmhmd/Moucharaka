@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 10:59+0100\n"
+"POT-Creation-Date: 2026-11-07 11:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -2163,6 +2163,10 @@ msgstr "تقرير يجب إرساله"
 #, python-format
 msgid "Envoyez les chiffres de %(m)s avant le %(d)s."
 msgstr "أرسل أرقام %(m)s قبل %(d)s."
+
+#: apps/projects/jobs.py:118
+msgid "Sauvegarde : attention"
+msgstr "النسخ الاحتياطي: تنبيه"
 
 #: apps/projects/models.py:29 apps/projects/models.py:123
 msgid "secteur"
@@ -8072,8 +8076,8 @@ msgid "Échec le %(d)s : %(m)s"
 msgstr "فشل بتاريخ %(d)s: %(m)s"
 
 #: templates/staff/dashboard.html:6
-msgid "Plus de 36 h sans sauvegarde réussie : vérifiez la tâche planifiée sur le serveur."
-msgstr "أكثر من 36 ساعة دون نسخة احتياطية ناجحة: تحقق من المهمة المجدولة على الخادم."
+msgid "Plus de 36 h sans sauvegarde réussie : vérifiez que le service de sauvegarde tourne (docker compose ps)."
+msgstr "أكثر من 36 ساعة دون نسخة احتياطية ناجحة: تحقق من أن خدمة النسخ الاحتياطي تعمل (docker compose ps)."
 
 #: templates/staff/dashboard.html:9
 msgid "dossiers KYC à vérifier"

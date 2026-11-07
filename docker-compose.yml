@@ -37,6 +37,31 @@ services:
     depends_on: [web]
     restart: unless-stopped
 
+  # Nightly backup at 03:15 (database + uploaded files + .env) into ~/backups and the Google Cloud bucket
+  # named BACKUP_BUCKET in .env. Runs with Docker, so the server needs no cron or sudo. Manual run:
+  #   bash deploy/backup.sh        Restore:  bash deploy/restore.sh
+  backup:
+    image: postgres:16-alpine
+    environment:
+      PGHOST: db
+      PGUSER: moucharaka
+      PGDATABASE: moucharaka
+      PGPASSWORD: ${POSTGRES_PASSWORD:-moucharaka}
+      BACKUP_BUCKET: ${BACKUP_BUCKET:-}
+      BACKUP_KEEP_DAYS: ${BACKUP_KEEP_DAYS:-14}
+      BACKUP_TIME: ${BACKUP_TIME:-03:15}
+    volumes:
+      - media:/data/media:ro
+      - private_media:/data/private_media:ro
+      - ./.env:/project.env:ro
+      - ./deploy/backup_container.sh:/backup.sh:ro
+      - ${HOME}/backups:/backups
+    entrypoint: ["sh", "/backup.sh"]
+    command: ["--schedule"]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+
 volumes:
   pgdata:
   media:
