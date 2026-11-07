@@ -3,7 +3,7 @@
 <section><h3>{% trans "Article 1 — Montant rendu" %}</h3>
   <p>{% blocktrans with t=project.title a=split.amount|money c=split.capital|money %}Le porteur de l'opération « {{ t }} » rend {{ a }} MRU pour l'ensemble des investisseurs, dont le capital encore investi est de {{ c }} MRU.{% endblocktrans %}</p></section>
 <section><h3>{% trans "Article 2 — Partage" %}</h3>
-  <p>{% if split.gain %}{% blocktrans with g=split.gain|money f=split.fee|money m=mgmt_pct|floatformat:"-1" n=split.net|money %}Bénéfice : {{ g }} MRU. La plateforme prélève {{ f }} MRU ({{ m }} % du bénéfice). {{ n }} MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe).{% endblocktrans %}
+  <p>{% if split.gain %}{% blocktrans with g=split.gain|money f=split.fee|money m=mgmt_pct|floatformat:"-1" n=split.net|money %}Bénéfice : {{ g }} MRU. La plateforme prélève {{ f }} MRU ({{ m }} % du bénéfice). {{ n }} MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe).{% endblocktrans %}
   {% elif split.loss %}{% blocktrans with l=split.loss|money n=split.net|money %}Perte : {{ l }} MRU, supportée par les investisseurs au prorata de leurs apports. Aucune commission n'est prélevée. {{ n }} MRU sont partagés (détail en annexe).{% endblocktrans %}
   {% else %}{% blocktrans with n=split.net|money %}Le capital est rendu sans bénéfice ni perte : {{ n }} MRU sont partagés (détail en annexe). Aucune commission n'est prélevée.{% endblocktrans %}{% endif %}</p></section>
 <section><h3>{% trans "Article 3 — Validation" %}</h3>

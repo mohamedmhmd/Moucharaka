@@ -57,7 +57,7 @@
       <tbody>{% for h in holdings %}<tr>
         <td class="cell-title"><b>{{ h.user.full_name }}</b></td>
         <td class="n" data-label="{% trans 'Parts' %}">{{ h.shares }}</td>
-        <td class="n" data-label="{% trans 'Part du capital' %}">{{ h.pct|floatformat:1 }} %</td>
+        <td class="n" data-label="{% trans 'Part du capital' %}">{{ h.pct|floatformat:1 }} %</td>
         <td class="n" data-label="{% trans 'Sur le marché' %}">{% if h.locked_shares %}{{ h.locked_shares }}{% else %}—{% endif %}</td>
         <td class="n" data-label="{% trans 'Reçu' %}">{{ h.received_total|money }} MRU</td>
         <td class="n cell-action">{% if h.offer %}<a class="badge {% if h.offer.waiting_on == 'owner' %}tone-warn{% else %}tone-info{% endif %}" href="#buyback">{% if h.offer.waiting_on == "owner" %}{% trans "à vous de répondre" %}{% else %}{% trans "offre envoyée" %}{% endif %}</a>

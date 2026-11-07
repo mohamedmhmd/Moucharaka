@@ -176,8 +176,8 @@ def approve_issue(issue, by):
     after = before + issue.shares
     for h in Holding.objects.filter(project=project, shares__gt=0).select_related("user"):
         notify(h.user, N_("Nouvelles parts émises"),
-               N_("« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% "
-                  "aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter.") % {
+               N_("« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% "
+                  "aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter.") % {
                    "p": project.title, "n": issue.shares, "x": fmt(issue.price), "m": h.shares,
                    "a": f"{h.shares * 100 / before:.1f}" if before else "0", "b": f"{h.shares * 100 / after:.1f}"},
                url=project.get_absolute_url(), whatsapp=True)

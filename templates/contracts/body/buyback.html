@@ -3,7 +3,7 @@
 <section><h3>{% trans "Article 1 — Rachat" %}</h3>
   <p>{% blocktrans with n=shares t=project.title x=price|money tot=total|money %}L'entreprise « {{ t }} » rachète à l'actionnaire {{ n }} part(s) au prix de {{ x }} MRU l'une, soit {{ tot }} MRU.{% endblocktrans %}</p></section>
 <section><h3>{% trans "Article 2 — Paiement" %}</h3>
-  <p>{% blocktrans with s=seller_net|money f=seller_fee_pct|floatformat:"-1" %}L'actionnaire reçoit immédiatement {{ s }} MRU dans son portefeuille (après frais de {{ f }} %), payés par l'entreprise.{% endblocktrans %}</p></section>
+  <p>{% blocktrans with s=seller_net|money f=seller_fee_pct|floatformat:"-1" %}L'actionnaire reçoit immédiatement {{ s }} MRU dans son portefeuille (après frais de {{ f }} %), payés par l'entreprise.{% endblocktrans %}</p></section>
 <section><h3>{% trans "Article 3 — Effets" %}</h3>
   <p>{% trans "Les parts rachetées sont annulées. L'actionnaire perd les droits attachés à ces parts et garde ceux de ses autres parts. Le registre des actionnaires est mis à jour." %}</p></section>
 <section><h3>{% trans "Article 4 — Accord des parties" %}</h3>

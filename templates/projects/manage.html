@@ -81,7 +81,7 @@
     {% if project.is_deal %}<table class="table"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "Montant" %}</th><th>{% trans "Statut" %}</th></tr></thead><tbody>
       {% for i in investments %}<tr><td>{{ i.investor.full_name }}</td><td class="n">{{ i.amount|money }} MRU</td><td>{% badge i.status i.get_status_display %}</td></tr>{% empty %}<tr><td class="muted">{% trans "Pas encore d'investisseur." %}</td></tr>{% endfor %}</tbody></table>
     {% elif holdings %}<table class="table"><thead><tr><th>{% trans "Investisseur" %}</th><th class="n">{% trans "Parts" %}</th><th class="n">{% trans "Part du capital" %}</th></tr></thead><tbody>
-      {% for h in holdings %}<tr><td>{{ h.user.full_name }}</td><td class="n">{{ h.shares }}</td><td class="n">{{ h.shares|pct_of:outstanding }} %</td></tr>{% endfor %}</tbody></table>
+      {% for h in holdings %}<tr><td>{{ h.user.full_name }}</td><td class="n">{{ h.shares }}</td><td class="n">{{ h.shares|pct_of:outstanding }} %</td></tr>{% endfor %}</tbody></table>
     {% else %}<table class="table"><tbody>{% for i in investments %}<tr><td>{{ i.investor.full_name }}</td><td class="n">{{ i.shares }}</td><td>{% badge i.status i.get_status_display %}</td></tr>{% empty %}<tr><td class="muted">{% trans "Pas encore d'investisseur." %}</td></tr>{% endfor %}</tbody></table>{% endif %}
   </div>
   {% if contracts %}<div class="panel" style="margin-top:20px"><h2>{% trans "Contrats du projet" %}</h2>

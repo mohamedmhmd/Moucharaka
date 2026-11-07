@@ -10,7 +10,7 @@
     <dt>{% trans "Capital des investisseurs" %}</dt><dd>{{ st.split.capital|money }} MRU</dd>
     {% if st.split.loss %}<dt>{% trans "Perte" %}</dt><dd class="neg">−{{ st.split.loss|money }} MRU</dd>
     {% else %}<dt>{% trans "Bénéfice" %}</dt><dd class="pos">+{{ st.split.gain|money }} MRU</dd>{% endif %}
-    <dt>{% blocktrans with p=st.project.management_fee_pct|floatformat:"-1" %}Commission plateforme ({{ p }} % du bénéfice){% endblocktrans %}</dt><dd>{{ st.split.fee|money }} MRU</dd>
+    <dt>{% blocktrans with p=st.project.management_fee_pct|floatformat:"-1" %}Commission plateforme ({{ p }} % du bénéfice){% endblocktrans %}</dt><dd>{{ st.split.fee|money }} MRU</dd>
     <dt>{% trans "Partagé entre les investisseurs" %}</dt><dd><b>{{ st.split.net|money }} MRU</b></dd>
   </dl>
   {% if st.note %}<div class="note small" style="margin-top:10px"><b>{% trans "Message du porteur" %} :</b> {{ st.note|linebreaksbr }}</div>{% endif %}

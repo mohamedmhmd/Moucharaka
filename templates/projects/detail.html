@@ -3,7 +3,7 @@
 {% block meta %}<meta name="description" content="{{ project.tagline }}">
 <meta property="og:site_name" content="Moucharaka"><meta property="og:type" content="website">
 <meta property="og:title" content="{{ project.title }}">
-<meta property="og:description" content="{{ project.tagline }}{% if project.status == 'funding' %} · {{ project.funding_pct }} % {% endif %}">
+<meta property="og:description" content="{{ project.tagline }}{% if project.status == 'funding' %} · {{ project.funding_pct }} % {% endif %}">
 <meta property="og:url" content="{{ og_url }}">{% if og_image %}
 <meta property="og:image" content="{{ og_image }}"><meta name="twitter:card" content="summary_large_image">{% endif %}
 {% if not project.is_public %}<meta name="robots" content="noindex">{% endif %}{% endblock %}
@@ -26,7 +26,7 @@
 
 <aside class="p-aside"><div class="invest-box anchor" id="invest">
     <div class="panel">
-      <div class="row between"><b class="num" style="font-size:1.5rem;font-family:var(--display);color:var(--ink)">{{ project.raised_amount|money }} MRU</b><span class="muted">{{ project.funding_pct }} %</span></div>
+      <div class="row between"><b class="num" style="font-size:1.5rem;font-family:var(--display);color:var(--ink)">{{ project.raised_amount|money }} MRU</b><span class="muted">{{ project.funding_pct }} %</span></div>
       <div class="progress lg" style="margin:8px 0"><i style="width:{{ project.funding_pct }}%"></i></div>
       <div class="row between small muted"><span>{% blocktrans with t=project.target_amount|money %}sur {{ t }} MRU{% endblocktrans %}</span>
         <span>{% if project.is_company %}{% blocktrans count n=project.investors_count %}{{ n }} actionnaire{% plural %}{{ n }} actionnaires{% endblocktrans %}{% else %}{% blocktrans count n=project.investors_count %}{{ n }} investisseur{% plural %}{{ n }} investisseurs{% endblocktrans %}{% endif %}</span></div>
@@ -34,25 +34,25 @@
       {% if project.status == "funding" %}<p class="small" style="margin:8px 0 0">{% blocktrans with d=project.campaign_end|date:"d/m/Y" n=project.days_left %}Clôture le {{ d }} ({{ n }} j).{% endblocktrans %}</p>{% endif %}
       <ul class="terms-list" style="margin-top:14px">
         {% if project.is_deal %}
-          {% if project.is_moucharaka %}<li><span>{% trans "Rendement potentiel" %}</span><b>{% if project.projected_annual_return_pct is not None %}~{{ project.projected_annual_return_pct|floatformat:"-1" }} %{% else %}—{% endif %}<br><small class="muted">{% trans "non garanti" %}</small></b></li>
-          {% else %}<li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %</b></li>{% endif %}
+          {% if project.is_moucharaka %}<li><span>{% trans "Rendement potentiel" %}</span><b>{% if project.projected_annual_return_pct is not None %}~{{ project.projected_annual_return_pct|floatformat:"-1" }} %{% else %}—{% endif %}<br><small class="muted">{% trans "non garanti" %}</small></b></li>
+          {% else %}<li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %</b></li>{% endif %}
           <li><span>{% trans "Remboursement" %}</span><b class="small">{% trans "En une fois à la fin : capital + bénéfice, partagés au prorata de la mise" %}</b></li>
           {% if project.guarantee %}<li><span>{% trans "Garanties" %}</span><b class="small">{{ project.guarantee|truncatechars:80 }}</b></li>{% endif %}
         {% elif project.is_company %}
           <li><span>{% trans "Prix d'une part" %}</span><b class="num">{{ project.share_price|money }} MRU</b></li>
           <li><span>{% trans "Parts émises" %}</span><b class="num">{{ project.total_shares }}</b></li>
-          {% if project.projected_annual_return_pct is not None %}<li><span>{% trans "Rendement potentiel" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %<br><small class="muted">{% trans "non garanti" %}</small></b></li>{% endif %}
+          {% if project.projected_annual_return_pct is not None %}<li><span>{% trans "Rendement potentiel" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %<br><small class="muted">{% trans "non garanti" %}</small></b></li>{% endif %}
           <li><span>{% trans "Vos droits" %}</span><b class="small">{% trans "Actionnaire pour toujours : dividendes selon vos parts, quand l'entreprise en verse" %}</b></li>
           <li><span>{% trans "Sortie" %}</span><b class="small">{% trans "Revente sur le marché des parts, ou rachat par l'entreprise" %}</b></li>
         {% else %}
         <li><span>{% trans "Prix d'une part" %}</span><b class="num">{{ project.share_price|money }} MRU</b></li>
         {% if project.is_moucharaka %}
-          <li><span>{% trans "Part du bénéfice net aux investisseurs" %}</span><b>{{ project.investor_profit_share_pct|floatformat:"-1" }} %</b></li>
-          <li><span>{% trans "Rendement potentiel" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %<br><small class="muted">{% trans "non garanti" %}</small></b></li>
+          <li><span>{% trans "Part du bénéfice net aux investisseurs" %}</span><b>{{ project.investor_profit_share_pct|floatformat:"-1" }} %</b></li>
+          <li><span>{% trans "Rendement potentiel" %}</span><b>~{{ project.projected_annual_return_pct|floatformat:"-1" }} %<br><small class="muted">{% trans "non garanti" %}</small></b></li>
           <li><span>{% trans "Distributions" %}</span><b>{{ project.get_distribution_frequency_display }}</b></li>
           <li><span>{% trans "Sortie" %}</span><b class="small">{{ project.get_exit_mode_display }}</b></li>
         {% else %}
-          <li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %<br><small class="muted">{% blocktrans with a=project.mourabaha_annualized_pct %}soit {{ a }} % par an{% endblocktrans %}</small></b></li>
+          <li><span>{% trans "Marge convenue" %}</span><b>{{ project.margin_pct|floatformat:"-1" }} %<br><small class="muted">{% blocktrans with a=project.mourabaha_annualized_pct %}soit {{ a }} % par an{% endblocktrans %}</small></b></li>
           <li><span>{% trans "Remboursement" %}</span><b>{{ project.get_repayment_mode_display }}</b></li>
           <li><span>{% trans "Garanties" %}</span><b class="small">{{ project.guarantee|truncatechars:80 }}</b></li>
         {% endif %}{% endif %}
@@ -148,11 +148,11 @@
   <h3 style="margin-top:28px">{% trans "Trois scénarios, par mois" %}</h3>
   <div class="scen highlight-base">
     <div><h4>{% trans "Aujourd'hui" %}</h4><div class="small muted">{% trans "Ventes" %}</div><b class="num">{{ scenarios.current.revenue|money }}</b><div class="small muted" style="margin-top:6px">{% trans "Bénéfice net" %}</div><b class="num">{{ scenarios.current.net|money }}</b></div>
-    <div><h4>{% trans "Prudent (−20 %)" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.pessimistic.investors|money }}</div><div class="small muted">~{{ scenarios.pessimistic.annual_yield }} % / {% trans "an" %}</div></div>
-    <div><h4>{% trans "Prévu" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.base.investors|money }}</div><div class="small muted">~{{ scenarios.base.annual_yield }} % / {% trans "an" %}</div></div>
-    <div><h4>{% trans "Favorable (+15 %)" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.optimistic.investors|money }}</div><div class="small muted">~{{ scenarios.optimistic.annual_yield }} % / {% trans "an" %}</div></div>
+    <div><h4>{% trans "Prudent (−20 %)" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.pessimistic.investors|money }}</div><div class="small muted">~{{ scenarios.pessimistic.annual_yield }} % / {% trans "an" %}</div></div>
+    <div><h4>{% trans "Prévu" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.base.investors|money }}</div><div class="small muted">~{{ scenarios.base.annual_yield }} % / {% trans "an" %}</div></div>
+    <div><h4>{% trans "Favorable (+15 %)" %}</h4><div class="small muted">{% trans "Aux investisseurs" %}</div><div class="big num">{{ scenarios.optimistic.investors|money }}</div><div class="small muted">~{{ scenarios.optimistic.annual_yield }} % / {% trans "an" %}</div></div>
   </div>
-  <p class="small muted" style="margin-top:8px">{% blocktrans with u=boutique.expected_revenue_uplift_pct|floatformat:"-1" m=boutique.gross_margin_pct|floatformat:"-1" %}Calcul : ventes moyennes déclarées + {{ u }} % attendus du financement, marge brute de {{ m }} %, moins toutes les charges fixes (y compris le salaire du gérant).{% endblocktrans %}</p>
+  <p class="small muted" style="margin-top:8px">{% blocktrans with u=boutique.expected_revenue_uplift_pct|floatformat:"-1" m=boutique.gross_margin_pct|floatformat:"-1" %}Calcul : ventes moyennes déclarées + {{ u }} % attendus du financement, marge brute de {{ m }} %, moins toutes les charges fixes (y compris le salaire du gérant).{% endblocktrans %}</p>
 
   <div class="sim" id="simulator" data-model="{{ sim }}" style="margin-top:24px">
     <h3>{% trans "Simulez votre investissement" %}</h3>
@@ -179,7 +179,7 @@
 
   <h3 style="margin-top:28px">{% trans "Produits phares" %}</h3>
   <div class="table-wrap"><table class="table"><thead><tr><th>{% trans "Produit" %}</th><th class="n">{% trans "Achat" %}</th><th class="n">{% trans "Vente" %}</th><th class="n">{% trans "Marge" %}</th><th class="n">{% trans "Vendus / mois" %}</th><th class="n">{% trans "Marge / mois" %}</th></tr></thead>
-  <tbody>{% for pr in products %}<tr><td>{{ pr.name }}{% if pr.unit %} <span class="small muted">({{ pr.unit }})</span>{% endif %}</td><td class="n">{{ pr.buy_price|money }}</td><td class="n">{{ pr.sell_price|money }}</td><td class="n">{{ pr.margin_pct }} %</td><td class="n">{{ pr.monthly_units|money }}</td><td class="n">{{ pr.monthly_margin|money }}</td></tr>{% endfor %}</tbody></table></div>
+  <tbody>{% for pr in products %}<tr><td>{{ pr.name }}{% if pr.unit %} <span class="small muted">({{ pr.unit }})</span>{% endif %}</td><td class="n">{{ pr.buy_price|money }}</td><td class="n">{{ pr.sell_price|money }}</td><td class="n">{{ pr.margin_pct }} %</td><td class="n">{{ pr.monthly_units|money }}</td><td class="n">{{ pr.monthly_margin|money }}</td></tr>{% endfor %}</tbody></table></div>
 
   <div class="grid g2" style="margin-top:28px">
     <div><h3>{% trans "La boutique" %}</h3><dl class="kv">
@@ -200,7 +200,7 @@
       <dt>{% trans "Crédits clients (carnet)" %}</dt><dd>{{ boutique.customer_credit|money }}</dd>
       <dt>{% trans "Dettes fournisseurs" %}</dt><dd class="neg">{{ boutique.supplier_debt|money }}</dd>
       <dt>{% trans "Autres dettes" %}</dt><dd class="neg">{{ boutique.other_debt|money }}</dd>
-      <dt>{% trans "Ventes : espèces / mobile / crédit" %}</dt><dd>{{ boutique.cash_sales_pct|floatformat:"0" }} / {{ boutique.mobile_money_pct|floatformat:"0" }} / {{ boutique.credit_sales_pct|floatformat:"0" }} %</dd>
+      <dt>{% trans "Ventes : espèces / mobile / crédit" %}</dt><dd>{{ boutique.cash_sales_pct|floatformat:"0" }} / {{ boutique.mobile_money_pct|floatformat:"0" }} / {{ boutique.credit_sales_pct|floatformat:"0" }} %</dd>
     </dl>
     <p class="small" style="margin-top:12px">{% if boutique.has_trade_register %}✓ {% trans "Registre du commerce" %}{% else %}✕ {% trans "Pas de registre du commerce" %}{% endif %} ·
       {% if boutique.keeps_books %}✓ {% trans "Tient ses comptes" %}{% else %}✕ {% trans "Pas de comptabilité" %}{% endif %} ·
@@ -290,7 +290,7 @@
 <section id="market" class="anchor panel">
   <div class="section-head"><h2>{% trans "Parts à vendre" %}</h2><a href="{% url 'market:index' %}?project={{ project.slug }}">{% trans "Voir sur le marché" %}</a></div>
   <div class="chart-box" style="height:200px"><canvas id="price-chart" data-chart="{{ price_history }}" data-l-price="{% trans 'Prix des échanges' %}" data-l-nominal="{% trans 'Valeur nominale' %}"></canvas></div>
-  {% if listings %}<table class="table" style="margin-top:12px"><tbody>{% for l in listings %}<tr><td>{{ l.seller.display_name }}</td><td class="n">{{ l.remaining }} {% trans "parts" %}</td><td class="n"><b>{{ l.price_per_share|money }}</b> MRU <span class="small {% if l.premium_pct >= 0 %}pos{% else %}neg{% endif %}">{{ l.premium_pct }} %</span></td>
+  {% if listings %}<table class="table" style="margin-top:12px"><tbody>{% for l in listings %}<tr><td>{{ l.seller.display_name }}</td><td class="n">{{ l.remaining }} {% trans "parts" %}</td><td class="n"><b>{{ l.price_per_share|money }}</b> MRU <span class="small {% if l.premium_pct >= 0 %}pos{% else %}neg{% endif %}">{{ l.premium_pct }} %</span></td>
     <td class="n">{% if user.is_authenticated and user != l.seller and user != project.owner %}<a class="btn small" href="{% url 'market:buy' l.pk %}">{% trans "Acheter" %}</a>{% elif user == project.owner and project.is_company %}<a class="btn small" href="{% url 'market:buy' l.pk %}">{% trans "Racheter" %}</a>{% endif %}</td></tr>{% endfor %}</tbody></table>
   {% else %}<p class="muted">{% trans "Aucune part à vendre actuellement." %}</p>{% endif %}
 </section>

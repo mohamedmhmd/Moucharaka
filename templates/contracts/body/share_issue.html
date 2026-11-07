@@ -6,9 +6,9 @@
   {% trans "La vente commence après validation de l'équipe de la plateforme." %}
   {% if reason %}{% blocktrans with r=reason %}Utilisation prévue de l'argent : {{ r }}{% endblocktrans %}{% endif %}</p></section>
 <section><h3>{% trans "Article 2 — Ventes" %}</h3>
-  <p>{% blocktrans with s=success_pct|floatformat:"-1" %}Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de {{ s }} %. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées.{% endblocktrans %}</p></section>
+  <p>{% blocktrans with s=success_pct|floatformat:"-1" %}Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de {{ s }} %. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées.{% endblocktrans %}</p></section>
 <section><h3>{% trans "Article 3 — Engagements envers les actionnaires" %}</h3>
-  <p>{% blocktrans with m=mgmt_pct|floatformat:"-1" %}L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève {{ m }} %) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme.{% endblocktrans %}</p></section>
+  <p>{% blocktrans with m=mgmt_pct|floatformat:"-1" %}L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève {{ m }} %) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme.{% endblocktrans %}</p></section>
 <section><h3>{% trans "Article 4 — Responsabilité" %}</h3>
   <p>{% trans "Le porteur garantit l'exactitude des informations publiées sur l'entreprise. Il répond personnellement de toute fausse déclaration, faute ou détournement." %}</p></section>
 {% endblock %}

@@ -42,9 +42,9 @@ def share_context(request, project):
     url = share_url(request, project, private=private)
     terms = ""
     if project.is_mourabaha and project.margin_pct is not None:
-        terms = _("marge fixe de %(m)s %%") % {"m": f"{project.margin_pct:g}"}
+        terms = _("marge fixe de %(m)s %%") % {"m": f"{project.margin_pct:g}"}
     elif project.is_moucharaka and project.projected_annual_return_pct is not None:
-        terms = _("rendement potentiel ~%(r)s %%") % {"r": f"{project.projected_annual_return_pct:g}"}
+        terms = _("rendement potentiel ~%(r)s %%") % {"r": f"{project.projected_annual_return_pct:g}"}
     # Optional details are left out when the owner has not filled them in
     head = f"{project.title} — {project.tagline}" if project.tagline else project.title
     if project.is_deal:

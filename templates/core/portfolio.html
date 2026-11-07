@@ -6,7 +6,7 @@
     <div class="stat"><b class="num">{{ invested|money }}</b><span>{% trans "MRU investis (prix de revient)" %}</span></div>
     <div class="stat"><b class="num">{{ market_value|money }}</b><span>{% trans "MRU valeur au dernier prix du marché" %}</span></div>
     <div class="stat"><b class="num">{{ received|money }}</b><span>{% trans "MRU reçus (bénéfices, échéances, rachats)" %}</span></div>
-    <div class="stat"><b class="num">{% if invested %}{% widthratio received invested 100 %} %{% else %}—{% endif %}</b><span>{% trans "déjà récupéré" %}</span></div>
+    <div class="stat"><b class="num">{% if invested %}{% widthratio received invested 100 %} %{% else %}—{% endif %}</b><span>{% trans "déjà récupéré" %}</span></div>
   </div>
   {% if offers %}<div class="panel anchor" id="offers" style="margin-top:24px"><h2>{% trans "Offres de rachat de vos parts" %}</h2>
     {% for o in offers %}<div class="card" style="margin-top:10px"><p style="margin:0 0 6px"><a href="{{ o.project.get_absolute_url }}"><b>{{ o.project.title }}</b></a></p>

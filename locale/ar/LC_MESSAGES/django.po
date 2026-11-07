@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 19:23+0100\n"
+"POT-Creation-Date: 2026-11-07 19:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -276,19 +276,19 @@ msgstr "أنثى"
 
 #: apps/accounts/models.py:151
 msgid "Moins de 20 000 MRU / mois"
-msgstr "أقل من 20 000 أوقية شهرياً"
+msgstr "أقل من 20 000 أوقية شهرياً"
 
 #: apps/accounts/models.py:151
 msgid "20 000 – 50 000 MRU"
-msgstr "20 000 – 50 000 أوقية"
+msgstr "20 000 – 50 000 أوقية"
 
 #: apps/accounts/models.py:152
 msgid "50 000 – 150 000 MRU"
-msgstr "50 000 – 150 000 أوقية"
+msgstr "50 000 – 150 000 أوقية"
 
 #: apps/accounts/models.py:152
 msgid "Plus de 150 000 MRU"
-msgstr "أكثر من 150 000 أوقية"
+msgstr "أكثر من 150 000 أوقية"
 
 #: apps/accounts/models.py:153
 msgid "Salaire"
@@ -1447,8 +1447,8 @@ msgstr "إصدار حصص جديدة"
 
 #: apps/investments/company.py:179
 #, python-format
-msgid "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
-msgstr "تعرض «%(p)s» %(n)s حصة جديدة للبيع بسعر %(x)s أوقية. حصصك (%(m)s) تمثل %(a)s %% اليوم و%(b)s %% عندما تُباع كل الحصص الجديدة. يمكنك شراء المزيد."
+msgid "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
+msgstr "تعرض «%(p)s» %(n)s حصة جديدة للبيع بسعر %(x)s أوقية. حصصك (%(m)s) تمثل %(a)s %% اليوم و%(b)s %% عندما تُباع كل الحصص الجديدة. يمكنك شراء المزيد."
 
 #: apps/investments/company.py:184
 msgid "Nouvelles parts en vente"
@@ -1884,7 +1884,7 @@ msgstr "القسط %(n)s"
 #: apps/investments/services.py:344
 #, python-format
 msgid "Le prix de rachat ne peut pas être inférieur à 50 % de la valeur nominale sans accord de l'équipe."
-msgstr "لا يمكن أن يقل سعر إعادة الشراء عن 50 % من القيمة الاسمية دون موافقة الفريق."
+msgstr "لا يمكن أن يقل سعر إعادة الشراء عن 50 % من القيمة الاسمية دون موافقة الفريق."
 
 #: apps/investments/services.py:345
 msgid "Rachat de parts par le porteur"
@@ -2211,12 +2211,12 @@ msgstr "يلزم 10 حصص على الأقل: خفّض قيمة الحصة."
 
 #: apps/projects/forms.py:155
 msgid "Marge annualisée supérieure à 40 % : elle serait refusée à l'étude."
-msgstr "هامش سنوي يتجاوز 40 %: سيُرفض عند الدراسة."
+msgstr "هامش سنوي يتجاوز 40 %: سيُرفض عند الدراسة."
 
 #: apps/projects/forms.py:158
 #, python-format
 msgid "Entre 5 % et 90 %."
-msgstr "بين 5 % و90 %."
+msgstr "بين 5 % و90 %."
 
 #: apps/projects/forms.py:160
 msgid "60 jours maximum."
@@ -2252,7 +2252,7 @@ msgstr "المشروع"
 
 #: apps/projects/forms.py:201
 msgid "Espèces + mobile money + crédit doit faire 100 %."
-msgstr "نقداً + الدفع عبر الهاتف + الدين يجب أن يساوي 100 %."
+msgstr "نقداً + الدفع عبر الهاتف + الدين يجب أن يساوي 100 %."
 
 #: apps/projects/forms.py:203
 msgid "Indiquez le loyer."
@@ -2260,7 +2260,7 @@ msgstr "أدخل مبلغ الإيجار."
 
 #: apps/projects/forms.py:205
 msgid "Une hausse de plus de 100 % n'est pas crédible sans justification."
-msgstr "زيادة تفوق 100 % غير مقنعة دون تبرير."
+msgstr "زيادة تفوق 100 % غير مقنعة دون تبرير."
 
 #: apps/projects/forms.py:222
 msgid "Activité, produit ou service"
@@ -3176,7 +3176,7 @@ msgstr "ثقل الإيجار"
 
 #: apps/projects/models.py:543
 msgid "Loyer ÷ ventes. Au-delà de 10 %, le loyer pèse lourd."
-msgstr "الإيجار ÷ المبيعات. فوق 10 % يصبح الإيجار عبئاً ثقيلاً."
+msgstr "الإيجار ÷ المبيعات. فوق 10 % يصبح الإيجار عبئاً ثقيلاً."
 
 #: apps/projects/models.py:544
 msgid "Couverture du stock"
@@ -3760,13 +3760,13 @@ msgstr "تقرير بحاجة إلى توضيح"
 
 #: apps/projects/sharing.py:45
 #, python-format
-msgid "marge fixe de %(m)s %%"
-msgstr "هامش ثابت بنسبة %(m)s %%"
+msgid "marge fixe de %(m)s %%"
+msgstr "هامش ثابت بنسبة %(m)s %%"
 
 #: apps/projects/sharing.py:47
 #, python-format
-msgid "rendement potentiel ~%(r)s %%"
-msgstr "العائد المحتمل ~%(r)s %%"
+msgid "rendement potentiel ~%(r)s %%"
+msgstr "العائد المحتمل ~%(r)s %%"
 
 #: apps/projects/sharing.py:51
 #, python-format
@@ -5324,8 +5324,8 @@ msgstr "المادة 2 — الدفع"
 
 #: templates/contracts/body/buyback.html:6
 #, python-format
-msgid "L'actionnaire reçoit immédiatement %(s)s MRU dans son portefeuille (après frais de %(f)s %%), payés par l'entreprise."
-msgstr "يستلم المساهم فوراً %(s)s أوقية في محفظته (بعد رسوم %(f)s %%)، تدفعها المؤسسة."
+msgid "L'actionnaire reçoit immédiatement %(s)s MRU dans son portefeuille (après frais de %(f)s %%), payés par l'entreprise."
+msgstr "يستلم المساهم فوراً %(s)s أوقية في محفظته (بعد رسوم %(f)s %%)، تدفعها المؤسسة."
 
 #: templates/contracts/body/buyback.html:7
 msgid "Article 3 — Effets"
@@ -5392,8 +5392,8 @@ msgstr "المادة 3 — في حال قبول العرض"
 
 #: templates/contracts/body/buyback_offer.html:11
 #, python-format
-msgid "L'actionnaire reçoit %(s)s MRU (après frais de %(f)s %%). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre."
-msgstr "يستلم المساهم %(s)s أوقية (بعد رسوم %(f)s %%). وتُلغى الحصص المعاد شراؤها. ويتم توقيع القبول بعقد إعادة شراء يتضمن هذا العرض."
+msgid "L'actionnaire reçoit %(s)s MRU (après frais de %(f)s %%). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre."
+msgstr "يستلم المساهم %(s)s أوقية (بعد رسوم %(f)s %%). وتُلغى الحصص المعاد شراؤها. ويتم توقيع القبول بعقد إعادة شراء يتضمن هذا العرض."
 
 #: templates/contracts/body/deal_investment.html:3
 #: templates/contracts/body/share_purchase.html:3
@@ -5458,13 +5458,13 @@ msgstr "يُقسَّم المبلغ الذي يعيده صاحب المشروع 
 
 #: templates/contracts/body/deal_investment.html:16
 #, python-format
-msgid "La plateforme prélève %(m)s %% du bénéfice seulement, jamais du capital."
-msgstr "تقتطع المنصة %(m)s %% من الربح فقط، ولا تقتطع أبداً من رأس المال."
+msgid "La plateforme prélève %(m)s %% du bénéfice seulement, jamais du capital."
+msgstr "تقتطع المنصة %(m)s %% من الربح فقط، ولا تقتطع أبداً من رأس المال."
 
 #: templates/contracts/body/deal_investment.html:17
 #, python-format
-msgid "Bénéfice annoncé par le porteur dans le meilleur cas : %(e)s %% de l'apport (estimation, non garantie)."
-msgstr "الربح الذي أعلنه صاحب المشروع في أفضل الحالات: %(e)s %% من المساهمة (تقدير غير مضمون)."
+msgid "Bénéfice annoncé par le porteur dans le meilleur cas : %(e)s %% de l'apport (estimation, non garantie)."
+msgstr "الربح الذي أعلنه صاحب المشروع في أفضل الحالات: %(e)s %% من المساهمة (تقدير غير مضمون)."
 
 #: templates/contracts/body/deal_investment.html:18
 msgid "En cas de perte, chaque investisseur la supporte au prorata de son apport, sauf faute, négligence ou fausse déclaration du porteur, qui en répond alors personnellement."
@@ -5481,8 +5481,8 @@ msgstr "جمعت حملة «%(t)s» مبلغ %(r)s أوقية من %(n)s مست�
 
 #: templates/contracts/body/funding.html:5
 #, python-format
-msgid "Le porteur reçoit %(net)s MRU dans son portefeuille, après la commission de succès de la plateforme (%(s)s %%, soit %(f)s MRU)."
-msgstr "يستلم صاحب المشروع %(net)s أوقية في محفظته، بعد عمولة النجاح للمنصة (%(s)s %%، أي %(f)s أوقية)."
+msgid "Le porteur reçoit %(net)s MRU dans son portefeuille, après la commission de succès de la plateforme (%(s)s %%, soit %(f)s MRU)."
+msgstr "يستلم صاحب المشروع %(net)s أوقية في محفظته، بعد عمولة النجاح للمنصة (%(s)s %%، أي %(f)s أوقية)."
 
 #: templates/contracts/body/funding.html:7
 msgid "Article 2 — Utilisation des fonds"
@@ -5508,13 +5508,13 @@ msgstr "نهاية العملية متوقعة خلال %(m)s شهراً."
 
 #: templates/contracts/body/funding.html:12
 #, python-format
-msgid "Bénéfice annoncé dans le meilleur cas : %(e)s %%."
-msgstr "الربح المعلن في أفضل الحالات: %(e)s %%."
+msgid "Bénéfice annoncé dans le meilleur cas : %(e)s %%."
+msgstr "الربح المعلن في أفضل الحالات: %(e)s %%."
 
 #: templates/contracts/body/funding.html:13
 #, python-format
-msgid "Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève %(m)s %% du bénéfice seulement."
-msgstr "يُقسَّم المبلغ المعاد بين المستثمرين بنسبة مساهماتهم؛ وتقتطع المنصة %(m)s %% من الربح فقط."
+msgid "Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève %(m)s %% du bénéfice seulement."
+msgstr "يُقسَّم المبلغ المعاد بين المستثمرين بنسبة مساهماتهم؛ وتقتطع المنصة %(m)s %% من الربح فقط."
 
 #: templates/contracts/body/funding.html:14
 msgid "Article 4 — Pertes et responsabilité"
@@ -5573,8 +5573,8 @@ msgstr "المادة 3 — البيع"
 
 #: templates/contracts/body/sale_offer.html:9
 #, python-format
-msgid "Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de %(f)s %% de frais."
-msgstr "كل عملية شراء تشكل عقد تنازل بين البائع والمشتري يتضمن هذا العرض. ويدفع المشتري عبر المنصة، ويستلم البائع الثمن بعد خصم رسوم %(f)s %%."
+msgid "Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de %(f)s %% de frais."
+msgstr "كل عملية شراء تشكل عقد تنازل بين البائع والمشتري يتضمن هذا العرض. ويدفع المشتري عبر المنصة، ويستلم البائع الثمن بعد خصم رسوم %(f)s %%."
 
 #: templates/contracts/body/settlement.html:3
 msgid "Article 1 — Montant rendu"
@@ -5591,8 +5591,8 @@ msgstr "المادة 2 — التقسيم"
 
 #: templates/contracts/body/settlement.html:6
 #, python-format
-msgid "Bénéfice : %(g)s MRU. La plateforme prélève %(f)s MRU (%(m)s %% du bénéfice). %(n)s MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe)."
-msgstr "الربح: %(g)s أوقية. تقتطع المنصة %(f)s أوقية (%(m)s %% من الربح). ويُقسَّم %(n)s أوقية بين المستثمرين بنسبة مساهماتهم (التفاصيل في الملحق)."
+msgid "Bénéfice : %(g)s MRU. La plateforme prélève %(f)s MRU (%(m)s %% du bénéfice). %(n)s MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe)."
+msgstr "الربح: %(g)s أوقية. تقتطع المنصة %(f)s أوقية (%(m)s %% من الربح). ويُقسَّم %(n)s أوقية بين المستثمرين بنسبة مساهماتهم (التفاصيل في الملحق)."
 
 #: templates/contracts/body/settlement.html:7
 #, python-format
@@ -5662,8 +5662,8 @@ msgstr "المادة 2 — المبيعات"
 
 #: templates/contracts/body/share_issue.html:9
 #, python-format
-msgid "Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de %(s)s %%. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées."
-msgstr "يصبح كل مشترٍ مساهماً فور دفعه. ويصل الثمن إلى محفظة صاحب المشروع بعد خصم عمولة %(s)s %%. ويمكن سحب الحصص غير المبيعة من البيع، فتُلغى عندئذ."
+msgid "Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de %(s)s %%. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées."
+msgstr "يصبح كل مشترٍ مساهماً فور دفعه. ويصل الثمن إلى محفظة صاحب المشروع بعد خصم عمولة %(s)s %%. ويمكن سحب الحصص غير المبيعة من البيع، فتُلغى عندئذ."
 
 #: templates/contracts/body/share_issue.html:10
 msgid "Article 3 — Engagements envers les actionnaires"
@@ -5671,8 +5671,8 @@ msgstr "المادة 3 — الالتزامات تجاه المساهمين"
 
 #: templates/contracts/body/share_issue.html:11
 #, python-format
-msgid "L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève %(m)s %%) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme."
-msgstr "تلتزم المؤسسة، ممثلة بصاحبها، بما يلي: استخدام المال للنشاط الموصوف؛ معاملة جميع المساهمين بالتساوي؛ دفع الأرباح حصراً عبر المنصة وبنسبة الحصص (تقتطع المنصة منها %(m)s %%)؛ إعلام المساهمين بانتظام؛ عدم إعادة شراء حصص إلا بموافقة المساهم المعني وعبر المنصة؛ الاعتراف بسجل المساهمين الذي تمسكه المنصة."
+msgid "L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève %(m)s %%) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme."
+msgstr "تلتزم المؤسسة، ممثلة بصاحبها، بما يلي: استخدام المال للنشاط الموصوف؛ معاملة جميع المساهمين بالتساوي؛ دفع الأرباح حصراً عبر المنصة وبنسبة الحصص (تقتطع المنصة منها %(m)s %%)؛ إعلام المساهمين بانتظام؛ عدم إعادة شراء حصص إلا بموافقة المساهم المعني وعبر المنصة؛ الاعتراف بسجل المساهمين الذي تمسكه المنصة."
 
 #: templates/contracts/body/share_issue.html:12
 msgid "Article 4 — Responsabilité"
@@ -5693,8 +5693,8 @@ msgstr "المادة 2 — صفة المساهم"
 
 #: templates/contracts/body/share_purchase.html:6
 #, python-format
-msgid "L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent %(p)s %% des parts détenues par les actionnaires (%(i)s parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi."
-msgstr "يصبح المستثمر مساهماً فور الدفع ودون حد زمني. وبعد هذا الشراء، تمثل هذه الحصص %(p)s %% من الحصص التي يملكها المساهمون (%(i)s حصة مُصدَرة إجمالاً). ويُعتد بسجل المساهمين الذي تمسكه المنصة."
+msgid "L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent %(p)s %% des parts détenues par les actionnaires (%(i)s parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi."
+msgstr "يصبح المستثمر مساهماً فور الدفع ودون حد زمني. وبعد هذا الشراء، تمثل هذه الحصص %(p)s %% من الحصص التي يملكها المساهمون (%(i)s حصة مُصدَرة إجمالاً). ويُعتد بسجل المساهمين الذي تمسكه المنصة."
 
 #: templates/contracts/body/share_purchase.html:7
 msgid "Article 3 — Droits de l'actionnaire"
@@ -5710,8 +5710,8 @@ msgstr "المادة 4 — التزامات المؤسسة"
 
 #: templates/contracts/body/share_purchase.html:10
 #, python-format
-msgid "L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de %(s)s %% ; la plateforme prélève %(m)s %% des dividendes versés."
-msgstr "تلتزم المؤسسة، ممثلة بصاحبها، باستخدام المال للنشاط الموصوف، ومعاملة جميع المساهمين بالتساوي، ودفع الأرباح حصراً عبر المنصة. وتستلم ثمن الحصص بعد خصم عمولة %(s)s %%، وتقتطع المنصة %(m)s %% من الأرباح الموزعة."
+msgid "L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de %(s)s %% ; la plateforme prélève %(m)s %% des dividendes versés."
+msgstr "تلتزم المؤسسة، ممثلة بصاحبها، باستخدام المال للنشاط الموصوف، ومعاملة جميع المساهمين بالتساوي، ودفع الأرباح حصراً عبر المنصة. وتستلم ثمن الحصص بعد خصم عمولة %(s)s %%، وتقتطع المنصة %(m)s %% من الأرباح الموزعة."
 
 #: templates/contracts/body/share_purchase.html:11
 msgid "Article 5 — Risques"
@@ -5736,8 +5736,8 @@ msgstr "المشتري هو المؤسسة نفسها: تُلغى الحصص ا�
 
 #: templates/contracts/body/share_transfer.html:7
 #, python-format
-msgid "L'acheteur paie %(b)s MRU (frais de %(bf)s %% inclus). Le vendeur reçoit %(s)s MRU (après frais de %(sf)s %%). Le paiement se fait immédiatement entre leurs portefeuilles."
-msgstr "يدفع المشتري %(b)s أوقية (شاملة رسوم %(bf)s %%). ويستلم البائع %(s)s أوقية (بعد رسوم %(sf)s %%). ويتم الدفع فوراً بين محفظتيهما."
+msgid "L'acheteur paie %(b)s MRU (frais de %(bf)s %% inclus). Le vendeur reçoit %(s)s MRU (après frais de %(sf)s %%). Le paiement se fait immédiatement entre leurs portefeuilles."
+msgstr "يدفع المشتري %(b)s أوقية (شاملة رسوم %(bf)s %%). ويستلم البائع %(s)s أوقية (بعد رسوم %(sf)s %%). ويتم الدفع فوراً بين محفظتيهما."
 
 #: templates/contracts/body/share_transfer.html:8
 msgid "Article 3 — Transfert de propriété"
@@ -6102,8 +6102,8 @@ msgstr "بيع حصص في السوق"
 
 #: templates/core/fees.html:27
 #, python-format
-msgid "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
-msgstr "مثال: متجر يجمع 600 000 أوقية بصيغة المشاركة ويوزّع 24 000 أوقية أرباحاً في شهر ما. يستلم صاحب المشروع 570 000 أوقية (عمولة 5 %%). ومن الـ24 000 أوقية، تذهب 2 400 إلى المنصة وتُوزَّع 21 600 على المستثمرين."
+msgid "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
+msgstr "مثال: متجر يجمع 600 000 أوقية بصيغة المشاركة ويوزّع 24 000 أوقية أرباحاً في شهر ما. يستلم صاحب المشروع 570 000 أوقية (عمولة 5 %%). ومن مبلغ 24 000 أوقية، تذهب 2 400 إلى المنصة وتُوزَّع 21 600 على المستثمرين."
 
 #: templates/core/home.html:5
 msgid "Investissez dans des projets et des entreprises."
@@ -6132,8 +6132,8 @@ msgstr "%(shop)s: شهر من المبيعات"
 
 #: templates/core/home.html:20
 #, python-format
-msgid "Projection après financement, %(place)s. Les investisseurs reçoivent %(pct)s %% du bénéfice net, au prorata de leurs parts."
-msgstr "توقعات ما بعد التمويل، %(place)s. يحصل المستثمرون على %(pct)s %% من الربح الصافي، بنسبة حصصهم."
+msgid "Projection après financement, %(place)s. Les investisseurs reçoivent %(pct)s %% du bénéfice net, au prorata de leurs parts."
+msgstr "توقعات ما بعد التمويل، %(place)s. يحصل المستثمرون على %(pct)s %% من الربح الصافي، بنسبة حصصهم."
 
 #: templates/core/home.html:21
 msgid "Voir cette boutique"
@@ -6727,8 +6727,8 @@ msgstr "تأكيد الشراء"
 
 #: templates/market/index.html:4
 #, python-format
-msgid "Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : %(b)s %% acheteur, %(s)s %% vendeur."
-msgstr "اشترِ الحصص التي يعيد مستثمرون آخرون بيعها، بالسعر الذي يحددونه. الرسوم: %(b)s %% على المشتري، %(s)s %% على البائع."
+msgid "Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : %(b)s %% acheteur, %(s)s %% vendeur."
+msgstr "اشترِ الحصص التي يعيد مستثمرون آخرون بيعها، بالسعر الذي يحددونه. الرسوم: %(b)s %% على المشتري، %(s)s %% على البائع."
 
 #: templates/market/index.html:5 templates/market/mine.html:2
 msgid "Mes annonces"
@@ -6848,8 +6848,8 @@ msgstr "السعر المسموح"
 
 #: templates/market/sell.html:13
 #, python-format
-msgid "Frais vendeur : %(s)s %% du montant vendu. Annonce valable 30 jours, annulable à tout moment."
-msgstr "رسوم البائع: %(s)s %% من مبلغ البيع. الإعلان صالح 30 يوماً، ويمكن إلغاؤه في أي وقت."
+msgid "Frais vendeur : %(s)s %% du montant vendu. Annonce valable 30 jours, annulable à tout moment."
+msgstr "رسوم البائع: %(s)s %% من مبلغ البيع. الإعلان صالح 30 يوماً، ويمكن إلغاؤه في أي وقت."
 
 #: templates/market/sell.html:14
 msgid "Publier l'annonce"
@@ -6967,8 +6967,8 @@ msgstr "التوزيعات"
 
 #: templates/projects/detail.html:55
 #, python-format
-msgid "soit %(a)s %% par an"
-msgstr "أي %(a)s %% سنوياً"
+msgid "soit %(a)s %% par an"
+msgstr "أي %(a)s %% سنوياً"
 
 #: templates/projects/detail.html:59 templates/projects/poster.html:32
 #: templates/staff/project_review.html:35
@@ -7160,8 +7160,8 @@ msgstr "الربح الصافي"
 
 #: templates/projects/detail.html:151
 #, python-format
-msgid "Prudent (−20 %%)"
-msgstr "حذر (−20 %%)"
+msgid "Prudent (−20 %%)"
+msgstr "حذر (−20 %%)"
 
 #: templates/projects/detail.html:151 templates/projects/detail.html:152
 #: templates/projects/detail.html:153
@@ -7175,13 +7175,13 @@ msgstr "سنة"
 
 #: templates/projects/detail.html:153
 #, python-format
-msgid "Favorable (+15 %%)"
-msgstr "مواتٍ (+15 %%)"
+msgid "Favorable (+15 %%)"
+msgstr "مواتٍ (+15 %%)"
 
 #: templates/projects/detail.html:155
 #, python-format
-msgid "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement, marge brute de %(m)s %%, moins toutes les charges fixes (y compris le salaire du gérant)."
-msgstr "الحساب: متوسط المبيعات المصرّح بها + %(u)s %% متوقعة من التمويل، هامش إجمالي %(m)s %%، ناقص كل المصاريف الثابتة (بما فيها أجرة المسيّر)."
+msgid "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement, marge brute de %(m)s %%, moins toutes les charges fixes (y compris le salaire du gérant)."
+msgstr "الحساب: متوسط المبيعات المصرّح بها + %(u)s %% متوقعة من التمويل، هامش إجمالي %(m)s %%، ناقص كل المصاريف الثابتة (بما فيها أجرة المسيّر)."
 
 #: templates/projects/detail.html:158
 msgid "Simulez votre investissement"
@@ -8225,8 +8225,8 @@ msgstr "تعرض عدداً من الحصص للبيع بسعر ثابت. كل �
 
 #: templates/projects/wizard.html:27
 #, python-format
-msgid "Frais : %(s)s %% de chaque vente de parts, %(m)s %% des dividendes versés."
-msgstr "الرسوم: %(s)s %% من كل عملية بيع حصص، و%(m)s %% من الأرباح الموزعة."
+msgid "Frais : %(s)s %% de chaque vente de parts, %(m)s %% des dividendes versés."
+msgstr "الرسوم: %(s)s %% من كل عملية بيع حصص، و%(m)s %% من الأرباح الموزعة."
 
 #: templates/projects/wizard.html:29
 msgid "Moucharaka : les investisseurs placent un montant dans votre opération. À la fin, vous leur rendez en une fois le capital et le bénéfice ; si l'opération perd de l'argent, la perte est partagée. Indiquez le bénéfice que vous pensez réaliser, sans l'exagérer."
@@ -8234,8 +8234,8 @@ msgstr "المشاركة: يستثمر المستثمرون مبلغاً في ع
 
 #: templates/projects/wizard.html:30
 #, python-format
-msgid "Frais : %(s)s %% des fonds levés, %(m)s %% du bénéfice rendu aux investisseurs (rien sur le capital)."
-msgstr "الرسوم: %(s)s %% من الأموال المجمعة، و%(m)s %% من الربح المعاد إلى المستثمرين (لا شيء على رأس المال)."
+msgid "Frais : %(s)s %% des fonds levés, %(m)s %% du bénéfice rendu aux investisseurs (rien sur le capital)."
+msgstr "الرسوم: %(s)s %% من الأموال المجمعة، و%(m)s %% من الربح المعاد إلى المستثمرين (لا شيء على رأس المال)."
 
 #: templates/projects/wizard.html:32
 msgid "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus."
@@ -8243,8 +8243,8 @@ msgstr "المشاركة: يحصل المستثمرون على نسبة من ر�
 
 #: templates/projects/wizard.html:33
 #, python-format
-msgid "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."
-msgstr "الرسوم: %(s)s %% من الأموال المجمَّعة عند النجاح، %(m)s %% من المبالغ الموزّعة."
+msgid "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."
+msgstr "الرسوم: %(s)s %% من الأموال المجمَّعة عند النجاح، %(m)s %% من المبالغ الموزّعة."
 
 #: templates/projects/wizard.html:38
 msgid "Votre boutique"
@@ -8827,8 +8827,8 @@ msgstr "الربح"
 
 #: templates/staff/settlements.html:13
 #, python-format
-msgid "Commission plateforme (%(p)s %% du bénéfice)"
-msgstr "عمولة المنصة (%(p)s %% من الربح)"
+msgid "Commission plateforme (%(p)s %% du bénéfice)"
+msgstr "عمولة المنصة (%(p)s %% من الربح)"
 
 #: templates/staff/settlements.html:14
 msgid "Partagé entre les investisseurs"
@@ -8879,8 +8879,8 @@ msgid "Comment le score de confiance est calculé"
 msgstr "كيف تُحسب درجة الثقة"
 
 #: templates/trust/method.html:4
-msgid "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public."
-msgstr "تتراوح الدرجة بين 0 و1 000. تُعاد حسابها يومياً انطلاقاً من وقائع قابلة للتحقق، لا من انطباع. ويمكن لكل صاحب مشروع رؤية تفاصيل درجته في ملفه العام."
+msgid "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public."
+msgstr "تتراوح الدرجة بين 0 و1 000. تُعاد حسابها يومياً انطلاقاً من وقائع قابلة للتحقق، لا من انطباع. ويمكن لكل صاحب مشروع رؤية تفاصيل درجته في ملفه العام."
 
 #: templates/trust/method.html:5
 msgid "Composante"
@@ -8908,8 +8908,8 @@ msgstr "نسبة الأقساط والتوزيعات المدفوعة في وق�
 
 #: templates/trust/method.html:8
 #, python-format
-msgid "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %%, un rapport manquant pour zéro, un rapport contesté retire 20 points."
-msgstr "تقارير شهرية مسلَّمة في وقتها؛ التقرير المتأخر يُحتسب بـ40 %%، والتقرير الغائب بصفر، والتقرير المعترَض عليه يخصم 20 نقطة."
+msgid "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %%, un rapport manquant pour zéro, un rapport contesté retire 20 points."
+msgstr "تقارير شهرية مسلَّمة في وقتها؛ التقرير المتأخر يُحتسب بـ40 %%، والتقرير الغائب بصفر، والتقرير المعترَض عليه يخصم 20 نقطة."
 
 #: templates/trust/method.html:9
 msgid "Moyenne des notes (communication, transparence, engagements), lissée pour qu'un seul avis ne fasse pas tout basculer."
@@ -9120,8 +9120,8 @@ msgstr "سحب المال"
 
 #: templates/wallet/withdraw.html:4
 #, python-format
-msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
-msgstr "المتاح: %(b)s أوقية. الرسوم: %(f)s أوقية + %(p)s %%. رمز على واتساب يؤكد العملية."
+msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
+msgstr "المتاح: %(b)s أوقية. الرسوم: %(f)s أوقية + %(p)s %%. رمز على واتساب يؤكد العملية."
 
 #: templates/wallet/withdraw.html:5
 msgid "Recevoir le code de confirmation"

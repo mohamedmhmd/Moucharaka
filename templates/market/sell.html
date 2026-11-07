@@ -10,5 +10,5 @@
   <li><span>{% trans "Prix autorisé" %}</span><b>{{ low|money }} – {{ high|money }} MRU</b></li>
 </ul>
 <form method="post" class="form" style="margin-top:16px" novalidate>{% csrf_token %}{% include "includes/form.html" with grid="stack" %}
-<p class="small muted">{% blocktrans with s=settings.trade_fee_seller_pct|floatformat:"-1" %}Frais vendeur : {{ s }} % du montant vendu. Annonce valable 30 jours, annulable à tout moment.{% endblocktrans %}</p>
+<p class="small muted">{% blocktrans with s=settings.trade_fee_seller_pct|floatformat:"-1" %}Frais vendeur : {{ s }} % du montant vendu. Annonce valable 30 jours, annulable à tout moment.{% endblocktrans %}</p>
 <button class="btn block">{% trans "Publier l'annonce" %}</button></form>{% endblock %}

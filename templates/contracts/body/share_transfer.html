@@ -4,7 +4,7 @@
   <p>{% blocktrans with n=shares t=project.title x=price|money g=q.gross|money %}Le vendeur cède {{ n }} part(s) de « {{ t }} » au prix de {{ x }} MRU l'une, soit {{ g }} MRU.{% endblocktrans %}
   {% if company_buyback %}{% trans "L'acheteur est l'entreprise elle-même : les parts rachetées sont annulées et les dividendes futurs sont partagés entre les autres actionnaires." %}{% endif %}</p></section>
 <section><h3>{% trans "Article 2 — Paiement" %}</h3>
-  <p>{% blocktrans with b=q.buyer_total|money bf=buyer_fee_pct|floatformat:"-1" s=q.seller_net|money sf=seller_fee_pct|floatformat:"-1" %}L'acheteur paie {{ b }} MRU (frais de {{ bf }} % inclus). Le vendeur reçoit {{ s }} MRU (après frais de {{ sf }} %). Le paiement se fait immédiatement entre leurs portefeuilles.{% endblocktrans %}</p></section>
+  <p>{% blocktrans with b=q.buyer_total|money bf=buyer_fee_pct|floatformat:"-1" s=q.seller_net|money sf=seller_fee_pct|floatformat:"-1" %}L'acheteur paie {{ b }} MRU (frais de {{ bf }} % inclus). Le vendeur reçoit {{ s }} MRU (après frais de {{ sf }} %). Le paiement se fait immédiatement entre leurs portefeuilles.{% endblocktrans %}</p></section>
 <section><h3>{% trans "Article 3 — Transfert de propriété" %}</h3>
   <p>{% trans "La propriété des parts et tous les droits qui y sont attachés, dont les dividendes futurs, passent à l'acheteur au moment du paiement. Le registre des actionnaires est mis à jour en même temps." %}</p></section>
 <section><h3>{% trans "Article 4 — Accord des parties" %}</h3>

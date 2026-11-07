@@ -8,5 +8,5 @@
 <section><h3>{% trans "Article 2 — Validité" %}</h3>
   <p>{% if by_company %}{% blocktrans with t=total|money %}Le montant de {{ t }} MRU est réservé sur le portefeuille de l'entreprise jusqu'à la réponse.{% endblocktrans %} {% endif %}{% trans "L'offre reste valable jusqu'à la réponse de l'autre partie ou jusqu'à son retrait. L'autre partie peut l'accepter, la refuser ou proposer d'autres conditions." %}</p></section>
 <section><h3>{% trans "Article 3 — Si l'offre est acceptée" %}</h3>
-  <p>{% blocktrans with s=seller_net|money f=seller_fee_pct|floatformat:"-1" %}L'actionnaire reçoit {{ s }} MRU (après frais de {{ f }} %). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre.{% endblocktrans %}</p></section>
+  <p>{% blocktrans with s=seller_net|money f=seller_fee_pct|floatformat:"-1" %}L'actionnaire reçoit {{ s }} MRU (après frais de {{ f }} %). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre.{% endblocktrans %}</p></section>
 {% endblock %}

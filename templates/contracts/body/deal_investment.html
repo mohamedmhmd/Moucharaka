@@ -13,7 +13,7 @@
   <p>{% trans "Le porteur s'engage à utiliser les fonds uniquement pour l'opération décrite, à informer les investisseurs de son avancement et, à la fin de l'opération, à rendre en une seule fois, par la plateforme, le capital et le bénéfice réalisé. Il confirme ces engagements en signant le contrat de financement avant de recevoir les fonds." %}</p></section>
 <section><h3>{% trans "Article 5 — Partage du résultat" %}</h3>
   <p>{% trans "Le montant rendu par le porteur est partagé entre tous les investisseurs au prorata de leurs apports." %}
-  {% blocktrans with m=mgmt_pct|floatformat:"-1" %}La plateforme prélève {{ m }} % du bénéfice seulement, jamais du capital.{% endblocktrans %}
-  {% if expected_pct is not None %}{% blocktrans with e=expected_pct|floatformat:"-1" %}Bénéfice annoncé par le porteur dans le meilleur cas : {{ e }} % de l'apport (estimation, non garantie).{% endblocktrans %}{% endif %}
+  {% blocktrans with m=mgmt_pct|floatformat:"-1" %}La plateforme prélève {{ m }} % du bénéfice seulement, jamais du capital.{% endblocktrans %}
+  {% if expected_pct is not None %}{% blocktrans with e=expected_pct|floatformat:"-1" %}Bénéfice annoncé par le porteur dans le meilleur cas : {{ e }} % de l'apport (estimation, non garantie).{% endblocktrans %}{% endif %}
   {% trans "En cas de perte, chaque investisseur la supporte au prorata de son apport, sauf faute, négligence ou fausse déclaration du porteur, qui en répond alors personnellement." %}</p></section>
 {% endblock %}

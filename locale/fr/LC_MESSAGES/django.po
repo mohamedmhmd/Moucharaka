@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 19:23+0100\n"
+"POT-Creation-Date: 2026-11-07 19:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -1080,8 +1080,8 @@ msgid "Nouvelles parts émises"
 msgstr "Nouvelles parts émises"
 
 #, python-format
-msgid "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
-msgstr "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
+msgid "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
+msgstr "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
 
 msgid "Nouvelles parts en vente"
 msgstr "Nouvelles parts en vente"
@@ -2814,12 +2814,12 @@ msgid "Rapport à clarifier"
 msgstr "Rapport à clarifier"
 
 #, python-format
-msgid "marge fixe de %(m)s %%"
-msgstr "marge fixe de %(m)s %%"
+msgid "marge fixe de %(m)s %%"
+msgstr "marge fixe de %(m)s %%"
 
 #, python-format
-msgid "rendement potentiel ~%(r)s %%"
-msgstr "rendement potentiel ~%(r)s %%"
+msgid "rendement potentiel ~%(r)s %%"
+msgstr "rendement potentiel ~%(r)s %%"
 
 #, python-format
 msgid "objectif %(t)s MRU"
@@ -3981,8 +3981,8 @@ msgid "Article 2 — Paiement"
 msgstr "Article 2 — Paiement"
 
 #, python-format
-msgid "L'actionnaire reçoit immédiatement %(s)s MRU dans son portefeuille (après frais de %(f)s %%), payés par l'entreprise."
-msgstr "L'actionnaire reçoit immédiatement %(s)s MRU dans son portefeuille (après frais de %(f)s %%), payés par l'entreprise."
+msgid "L'actionnaire reçoit immédiatement %(s)s MRU dans son portefeuille (après frais de %(f)s %%), payés par l'entreprise."
+msgstr "L'actionnaire reçoit immédiatement %(s)s MRU dans son portefeuille (après frais de %(f)s %%), payés par l'entreprise."
 
 msgid "Article 3 — Effets"
 msgstr "Article 3 — Effets"
@@ -4032,8 +4032,8 @@ msgid "Article 3 — Si l'offre est acceptée"
 msgstr "Article 3 — Si l'offre est acceptée"
 
 #, python-format
-msgid "L'actionnaire reçoit %(s)s MRU (après frais de %(f)s %%). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre."
-msgstr "L'actionnaire reçoit %(s)s MRU (après frais de %(f)s %%). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre."
+msgid "L'actionnaire reçoit %(s)s MRU (après frais de %(f)s %%). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre."
+msgstr "L'actionnaire reçoit %(s)s MRU (après frais de %(f)s %%). Les parts rachetées sont annulées. L'acceptation est signée par un contrat de rachat qui reprend cette offre."
 
 msgid "Article 1 — Objet"
 msgstr "Article 1 — Objet"
@@ -4082,12 +4082,12 @@ msgid "Le montant rendu par le porteur est partagé entre tous les investisseurs
 msgstr "Le montant rendu par le porteur est partagé entre tous les investisseurs au prorata de leurs apports."
 
 #, python-format
-msgid "La plateforme prélève %(m)s %% du bénéfice seulement, jamais du capital."
-msgstr "La plateforme prélève %(m)s %% du bénéfice seulement, jamais du capital."
+msgid "La plateforme prélève %(m)s %% du bénéfice seulement, jamais du capital."
+msgstr "La plateforme prélève %(m)s %% du bénéfice seulement, jamais du capital."
 
 #, python-format
-msgid "Bénéfice annoncé par le porteur dans le meilleur cas : %(e)s %% de l'apport (estimation, non garantie)."
-msgstr "Bénéfice annoncé par le porteur dans le meilleur cas : %(e)s %% de l'apport (estimation, non garantie)."
+msgid "Bénéfice annoncé par le porteur dans le meilleur cas : %(e)s %% de l'apport (estimation, non garantie)."
+msgstr "Bénéfice annoncé par le porteur dans le meilleur cas : %(e)s %% de l'apport (estimation, non garantie)."
 
 msgid "En cas de perte, chaque investisseur la supporte au prorata de son apport, sauf faute, négligence ou fausse déclaration du porteur, qui en répond alors personnellement."
 msgstr "En cas de perte, chaque investisseur la supporte au prorata de son apport, sauf faute, négligence ou fausse déclaration du porteur, qui en répond alors personnellement."
@@ -4100,8 +4100,8 @@ msgid "La collecte « %(t)s » a réuni %(r)s MRU auprès de %(n)s investisseur(
 msgstr "La collecte « %(t)s » a réuni %(r)s MRU auprès de %(n)s investisseur(s), dont la liste figure en annexe."
 
 #, python-format
-msgid "Le porteur reçoit %(net)s MRU dans son portefeuille, après la commission de succès de la plateforme (%(s)s %%, soit %(f)s MRU)."
-msgstr "Le porteur reçoit %(net)s MRU dans son portefeuille, après la commission de succès de la plateforme (%(s)s %%, soit %(f)s MRU)."
+msgid "Le porteur reçoit %(net)s MRU dans son portefeuille, après la commission de succès de la plateforme (%(s)s %%, soit %(f)s MRU)."
+msgstr "Le porteur reçoit %(net)s MRU dans son portefeuille, après la commission de succès de la plateforme (%(s)s %%, soit %(f)s MRU)."
 
 msgid "Article 2 — Utilisation des fonds"
 msgstr "Article 2 — Utilisation des fonds"
@@ -4121,12 +4121,12 @@ msgid "Fin de l'opération prévue dans %(m)s mois."
 msgstr "Fin de l'opération prévue dans %(m)s mois."
 
 #, python-format
-msgid "Bénéfice annoncé dans le meilleur cas : %(e)s %%."
-msgstr "Bénéfice annoncé dans le meilleur cas : %(e)s %%."
+msgid "Bénéfice annoncé dans le meilleur cas : %(e)s %%."
+msgstr "Bénéfice annoncé dans le meilleur cas : %(e)s %%."
 
 #, python-format
-msgid "Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève %(m)s %% du bénéfice seulement."
-msgstr "Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève %(m)s %% du bénéfice seulement."
+msgid "Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève %(m)s %% du bénéfice seulement."
+msgstr "Le montant rendu est partagé entre les investisseurs au prorata de leurs apports ; la plateforme prélève %(m)s %% du bénéfice seulement."
 
 msgid "Article 4 — Pertes et responsabilité"
 msgstr "Article 4 — Pertes et responsabilité"
@@ -4169,8 +4169,8 @@ msgid "Article 3 — Vente"
 msgstr "Article 3 — Vente"
 
 #, python-format
-msgid "Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de %(f)s %% de frais."
-msgstr "Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de %(f)s %% de frais."
+msgid "Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de %(f)s %% de frais."
+msgstr "Chaque achat forme un contrat de cession entre le vendeur et l'acheteur, qui reprend cette offre. L'acheteur paie par la plateforme ; le vendeur reçoit le prix diminué de %(f)s %% de frais."
 
 msgid "Article 1 — Montant rendu"
 msgstr "Article 1 — Montant rendu"
@@ -4183,8 +4183,8 @@ msgid "Article 2 — Partage"
 msgstr "Article 2 — Partage"
 
 #, python-format
-msgid "Bénéfice : %(g)s MRU. La plateforme prélève %(f)s MRU (%(m)s %% du bénéfice). %(n)s MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe)."
-msgstr "Bénéfice : %(g)s MRU. La plateforme prélève %(f)s MRU (%(m)s %% du bénéfice). %(n)s MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe)."
+msgid "Bénéfice : %(g)s MRU. La plateforme prélève %(f)s MRU (%(m)s %% du bénéfice). %(n)s MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe)."
+msgstr "Bénéfice : %(g)s MRU. La plateforme prélève %(f)s MRU (%(m)s %% du bénéfice). %(n)s MRU sont partagés entre les investisseurs au prorata de leurs apports (détail en annexe)."
 
 #, python-format
 msgid "Perte : %(l)s MRU, supportée par les investisseurs au prorata de leurs apports. Aucune commission n'est prélevée. %(n)s MRU sont partagés (détail en annexe)."
@@ -4238,15 +4238,15 @@ msgid "Article 2 — Ventes"
 msgstr "Article 2 — Ventes"
 
 #, python-format
-msgid "Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de %(s)s %%. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées."
-msgstr "Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de %(s)s %%. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées."
+msgid "Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de %(s)s %%. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées."
+msgstr "Chaque acheteur devient actionnaire dès son paiement. Le prix arrive dans le portefeuille du porteur, diminué d'une commission de %(s)s %%. Les parts non vendues peuvent être retirées de la vente ; elles sont alors annulées."
 
 msgid "Article 3 — Engagements envers les actionnaires"
 msgstr "Article 3 — Engagements envers les actionnaires"
 
 #, python-format
-msgid "L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève %(m)s %%) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme."
-msgstr "L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève %(m)s %%) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme."
+msgid "L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève %(m)s %%) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme."
+msgstr "L'entreprise, représentée par son porteur, s'engage à : utiliser l'argent pour l'activité décrite ; traiter tous les actionnaires à égalité ; verser les dividendes uniquement par la plateforme, au prorata des parts (la plateforme en prélève %(m)s %%) ; informer régulièrement les actionnaires ; ne racheter des parts qu'avec l'accord de l'actionnaire concerné, par la plateforme ; reconnaître le registre des actionnaires tenu par la plateforme."
 
 msgid "Article 4 — Responsabilité"
 msgstr "Article 4 — Responsabilité"
@@ -4262,8 +4262,8 @@ msgid "Article 2 — Qualité d'actionnaire"
 msgstr "Article 2 — Qualité d'actionnaire"
 
 #, python-format
-msgid "L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent %(p)s %% des parts détenues par les actionnaires (%(i)s parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi."
-msgstr "L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent %(p)s %% des parts détenues par les actionnaires (%(i)s parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi."
+msgid "L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent %(p)s %% des parts détenues par les actionnaires (%(i)s parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi."
+msgstr "L'investisseur devient actionnaire dès le paiement, sans limite de durée. Après cet achat, ces parts représentent %(p)s %% des parts détenues par les actionnaires (%(i)s parts émises au total). Le registre des actionnaires tenu par la plateforme fait foi."
 
 msgid "Article 3 — Droits de l'actionnaire"
 msgstr "Article 3 — Droits de l'actionnaire"
@@ -4275,8 +4275,8 @@ msgid "Article 4 — Engagements de l'entreprise"
 msgstr "Article 4 — Engagements de l'entreprise"
 
 #, python-format
-msgid "L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de %(s)s %% ; la plateforme prélève %(m)s %% des dividendes versés."
-msgstr "L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de %(s)s %% ; la plateforme prélève %(m)s %% des dividendes versés."
+msgid "L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de %(s)s %% ; la plateforme prélève %(m)s %% des dividendes versés."
+msgstr "L'entreprise, représentée par son porteur, s'engage à utiliser l'argent pour l'activité décrite, à traiter tous les actionnaires à égalité et à verser les dividendes uniquement par la plateforme. Elle reçoit le prix des parts diminué d'une commission de %(s)s %% ; la plateforme prélève %(m)s %% des dividendes versés."
 
 msgid "Article 5 — Risques"
 msgstr "Article 5 — Risques"
@@ -4295,8 +4295,8 @@ msgid "L'acheteur est l'entreprise elle-même : les parts rachetées sont annul�
 msgstr "L'acheteur est l'entreprise elle-même : les parts rachetées sont annulées et les dividendes futurs sont partagés entre les autres actionnaires."
 
 #, python-format
-msgid "L'acheteur paie %(b)s MRU (frais de %(bf)s %% inclus). Le vendeur reçoit %(s)s MRU (après frais de %(sf)s %%). Le paiement se fait immédiatement entre leurs portefeuilles."
-msgstr "L'acheteur paie %(b)s MRU (frais de %(bf)s %% inclus). Le vendeur reçoit %(s)s MRU (après frais de %(sf)s %%). Le paiement se fait immédiatement entre leurs portefeuilles."
+msgid "L'acheteur paie %(b)s MRU (frais de %(bf)s %% inclus). Le vendeur reçoit %(s)s MRU (après frais de %(sf)s %%). Le paiement se fait immédiatement entre leurs portefeuilles."
+msgstr "L'acheteur paie %(b)s MRU (frais de %(bf)s %% inclus). Le vendeur reçoit %(s)s MRU (après frais de %(sf)s %%). Le paiement se fait immédiatement entre leurs portefeuilles."
 
 msgid "Article 3 — Transfert de propriété"
 msgstr "Article 3 — Transfert de propriété"
@@ -4568,8 +4568,8 @@ msgid "Vente de parts sur le marché"
 msgstr "Vente de parts sur le marché"
 
 #, python-format
-msgid "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
-msgstr "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
+msgid "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
+msgstr "Exemple : une boutique lève 600 000 MRU en Moucharaka et verse 24 000 MRU de bénéfices un mois donné. Le porteur reçoit 570 000 MRU (5 %% de commission). Sur les 24 000 MRU, 2 400 vont à la plateforme et 21 600 sont répartis entre les investisseurs."
 
 msgid "Investissez dans des projets et des entreprises."
 msgstr "Investissez dans des projets et des entreprises."
@@ -4591,8 +4591,8 @@ msgid "%(shop)s : un mois de ventes"
 msgstr "%(shop)s : un mois de ventes"
 
 #, python-format
-msgid "Projection après financement, %(place)s. Les investisseurs reçoivent %(pct)s %% du bénéfice net, au prorata de leurs parts."
-msgstr "Projection après financement, %(place)s. Les investisseurs reçoivent %(pct)s %% du bénéfice net, au prorata de leurs parts."
+msgid "Projection après financement, %(place)s. Les investisseurs reçoivent %(pct)s %% du bénéfice net, au prorata de leurs parts."
+msgstr "Projection après financement, %(place)s. Les investisseurs reçoivent %(pct)s %% du bénéfice net, au prorata de leurs parts."
 
 msgid "Voir cette boutique"
 msgstr "Voir cette boutique"
@@ -5032,8 +5032,8 @@ msgid "Confirmer l'achat"
 msgstr "Confirmer l'achat"
 
 #, python-format
-msgid "Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : %(b)s %% acheteur, %(s)s %% vendeur."
-msgstr "Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : %(b)s %% acheteur, %(s)s %% vendeur."
+msgid "Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : %(b)s %% acheteur, %(s)s %% vendeur."
+msgstr "Achetez les parts que d'autres investisseurs revendent, au prix qu'ils fixent. Frais : %(b)s %% acheteur, %(s)s %% vendeur."
 
 msgid "Mes annonces"
 msgstr "Mes annonces"
@@ -5121,8 +5121,8 @@ msgid "Prix autorisé"
 msgstr "Prix autorisé"
 
 #, python-format
-msgid "Frais vendeur : %(s)s %% du montant vendu. Annonce valable 30 jours, annulable à tout moment."
-msgstr "Frais vendeur : %(s)s %% du montant vendu. Annonce valable 30 jours, annulable à tout moment."
+msgid "Frais vendeur : %(s)s %% du montant vendu. Annonce valable 30 jours, annulable à tout moment."
+msgstr "Frais vendeur : %(s)s %% du montant vendu. Annonce valable 30 jours, annulable à tout moment."
 
 msgid "Publier l'annonce"
 msgstr "Publier l'annonce"
@@ -5204,8 +5204,8 @@ msgid "Distributions"
 msgstr "Distributions"
 
 #, python-format
-msgid "soit %(a)s %% par an"
-msgstr "soit %(a)s %% par an"
+msgid "soit %(a)s %% par an"
+msgstr "soit %(a)s %% par an"
 
 msgid "Durée"
 msgstr "Durée"
@@ -5347,8 +5347,8 @@ msgid "Bénéfice net"
 msgstr "Bénéfice net"
 
 #, python-format
-msgid "Prudent (−20 %%)"
-msgstr "Prudent (−20 %%)"
+msgid "Prudent (−20 %%)"
+msgstr "Prudent (−20 %%)"
 
 msgid "Aux investisseurs"
 msgstr "Aux investisseurs"
@@ -5357,12 +5357,12 @@ msgid "an"
 msgstr "an"
 
 #, python-format
-msgid "Favorable (+15 %%)"
-msgstr "Favorable (+15 %%)"
+msgid "Favorable (+15 %%)"
+msgstr "Favorable (+15 %%)"
 
 #, python-format
-msgid "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement, marge brute de %(m)s %%, moins toutes les charges fixes (y compris le salaire du gérant)."
-msgstr "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement, marge brute de %(m)s %%, moins toutes les charges fixes (y compris le salaire du gérant)."
+msgid "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement, marge brute de %(m)s %%, moins toutes les charges fixes (y compris le salaire du gérant)."
+msgstr "Calcul : ventes moyennes déclarées + %(u)s %% attendus du financement, marge brute de %(m)s %%, moins toutes les charges fixes (y compris le salaire du gérant)."
 
 msgid "Simulez votre investissement"
 msgstr "Simulez votre investissement"
@@ -6129,22 +6129,22 @@ msgid "Vous mettez en vente un nombre de parts à un prix fixe. Chaque acheteur 
 msgstr "Vous mettez en vente un nombre de parts à un prix fixe. Chaque acheteur devient actionnaire tout de suite et pour toujours ; l'argent arrive dans votre portefeuille à chaque achat. Vous versez des dividendes quand vous le décidez et vous pouvez racheter des parts à vos actionnaires."
 
 #, python-format
-msgid "Frais : %(s)s %% de chaque vente de parts, %(m)s %% des dividendes versés."
-msgstr "Frais : %(s)s %% de chaque vente de parts, %(m)s %% des dividendes versés."
+msgid "Frais : %(s)s %% de chaque vente de parts, %(m)s %% des dividendes versés."
+msgstr "Frais : %(s)s %% de chaque vente de parts, %(m)s %% des dividendes versés."
 
 msgid "Moucharaka : les investisseurs placent un montant dans votre opération. À la fin, vous leur rendez en une fois le capital et le bénéfice ; si l'opération perd de l'argent, la perte est partagée. Indiquez le bénéfice que vous pensez réaliser, sans l'exagérer."
 msgstr "Moucharaka : les investisseurs placent un montant dans votre opération. À la fin, vous leur rendez en une fois le capital et le bénéfice ; si l'opération perd de l'argent, la perte est partagée. Indiquez le bénéfice que vous pensez réaliser, sans l'exagérer."
 
 #, python-format
-msgid "Frais : %(s)s %% des fonds levés, %(m)s %% du bénéfice rendu aux investisseurs (rien sur le capital)."
-msgstr "Frais : %(s)s %% des fonds levés, %(m)s %% du bénéfice rendu aux investisseurs (rien sur le capital)."
+msgid "Frais : %(s)s %% des fonds levés, %(m)s %% du bénéfice rendu aux investisseurs (rien sur le capital)."
+msgstr "Frais : %(s)s %% des fonds levés, %(m)s %% du bénéfice rendu aux investisseurs (rien sur le capital)."
 
 msgid "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus."
 msgstr "Moucharaka : les investisseurs reçoivent un pourcentage de votre bénéfice net réel. Fixez un pourcentage juste : trop bas, personne n'investit ; trop haut, vous vous privez de revenus."
 
 #, python-format
-msgid "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."
-msgstr "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."
+msgid "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."
+msgstr "Frais : %(s)s %% des fonds levés en cas de succès, %(m)s %% des sommes distribuées."
 
 msgid "Votre boutique"
 msgstr "Votre boutique"
@@ -6580,8 +6580,8 @@ msgid "Bénéfice"
 msgstr "Bénéfice"
 
 #, python-format
-msgid "Commission plateforme (%(p)s %% du bénéfice)"
-msgstr "Commission plateforme (%(p)s %% du bénéfice)"
+msgid "Commission plateforme (%(p)s %% du bénéfice)"
+msgstr "Commission plateforme (%(p)s %% du bénéfice)"
 
 msgid "Partagé entre les investisseurs"
 msgstr "Partagé entre les investisseurs"
@@ -6619,8 +6619,8 @@ msgstr "réf. paiement"
 msgid "Comment le score de confiance est calculé"
 msgstr "Comment le score de confiance est calculé"
 
-msgid "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public."
-msgstr "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public."
+msgid "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public."
+msgstr "Le score va de 0 à 1 000. Il est recalculé chaque jour à partir de faits vérifiables, jamais à partir d'une impression. Chaque porteur peut voir le détail de son score sur son profil public."
 
 msgid "Composante"
 msgstr "Composante"
@@ -6641,8 +6641,8 @@ msgid "Part des échéances et des distributions payées à l'heure. Un défaut 
 msgstr "Part des échéances et des distributions payées à l'heure. Un défaut retire 150 points."
 
 #, python-format
-msgid "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %%, un rapport manquant pour zéro, un rapport contesté retire 20 points."
-msgstr "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %%, un rapport manquant pour zéro, un rapport contesté retire 20 points."
+msgid "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %%, un rapport manquant pour zéro, un rapport contesté retire 20 points."
+msgstr "Rapports mensuels remis à temps ; un rapport en retard compte pour 40 %%, un rapport manquant pour zéro, un rapport contesté retire 20 points."
 
 msgid "Moyenne des notes (communication, transparence, engagements), lissée pour qu'un seul avis ne fasse pas tout basculer."
 msgstr "Moyenne des notes (communication, transparence, engagements), lissée pour qu'un seul avis ne fasse pas tout basculer."
@@ -6801,8 +6801,8 @@ msgid "Retirer de l'argent"
 msgstr "Retirer de l'argent"
 
 #, python-format
-msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
-msgstr "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
+msgid "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
+msgstr "Disponible : %(b)s MRU. Frais : %(f)s MRU + %(p)s %%. Un code WhatsApp confirme l'opération."
 
 msgid "Recevoir le code de confirmation"
 msgstr "Recevoir le code de confirmation"

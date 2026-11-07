@@ -17,7 +17,7 @@
     {% if showcase %}
       {% blocktrans asvar flow_title with shop=showcase.boutique.shop_name %}{{ shop }} : un mois de ventes{% endblocktrans %}
       {% include "includes/flow.html" with flow=flow flow_title=flow_title animate=True %}
-      <p class="small muted" style="margin-top:10px">{% blocktrans with place=showcase.moughataa.name pct=showcase.investor_profit_share_pct|floatformat:"-1" %}Projection après financement, {{ place }}. Les investisseurs reçoivent {{ pct }} % du bénéfice net, au prorata de leurs parts.{% endblocktrans %}
+      <p class="small muted" style="margin-top:10px">{% blocktrans with place=showcase.moughataa.name pct=showcase.investor_profit_share_pct|floatformat:"-1" %}Projection après financement, {{ place }}. Les investisseurs reçoivent {{ pct }} % du bénéfice net, au prorata de leurs parts.{% endblocktrans %}
         <a href="{{ showcase.get_absolute_url }}">{% trans "Voir cette boutique" %}</a></p>
     {% else %}
       <div class="flow"><h3>{% trans "Chaque ouguiya est tracée" %}</h3><p class="muted">{% trans "Ventes, achats de marchandises, charges, bénéfice : le porteur publie ses chiffres, la plateforme calcule et verse votre part." %}</p></div>
