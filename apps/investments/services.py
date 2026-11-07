@@ -136,8 +136,10 @@ def mark_funded(project):
            N_("« %(p)s » est financé. Signez le contrat de financement depuis votre page de gestion pour recevoir "
               "les fonds.") % {"p": project.title},
            url=f"/projects/{project.slug}/manage/", whatsapp=True)
-    for staff in User.objects.filter(is_staff=True, is_active=True):
-        notify(staff, N_("Projet financé : fonds à libérer"), project.title, url=f"/staff/projects/{project.pk}/")
+    from apps.core.staff_tasks import notify_staff
+
+    notify_staff(N_("Projet financé : fonds à libérer"), project.title, url=f"/staff/projects/{project.pk}/",
+                 task=f"release:{project.pk}")
     for inv in project.investments.filter(status="held").select_related("investor"):
         notify(inv.investor, N_("Projet financé"),
                N_("« %(p)s » a atteint son objectif.") % {"p": project.title}, url=project.get_absolute_url())
@@ -460,9 +462,10 @@ def submit_settlement(project, user, amount, note=""):
     st = DealSettlement.objects.create(project=project, amount=amount, capital=capital, note=note.strip()[:2000],
                                        reference=ref)
     audit("settlement.submitted", st, actor=user, amount=str(amount))
-    for staff in User.objects.filter(is_staff=True, is_active=True):
-        notify(staff, N_("Remboursement à valider"),
-               N_("%(a)s MRU pour « %(p)s ».") % {"a": fmt(amount), "p": project.title}, url="/staff/settlements/")
+    from apps.core.staff_tasks import notify_staff
+
+    notify_staff(N_("Remboursement à valider"), N_("%(a)s MRU pour « %(p)s ».") % {"a": fmt(amount), "p": project.title},
+                 url="/staff/settlements/", task=f"settlement:{st.pk}")
     return st
 
 

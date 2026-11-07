@@ -122,10 +122,11 @@ def request_issue(project, user, shares, price, reason=""):
         raise InvestmentError(_("Indiquez un nombre de parts et un prix entier."))
     issue = ShareIssue.objects.create(project=project, shares=shares, price=price, reason=reason.strip()[:2000])
     audit("shares.issue_requested", issue, actor=user, shares=shares, price=str(price))
-    for staff in User.objects.filter(is_staff=True, is_active=True):
-        notify(staff, N_("Émission de parts à valider"),
-               N_("« %(p)s » : %(n)s nouvelles parts à %(x)s MRU.") % {"p": project.title, "n": shares, "x": fmt(price)},
-               url="/staff/issues/")
+    from apps.core.staff_tasks import notify_staff
+
+    notify_staff(N_("Émission de parts à valider"),
+                 N_("« %(p)s » : %(n)s nouvelles parts à %(x)s MRU.") % {"p": project.title, "n": shares, "x": fmt(price)},
+                 url="/staff/issues/", task=f"issue:{issue.pk}")
     return issue
 
 

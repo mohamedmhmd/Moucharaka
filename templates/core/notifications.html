@@ -2,8 +2,15 @@
 {% block title %}{% trans "Notifications" %}{% endblock %}
 {% block content %}<div class="wrap section" style="max-width:760px">
   <h1>{% trans "Notifications" %}</h1>
-  <div class="panel">{% for n in items %}<div class="qa-item"{% if not n.is_read %} style="border-inline-start:3px solid var(--palm);padding-inline-start:12px"{% endif %}>
-    {% if n.url %}<a href="{{ n.url }}"><b>{{ n.title }}</b></a>{% else %}<b>{{ n.title }}</b>{% endif %}
+  {% if is_team %}<nav class="tabs" style="position:static;margin-block:8px 16px">
+    <a href="?"{% if show != 'todo' %} aria-current="page"{% endif %}>{% trans "Toutes" %}</a>
+    <a href="?show=todo"{% if show == 'todo' %} aria-current="page"{% endif %}>{% trans "À traiter" %}</a>
+  </nav>{% endif %}
+  <div class="panel">{% for n in items %}<div class="qa-item notif{% if not n.is_read %} unread{% endif %}{% if n.task_state == 'done' %} handled{% endif %}">
+    <div class="row between" style="gap:8px;align-items:flex-start">
+      <div>{% if n.url %}<a href="{{ n.url }}"><b>{{ n.title }}</b></a>{% else %}<b>{{ n.title }}</b>{% endif %}</div>
+      {% include "includes/task_badge.html" %}
+    </div>
     {% if n.body %}<div>{{ n.body }}</div>{% endif %}<div class="small muted">{{ n.created_at|date:"d/m/Y H:i" }}</div></div>
-  {% empty %}<div class="empty">{% trans "Aucune notification pour l'instant." %}</div>{% endfor %}</div>
+  {% empty %}<div class="empty">{% if show == 'todo' %}{% trans "Rien à traiter : tout est à jour." %}{% else %}{% trans "Aucune notification pour l'instant." %}{% endif %}</div>{% endfor %}</div>
 </div>{% endblock %}

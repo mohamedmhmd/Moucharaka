@@ -1,4 +1,10 @@
+from datetime import timedelta
+from decimal import Decimal
+
 from django.test import TestCase
+from django.utils import timezone
+
+
 class ContactPageTests(TestCase):
     def test_contact_page_and_footer_show_the_email(self):
         page = self.client.get("/fr/p/contact/").content.decode()
@@ -163,3 +169,52 @@ class BroadcastOptedOutTests(BroadcastTests):
                                               "body_fr": "B", "include_opted_out": "on"})
         b = Broadcast.objects.get()
         self.assertEqual((b.whatsapp, b.include_opted_out, b.whatsapp_pending), (False, False, []))
+
+
+class TeamTaskNotificationTests(TestCase):
+    def setUp(self):
+        from apps.accounts.models import User
+        from apps.wallet.models import DepositRequest
+        self.s1 = User.objects.create_user("+22222000011", "pass12345", full_name="Staff One", is_staff=True)
+        self.s2 = User.objects.create_user("+22222000012", "pass12345", full_name="Staff Two", is_staff=True)
+        self.member = User.objects.create_user("+22222000013", "pass12345", full_name="Member", status="approved")
+        self.dep = DepositRequest.objects.create(user=self.member, amount=Decimal("5000"), method="bankily",
+                                                 status="proof", external_ref="555")
+
+    def test_deposit_handled_by_one_staff_shows_handled_for_all(self):
+        from apps.core.staff_tasks import notify_staff
+        from apps.wallet.services import confirm_deposit
+        notify_staff("Dépôt à confirmer", "x", url="/staff/deposits/", task=f"deposit:{self.dep.pk}")
+        self.client.force_login(self.s2)
+        r = self.client.get("/fr/notifications/?show=todo")
+        self.assertContains(r, "Dépôt à confirmer")
+        self.assertContains(r, "task-badge open")
+        confirm_deposit(self.dep, by=self.s1)
+        r = self.client.get("/fr/notifications/")
+        self.assertContains(r, "task-badge done")
+        self.assertContains(r, "Confirmé")
+        r = self.client.get("/fr/notifications/?show=todo")
+        self.assertContains(r, "Rien à traiter")
+
+    def test_handled_requests_leave_the_unread_badge(self):
+        from apps.core.staff_tasks import notify_staff
+        from apps.wallet.services import confirm_deposit
+        notify_staff("Dépôt à confirmer", "x", task=f"deposit:{self.dep.pk}")
+        self.client.force_login(self.s1)
+        self.assertEqual(self.client.get("/fr/").context["unread_count"], 1)
+        confirm_deposit(self.dep, by=self.s2)
+        self.assertEqual(self.client.get("/fr/").context["unread_count"], 0)
+
+    def test_withdrawal_request_notifies_the_team(self):
+        from apps.core.models import Notification
+        from apps.wallet.models import PaymentAccount, Wallet
+        from apps.wallet.services import request_withdrawal
+        w = Wallet.for_user(self.member)
+        w.balance = Decimal("100000")
+        w.save()
+        acc = PaymentAccount.objects.create(user=self.member, method="bankily", number="22233344",
+                                            holder_name="Member")
+        PaymentAccount.objects.filter(pk=acc.pk).update(created_at=timezone.now() - timedelta(days=3))
+        acc.refresh_from_db()
+        wr = request_withdrawal(self.member, Decimal("20000"), acc)
+        self.assertEqual(Notification.objects.filter(task=f"withdrawal:{wr.pk}").count(), 2)

@@ -310,6 +310,7 @@ table.table { width: 100%; border-collapse: collapse; font-size: .95rem; }
   display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-block: 16px 24px; }
 .tabs a { padding: 12px 14px; color: var(--muted); text-decoration: none; white-space: nowrap; border-block-end: 2px solid transparent; font-weight: 500; }
 .tabs a:hover { color: var(--ink); border-color: var(--line-2); }
+.tabs a[aria-current="page"] { color: var(--ink); border-color: var(--palm); font-weight: 700; }
 .anchor { scroll-margin-top: 130px; }
 .invest-box { position: sticky; top: 80px; }
 .invest-box .panel + .panel { margin-block-start: 16px; }
@@ -462,6 +463,7 @@ table.table { width: 100%; border-collapse: collapse; font-size: .95rem; }
 
 /* Money actions: one colour each, same everywhere (dashboard, wallet, project pages) */
 .btn .ico { flex: none; }
+.btn.act .ico { width: 22px; height: 22px; }
 .btn.act { min-height: 44px; padding: 10px 18px; }
 .btn.deposit { background: var(--palm); color: #fff; }
 .btn.deposit:hover { background: var(--palm-2); color: #fff; }
@@ -475,3 +477,12 @@ table.table { width: 100%; border-collapse: collapse; font-size: .95rem; }
 .btn.manage:hover { background: var(--palm-2); color: #fff; }
 .actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
 @media (max-width: 720px) { .actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Team notifications: to do / handled */
+.notif.unread { border-inline-start: 3px solid var(--palm); padding-inline-start: 12px; }
+.notif.handled { opacity: .62; }
+.notif.handled:hover { opacity: 1; }
+.task-badge { display: inline-block; white-space: nowrap; font-size: .78rem; font-weight: 700; padding: 2px 9px;
+  border-radius: 999px; vertical-align: middle; }
+.task-badge.open { background: var(--act-withdraw); color: var(--act-withdraw-ink); }
+.task-badge.done { background: var(--line); color: var(--muted); font-weight: 600; }

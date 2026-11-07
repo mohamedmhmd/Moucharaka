@@ -114,10 +114,11 @@ def deposit_detail(request, ref):
     if request.method == "POST" and dep.status == DepositRequest.Status.PENDING and form.is_valid():
         form.instance.status = DepositRequest.Status.PROOF
         form.save()
-        from apps.accounts.models import User
+        from apps.core.staff_tasks import notify_staff
+        from apps.core.utils import fmt_amount
 
-        for staff in User.objects.filter(is_staff=True, is_active=True):
-            notify(staff, N_("Dépôt à confirmer"), f"{dep.reference} — {dep.amount} MRU", url="/staff/deposits/")
+        notify_staff(N_("Dépôt à confirmer"), f"{dep.reference} — {fmt_amount(dep.amount)} MRU", url="/staff/deposits/",
+                     task=f"deposit:{dep.pk}")
         messages.success(request, _("Merci. Votre dépôt sera confirmé après vérification (généralement en moins d'une heure en journée)."))
         nxt = request.session.pop("after_deposit", None)
         return redirect(nxt or "wallet:home")

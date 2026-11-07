@@ -46,9 +46,10 @@ def do_accept_funding(c, user):
     project = _project(c)
     if project.owner_id != user.pk or project.status != Project.Status.FUNDED:
         raise ActionError(_("Ce contrat ne peut être signé que lorsque la collecte est réussie."))
-    for staff in User.objects.filter(is_staff=True, is_active=True):
-        notify(staff, N_("Contrat de financement signé"), N_("« %(p)s » : les fonds peuvent être libérés.") % {
-            "p": project.title}, url=f"/staff/projects/{project.pk}/")
+    from apps.core.staff_tasks import notify_staff
+
+    notify_staff(N_("Contrat de financement signé"), N_("« %(p)s » : les fonds peuvent être libérés.") % {
+        "p": project.title}, url=f"/staff/projects/{project.pk}/", task=f"release:{project.pk}")
     return {"object_ref": project.reference, "url": reverse("projects:manage", args=[project.slug]),
             "message": _("Contrat signé. Notre équipe libère les fonds dans votre portefeuille.")}
 

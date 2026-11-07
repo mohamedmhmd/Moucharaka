@@ -1,0 +1,1 @@
+{% load i18n %}{% if n.task_state == "open" %}<span class="task-badge open">{% trans "À traiter" %}</span>{% elif n.task_state == "done" %}<span class="task-badge done">✓ {% trans "Traité" %} · {{ n.task_label }}</span>{% endif %}

@@ -37,7 +37,9 @@ def dashboard(request):
     u = request.user
     if u.status == u.Status.NEW and not hasattr(u, "kyc"):
         return redirect("accounts:kyc")
-    ctx = {"notifications": u.notifications.all()[:8], "my_projects": u.projects.all()[:20]}
+    from apps.core.staff_tasks import annotate
+
+    ctx = {"notifications": annotate(u.notifications.all()[:8]), "my_projects": u.projects.all()[:20]}
     if u.is_approved:
         holdings = Holding.objects.filter(user=u, shares__gt=0).select_related("project")
         ctx["wallet"] = u.wallet
@@ -78,8 +80,15 @@ def portfolio(request):
 
 @login_required
 def notifications(request):
-    qs = request.user.notifications.all()[:100]
-    resp = render(request, "core/notifications.html", {"items": qs})
+    from apps.core.staff_tasks import annotate
+
+    qs = request.user.notifications.all()
+    show = request.GET.get("show", "")
+    items = annotate(qs[:300] if show == "todo" else qs[:100])
+    if show == "todo":
+        items = [n for n in items if n.task_state == "open"]
+    resp = render(request, "core/notifications.html", {"items": items, "show": show,
+                                                        "is_team": request.user.is_staff})
     request.user.notifications.filter(is_read=False).update(is_read=True)
     return resp
 

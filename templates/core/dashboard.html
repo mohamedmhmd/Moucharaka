@@ -41,7 +41,7 @@
     <aside>
       {% if score %}<div class="panel"><h3>{% trans "Mon score de confiance" %}</h3>{% include "includes/score.html" %}</div>{% endif %}
       <div class="panel"><div class="row between"><h3 style="margin:0">{% trans "Notifications" %}</h3><a class="small" href="{% url 'core:notifications' %}">{% trans "Tout voir" %}</a></div>
-        {% for n in notifications %}<div class="qa-item"><a href="{{ n.url|default:'#' }}"><b>{{ n.title }}</b></a><div class="small muted">{{ n.body|truncatechars:110 }}</div><div class="small muted">{{ n.created_at|timesince }}</div></div>
+        {% for n in notifications %}<div class="qa-item notif{% if n.task_state == 'done' %} handled{% endif %}"><a href="{{ n.url|default:'#' }}"><b>{{ n.title }}</b></a> {% include "includes/task_badge.html" %}<div class="small muted">{{ n.body|truncatechars:110 }}</div><div class="small muted">{{ n.created_at|timesince }}</div></div>
         {% empty %}<p class="muted small">{% trans "Rien de nouveau." %}</p>{% endfor %}</div>
     </aside>
   </div>

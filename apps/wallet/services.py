@@ -111,6 +111,11 @@ def request_withdrawal(user, amount, account):
     post(Wallet.for_user(user), Transaction.Kind.WITHDRAWAL_HOLD, -(amount + fee), held_delta=amount + fee,
          description=destination, reference=wr.reference)
     audit("withdrawal.requested", wr, actor=user, amount=str(amount))
+    from apps.core.staff_tasks import notify_staff
+    from apps.core.utils import N_
+
+    notify_staff(N_("Retrait à payer"), f"{wr.reference} — {fmt_amount(amount)} MRU → {destination}",
+                 url="/staff/withdrawals/", task=f"withdrawal:{wr.pk}")
     return wr
 
 

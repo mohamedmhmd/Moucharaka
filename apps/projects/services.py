@@ -97,10 +97,9 @@ def submit_project(project, user):
     project.submitted_at = timezone.now()
     project.save()
     audit("project.submitted", project, actor=user)
-    from apps.accounts.models import User
+    from apps.core.staff_tasks import notify_staff
 
-    for staff in User.objects.filter(is_staff=True, is_active=True):
-        notify(staff, N_("Projet à étudier"), project.title, url=f"/staff/projects/{project.pk}/")
+    notify_staff(N_("Projet à étudier"), project.title, url=f"/staff/projects/{project.pk}/", task=f"review:{project.pk}")
     return project
 
 

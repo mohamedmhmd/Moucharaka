@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 16:39+0100\n"
+"POT-Creation-Date: 2026-11-07 17:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -773,7 +773,7 @@ msgstr "تواصل مع الدعم على الرقم %(p)s."
 msgid "Contactez le support."
 msgstr "تواصل مع الدعم."
 
-#: apps/accounts/views.py:59 apps/wallet/views.py:166
+#: apps/accounts/views.py:59 apps/wallet/views.py:167
 #, python-format
 msgid "Mode développement : votre code est %(code)s"
 msgstr "وضع التطوير: رمزك هو %(code)s"
@@ -790,39 +790,39 @@ msgstr "تحقق من رقمك أولاً."
 msgid "Compte créé. Dernière étape : vérifier votre identité."
 msgstr "تم إنشاء الحساب. الخطوة الأخيرة: التحقق من هويتك."
 
-#: apps/accounts/views.py:162
+#: apps/accounts/views.py:163
 msgid "Nouveau dossier KYC à vérifier"
 msgstr "ملف هوية جديد للتحقق"
 
-#: apps/accounts/views.py:163
+#: apps/accounts/views.py:165
 msgid "Dossier envoyé. Notre équipe le vérifie, vous recevrez un message WhatsApp."
 msgstr "تم إرسال الملف. يتحقق منه فريقنا وستصلك رسالة على واتساب."
 
-#: apps/accounts/views.py:206 apps/api/views.py:148
+#: apps/accounts/views.py:208 apps/api/views.py:148
 msgid "Numéro ou mot de passe incorrect."
 msgstr "الرقم أو كلمة المرور غير صحيحة."
 
-#: apps/accounts/views.py:208
+#: apps/accounts/views.py:210
 msgid "Ce compte est suspendu. Contactez le support."
 msgstr "هذا الحساب موقوف. اتصل بالدعم."
 
-#: apps/accounts/views.py:222
+#: apps/accounts/views.py:224
 msgid "La connexion par code"
 msgstr "تسجيل الدخول بالرمز"
 
-#: apps/accounts/views.py:248
+#: apps/accounts/views.py:250
 msgid "La réinitialisation du mot de passe"
 msgstr "إعادة تعيين كلمة المرور"
 
-#: apps/accounts/views.py:273
+#: apps/accounts/views.py:275
 msgid "Mot de passe modifié. Connectez-vous."
 msgstr "تم تغيير كلمة المرور. سجّل الدخول."
 
-#: apps/accounts/views.py:294
+#: apps/accounts/views.py:296
 msgid "Mot de passe modifié."
 msgstr "تم تغيير كلمة المرور."
 
-#: apps/accounts/views.py:298
+#: apps/accounts/views.py:300
 msgid "Préférences enregistrées."
 msgstr "تم حفظ التفضيلات."
 
@@ -882,49 +882,49 @@ msgstr "تم توقيع العقد. تم حجز %(n)s حصة."
 msgid "Ce contrat ne peut être signé que lorsque la collecte est réussie."
 msgstr "لا يمكن توقيع هذا العقد إلا بعد نجاح الحملة."
 
-#: apps/contracts/actions.py:50
+#: apps/contracts/actions.py:51
 msgid "Contrat de financement signé"
 msgstr "تم توقيع عقد التمويل"
 
-#: apps/contracts/actions.py:50
+#: apps/contracts/actions.py:51
 #, python-format
 msgid "« %(p)s » : les fonds peuvent être libérés."
 msgstr "«%(p)s»: يمكن تحرير الأموال."
 
-#: apps/contracts/actions.py:53
+#: apps/contracts/actions.py:54
 msgid "Contrat signé. Notre équipe libère les fonds dans votre portefeuille."
 msgstr "تم توقيع العقد. يحرر فريقنا الأموال في محفظتك."
 
-#: apps/contracts/actions.py:60
+#: apps/contracts/actions.py:61
 msgid "Contrat signé et projet envoyé ! Notre équipe l'étudie, en général sous 5 jours ouvrés."
 msgstr "تم توقيع العقد وإرسال المشروع! يدرسه فريقنا عادة خلال 5 أيام عمل."
 
-#: apps/contracts/actions.py:67
+#: apps/contracts/actions.py:68
 msgid "Contrat signé. Notre équipe vérifie la demande, puis les nouvelles parts seront mises en vente."
 msgstr "تم توقيع العقد. يتحقق فريقنا من الطلب، ثم تُعرض الحصص الجديدة للبيع."
 
-#: apps/contracts/actions.py:75
+#: apps/contracts/actions.py:76
 msgid "Offre signée et publiée sur le marché."
 msgstr "تم توقيع العرض ونشره في السوق."
 
-#: apps/contracts/actions.py:82
+#: apps/contracts/actions.py:83
 #, python-format
 msgid "Contrat signé : %(n)s part(s) de « %(p)s » achetée(s)."
 msgstr "تم توقيع العقد: تم شراء %(n)s حصة من «%(p)s»."
 
-#: apps/contracts/actions.py:91
+#: apps/contracts/actions.py:92
 msgid "Offre signée et envoyée. Le montant est réservé sur votre portefeuille jusqu'à la réponse."
 msgstr "تم توقيع العرض وإرساله. المبلغ محجوز في محفظتك حتى يصل الرد."
 
-#: apps/contracts/actions.py:105
+#: apps/contracts/actions.py:106
 msgid "Proposition signée et envoyée."
 msgstr "تم توقيع الاقتراح وإرساله."
 
-#: apps/contracts/actions.py:111
+#: apps/contracts/actions.py:112
 msgid "Contrat signé : rachat conclu."
 msgstr "تم توقيع العقد: تمت إعادة الشراء."
 
-#: apps/contracts/actions.py:118
+#: apps/contracts/actions.py:119
 msgid "Acte signé. Notre équipe vérifie le partage puis verse à chaque investisseur sa part."
 msgstr "تم توقيع المحضر. يتحقق فريقنا من التقسيم ثم يدفع لكل مستثمر نصيبه."
 
@@ -1254,97 +1254,106 @@ msgstr "إعدادات المنصة"
 msgid "Paramètres de la plateforme"
 msgstr "إعدادات المنصة"
 
-#: apps/core/models.py:129
+#: apps/core/models.py:132
 msgid "notification"
 msgstr "إشعار"
 
-#: apps/core/models.py:148 apps/core/models.py:149
+#: apps/core/models.py:151 apps/core/models.py:152
 msgid "journal d'audit"
 msgstr "سجل التدقيق"
 
-#: apps/core/models.py:159
+#: apps/core/models.py:162
 msgid "Réussie"
 msgstr "ناجحة"
 
-#: apps/core/models.py:160
+#: apps/core/models.py:163
 msgid "Échouée"
 msgstr "فاشلة"
 
-#: apps/core/models.py:163
+#: apps/core/models.py:166
 msgid "nom de la sauvegarde"
 msgstr "اسم النسخة الاحتياطية"
 
-#: apps/core/models.py:165
+#: apps/core/models.py:168
 msgid "taille (octets)"
 msgstr "الحجم (بايت)"
 
-#: apps/core/models.py:166 templates/staff/dashboard.html:5
+#: apps/core/models.py:169 templates/staff/dashboard.html:5
 msgid "copiée hors du serveur"
 msgstr "منسوخة خارج الخادم"
 
-#: apps/core/models.py:171
+#: apps/core/models.py:174
 msgid "sauvegarde"
 msgstr "نسخة احتياطية"
 
-#: apps/core/models.py:172
+#: apps/core/models.py:175
 msgid "sauvegardes"
 msgstr "النسخ الاحتياطية"
 
-#: apps/core/models.py:185
+#: apps/core/models.py:188
 msgid "Identité pas encore vérifiée (dossier non envoyé)"
 msgstr "الهوية غير موثّقة بعد (لم يُرسل الملف)"
 
-#: apps/core/models.py:186
+#: apps/core/models.py:189
 msgid "Corrections d'identité demandées"
 msgstr "طُلبت تصحيحات في ملف الهوية"
 
-#: apps/core/models.py:187
+#: apps/core/models.py:190
 msgid "Membres vérifiés"
 msgstr "الأعضاء الموثّقون"
 
-#: apps/core/models.py:188
+#: apps/core/models.py:191
 msgid "Tous les membres"
 msgstr "جميع الأعضاء"
 
-#: apps/core/models.py:190
+#: apps/core/models.py:193
 msgid "destinataires"
 msgstr "المستلمون"
 
-#: apps/core/models.py:191
+#: apps/core/models.py:194
 msgid "titre (arabe)"
 msgstr "العنوان (بالعربية)"
 
-#: apps/core/models.py:192
+#: apps/core/models.py:195
 msgid "message (arabe)"
 msgstr "الرسالة (بالعربية)"
 
-#: apps/core/models.py:193
+#: apps/core/models.py:196
 msgid "titre (français)"
 msgstr "العنوان (بالفرنسية)"
 
-#: apps/core/models.py:194
+#: apps/core/models.py:197
 msgid "message (français)"
 msgstr "الرسالة (بالفرنسية)"
 
-#: apps/core/models.py:195
+#: apps/core/models.py:198
 msgid "lien dans le site"
 msgstr "رابط داخل الموقع"
 
-#: apps/core/models.py:196
+#: apps/core/models.py:199
 msgid "aussi sur WhatsApp"
 msgstr "وعلى واتساب أيضًا"
 
-#: apps/core/models.py:198
+#: apps/core/models.py:201
 msgid "y compris les membres qui ont refusé les notifications WhatsApp"
 msgstr "بما في ذلك الأعضاء الذين رفضوا إشعارات واتساب"
 
-#: apps/core/models.py:208
+#: apps/core/models.py:211
 msgid "message groupé"
 msgstr "رسالة جماعية"
 
-#: apps/core/models.py:209
+#: apps/core/models.py:212
 msgid "messages groupés"
 msgstr "رسائل جماعية"
+
+#: apps/core/staff_tasks.py:62
+msgid "Supprimé"
+msgstr "محذوف"
+
+#: apps/core/staff_tasks.py:64 templates/core/notifications.html:7
+#: templates/includes/task_badge.html:1
+msgid "À traiter"
+msgstr "بانتظار المعالجة"
 
 #: apps/core/templatetags/mk.py:80 apps/trust/models.py:46
 msgid "Nouveau"
@@ -1407,136 +1416,136 @@ msgstr "هناك طلب إصدار في انتظار المصادقة بالفع
 msgid "Indiquez un nombre de parts et un prix entier."
 msgstr "أدخل عدد الحصص وسعراً بدون كسور."
 
-#: apps/investments/company.py:126
+#: apps/investments/company.py:127
 msgid "Émission de parts à valider"
 msgstr "إصدار حصص في انتظار المصادقة"
 
-#: apps/investments/company.py:127
+#: apps/investments/company.py:128
 #, python-format
 msgid "« %(p)s » : %(n)s nouvelles parts à %(x)s MRU."
 msgstr "«%(p)s»: %(n)s حصة جديدة بسعر %(x)s أوقية."
 
-#: apps/investments/company.py:136
+#: apps/investments/company.py:137
 msgid "Cette demande ne peut plus être annulée."
 msgstr "لم يعد بالإمكان إلغاء هذا الطلب."
 
-#: apps/investments/company.py:146 apps/investments/company.py:163
+#: apps/investments/company.py:147 apps/investments/company.py:164
 msgid "Cette demande a déjà été traitée."
 msgstr "تمت معالجة هذا الطلب بالفعل."
 
-#: apps/investments/company.py:150
+#: apps/investments/company.py:151
 msgid "Émission de parts refusée"
 msgstr "تم رفض إصدار الحصص"
 
-#: apps/investments/company.py:166
+#: apps/investments/company.py:167
 msgid "Le projet n'est pas en état de vendre de nouvelles parts."
 msgstr "المشروع ليس في وضع يسمح ببيع حصص جديدة."
 
-#: apps/investments/company.py:177
+#: apps/investments/company.py:178
 msgid "Nouvelles parts émises"
 msgstr "إصدار حصص جديدة"
 
-#: apps/investments/company.py:178
+#: apps/investments/company.py:179
 #, python-format
 msgid "« %(p)s » met en vente %(n)s nouvelles parts à %(x)s MRU. Vos %(m)s parts représentent %(a)s %% aujourd'hui et %(b)s %% quand toutes les nouvelles parts seront vendues. Vous pouvez en acheter."
 msgstr "تعرض «%(p)s» %(n)s حصة جديدة للبيع بسعر %(x)s أوقية. حصصك (%(m)s) تمثل %(a)s %% اليوم و%(b)s %% عندما تُباع كل الحصص الجديدة. يمكنك شراء المزيد."
 
-#: apps/investments/company.py:183
+#: apps/investments/company.py:184
 msgid "Nouvelles parts en vente"
 msgstr "حصص جديدة معروضة للبيع"
 
-#: apps/investments/company.py:184
+#: apps/investments/company.py:185
 #, python-format
 msgid "%(n)s nouvelles parts de « %(p)s » sont en vente à %(x)s MRU."
 msgstr "%(n)s حصة جديدة من «%(p)s» معروضة للبيع بسعر %(x)s أوقية."
 
-#: apps/investments/company.py:209
+#: apps/investments/company.py:210
 msgid "Ce projet ne peut pas verser de dividende."
 msgstr "لا يمكن لهذا المشروع توزيع أرباح."
 
-#: apps/investments/company.py:211 apps/projects/views.py:775
+#: apps/investments/company.py:212 apps/projects/views.py:775
 msgid "Indiquez le montant du dividende."
 msgstr "أدخل مبلغ الأرباح الموزعة."
 
-#: apps/investments/company.py:239 apps/projects/views.py:879
+#: apps/investments/company.py:240 apps/projects/views.py:879
 #: apps/projects/views.py:917
 msgid "Indiquez un nombre de parts et un prix."
 msgstr "أدخل عدد الحصص والسعر."
 
-#: apps/investments/company.py:243 apps/projects/views.py:899
+#: apps/investments/company.py:244 apps/projects/views.py:899
 #, python-format
 msgid "Cet actionnaire n'a que %(n)s part(s) disponibles."
 msgstr "لا يملك هذا المساهم سوى %(n)s حصة متاحة."
 
-#: apps/investments/company.py:251 apps/investments/services.py:339
+#: apps/investments/company.py:252 apps/investments/services.py:341
 msgid "Rachat impossible pour ce projet."
 msgstr "إعادة الشراء غير ممكنة لهذا المشروع."
 
-#: apps/investments/company.py:253 apps/projects/views.py:897
+#: apps/investments/company.py:254 apps/projects/views.py:897
 msgid "Une offre est déjà en discussion avec cet actionnaire."
 msgstr "هناك عرض قيد النقاش مع هذا المساهم بالفعل."
 
-#: apps/investments/company.py:262
+#: apps/investments/company.py:263
 msgid "Offre de rachat de vos parts"
 msgstr "عرض لإعادة شراء حصصك"
 
-#: apps/investments/company.py:263
+#: apps/investments/company.py:264
 #, python-format
 msgid "« %(p)s » propose de racheter %(n)s part(s) à %(x)s MRU l'une."
 msgstr "تعرض «%(p)s» إعادة شراء %(n)s حصة بسعر %(x)s أوقية للحصة."
 
-#: apps/investments/company.py:273
+#: apps/investments/company.py:274
 msgid "Cette offre ne vous concerne pas."
 msgstr "هذا العرض لا يخصك."
 
-#: apps/investments/company.py:281
+#: apps/investments/company.py:282
 msgid "Cette offre est déjà close."
 msgstr "هذا العرض مغلق بالفعل."
 
-#: apps/investments/company.py:290
+#: apps/investments/company.py:291
 msgid "Offre de rachat close"
 msgstr "أُغلق عرض إعادة الشراء"
 
-#: apps/investments/company.py:294 apps/projects/views.py:930
+#: apps/investments/company.py:295 apps/projects/views.py:930
 msgid "C'est à l'autre partie de répondre."
 msgstr "الرد الآن على الطرف الآخر."
 
-#: apps/investments/company.py:298 apps/projects/views.py:946
+#: apps/investments/company.py:299 apps/projects/views.py:946
 msgid "Action inconnue."
 msgstr "إجراء غير معروف."
 
-#: apps/investments/company.py:307
+#: apps/investments/company.py:308
 msgid "Nouvelle offre de rachat"
 msgstr "عرض جديد لإعادة الشراء"
 
-#: apps/investments/company.py:308
+#: apps/investments/company.py:309
 #, python-format
 msgid "« %(p)s » propose %(n)s part(s) à %(x)s MRU l'une."
 msgstr "تعرض «%(p)s» %(n)s حصة بسعر %(x)s أوقية للحصة."
 
-#: apps/investments/company.py:312
+#: apps/investments/company.py:313
 msgid "Contre-proposition d'un actionnaire"
 msgstr "عرض مقابل من مساهم"
 
-#: apps/investments/company.py:313
+#: apps/investments/company.py:314
 #, python-format
 msgid "%(u)s propose %(n)s part(s) à %(x)s MRU l'une."
 msgstr "يقترح %(u)s %(n)s حصة بسعر %(x)s أوقية للحصة."
 
-#: apps/investments/company.py:343 apps/projects/views.py:935
+#: apps/investments/company.py:344 apps/projects/views.py:935
 msgid "L'actionnaire n'a plus assez de parts disponibles."
 msgstr "لم يعد لدى المساهم ما يكفي من الحصص المتاحة."
 
-#: apps/investments/company.py:365
+#: apps/investments/company.py:366
 #, python-format
 msgid "Rachat de %(n)s part(s) à %(x)s MRU"
 msgstr "إعادة شراء %(n)s حصة بسعر %(x)s أوقية"
 
-#: apps/investments/company.py:369
+#: apps/investments/company.py:370
 msgid "Rachat conclu"
 msgstr "تمت إعادة الشراء"
 
-#: apps/investments/company.py:370
+#: apps/investments/company.py:371
 #, python-format
 msgid "%(n)s part(s) de « %(p)s » rachetée(s) à %(x)s MRU l'une."
 msgstr "تمت إعادة شراء %(n)s حصة من «%(p)s» بسعر %(x)s أوقية للحصة."
@@ -1602,7 +1611,7 @@ msgstr "تقاسم الأرباح (مشاركة)"
 msgid "Échéance (Mourabaha)"
 msgstr "قسط (مرابحة)"
 
-#: apps/investments/models.py:85 apps/investments/services.py:382
+#: apps/investments/models.py:85 apps/investments/services.py:384
 msgid "Rachat de parts"
 msgstr "إعادة شراء الحصص"
 
@@ -1654,7 +1663,7 @@ msgstr "في انتظار المصادقة"
 msgid "Validé et versé"
 msgstr "تمت المصادقة والدفع"
 
-#: apps/investments/models.py:138 apps/investments/services.py:477
+#: apps/investments/models.py:138 apps/investments/services.py:480
 msgid "Annulé par le porteur"
 msgstr "ألغاه صاحب المشروع"
 
@@ -1799,189 +1808,189 @@ msgstr "تم بلوغ الهدف!"
 msgid "« %(p)s » est financé. Signez le contrat de financement depuis votre page de gestion pour recevoir les fonds."
 msgstr "تم تمويل «%(p)s». وقّع عقد التمويل من صفحة الإدارة لتستلم الأموال."
 
-#: apps/investments/services.py:140
+#: apps/investments/services.py:141
 msgid "Projet financé : fonds à libérer"
 msgstr "مشروع مموَّل: أموال يجب تحريرها"
 
-#: apps/investments/services.py:142
+#: apps/investments/services.py:144
 msgid "Projet financé"
 msgstr "مشروع مموَّل"
 
-#: apps/investments/services.py:143
+#: apps/investments/services.py:145
 #, python-format
 msgid "« %(p)s » a atteint son objectif."
 msgstr "بلغ «%(p)s» هدفه."
 
-#: apps/investments/services.py:168
+#: apps/investments/services.py:170
 msgid "Collecte non aboutie : vous êtes remboursé"
 msgstr "لم تكتمل الحملة: تمت إعادة أموالك"
 
-#: apps/investments/services.py:169
+#: apps/investments/services.py:171
 #, python-format
 msgid "%(a)s MRU sont de nouveau disponibles."
 msgstr "أصبحت %(a)s أوقية متاحة من جديد."
 
-#: apps/investments/services.py:184
+#: apps/investments/services.py:186
 msgid "Seul un projet financé peut recevoir les fonds."
 msgstr "لا يتلقى الأموال إلا مشروع مموَّل."
 
-#: apps/investments/services.py:211
+#: apps/investments/services.py:213
 msgid "Fonds versés"
 msgstr "تم تحويل الأموال"
 
-#: apps/investments/services.py:212
+#: apps/investments/services.py:214
 #, python-format
 msgid "%(a)s MRU (après commission de %(f)s MRU) sont disponibles dans votre portefeuille."
 msgstr "أصبحت %(a)s أوقية (بعد عمولة قدرها %(f)s أوقية) متاحة في محفظتك."
 
-#: apps/investments/services.py:247
+#: apps/investments/services.py:249
 msgid "Aucune part en circulation."
 msgstr "لا توجد حصص متداولة."
 
-#: apps/investments/services.py:277
+#: apps/investments/services.py:279
 msgid "Vous avez reçu un versement"
 msgstr "وصلك مبلغ"
 
-#: apps/investments/services.py:278
+#: apps/investments/services.py:280
 #, python-format
 msgid "%(a)s MRU de « %(p)s »."
 msgstr "%(a)s أوقية من «%(p)s»."
 
-#: apps/investments/services.py:289
+#: apps/investments/services.py:291
 msgid "Ce projet ne distribue pas de bénéfices."
 msgstr "هذا المشروع لا يوزّع أرباحاً."
 
-#: apps/investments/services.py:291
+#: apps/investments/services.py:293
 msgid "Ce rapport a déjà donné lieu à une distribution."
 msgstr "سبق أن تم توزيع أرباح هذا التقرير."
 
-#: apps/investments/services.py:294
+#: apps/investments/services.py:296
 msgid "Pas de bénéfice à distribuer pour cette période."
 msgstr "لا توجد أرباح للتوزيع عن هذه الفترة."
 
-#: apps/investments/services.py:305
+#: apps/investments/services.py:307
 msgid "Échéance déjà payée."
 msgstr "القسط مدفوع مسبقاً."
 
-#: apps/investments/services.py:307
+#: apps/investments/services.py:309
 msgid "Ce projet n'accepte pas de paiement."
 msgstr "هذا المشروع لا يقبل الدفع."
 
-#: apps/investments/services.py:310
+#: apps/investments/services.py:312
 #, python-format
 msgid "Échéance %(n)s"
 msgstr "القسط %(n)s"
 
-#: apps/investments/services.py:342
+#: apps/investments/services.py:344
 #, python-format
 msgid "Le prix de rachat ne peut pas être inférieur à 50 % de la valeur nominale sans accord de l'équipe."
 msgstr "لا يمكن أن يقل سعر إعادة الشراء عن 50 % من القيمة الاسمية دون موافقة الفريق."
 
-#: apps/investments/services.py:343
+#: apps/investments/services.py:345
 msgid "Rachat de parts par le porteur"
 msgstr "إعادة شراء الحصص من طرف صاحب المشروع"
 
-#: apps/investments/services.py:347
+#: apps/investments/services.py:349
 #, python-format
 msgid "Nombre de parts invalide (max. %(n)s)."
 msgstr "عدد حصص غير صالح (الحد الأقصى %(n)s)."
 
-#: apps/investments/services.py:363
+#: apps/investments/services.py:365
 #, python-format
 msgid "Rachat à %(p)s MRU / part"
 msgstr "إعادة شراء بسعر %(p)s أوقية للحصة"
 
-#: apps/investments/services.py:383
+#: apps/investments/services.py:385
 #, python-format
 msgid "%(n)s part(s) de « %(p)s » rachetée(s) : %(a)s MRU reçus."
 msgstr "أعيد شراء %(n)s حصة من «%(p)s»: استلمت %(a)s أوقية."
 
-#: apps/investments/services.py:442
+#: apps/investments/services.py:444
 msgid "Remboursement impossible pour ce projet."
 msgstr "السداد غير ممكن لهذا المشروع."
 
-#: apps/investments/services.py:444
+#: apps/investments/services.py:446
 msgid "Le remboursement est possible une fois les fonds reçus."
 msgstr "يمكن السداد بعد استلام الأموال."
 
-#: apps/investments/services.py:446 apps/projects/views.py:741
+#: apps/investments/services.py:448 apps/projects/views.py:741
 msgid "Un remboursement est déjà en attente de validation."
 msgstr "هناك سداد في انتظار المصادقة بالفعل."
 
-#: apps/investments/services.py:448
+#: apps/investments/services.py:450
 msgid "Indiquez le montant à rendre."
 msgstr "أدخل المبلغ الذي ستعيده."
 
-#: apps/investments/services.py:451 apps/investments/services.py:518
+#: apps/investments/services.py:453 apps/investments/services.py:521
 #: apps/projects/views.py:743
 msgid "Aucun investisseur à rembourser."
 msgstr "لا يوجد مستثمر لسداده."
 
-#: apps/investments/services.py:453 apps/projects/views.py:745
+#: apps/investments/services.py:455 apps/projects/views.py:745
 msgid "Le montant est inférieur au capital investi : expliquez la perte dans le message."
 msgstr "المبلغ أقل من رأس المال المستثمر: اشرح الخسارة في الرسالة."
 
-#: apps/investments/services.py:464
+#: apps/investments/services.py:467
 msgid "Remboursement à valider"
 msgstr "سداد في انتظار المصادقة"
 
-#: apps/investments/services.py:465
+#: apps/investments/services.py:467
 #, python-format
 msgid "%(a)s MRU pour « %(p)s »."
 msgstr "%(a)s أوقية لـ«%(p)s»."
 
-#: apps/investments/services.py:475
+#: apps/investments/services.py:478
 msgid "Ce remboursement ne peut plus être annulé."
 msgstr "لم يعد بالإمكان إلغاء هذا السداد."
 
-#: apps/investments/services.py:491 apps/investments/services.py:513
+#: apps/investments/services.py:494 apps/investments/services.py:516
 msgid "Ce remboursement a déjà été traité."
 msgstr "تمت معالجة هذا السداد بالفعل."
 
-#: apps/investments/services.py:499
+#: apps/investments/services.py:502
 msgid "Remboursement refusé"
 msgstr "تم رفض السداد"
 
-#: apps/investments/services.py:500
+#: apps/investments/services.py:503
 #, python-format
 msgid "%(a)s MRU sont de nouveau disponibles. Motif : %(r)s"
 msgstr "أصبحت %(a)s أوقية متاحة من جديد. السبب: %(r)s"
 
-#: apps/investments/services.py:533
+#: apps/investments/services.py:536
 msgid "Remboursement final"
 msgstr "السداد النهائي"
 
-#: apps/investments/services.py:540
+#: apps/investments/services.py:543
 msgid "Vous avez été remboursé"
 msgstr "تم سدادك"
 
-#: apps/investments/services.py:541
+#: apps/investments/services.py:544
 #, python-format
 msgid "%(a)s MRU de « %(p)s » (vous aviez investi %(i)s MRU)."
 msgstr "%(a)s أوقية من «%(p)s» (كنت قد استثمرت %(i)s أوقية)."
 
-#: apps/investments/services.py:553
+#: apps/investments/services.py:556
 msgid "Remboursement validé"
 msgstr "تمت المصادقة على السداد"
 
-#: apps/investments/services.py:554
+#: apps/investments/services.py:557
 #, python-format
 msgid "« %(p)s » est terminé : les investisseurs ont reçu leur part. Merci !"
 msgstr "انتهى «%(p)s»: استلم المستثمرون نصيبهم. شكراً!"
 
-#: apps/investments/services.py:563 apps/investments/services.py:569
+#: apps/investments/services.py:566 apps/investments/services.py:572
 msgid "Projet terminé"
 msgstr "انتهى المشروع"
 
-#: apps/investments/services.py:575
+#: apps/investments/services.py:578
 msgid "Projet en défaut"
 msgstr "المشروع متعثر"
 
-#: apps/investments/services.py:582
+#: apps/investments/services.py:585
 msgid "Projet en défaut de paiement"
 msgstr "المشروع متعثر عن السداد"
 
-#: apps/investments/services.py:583
+#: apps/investments/services.py:586
 #, python-format
 msgid "Notre équipe engage le recouvrement et les garanties de « %(p)s »."
 msgstr "يباشر فريقنا التحصيل وتفعيل ضمانات «%(p)s»."
@@ -3685,67 +3694,67 @@ msgstr "يجب أن تكون رسوم الدراسة (%(f)s أوقية) متوف
 msgid "Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille. %(e)s"
 msgstr "يجب أن تتوفر رسوم الدراسة (%(f)s أوقية) في محفظتك. %(e)s"
 
-#: apps/projects/services.py:103
+#: apps/projects/services.py:102
 msgid "Projet à étudier"
 msgstr "مشروع للدراسة"
 
-#: apps/projects/services.py:110
+#: apps/projects/services.py:109
 msgid "Ce projet n'est pas en cours d'étude."
 msgstr "هذا المشروع ليس قيد الدراسة."
 
-#: apps/projects/services.py:113
+#: apps/projects/services.py:112
 #, python-format
 msgid "Avant de publier, complétez dans l'administration : %(m)s."
 msgstr "قبل النشر، أكمل في لوحة الإدارة: %(m)s."
 
-#: apps/projects/services.py:142
+#: apps/projects/services.py:141
 msgid "Vos parts sont en vente"
 msgstr "حصصك معروضة للبيع"
 
-#: apps/projects/services.py:143
+#: apps/projects/services.py:142
 #, python-format
 msgid "Les parts de « %(p)s » sont en vente. Partagez le lien du projet."
 msgstr "حصص «%(p)s» معروضة للبيع. شارك رابط المشروع."
 
-#: apps/projects/services.py:153
+#: apps/projects/services.py:152
 msgid "Votre projet est en ligne"
 msgstr "مشروعك منشور الآن"
 
-#: apps/projects/services.py:154
+#: apps/projects/services.py:153
 #, python-format
 msgid "La collecte de « %(p)s » est ouverte jusqu'au %(d)s."
 msgstr "حملة تمويل «%(p)s» مفتوحة حتى %(d)s."
 
-#: apps/projects/services.py:166
+#: apps/projects/services.py:165
 msgid "Corrections demandées sur votre projet"
 msgstr "طُلبت تصحيحات على مشروعك"
 
-#: apps/projects/services.py:176
+#: apps/projects/services.py:175
 msgid "Projet refusé"
 msgstr "تم رفض المشروع"
 
-#: apps/projects/services.py:211
+#: apps/projects/services.py:210
 msgid "Rapport impossible pour ce projet."
 msgstr "لا يمكن تقديم تقرير لهذا المشروع."
 
-#: apps/projects/services.py:214 apps/projects/views.py:648
+#: apps/projects/services.py:213 apps/projects/views.py:648
 msgid "Période invalide."
 msgstr "فترة غير صالحة."
 
-#: apps/projects/services.py:216
+#: apps/projects/services.py:215
 msgid "Ce rapport a déjà été envoyé."
 msgstr "تم إرسال هذا التقرير مسبقاً."
 
-#: apps/projects/services.py:227
+#: apps/projects/services.py:226
 msgid "Nouveau rapport financier"
 msgstr "تقرير مالي جديد"
 
-#: apps/projects/services.py:228
+#: apps/projects/services.py:227
 #, python-format
 msgid "« %(p)s » a publié ses chiffres de %(m)s."
 msgstr "نشر «%(p)s» أرقام %(m)s."
 
-#: apps/projects/services.py:240
+#: apps/projects/services.py:239
 msgid "Rapport à clarifier"
 msgstr "تقرير بحاجة إلى توضيح"
 
@@ -4811,33 +4820,37 @@ msgstr "أُضيف هذا الحساب للتو: يمكنه استلام سحب 
 msgid "Le retrait minimum est de %(m)s MRU."
 msgstr "الحد الأدنى للسحب هو %(m)s أوقية."
 
-#: apps/wallet/services.py:121 apps/wallet/services.py:143
+#: apps/wallet/services.py:117
+msgid "Retrait à payer"
+msgstr "سحب بانتظار الدفع"
+
+#: apps/wallet/services.py:126 apps/wallet/services.py:148
 msgid "Ce retrait a déjà été traité."
 msgstr "تمت معالجة هذا السحب من قبل."
 
-#: apps/wallet/services.py:133
+#: apps/wallet/services.py:138
 msgid "Retrait envoyé"
 msgstr "تم إرسال السحب"
 
-#: apps/wallet/services.py:134
+#: apps/wallet/services.py:139
 #, python-format
 msgid "%(a)s MRU envoyés vers %(d)s."
 msgstr "أُرسلت %(a)s أوقية إلى %(d)s."
 
-#: apps/wallet/services.py:153
+#: apps/wallet/services.py:158
 msgid "Retrait refusé"
 msgstr "رُفض السحب"
 
-#: apps/wallet/services.py:180
+#: apps/wallet/services.py:185
 msgid "Nouveau compte de paiement ajouté"
 msgstr "تمت إضافة حساب دفع جديد"
 
-#: apps/wallet/services.py:181
+#: apps/wallet/services.py:186
 #, python-format
 msgid "%(m)s %(n)s a été ajouté à votre portefeuille. Si ce n'est pas vous, contactez le support immédiatement."
 msgstr "تمت إضافة %(m)s %(n)s إلى محفظتك. إذا لم تكن أنت، اتصل بالدعم فوراً."
 
-#: apps/wallet/services.py:189
+#: apps/wallet/services.py:194
 msgid "Un retrait en cours utilise ce compte. Attendez qu'il soit traité."
 msgstr "هناك سحب قيد المعالجة يستخدم هذا الحساب. انتظر حتى تتم معالجته."
 
@@ -4849,7 +4862,7 @@ msgstr "تم حفظ الحساب."
 msgid "Compte retiré."
 msgstr "تم حذف الحساب."
 
-#: apps/wallet/views.py:94 apps/wallet/views.py:158
+#: apps/wallet/views.py:94 apps/wallet/views.py:159
 #, python-format
 msgid "Minimum %(m)s MRU."
 msgstr "الحد الأدنى %(m)s أوقية."
@@ -4858,25 +4871,25 @@ msgstr "الحد الأدنى %(m)s أوقية."
 msgid "Dépôt à confirmer"
 msgstr "إيداع للتأكيد"
 
-#: apps/wallet/views.py:121
+#: apps/wallet/views.py:122
 msgid "Merci. Votre dépôt sera confirmé après vérification (généralement en moins d'une heure en journée)."
 msgstr "شكراً. سيُؤكَّد إيداعك بعد التحقق (عادة في أقل من ساعة خلال النهار)."
 
-#: apps/wallet/views.py:146
+#: apps/wallet/views.py:147
 #, python-format
 msgid "Demande %(r)s enregistrée. Paiement sous 24 h ouvrées."
 msgstr "تم تسجيل الطلب %(r)s. الدفع خلال 24 ساعة عمل."
 
-#: apps/wallet/views.py:149
+#: apps/wallet/views.py:150
 msgid "Ajoutez d'abord le compte Bankily, Masrvi, Sedad ou bancaire qui recevra l'argent."
 msgstr "أضف أولاً حساب بنكيلي أو مصرفي أو سداد أو الحساب البنكي الذي سيستلم المال."
 
-#: apps/wallet/views.py:156
+#: apps/wallet/views.py:157
 #, python-format
 msgid "Solde disponible insuffisant (frais de %(f)s MRU inclus)."
 msgstr "الرصيد المتاح غير كافٍ (بما في ذلك رسوم %(f)s أوقية)."
 
-#: apps/wallet/views.py:182
+#: apps/wallet/views.py:183
 msgid "Retrait annulé, fonds débloqués."
 msgstr "أُلغي السحب وتم فك حجز الأموال."
 
@@ -6334,7 +6347,15 @@ msgstr "الالتزامات."
 msgid "Opération ponctuelle : un seul remboursement à la fin (capital et bénéfice), partagé par la plateforme. Entreprise : des parts en vente, des dividendes quand vous le décidez, des nouvelles régulières. Avec vos réponses aux questions, ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
 msgstr "التمويل الظرفي: سداد واحد في النهاية (رأس المال والربح) تتولى المنصة تقسيمه. المؤسسة: حصص معروضة للبيع، وأرباح توزعها متى قررت، وأخبار منتظمة. ومع إجاباتك على الأسئلة، تبني هذه الالتزامات درجة ثقتك الظاهرة للجميع والمفيدة لتمويلاتك القادمة."
 
-#: templates/core/notifications.html:8
+#: templates/core/notifications.html:6
+msgid "Toutes"
+msgstr "الكل"
+
+#: templates/core/notifications.html:15
+msgid "Rien à traiter : tout est à jour."
+msgstr "لا شيء بانتظار المعالجة: كل شيء محدّث."
+
+#: templates/core/notifications.html:15
 msgid "Aucune notification pour l'instant."
 msgstr "لا توجد إشعارات حالياً."
 
@@ -6674,6 +6695,10 @@ msgstr "رمز QR للمشروع"
 #: templates/includes/share.html:14
 msgid "À imprimer sur la vitrine ou à montrer depuis votre téléphone."
 msgstr "للطباعة على واجهة المحل أو لعرضه من هاتفك."
+
+#: templates/includes/task_badge.html:1
+msgid "Traité"
+msgstr "تمت المعالجة"
 
 #: templates/market/buy.html:2 templates/market/buy.html:3
 #: templates/projects/detail.html:77

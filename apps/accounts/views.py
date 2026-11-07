@@ -158,8 +158,10 @@ def kyc(request):
         user.status = User.Status.PENDING
         user.save(update_fields=["status"])
         audit("kyc.submitted", profile, actor=user, request=request)
-        for staff in User.objects.filter(is_staff=True, is_active=True):
-            notify(staff, N_("Nouveau dossier KYC à vérifier"), profile.full_name, url="/staff/kyc/")
+        from apps.core.staff_tasks import notify_staff
+
+        notify_staff(N_("Nouveau dossier KYC à vérifier"), profile.full_name, url=f"/staff/kyc/{profile.pk}/",
+                     task=f"kyc:{profile.pk}")
         messages.success(request, _("Dossier envoyé. Notre équipe le vérifie, vous recevrez un message WhatsApp."))
         return redirect("accounts:kyc_status")
     return render(request, "accounts/kyc.html", {"form": form, "kyc": instance})

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 16:39+0100\n"
+"POT-Creation-Date: 2026-11-07 17:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -1005,6 +1005,12 @@ msgstr "message groupé"
 
 msgid "messages groupés"
 msgstr "messages groupés"
+
+msgid "Supprimé"
+msgstr "Supprimé"
+
+msgid "À traiter"
+msgstr "À traiter"
 
 msgid "Nouveau"
 msgstr "Nouveau"
@@ -3607,6 +3613,9 @@ msgstr "Ce compte vient d'être ajouté : il pourra recevoir un retrait à parti
 msgid "Le retrait minimum est de %(m)s MRU."
 msgstr "Le retrait minimum est de %(m)s MRU."
 
+msgid "Retrait à payer"
+msgstr "Retrait à payer"
+
 msgid "Ce retrait a déjà été traité."
 msgstr "Ce retrait a déjà été traité."
 
@@ -4744,6 +4753,12 @@ msgstr "Engagements."
 msgid "Opération ponctuelle : un seul remboursement à la fin (capital et bénéfice), partagé par la plateforme. Entreprise : des parts en vente, des dividendes quand vous le décidez, des nouvelles régulières. Avec vos réponses aux questions, ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
 msgstr "Opération ponctuelle : un seul remboursement à la fin (capital et bénéfice), partagé par la plateforme. Entreprise : des parts en vente, des dividendes quand vous le décidez, des nouvelles régulières. Avec vos réponses aux questions, ils construisent votre score de confiance, visible de tous et utile pour vos prochains financements."
 
+msgid "Toutes"
+msgstr "Toutes"
+
+msgid "Rien à traiter : tout est à jour."
+msgstr "Rien à traiter : tout est à jour."
+
 msgid "Aucune notification pour l'instant."
 msgstr "Aucune notification pour l'instant."
 
@@ -4994,6 +5009,9 @@ msgstr "Code QR du projet"
 
 msgid "À imprimer sur la vitrine ou à montrer depuis votre téléphone."
 msgstr "À imprimer sur la vitrine ou à montrer depuis votre téléphone."
+
+msgid "Traité"
+msgstr "Traité"
 
 msgid "Acheter des parts"
 msgstr "Acheter des parts"
