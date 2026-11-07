@@ -85,7 +85,7 @@
         <a class="btn block" style="margin-top:14px" href="{% url 'accounts:register' %}">{% trans "Créer un compte pour investir" %}</a>
       {% elif project.accepts_investment and user.is_authenticated and not user.is_approved %}
         <p class="note warn small" style="margin-top:14px">{% trans "Votre identité doit être vérifiée avant d'investir." %}</p>
-      {% elif is_owner %}<a class="btn block secondary" style="margin-top:14px" href="{% url 'projects:manage' project.slug %}">{% trans "Gérer mon projet" %}</a>{% endif %}
+      {% elif is_owner %}<a class="btn block act manage" style="margin-top:14px" href="{% url 'projects:manage' project.slug %}">{% icon "manage" %}{% trans "Gérer mon projet" %}</a>{% endif %}
       {% if holding and project.is_deal and holding.shares %}<p class="note good small" style="margin-top:12px">{% blocktrans with a=holding.cost_basis|money %}Vous avez investi {{ a }} MRU dans cette opération.{% endblocktrans %}</p>
       {% elif holding and project.is_deal and holding.received_total %}<p class="note good small" style="margin-top:12px">{% blocktrans with r=holding.received_total|money %}Opération terminée : vous avez reçu {{ r }} MRU.{% endblocktrans %}</p>
       {% elif holding and holding.shares %}<p class="note good small" style="margin-top:12px">{% blocktrans with n=holding.shares r=holding.received_total|money %}Vous détenez {{ n }} parts · {{ r }} MRU reçus.{% endblocktrans %}{% if project.is_tradable and holding.free_shares %} <a href="{% url 'market:sell' project.slug %}">{% trans "Vendre" %}</a>{% endif %}</p>{% endif %}

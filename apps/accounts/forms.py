@@ -97,13 +97,17 @@ class KYCForm(forms.ModelForm):
         fields = [
             "full_name", "nni", "id_type",
             "date_of_birth", "place_of_birth", "gender", "nationality",
-            "wilaya", "moughataa", "address",
+            "country", "country_other", "wilaya", "moughataa", "city", "address",
             "profession", "employer", "monthly_income", "source_of_funds", "experience", "purpose", "is_pep",
             "id_front",
         ]
         widgets = {
             "date_of_birth": DateInput(),
-            "moughataa": MoughataaSelect(attrs={"data-depends-on": "wilaya"}),
+            "moughataa": MoughataaSelect(attrs={"data-depends-on": "wilaya", "data-country": "MR"}),
+            "wilaya": forms.Select(attrs={"data-country": "MR"}),
+            "city": forms.TextInput(attrs={"data-country": "abroad", "dir": "auto"}),
+            "country_other": forms.TextInput(attrs={"data-country": "ZZ", "dir": "auto"}),
+            "country": forms.Select(attrs={"data-country-select": "1"}),
             "nni": forms.TextInput(attrs={"inputmode": "numeric", "dir": "ltr", "maxlength": 10}),
             "full_name": forms.TextInput(attrs={"dir": "auto"}),
             # No "capture" attribute: the phone offers the camera AND the gallery / files (photo or PDF).
@@ -112,7 +116,7 @@ class KYCForm(forms.ModelForm):
 
     fieldsets = [
         (_("Identité"), ["full_name", "nni", "id_type", "date_of_birth", "place_of_birth", "gender", "nationality"]),
-        (_("Adresse"), ["wilaya", "moughataa", "address"]),
+        (_("Adresse"), ["country", "country_other", "wilaya", "moughataa", "city", "address"]),
         (_("Profil financier"), ["profession", "employer", "monthly_income", "source_of_funds", "experience",
                                  "purpose", "is_pep"]),
         (_("Documents"), ["id_front"]),
@@ -122,6 +126,10 @@ class KYCForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["moughataa"].queryset = Moughataa.objects.select_related("wilaya")
+        self.fields["country"].required = False  # empty = Mauritania
+
+    def clean_country(self):
+        return self.cleaned_data.get("country") or "MR"
 
     def clean_nni(self):
         nni = self.cleaned_data["nni"]

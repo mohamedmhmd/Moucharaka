@@ -273,3 +273,24 @@ class SubmitThroughThePageTests(TestCase):
         self.assertEqual(r.status_code, 302)
         p.refresh_from_db()
         self.assertEqual(p.status, "submitted")
+
+
+class AmountRequiredTests(TestCase):
+    def test_cannot_leave_terms_step_without_the_amount(self):
+        owner = make_user("Owner")
+        p = make_project(owner, status="draft", kind="boutique")
+        self.client.force_login(owner)
+        url = f"/fr/projects/{p.slug}/edit/terms/"
+        for value in ("", "0"):
+            r = self.client.post(url, {"target_amount": value, "share_price": "1000"})
+            self.assertEqual(r.status_code, 200)
+            self.assertContains(r, "Indiquez le montant recherché.")
+        r = self.client.post(url, {"target_amount": "200000", "share_price": "1000"})
+        self.assertEqual(r.status_code, 302)
+
+    def test_company_must_say_how_many_parts(self):
+        owner = make_user("Founder")
+        p = make_project(owner, status="draft", kind="company", target=0)
+        self.client.force_login(owner)
+        r = self.client.post(f"/fr/projects/{p.slug}/edit/terms/", {"share_price": "1000"})
+        self.assertContains(r, "Indiquez le nombre de parts mises en vente.")

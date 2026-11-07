@@ -4,7 +4,7 @@
   <div class="section-head"><div><h1 style="margin:0">{{ project.title }}</h1>
     <div class="row" style="margin-top:8px">{% if project.is_share_offering %}<span class="badge tone-go">{% trans "Parts en vente" %}</span>{% else %}{% badge project.status project.get_status_display %}{% endif %}
       <span class="small muted">{{ project.get_kind_display }}</span><a class="small" href="{{ project.get_absolute_url }}">{% trans "Page publique" %}</a></div></div>
-    <div class="row"><span class="muted small">{% trans "Mon portefeuille" %}</span><b class="num">{{ wallet.balance|money }} MRU</b><a class="btn small secondary" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a></div></div>
+    <div class="row"><span class="muted small">{% trans "Mon portefeuille" %}</span><b class="num">{{ wallet.balance|money }} MRU</b><a class="btn small deposit" href="{% url 'wallet:deposit' %}">{% icon "deposit" %}{% trans "Déposer" %}</a></div></div>
 
   <nav class="tabs" aria-label="{% trans 'Gestion du projet' %}">
     <a href="#overview">{% trans "Aperçu" %}</a>

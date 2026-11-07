@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Moucharaka VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-07 16:09+0100\n"
+"POT-Creation-Date: 2026-11-07 16:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -294,11 +294,146 @@ msgstr "sexe"
 msgid "nationalité"
 msgstr "nationalité"
 
+msgid "Mauritanie"
+msgstr "Mauritanie"
+
+msgid "Sénégal"
+msgstr "Sénégal"
+
+msgid "Mali"
+msgstr "Mali"
+
+msgid "Maroc"
+msgstr "Maroc"
+
+msgid "Algérie"
+msgstr "Algérie"
+
+msgid "Tunisie"
+msgstr "Tunisie"
+
+msgid "Gambie"
+msgstr "Gambie"
+
+msgid "Guinée"
+msgstr "Guinée"
+
+msgid "Côte d'Ivoire"
+msgstr "Côte d'Ivoire"
+
+msgid "Niger"
+msgstr "Niger"
+
+msgid "Burkina Faso"
+msgstr "Burkina Faso"
+
+msgid "Nigeria"
+msgstr "Nigeria"
+
+msgid "Gabon"
+msgstr "Gabon"
+
+msgid "Cameroun"
+msgstr "Cameroun"
+
+msgid "Congo"
+msgstr "Congo"
+
+msgid "RD Congo"
+msgstr "RD Congo"
+
+msgid "Angola"
+msgstr "Angola"
+
+msgid "Égypte"
+msgstr "Égypte"
+
+msgid "Libye"
+msgstr "Libye"
+
+msgid "Arabie saoudite"
+msgstr "Arabie saoudite"
+
+msgid "Émirats arabes unis"
+msgstr "Émirats arabes unis"
+
+msgid "Qatar"
+msgstr "Qatar"
+
+msgid "Koweït"
+msgstr "Koweït"
+
+msgid "Bahreïn"
+msgstr "Bahreïn"
+
+msgid "Oman"
+msgstr "Oman"
+
+msgid "Jordanie"
+msgstr "Jordanie"
+
+msgid "Turquie"
+msgstr "Turquie"
+
+msgid "France"
+msgstr "France"
+
+msgid "Espagne"
+msgstr "Espagne"
+
+msgid "Belgique"
+msgstr "Belgique"
+
+msgid "Italie"
+msgstr "Italie"
+
+msgid "Allemagne"
+msgstr "Allemagne"
+
+msgid "Portugal"
+msgstr "Portugal"
+
+msgid "Pays-Bas"
+msgstr "Pays-Bas"
+
+msgid "Royaume-Uni"
+msgstr "Royaume-Uni"
+
+msgid "Suisse"
+msgstr "Suisse"
+
+msgid "Luxembourg"
+msgstr "Luxembourg"
+
+msgid "États-Unis"
+msgstr "États-Unis"
+
+msgid "Canada"
+msgstr "Canada"
+
+msgid "Chine"
+msgstr "Chine"
+
+msgid "Malaisie"
+msgstr "Malaisie"
+
+msgid "Autre pays"
+msgstr "Autre pays"
+
+msgid "pays de résidence"
+msgstr "pays de résidence"
+
+msgid "nom du pays"
+msgstr "nom du pays"
+
 msgid "wilaya"
 msgstr "wilaya"
 
 msgid "moughataa"
 msgstr "moughataa"
+
+msgid "ville"
+msgstr "ville"
 
 msgid "quartier / adresse"
 msgstr "quartier / adresse"
@@ -348,8 +483,20 @@ msgstr "dossiers KYC"
 msgid "Vous devez avoir au moins 18 ans."
 msgstr "Vous devez avoir au moins 18 ans."
 
+msgid "Choisissez votre wilaya."
+msgstr "Choisissez votre wilaya."
+
+msgid "Choisissez votre moughataa."
+msgstr "Choisissez votre moughataa."
+
 msgid "Cette moughataa n'appartient pas à la wilaya choisie."
 msgstr "Cette moughataa n'appartient pas à la wilaya choisie."
+
+msgid "Indiquez votre ville."
+msgstr "Indiquez votre ville."
+
+msgid "Indiquez le nom du pays."
+msgstr "Indiquez le nom du pays."
 
 msgid "Personne politiquement exposée : vigilance renforcée."
 msgstr "Personne politiquement exposée : vigilance renforcée."
@@ -487,6 +634,9 @@ msgstr "Vous devez confirmer avoir compris les risques."
 
 msgid "Signez le contrat pour confirmer l'investissement."
 msgstr "Signez le contrat pour confirmer l'investissement."
+
+msgid "Cet identifiant de transaction a déjà été utilisé."
+msgstr "Cet identifiant de transaction a déjà été utilisé."
 
 msgid "Signez l'offre pour la publier."
 msgstr "Signez l'offre pour la publier."
@@ -1462,6 +1612,9 @@ msgstr "Que voulez-vous financer ?"
 msgid "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent."
 msgstr "Qui êtes-vous, que faites-vous, pourquoi maintenant, ce que les investisseurs gagnent."
 
+msgid "Indiquez le montant recherché."
+msgstr "Indiquez le montant recherché."
+
 msgid "Prix d'une part. Un prix bas permet à plus de personnes de participer."
 msgstr "Prix d'une part. Un prix bas permet à plus de personnes de participer."
 
@@ -1470,6 +1623,9 @@ msgstr "Bénéfice que vous pensez rendre en plus du capital à la fin de l'opé
 
 msgid "Nombre de parts mises en vente"
 msgstr "Nombre de parts mises en vente"
+
+msgid "Indiquez le nombre de parts mises en vente."
+msgstr "Indiquez le nombre de parts mises en vente."
 
 msgid "Chaque acheteur devient actionnaire pour toujours et reçoit les dividendes selon ses parts."
 msgstr "Chaque acheteur devient actionnaire pour toujours et reçoit les dividendes selon ses parts."
@@ -3148,9 +3304,6 @@ msgstr "Je dépose en espèces dans une agence partenaire"
 msgid "Choisissez le compte depuis lequel vous payez, ou le dépôt en espèces."
 msgstr "Choisissez le compte depuis lequel vous payez, ou le dépôt en espèces."
 
-msgid "Cet identifiant de transaction a déjà été utilisé."
-msgstr "Cet identifiant de transaction a déjà été utilisé."
-
 msgid "Montant à retirer (MRU)"
 msgstr "Montant à retirer (MRU)"
 
@@ -4293,8 +4446,8 @@ msgstr "Partager"
 msgid "Compléter"
 msgstr "Compléter"
 
-msgid "Gérer"
-msgstr "Gérer"
+msgid "Gérer le projet"
+msgstr "Gérer le projet"
 
 msgid "Vous n'avez pas encore proposé de projet."
 msgstr "Vous n'avez pas encore proposé de projet."
@@ -5522,6 +5675,9 @@ msgstr "Aucun projet ne correspond à ces critères."
 
 msgid "Effacer les filtres"
 msgstr "Effacer les filtres"
+
+msgid "Gérer"
+msgstr "Gérer"
 
 msgid "Page publique"
 msgstr "Page publique"

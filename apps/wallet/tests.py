@@ -94,3 +94,42 @@ class PaymentAccountTests(TestCase):
         with self.assertRaises(WalletError):
             request_withdrawal(self.user, Decimal("1000"), acc)
         self.assertEqual(self.client.post(f"/fr/wallet/accounts/{acc.pk}/remove/").status_code, 404)
+
+
+class TransactionIdTests(TestCase):
+    def setUp(self):
+        self.a = make_user("Payer A")
+        self.b = make_user("Payer B")
+
+    def dep(self, user, method, ref="", status="proof"):
+        return DepositRequest.objects.create(user=user, amount=Decimal("1000"), method=method, external_ref=ref,
+                                             status=status)
+
+    def test_same_id_allowed_on_different_services(self):
+        self.dep(self.a, "bankily", "123456")
+        self.dep(self.b, "sedad", "123456")
+        self.dep(self.b, "masrvi", "123456")
+        self.assertEqual(DepositRequest.objects.filter(external_ref="123456").count(), 3)
+
+    def test_same_id_refused_twice_on_one_service_even_with_spaces_or_case(self):
+        from apps.wallet.forms import DepositProofForm
+        self.dep(self.a, "sedad", "ab12cd")
+        d = self.dep(self.b, "sedad", status="pending")
+        form = DepositProofForm({"external_ref": " AB 12 CD "}, instance=d)
+        self.assertFalse(form.is_valid())
+        self.assertIn("external_ref", form.errors)
+
+    def test_refused_request_frees_its_id(self):
+        from apps.wallet.forms import DepositProofForm
+        self.dep(self.a, "bankily", "999", status="rejected")
+        d = self.dep(self.a, "bankily", status="pending")
+        form = DepositProofForm({"external_ref": "999"}, instance=d)
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+        self.assertEqual(DepositRequest.objects.filter(external_ref="999").count(), 2)
+
+    def test_gateway_cannot_confirm_with_an_id_already_used(self):
+        self.dep(self.a, "bankily", "777", status="confirmed")
+        d = self.dep(self.b, "bankily", status="pending")
+        with self.assertRaises(WalletError):
+            confirm_deposit(d, external_ref="777")

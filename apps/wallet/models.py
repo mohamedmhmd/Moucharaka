@@ -215,12 +215,30 @@ class DepositRequest(models.Model):
         ordering = ["-created_at"]
         verbose_name = _("dépôt")
         verbose_name_plural = _("dépôts")
-        constraints = [models.UniqueConstraint(fields=["method", "external_ref"], condition=~models.Q(external_ref=""),
-                                               name="unique_external_ref_per_method")]
+        # A transaction ID counts once per payment service (a Bankily ID and a Sedad ID may be equal), and a
+        # refused or expired request frees it, so the member can send the same proof again with a new request.
+        constraints = [models.UniqueConstraint(
+            fields=["method", "external_ref"],
+            condition=~models.Q(external_ref="") & ~models.Q(status__in=["rejected", "expired"]),
+            name="unique_live_external_ref_per_method")]
+
+    @staticmethod
+    def normalize_ref(ref):
+        """'ab 12-34 ' and 'AB12-34' are the same transaction."""
+        return "".join(str(ref or "").split()).upper()
+
+    @classmethod
+    def ref_in_use(cls, method, ref, exclude_pk=None):
+        qs = cls.objects.filter(method=method, external_ref=cls.normalize_ref(ref)).exclude(
+            status__in=[cls.Status.REJECTED, cls.Status.EXPIRED])
+        if exclude_pk:
+            qs = qs.exclude(pk=exclude_pk)
+        return qs.exists()
 
     def save(self, *args, **kwargs):
         if not self.reference:
             self.reference = new_reference("DEP")
+        self.external_ref = self.normalize_ref(self.external_ref)
         super().save(*args, **kwargs)
 
     def __str__(self):

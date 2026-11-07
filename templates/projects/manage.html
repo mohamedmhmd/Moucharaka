@@ -3,7 +3,7 @@
 {% block content %}<div class="wrap section">
   <div class="section-head"><div><h1 style="margin:0">{{ project.title }}</h1>
     <div class="row" style="margin-top:8px">{% badge project.status project.get_status_display %}<span class="model {{ project.financing_model }}">{% if project.is_moucharaka %}{% trans "Moucharaka" %}{% else %}{% trans "Mourabaha" %}{% endif %}</span><a class="small" href="{{ project.get_absolute_url }}">{% trans "Page publique" %}</a></div></div>
-    <div class="row"><span class="muted small">{% trans "Mon portefeuille" %}</span><b class="num">{{ wallet.balance|money }} MRU</b><a class="btn small secondary" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a></div></div>
+    <div class="row"><span class="muted small">{% trans "Mon portefeuille" %}</span><b class="num">{{ wallet.balance|money }} MRU</b><a class="btn small deposit" href="{% url 'wallet:deposit' %}">{% icon "deposit" %}{% trans "Déposer" %}</a></div></div>
 
   <div class="panel" style="margin-bottom:20px">{% include "includes/share.html" %}
     <p class="small muted" style="margin:10px 0 0">{% blocktrans with n=project.shares_count %}Lien ouvert {{ n }} fois.{% endblocktrans %}</p></div>

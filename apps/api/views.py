@@ -277,6 +277,9 @@ class DepositViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.Ge
         ser = self.get_serializer(data=request.data)
         ser.is_valid(raise_exception=True)
         acc = ser.validated_data.get("payment_account")
+        ref = ser.validated_data.get("external_ref")
+        if ref and DepositRequest.ref_in_use(acc.method if acc else "cash", ref):
+            return Response({"external_ref": [_("Cet identifiant de transaction a déjà été utilisé.")]}, status=400)
         dep = ser.save(user=request.user, method=acc.method if acc else "cash",
                        payer_phone=acc.number if acc else request.user.phone,
                        status="proof" if ser.validated_data.get("external_ref") else "pending")

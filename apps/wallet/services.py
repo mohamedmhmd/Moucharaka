@@ -53,6 +53,8 @@ def confirm_deposit(deposit: DepositRequest, by=None, external_ref=None, payload
     if deposit.status in (DepositRequest.Status.REJECTED, DepositRequest.Status.EXPIRED):
         raise WalletError(_("Ce dépôt n'est plus confirmable."))
     if external_ref:
+        if DepositRequest.ref_in_use(deposit.method, external_ref, exclude_pk=deposit.pk):
+            raise WalletError(_("Cet identifiant de transaction a déjà été utilisé."))
         deposit.external_ref = external_ref
     if payload:
         deposit.gateway_payload = payload

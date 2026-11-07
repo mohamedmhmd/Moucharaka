@@ -8,7 +8,7 @@
   <div class="panel"><h2>{% trans "Déclarations" %}</h2><dl class="kv">
     <dt>NNI</dt><dd class="ltr">{{ kyc.nni }}</dd><dt>{% trans "Pièce" %}</dt><dd>{{ kyc.get_id_type_display }}</dd>
     <dt>{% trans "Naissance" %}</dt><dd>{{ kyc.date_of_birth|date:"d/m/Y" }} ({{ kyc.age }}), {{ kyc.place_of_birth }}</dd>
-    <dt>{% trans "Adresse" %}</dt><dd>{{ kyc.address }}, {{ kyc.moughataa.name }}, {{ kyc.wilaya.name }}</dd>
+    <dt>{% trans "Adresse" %}</dt><dd>{{ kyc.full_address }}</dd>
     <dt>{% trans "Profession" %}</dt><dd>{{ kyc.profession }}{% if kyc.employer %} · {{ kyc.employer }}{% endif %}</dd>
     <dt>{% trans "Revenu" %}</dt><dd>{{ kyc.get_monthly_income_display }}</dd><dt>{% trans "Origine des fonds" %}</dt><dd>{{ kyc.get_source_of_funds_display }}</dd>
     <dt>{% trans "Expérience" %}</dt><dd>{{ kyc.get_experience_display }}</dd><dt>PPE</dt><dd>{% if kyc.is_pep %}{% trans "Oui" %}{% else %}{% trans "Non" %}{% endif %}</dd></dl></div>

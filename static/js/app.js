@@ -17,6 +17,22 @@
     toggle.setAttribute("aria-expanded", nav.classList.contains("open"));
   });
 
+  // Identity address: wilaya + moughataa in Mauritania, city (and country name for "other") abroad
+  $$("select[data-country-select]").forEach((sel) => {
+    const form = sel.form;
+    const apply = () => {
+      const c = sel.value || "MR";
+      $$("[data-country]", form).forEach((el) => {
+        const want = el.dataset.country;
+        const show = want === "MR" ? c === "MR" : want === "abroad" ? c !== "MR" : c === want;
+        const box = el.closest(".field") || el;
+        box.hidden = !show;
+      });
+    };
+    sel.addEventListener("change", apply);
+    apply();
+  });
+
   // Moughataa list follows the selected wilaya
   $$("select[data-depends-on]").forEach((child) => {
     const form = child.form;

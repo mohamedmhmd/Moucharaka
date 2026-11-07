@@ -96,8 +96,8 @@ class DepositProofForm(forms.ModelForm):
         self.fields["external_ref"].required = True
 
     def clean_external_ref(self):
-        ref = self.cleaned_data["external_ref"].strip()
-        if DepositRequest.objects.filter(method=self.instance.method, external_ref=ref).exclude(pk=self.instance.pk).exists():
+        ref = DepositRequest.normalize_ref(self.cleaned_data["external_ref"])
+        if DepositRequest.ref_in_use(self.instance.method, ref, exclude_pk=self.instance.pk):
             raise forms.ValidationError(_("Cet identifiant de transaction a déjà été utilisé."))
         return ref
 

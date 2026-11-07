@@ -2,7 +2,7 @@
 {% block title %}{% trans "Portefeuille" %}{% endblock %}
 {% block content %}<div class="wrap section">
   <div class="section-head"><h1 style="margin:0">{% trans "Portefeuille" %}</h1>
-    <div class="row"><a class="btn" href="{% url 'wallet:deposit' %}">{% trans "Déposer" %}</a><a class="btn secondary" href="{% url 'wallet:withdraw' %}">{% trans "Retirer" %}</a></div></div>
+    <div class="row"><a class="btn act deposit" href="{% url 'wallet:deposit' %}">{% icon "deposit" %}{% trans "Déposer" %}</a><a class="btn act withdraw" href="{% url 'wallet:withdraw' %}">{% icon "withdraw" %}{% trans "Retirer" %}</a></div></div>
   <div class="stats" style="grid-template-columns:repeat(3,1fr)">
     <div class="stat"><b class="num">{{ wallet.balance|money }}</b><span>{% trans "MRU disponibles" %}</span></div>
     <div class="stat"><b class="num">{{ wallet.held|money }}</b><span>{% trans "MRU bloqués" %}</span></div>

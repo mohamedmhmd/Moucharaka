@@ -469,3 +469,40 @@ class CodeOnScreenTests(TestCase):
             r = self.client.post("/fr/accounts/password/reset/", {"phone": victim.phone}, follow=True)
             self.assertNotContains(r, "votre code est")
             self.assertTrue(PhoneOTP.objects.filter(phone=victim.phone, purpose="reset").exists())
+
+
+class InternationalAddressTests(TestCase):
+    BASE = {"full_name": "Sidi Mohamed", "nni": "2234567890", "id_type": "passport", "date_of_birth": "1985-03-02",
+            "place_of_birth": "Kiffa", "gender": "m", "nationality": "Mauritanienne", "address": "12 rue de la Paix",
+            "profession": "Ingénieur", "monthly_income": "gt150k", "source_of_funds": "salary", "experience": "some",
+            "purpose": "invest", "confirm_truth": "on"}
+
+    def post(self, user, **extra):
+        self.client.force_login(user)
+        doc = SimpleUploadedFile("p.jpg", image_file("p.jpg").read(), content_type="image/jpeg")
+        return self.client.post("/fr/accounts/identity/", {**self.BASE, "id_front": doc, **extra})
+
+    def test_member_living_abroad_gives_country_and_city(self):
+        u = make_user("Diaspora", approved=False)
+        r = self.post(u, country="FR", city="Paris")
+        self.assertRedirects(r, "/fr/accounts/identity/status/")
+        kyc = KYCProfile.objects.get(user=u)
+        self.assertEqual((kyc.country, kyc.city, kyc.wilaya_id), ("FR", "Paris", None))
+        self.assertEqual(kyc.full_address, "12 rue de la Paix, Paris, France")
+
+    def test_city_needed_abroad_and_wilaya_needed_at_home(self):
+        u = make_user("Diaspora2", approved=False)
+        r = self.post(u, country="SA")
+        self.assertContains(r, "Indiquez votre ville.")
+        r = self.post(u, country="MR")
+        self.assertContains(r, "Choisissez votre wilaya.")
+        r = self.post(u, country="ZZ", city="Bamako-ville")
+        self.assertContains(r, "Indiquez le nom du pays.")
+        self.assertFalse(KYCProfile.objects.filter(user=u).exists())
+
+    def test_other_country_by_name(self):
+        u = make_user("Diaspora3", approved=False)
+        self.post(u, country="ZZ", country_other="Japon", city="Tokyo",
+                  wilaya=Moughataa.objects.first().wilaya_id)  # a stray wilaya is dropped
+        kyc = KYCProfile.objects.get(user=u)
+        self.assertEqual((kyc.country_name, kyc.wilaya_id), ("Japon", None))

@@ -40,8 +40,9 @@ def party(user, role):
     kyc = getattr(user, "kyc", None)
     address = ""
     if kyc:
-        address = ("، " if get_language_bidi() else ", ").join(
-            str(x) for x in (kyc.address, kyc.moughataa, kyc.wilaya) if x)
+        parts = (kyc.address, kyc.moughataa, kyc.wilaya) if kyc.country == "MR" else (
+            kyc.address, kyc.city, kyc.country_name)
+        address = ("، " if get_language_bidi() else ", ").join(str(x) for x in parts if x)
     return {
         "user": user, "role": role, "role_label": Signature.Role(role).label, "public_id": user.public_id,
         "name": (kyc.full_name if kyc else "") or user.full_name, "nni": kyc.nni if kyc else "",

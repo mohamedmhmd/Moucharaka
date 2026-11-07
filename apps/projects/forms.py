@@ -91,7 +91,11 @@ class TermsForm(forms.ModelForm):
             drop += ["target_amount", "campaign_days", "duration_months", "investor_profit_share_pct", "exit_mode"]
         for f in drop:
             self.fields.pop(f, None)
-        _all_optional(self)
+        # Everything else stays optional; the amount sought must be given before moving on
+        _all_optional(self, keep=("target_amount",))
+        if "target_amount" in self.fields:
+            self.fields["target_amount"].required = True
+            self.fields["target_amount"].error_messages["required"] = _("Indiquez le montant recherché.")
         if "share_price" in self.fields:
             self.fields["share_price"].help_text = _(
                 "Prix d'une part. Un prix bas permet à plus de personnes de participer.")
@@ -102,7 +106,8 @@ class TermsForm(forms.ModelForm):
             self.fields.pop("investor_profit_share_pct")
         if p.is_company:
             self.fields = {"shares_offered": forms.IntegerField(
-                label=_("Nombre de parts mises en vente"), min_value=1, required=False,
+                label=_("Nombre de parts mises en vente"), min_value=1, required=True,
+                error_messages={"required": _("Indiquez le nombre de parts mises en vente.")},
                 initial=p.total_shares or None,
                 help_text=_("Chaque acheteur devient actionnaire pour toujours et reçoit les dividendes selon ses parts.")),
                 **self.fields}
@@ -118,8 +123,8 @@ class TermsForm(forms.ModelForm):
         for name, value in self.DEFAULTS.items():
             if name in self.fields and d.get(name) in (None, ""):
                 d[name] = value
-        if "target_amount" in self.fields and d.get("target_amount") in (None, ""):
-            d["target_amount"] = self.instance.target_amount or Decimal("0")
+        if "target_amount" in self.fields and d.get("target_amount") is not None and d["target_amount"] <= 0:
+            self.add_error("target_amount", _("Indiquez le montant recherché."))
         for name in ("exit_mode", "repayment_mode"):
             if name in self.fields and not d.get(name):
                 d[name] = getattr(self.instance, name) or ""

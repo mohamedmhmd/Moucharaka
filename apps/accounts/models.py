@@ -169,9 +169,25 @@ class KYCProfile(models.Model):
     place_of_birth = models.CharField(_("lieu de naissance"), max_length=100)
     gender = models.CharField(_("sexe"), max_length=1, choices=GENDERS)
     nationality = models.CharField(_("nationalité"), max_length=60, default="Mauritanienne")
-    # Address
-    wilaya = models.ForeignKey("core.Wilaya", on_delete=models.PROTECT, verbose_name=_("wilaya"))
-    moughataa = models.ForeignKey("core.Moughataa", on_delete=models.PROTECT, verbose_name=_("moughataa"))
+    # Address: in Mauritania (wilaya + moughataa) or abroad (country + city)
+    COUNTRIES = [
+        ("MR", _("Mauritanie")), ("SN", _("Sénégal")), ("ML", _("Mali")), ("MA", _("Maroc")), ("DZ", _("Algérie")),
+        ("TN", _("Tunisie")), ("GM", _("Gambie")), ("GN", _("Guinée")), ("CI", _("Côte d'Ivoire")), ("NE", _("Niger")),
+        ("BF", _("Burkina Faso")), ("NG", _("Nigeria")), ("GA", _("Gabon")), ("CM", _("Cameroun")),
+        ("CG", _("Congo")), ("CD", _("RD Congo")), ("AO", _("Angola")), ("EG", _("Égypte")), ("LY", _("Libye")),
+        ("SA", _("Arabie saoudite")), ("AE", _("Émirats arabes unis")), ("QA", _("Qatar")), ("KW", _("Koweït")),
+        ("BH", _("Bahreïn")), ("OM", _("Oman")), ("JO", _("Jordanie")), ("TR", _("Turquie")),
+        ("FR", _("France")), ("ES", _("Espagne")), ("BE", _("Belgique")), ("IT", _("Italie")),
+        ("DE", _("Allemagne")), ("PT", _("Portugal")), ("NL", _("Pays-Bas")), ("GB", _("Royaume-Uni")),
+        ("CH", _("Suisse")), ("LU", _("Luxembourg")), ("US", _("États-Unis")), ("CA", _("Canada")),
+        ("CN", _("Chine")), ("MY", _("Malaisie")), ("ZZ", _("Autre pays")),
+    ]
+    country = models.CharField(_("pays de résidence"), max_length=2, choices=COUNTRIES, default="MR")
+    country_other = models.CharField(_("nom du pays"), max_length=60, blank=True)
+    wilaya = models.ForeignKey("core.Wilaya", on_delete=models.PROTECT, verbose_name=_("wilaya"), null=True, blank=True)
+    moughataa = models.ForeignKey("core.Moughataa", on_delete=models.PROTECT, verbose_name=_("moughataa"),
+                                  null=True, blank=True)
+    city = models.CharField(_("ville"), max_length=80, blank=True)
     address = models.CharField(_("quartier / adresse"), max_length=200)
     # Financial profile (AML / suitability)
     profession = models.CharField(_("profession"), max_length=100)
@@ -207,6 +223,19 @@ class KYCProfile(models.Model):
         return f"KYC {self.full_name} ({self.nni})"
 
     @property
+    def country_name(self):
+        return self.country_other if self.country == "ZZ" else self.get_country_display()
+
+    @property
+    def full_address(self):
+        """One line, from the street to the country."""
+        if self.country == "MR":
+            parts = [self.address, self.moughataa, self.wilaya, self.get_country_display()]
+        else:
+            parts = [self.address, self.city, self.country_name]
+        return ", ".join(str(x) for x in parts if x)
+
+    @property
     def age(self):
         today = date.today()
         dob = self.date_of_birth
@@ -216,8 +245,22 @@ class KYCProfile(models.Model):
         errors = {}
         if self.date_of_birth and self.age < 18:
             errors["date_of_birth"] = _("Vous devez avoir au moins 18 ans.")
-        if self.moughataa_id and self.wilaya_id and self.moughataa.wilaya_id != self.wilaya_id:
-            errors["moughataa"] = _("Cette moughataa n'appartient pas à la wilaya choisie.")
+        if self.country == "MR":
+            if not self.wilaya_id:
+                errors["wilaya"] = _("Choisissez votre wilaya.")
+            if not self.moughataa_id:
+                errors["moughataa"] = _("Choisissez votre moughataa.")
+            elif self.wilaya_id and self.moughataa.wilaya_id != self.wilaya_id:
+                errors["moughataa"] = _("Cette moughataa n'appartient pas à la wilaya choisie.")
+            self.city = self.country_other = ""
+        else:
+            if not self.city.strip():
+                errors["city"] = _("Indiquez votre ville.")
+            if self.country == "ZZ" and not self.country_other.strip():
+                errors["country_other"] = _("Indiquez le nom du pays.")
+            if self.country != "ZZ":
+                self.country_other = ""
+            self.wilaya = self.moughataa = None
         if errors:
             raise ValidationError(errors)
 
