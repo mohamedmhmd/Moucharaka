@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from apps.core.models import PlatformSettings
-from apps.core.utils import N_, audit, notify
+from apps.core.utils import fmt_amount, N_, audit, notify
 from apps.trust.services import record_event
 from apps.wallet.models import Transaction, Wallet
 from apps.wallet.services import WalletError, collect_fee, post
@@ -61,11 +61,11 @@ def submit_problem(project, user):
         return _("Ce type de financement n'est pas ouvert pour le moment.")
     if not policy.min_target <= project.target_amount <= policy.max_target:
         return _("Le montant doit être compris entre %(a)s et %(b)s MRU.") % {
-            "a": f"{policy.min_target:,.0f}", "b": f"{policy.max_target:,.0f}"}
+            "a": fmt_amount(policy.min_target), "b": fmt_amount(policy.max_target)}
     fee = policy.review_fee if project.review_fee_paid == 0 else Decimal("0")
     if fee and Wallet.for_user(user).balance < fee:
         return _("Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille.") % {
-            "f": f"{fee:,.0f}"}
+            "f": fmt_amount(fee)}
     return None
 
 
@@ -82,7 +82,7 @@ def submit_project(project, user):
         raise ProjectError(_("Ce type de financement n'est pas ouvert pour le moment."))
     if not policy.min_target <= project.target_amount <= policy.max_target:
         raise ProjectError(_("Le montant doit être compris entre %(a)s et %(b)s MRU.") % {
-            "a": f"{policy.min_target:,.0f}", "b": f"{policy.max_target:,.0f}"})
+            "a": fmt_amount(policy.min_target), "b": fmt_amount(policy.max_target)})
     fee = policy.review_fee if project.review_fee_paid == 0 else Decimal("0")
     if fee:
         try:
@@ -90,7 +90,7 @@ def submit_project(project, user):
                  description=project.reference)
         except WalletError as e:
             raise ProjectError(_("Les frais d'étude (%(f)s MRU) doivent être disponibles dans votre portefeuille. %(e)s") % {
-                "f": f"{fee:,.0f}", "e": e}) from e
+                "f": fmt_amount(fee), "e": e}) from e
         collect_fee(Transaction.Kind.REVIEW_FEE, fee, description=project.reference, project=project)
         project.review_fee_paid = fee
     project.status = Project.Status.SUBMITTED

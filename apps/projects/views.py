@@ -17,7 +17,7 @@ from django.views.decorators.http import require_POST
 
 from apps.accounts.decorators import approved_required
 from apps.core.models import PlatformSettings
-from apps.core.utils import N_, notify
+from apps.core.utils import fmt_amount, N_, notify
 from apps.contracts import flows as contract_flows
 from apps.contracts.services import ContractError, funding_signed
 from apps.contracts.services import terminate as terminate_contract
@@ -192,7 +192,7 @@ def invest_view(request, slug):
             return redirect(project.get_absolute_url() + "#invest")
         price = project.share_price or Decimal("1")
         if form.cleaned_data["amount"] % price:
-            messages.error(request, _("Le montant doit être un multiple de %(p)s MRU.") % {"p": f"{price:,.0f}"})
+            messages.error(request, _("Le montant doit être un multiple de %(p)s MRU.") % {"p": fmt_amount(price)})
             return redirect(project.get_absolute_url() + "#invest")
         form.cleaned_data["shares"] = int(form.cleaned_data["amount"] // price)
     else:
@@ -204,7 +204,7 @@ def invest_view(request, slug):
     wallet = Wallet.for_user(request.user)
     if wallet.balance < amount:
         messages.warning(request, _("Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez investir.") % {
-            "m": f"{amount - wallet.balance:,.0f}".replace(",", " ")})
+            "m": fmt_amount(amount - wallet.balance)})
         return redirect(reverse("wallet:deposit") + f"?amount={int(amount - wallet.balance)}&next={project.get_absolute_url()}")
     shares = form.cleaned_data["shares"]
     problem = _invest_problem(request.user, project, shares)
@@ -229,7 +229,7 @@ def _invest_problem(user, project, shares):
     if shares > limit:
         if project.is_deal:
             return _("Vous pouvez investir au maximum %(n)s MRU dans ce projet.") % {
-                "n": f"{limit * project.share_price:,.0f}".replace(",", " ")}
+                "n": fmt_amount(limit * project.share_price)}
         return _("Vous pouvez souscrire au maximum %(n)s part(s) dans ce projet.") % {"n": limit}
     return None
 
@@ -666,7 +666,7 @@ def pay_distribution_view(request, slug, report_id):
     report = get_object_or_404(FinancialReport, pk=report_id, project=project)
     try:
         d = pay_profit_distribution(report)
-        messages.success(request, _("%(a)s MRU distribués aux investisseurs.") % {"a": f"{d.net_amount:,.0f}"})
+        messages.success(request, _("%(a)s MRU distribués aux investisseurs.") % {"a": fmt_amount(d.net_amount)})
     except InvestmentError as e:
         messages.error(request, str(e))
     return redirect(reverse("projects:manage", args=[slug]) + "#reports")
@@ -733,7 +733,7 @@ def settle_view(request, slug):
     if wallet.balance < amount:
         missing = amount - wallet.balance
         messages.warning(request, _("Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez rembourser.") % {
-            "m": f"{missing:,.0f}".replace(",", " ")})
+            "m": fmt_amount(missing)})
         return redirect(reverse("wallet:deposit") + f"?amount={int(missing) + (1 if missing % 1 else 0)}&next={quote(back)}")
     note = form.cleaned_data.get("note") or ""
     capital = deal_capital(project)
@@ -779,12 +779,12 @@ def pay_dividend_view(request, slug):
     if wallet.balance < amount:
         missing = amount - wallet.balance
         messages.warning(request, _("Il vous manque %(m)s MRU. Alimentez votre portefeuille puis revenez.") % {
-            "m": f"{missing:,.0f}".replace(",", " ")})
+            "m": fmt_amount(missing)})
         return redirect(reverse("wallet:deposit") + f"?amount={int(missing) + (1 if missing % 1 else 0)}&next={quote(back)}")
     try:
         d = C.pay_dividend(project, request.user, amount, form.cleaned_data.get("note") or "")
         messages.success(request, _("Dividende versé : %(a)s MRU partagés entre les actionnaires, soit %(x)s MRU par part.") % {
-            "a": f"{d.net_amount:,.0f}".replace(",", " "), "x": f"{d.per_share:,.2f}".replace(",", " ")})
+            "a": fmt_amount(d.net_amount), "x": fmt_amount(d.per_share, 2)})
     except InvestmentError as e:
         messages.error(request, str(e))
     return redirect(back)

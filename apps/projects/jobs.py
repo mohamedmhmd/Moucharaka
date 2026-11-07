@@ -6,7 +6,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 from apps.core.models import PlatformSettings
-from apps.core.utils import N_, notify
+from apps.core.utils import fmt_amount, N_, notify
 from apps.trust.models import TrustEvent
 from apps.trust.services import compute_score, record_event
 
@@ -51,7 +51,7 @@ def check_installments(today=None):
     for inst in Installment.objects.filter(status=Installment.Status.UPCOMING, due_date=today + timedelta(days=3)):
         notify(inst.project.owner, N_("Rappel d'échéance"),
                N_("%(a)s MRU à payer le %(d)s pour « %(p)s ».") % {
-                   "a": f"{inst.amount:,.0f}", "d": inst.due_date.strftime("%d/%m"), "p": inst.project.title},
+                   "a": fmt_amount(inst.amount), "d": inst.due_date.strftime("%d/%m"), "p": inst.project.title},
                url=f"/projects/{inst.project.slug}/manage/", whatsapp=True)
     return late
 

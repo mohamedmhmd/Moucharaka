@@ -95,3 +95,41 @@ def page(request, name):
     ctx = {"policies": FeePolicy.objects.filter(is_enabled=True, financing_model="moucharaka"),
            "settings": PlatformSettings.get()}
     return render(request, templates[name], ctx)
+
+
+def set_language(request):
+    """Language switch (FR / ع button). Arabic pages have no prefix, French ones live under /fr/.
+
+    Django's own view keeps /fr/... when going back to Arabic with these URLs, so the page stayed
+    in French. Here the current path is stripped of its language prefix, the new prefix is added
+    (none for Arabic), and the choice is remembered in the language cookie."""
+    from django.conf import settings
+    from django.http import HttpResponseNotAllowed
+    from django.utils.http import url_has_allowed_host_and_scheme
+    from django.utils.translation import check_for_language
+
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+    lang = request.POST.get("language", "")
+    nxt = request.POST.get("next") or request.META.get("HTTP_REFERER") or "/"
+    if not url_has_allowed_host_and_scheme(nxt, allowed_hosts={request.get_host()},
+                                           require_https=request.is_secure()):
+        nxt = "/"
+    if not check_for_language(lang) or lang not in dict(settings.LANGUAGES):
+        return redirect(nxt)
+    # keep only the path part (a Referer is a full URL)
+    from urllib.parse import urlsplit
+    parts = urlsplit(nxt)
+    path, query = parts.path or "/", parts.query
+    for code, _name in settings.LANGUAGES:
+        if path == f"/{code}" or path.startswith(f"/{code}/"):
+            path = path[len(code) + 1:] or "/"
+            break
+    if lang != settings.LANGUAGE_CODE:
+        path = f"/{lang}{path}"
+    response = redirect(path + (f"?{query}" if query else ""))
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang, max_age=settings.LANGUAGE_COOKIE_AGE,
+                        path=settings.LANGUAGE_COOKIE_PATH, domain=settings.LANGUAGE_COOKIE_DOMAIN,
+                        secure=settings.LANGUAGE_COOKIE_SECURE, httponly=settings.LANGUAGE_COOKIE_HTTPONLY,
+                        samesite=settings.LANGUAGE_COOKIE_SAMESITE)
+    return response

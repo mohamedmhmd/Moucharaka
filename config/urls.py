@@ -6,6 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
 from django.views.static import serve
 
+from apps.core import views as core_views
+
 
 def healthz(request):
     return HttpResponse("ok")
@@ -16,7 +18,7 @@ admin.site.site_title = "Moucharaka"
 admin.site.index_title = _("Pilotage de la plateforme")
 
 urlpatterns = [
-    path("i18n/", include("django.conf.urls.i18n")),
+    path("i18n/setlang/", core_views.set_language, name="set_language"),
     path("api/v1/", include("apps.api.urls")),
     path("healthz", healthz),
 ]

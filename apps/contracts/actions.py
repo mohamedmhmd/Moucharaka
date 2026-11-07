@@ -15,6 +15,7 @@ from apps.market.services import MarketError, buy, create_listing
 from apps.projects.models import Project
 from apps.projects.services import ProjectError, submit_project
 from apps.wallet.services import WalletError
+from apps.core.utils import fmt_amount
 
 
 class ActionError(Exception):
@@ -26,7 +27,7 @@ def _project(c):
 
 
 def _money(x):
-    return f"{Decimal(x):,.0f}".replace(",", " ")
+    return fmt_amount(x)
 
 
 def do_invest(c, user):

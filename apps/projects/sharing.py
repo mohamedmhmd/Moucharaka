@@ -15,7 +15,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
 from apps.accounts.models import User
-from apps.core.utils import N_, notify
+from apps.core.utils import fmt_amount, N_, notify
 
 from .models import Project, ProjectInterest
 
@@ -48,9 +48,9 @@ def share_context(request, project):
     # Optional details are left out when the owner has not filled them in
     head = f"{project.title} — {project.tagline}" if project.tagline else project.title
     if project.is_deal:
-        details = [_("objectif %(t)s MRU") % {"t": f"{project.target_amount or 0:,.0f}".replace(",", " ")}]
+        details = [_("objectif %(t)s MRU") % {"t": fmt_amount(project.target_amount or 0)}]
     else:
-        details = [_("Parts dès %(p)s MRU") % {"p": f"{project.share_price:,.0f}".replace(",", " ")}]
+        details = [_("Parts dès %(p)s MRU") % {"p": fmt_amount(project.share_price)}]
     if terms:
         details.append(terms)
     text = _("%(head)s. %(details)s. Réf. %(ref)s : %(url)s") % {

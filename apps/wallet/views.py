@@ -16,7 +16,7 @@ from apps.accounts.decorators import approved_required
 from apps.accounts.models import PhoneOTP
 from apps.accounts.otp import OTPError, issue_otp, verify_otp
 from apps.core.models import PlatformSettings
-from apps.core.utils import N_, client_ip, notify
+from apps.core.utils import fmt_amount, N_, client_ip, notify
 
 from .forms import DepositForm, DepositProofForm, PaymentAccountForm, WithdrawForm
 from .gateways import get_gateway, verify_signature
@@ -91,7 +91,7 @@ def deposit(request):
     form = DepositForm(request.POST or None, initial=initial, user=request.user)
     if request.method == "POST" and form.is_valid():
         if form.cleaned_data["amount"] < s.min_deposit:
-            form.add_error("amount", _("Minimum %(m)s MRU.") % {"m": f"{s.min_deposit:,.0f}"})
+            form.add_error("amount", _("Minimum %(m)s MRU.") % {"m": fmt_amount(s.min_deposit)})
         else:
             acc = None if form.cleaned_data.get("cash") else form.cleaned_data["account"]
             dep = DepositRequest.objects.create(
@@ -155,7 +155,7 @@ def withdraw(request):
         if amount + fee > wallet.balance:
             form.add_error("amount", _("Solde disponible insuffisant (frais de %(f)s MRU inclus).") % {"f": fee})
         elif amount < s.min_withdrawal:
-            form.add_error("amount", _("Minimum %(m)s MRU.") % {"m": f"{s.min_withdrawal:,.0f}"})
+            form.add_error("amount", _("Minimum %(m)s MRU.") % {"m": fmt_amount(s.min_withdrawal)})
         else:
             try:
                 code = issue_otp(request.user.phone, PhoneOTP.Purpose.WITHDRAW, ip=client_ip(request))

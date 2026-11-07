@@ -15,6 +15,7 @@ from apps.wallet.models import Transaction, Wallet, new_reference
 from apps.wallet.services import WalletError, collect_fee, post
 
 from .models import Distribution, Holding, Investment, Payout
+from apps.core.utils import fmt_amount
 
 ZERO = Decimal("0")
 COOLING_OFF_HOURS = 48
@@ -31,7 +32,7 @@ def add_months(d, months):
 
 
 def fmt(amount):
-    return f"{amount:,.0f}".replace(",", " ")
+    return fmt_amount(amount)
 
 
 # ------------------------------------------------------------------ subscription (escrow)

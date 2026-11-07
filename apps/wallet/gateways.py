@@ -18,6 +18,7 @@ from django.conf import settings
 from django.utils.translation import gettext as _
 
 from apps.core.models import PlatformSettings
+from apps.core.utils import fmt_amount
 
 
 class Gateway:
@@ -44,7 +45,7 @@ class MobileMoneyManual(Gateway):
         return [
             open_app,
             _("Payez %(amount)s MRU au marchand %(number)s.") % {
-                "amount": f"{deposit.amount:,.0f}".replace(",", " "), "number": number},
+                "amount": fmt_amount(deposit.amount), "number": number},
             _("Indiquez la référence %(ref)s dans le motif si l'application le permet.") % {"ref": deposit.reference},
             _("Recopiez ci-dessous l'identifiant de transaction reçu par SMS et ajoutez une capture du reçu."),
         ]
@@ -67,7 +68,7 @@ class BankTransferGateway(Gateway):
 
     def instructions(self, deposit):
         return [
-            _("Faites un virement de %(amount)s MRU vers :") % {"amount": f"{deposit.amount:,.0f}".replace(",", " ")},
+            _("Faites un virement de %(amount)s MRU vers :") % {"amount": fmt_amount(deposit.amount)},
             PlatformSettings.get().bank_details or "—",
             _("Motif obligatoire : %(ref)s") % {"ref": deposit.reference},
             _("Ajoutez ensuite l'avis de virement ci-dessous."),
@@ -81,7 +82,7 @@ class CashGateway(Gateway):
         return [
             _("Présentez-vous dans une agence partenaire avec votre pièce d'identité."),
             _("Donnez la référence %(ref)s et le montant %(amount)s MRU.") % {
-                "ref": deposit.reference, "amount": f"{deposit.amount:,.0f}".replace(",", " ")},
+                "ref": deposit.reference, "amount": fmt_amount(deposit.amount)},
             _("L'agent confirme le dépôt ; votre solde est crédité immédiatement."),
         ]
 

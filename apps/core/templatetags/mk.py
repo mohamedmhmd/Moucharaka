@@ -4,6 +4,8 @@ from django import template
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
 
+from apps.core.utils import fmt_amount
+
 register = template.Library()
 
 STATUS_TONE = {
@@ -25,8 +27,7 @@ def money(value, decimals=0):
         d = Decimal(value)
     except (InvalidOperation, TypeError, ValueError):
         return value
-    s = f"{d:,.{int(decimals)}f}".replace(",", " ")
-    return s
+    return fmt_amount(d, decimals)
 
 
 @register.filter

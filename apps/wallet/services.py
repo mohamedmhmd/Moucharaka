@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from apps.core.models import PlatformSettings
-from apps.core.utils import N_, audit, notify, pct, q2
+from apps.core.utils import fmt_amount, N_, audit, notify, pct, q2
 
 from .models import DepositRequest, Transaction, Wallet, WithdrawalRequest, new_reference
 
@@ -26,7 +26,7 @@ def post(wallet, kind, amount=ZERO, held_delta=ZERO, description="", project=Non
         w = Wallet.objects.select_for_update().get(pk=wallet.pk)
         new_balance, new_held = w.balance + amount, w.held + held_delta
         if new_balance < 0:
-            raise WalletError(_("Solde insuffisant : il manque %(m)s MRU.") % {"m": f"{-new_balance:,.0f}".replace(",", " ")})
+            raise WalletError(_("Solde insuffisant : il manque %(m)s MRU.") % {"m": fmt_amount(-new_balance)})
         if new_held < 0:
             raise WalletError(_("Montant bloqué insuffisant."))
         w.balance, w.held = new_balance, new_held
@@ -68,7 +68,7 @@ def confirm_deposit(deposit: DepositRequest, by=None, external_ref=None, payload
          description=f"{deposit.get_method_display()} {deposit.external_ref}".strip(), reference=deposit.reference)
     audit("deposit.confirmed", deposit, actor=by, amount=str(deposit.amount))
     notify(deposit.user, N_("Dépôt confirmé"),
-           N_("%(a)s MRU ont été ajoutés à votre portefeuille.") % {"a": f"{deposit.amount:,.0f}".replace(",", " ")},
+           N_("%(a)s MRU ont été ajoutés à votre portefeuille.") % {"a": fmt_amount(deposit.amount)},
            url="/wallet/", whatsapp=True)
     return deposit
 
@@ -101,7 +101,7 @@ def request_withdrawal(user, amount, account):
         raise WalletError(_("Ce compte vient d'être ajouté : il pourra recevoir un retrait à partir du %(d)s.") % {
             "d": account.withdrawable_from.strftime("%d/%m/%Y %H:%M")})
     if amount < s.min_withdrawal:
-        raise WalletError(_("Le retrait minimum est de %(m)s MRU.") % {"m": f"{s.min_withdrawal:,.0f}"})
+        raise WalletError(_("Le retrait minimum est de %(m)s MRU.") % {"m": fmt_amount(s.min_withdrawal)})
     fee = withdrawal_fee(amount)
     destination = account.number
     wr = WithdrawalRequest.objects.create(user=user, amount=amount, fee=fee, method=account.method,
@@ -129,7 +129,7 @@ def mark_withdrawal_paid(wr, by, external_ref=""):
     wr.save()
     audit("withdrawal.paid", wr, actor=by)
     notify(wr.user, N_("Retrait envoyé"),
-           N_("%(a)s MRU envoyés vers %(d)s.") % {"a": f"{wr.amount:,.0f}".replace(",", " "), "d": wr.destination},
+           N_("%(a)s MRU envoyés vers %(d)s.") % {"a": fmt_amount(wr.amount), "d": wr.destination},
            url="/wallet/", whatsapp=True)
     return wr
 

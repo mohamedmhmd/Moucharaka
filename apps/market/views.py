@@ -17,6 +17,7 @@ from apps.wallet.models import Wallet
 
 from .models import Listing, Trade
 from .services import MarketError, cancel_listing, price_bounds, quote
+from apps.core.utils import fmt_amount
 
 
 class SellForm(forms.Form):
@@ -63,7 +64,7 @@ def sell(request, slug):
             form.add_error("shares", _("Vous n'avez que %(n)s part(s) disponibles.") % {"n": holding.free_shares})
         elif not low <= d["price"] <= high:
             form.add_error("price", _("Le prix doit être compris entre %(a)s et %(b)s MRU.") % {
-                "a": f"{low:,.0f}", "b": f"{high:,.0f}"})
+                "a": fmt_amount(low), "b": fmt_amount(high)})
         else:
             try:  # the seller signs the offer; it is published when signed
                 contract = contract_flows.start_listing(request, project, d["shares"], d["price"], d["allow_partial"],
@@ -90,7 +91,7 @@ def buy_view(request, pk):
             messages.error(request, _("Cette annonce n'est plus disponible."))
         elif Wallet.for_user(request.user).balance < q["buyer_total"]:
             messages.error(request, _("Solde insuffisant : il faut %(t)s MRU, frais compris.") % {
-                "t": f"{q['buyer_total']:,.0f}".replace(",", " ")})
+                "t": fmt_amount(q['buyer_total'])})
         else:
             try:  # the buyer signs the transfer contract; payment happens when it is signed
                 contract = contract_flows.start_buy(request, listing, shares)

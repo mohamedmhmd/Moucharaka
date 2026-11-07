@@ -67,3 +67,34 @@ class BackupDailyCheckTests(TestCase):
         BackupRun.objects.create(status="failed", stamp="b", message="database dump failed")
         self.assertEqual(check_backups(), "database dump failed")
         self.assertEqual(alerts.count(), 2)
+
+
+class LanguageSwitchTests(TestCase):
+    def lang_of(self, response):
+        import re
+        return re.search(r'<html[^>]*lang="(\w+)"', response.content.decode()).group(1)
+
+    def test_french_then_back_to_arabic(self):
+        r = self.client.post("/i18n/setlang/", {"language": "fr", "next": "/projects/?q=x"})
+        self.assertRedirects(r, "/fr/projects/?q=x", fetch_redirect_response=False)
+        self.assertEqual(self.lang_of(self.client.get("/fr/")), "fr")
+        r = self.client.post("/i18n/setlang/", {"language": "ar", "next": "/fr/projects/?q=x"})
+        self.assertRedirects(r, "/projects/?q=x", fetch_redirect_response=False)
+        self.assertEqual(self.client.cookies["django_language"].value, "ar")
+        self.assertEqual(self.lang_of(self.client.get("/")), "ar")
+        r = self.client.post("/i18n/setlang/", {"language": "ar", "next": "/fr/"})
+        self.assertRedirects(r, "/", fetch_redirect_response=False)
+
+    def test_outside_links_are_ignored(self):
+        r = self.client.post("/i18n/setlang/", {"language": "fr", "next": "https://evil.example/x"})
+        self.assertRedirects(r, "/fr/", fetch_redirect_response=False)
+
+
+class NumberFormatTests(TestCase):
+    def test_amounts_keep_their_order_in_arabic(self):
+        from apps.core.templatetags.mk import money
+        from apps.core.utils import fmt_amount
+        self.assertEqual(fmt_amount(15000), "15 000")
+        self.assertEqual(fmt_amount("1234567.5", 2), "1 234 567.50")
+        self.assertEqual(money(15000), "15 000")
+        self.assertNotIn(" ", fmt_amount(15000000))

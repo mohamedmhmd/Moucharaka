@@ -19,6 +19,15 @@ def pct(amount, rate) -> Decimal:
     return q2(Decimal(amount) * Decimal(rate) / Decimal(100))
 
 
+NNBSP = "\u202f"  # narrow no-break space: groups digits without breaking the number in Arabic (RTL) text
+
+
+def fmt_amount(value, decimals=0) -> str:
+    """15000 -> '15 000' with Latin digits, read left to right in Arabic too.
+    A plain space would let RTL text reorder the groups ('000 15'); this one cannot."""
+    return f"{Decimal(str(value)):,.{int(decimals)}f}".replace(",", NNBSP)
+
+
 def client_ip(request):
     if request is None:
         return None

@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from apps.core.models import PlatformSettings
-from apps.core.utils import N_, audit, notify, pct, q2
+from apps.core.utils import fmt_amount, N_, audit, notify, pct, q2
 from apps.investments.models import Holding
 from apps.projects.models import Project
 from apps.wallet.models import Transaction, Wallet, new_reference
@@ -144,7 +144,7 @@ def buy(buyer, listing, shares):
     audit("market.trade", trade, actor=buyer, shares=shares, price=str(listing.price_per_share))
     notify(listing.seller, N_("Parts vendues"),
            N_("%(n)s part(s) de « %(p)s » vendue(s), %(a)s MRU crédités.") % {
-               "n": shares, "p": project.title, "a": f"{q['seller_net']:,.0f}".replace(",", " ")}, url="/wallet/")
+               "n": shares, "p": project.title, "a": fmt_amount(q['seller_net'])}, url="/wallet/")
     return trade
 
 

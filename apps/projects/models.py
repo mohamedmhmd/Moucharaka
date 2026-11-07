@@ -14,6 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.accounts.models import private_storage, validate_document
 from apps.core.models import Bilingual, TimeStamped
+from apps.core.utils import fmt_amount
 
 ZERO = Decimal("0")
 MONEY = dict(max_digits=14, decimal_places=2)
@@ -788,7 +789,7 @@ class ProjectAnswer(models.Model):
             return ", ".join(str(labels.get(x, x)) for x in vals)
         if q.type == "money":
             try:
-                return f"{Decimal(str(v)):,.0f} MRU".replace(",", " ")
+                return fmt_amount(v) + " MRU"
             except Exception:  # noqa: BLE001
                 return str(v)
         return str(v)
